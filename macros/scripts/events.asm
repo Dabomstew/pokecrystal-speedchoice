@@ -1068,3 +1068,15 @@ checkpermaoptions: MACRO
 	db checkpermaoptions_command
 	db \1_SCRIPT ; option to check (single bit only)
 ENDM
+
+	enum increment2bytestat_command ; $ab
+increment2bytestat: MACRO
+	db increment2bytestat_command
+	dw \1 ; address
+ENDM
+
+	enum increment4bytestat_command ; $ac
+increment4bytestat: MACRO
+	db increment4bytestat_command
+	dw \1 ; address
+ENDM
