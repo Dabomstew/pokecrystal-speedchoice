@@ -25,7 +25,7 @@ optionbit = optionbit + 1
 ENDM
 
 mboption: MACRO
-\1_SHIFT EQU optionbit
+\1 EQU optionbit
 \1_ABS EQU (optionbyte - 1)*8 + optionbit
 \1_SIZE EQU \2
 \1_MASK EQU (1 << (optionbit + \2)) - (1 << optionbit)
@@ -47,7 +47,7 @@ ENDM
 mboptioncheck: MACRO
 	ld a, [\1_ADDRESS]
 	and \1_MASK
-	cp \1_\2 << \1_SHIFT
+	cp \1_\2 << \1
 ENDM
 
 ; load a multi bit option but don't check for a specific value yet

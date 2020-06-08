@@ -7,9 +7,8 @@ CheckBattleScene:
 	cp LINK_MOBILE
 	jr z, .mobile
 
-	ld a, [wOptions]
-	bit BATTLE_SCENE, a
-	jr nz, .off
+	sboptioncheck BATTLE_SHOW_ANIMATIONS
+	jr z, .off
 
 	and a
 	ret
