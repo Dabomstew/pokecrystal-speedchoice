@@ -24,7 +24,7 @@ ItemDescriptions:
 	dw FireStoneDesc
 	dw ThunderStoneDesc
 	dw WaterStoneDesc
-	dw TeruSama2Desc
+	dw DoneButtonDesc
 	dw HPUpDesc
 	dw ProteinDesc
 	dw IronDesc
@@ -338,6 +338,10 @@ RepelDesc:
 MaxElixerDesc:
 	db   "Fully restores the"
 	next "PP of one #MON.@"
+
+DoneButtonDesc:
+	db   "Use when the race"
+	next "or run is over.@"
 
 FireStoneDesc:
 	db   "Evolves certain"

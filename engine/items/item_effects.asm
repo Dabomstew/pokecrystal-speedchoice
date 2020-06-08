@@ -37,7 +37,7 @@ ItemEffects:
 	dw EvoStoneEffect      ; FIRE_STONE
 	dw EvoStoneEffect      ; THUNDERSTONE
 	dw EvoStoneEffect      ; WATER_STONE
-	dw NoEffect            ; ITEM_19
+	dw DoneButtonEffect    ; DONE_BUTTON
 	dw VitaminEffect       ; HP_UP
 	dw VitaminEffect       ; PROTEIN
 	dw VitaminEffect       ; IRON
@@ -210,12 +210,19 @@ PokeBallEffect:
 	jp z, Ball_BoxIsFullMessage
 
 .room_in_party
+	ld de, sStatsBallsThrown
+	callba SRAMStatsIncrement2Byte
 	xor a
 	ld [wWildMon], a
+	
+	sboptioncheck PARKBALL_EFFECT
+	jr nz, .skipBallMenuClose
+	
 	ld a, [wCurItem]
 	cp PARK_BALL
 	call nz, ReturnToBattle_UseBall
 
+.skipBallMenuClose
 	ld hl, wOptions
 	res NO_TEXT_SCROLL, [hl]
 	ld hl, ItemUsedText
@@ -268,71 +275,96 @@ PokeBallEffect:
 	ld d, [hl]
 	inc hl
 	ld e, [hl]
-	sla c
-	rl b
-
-	ld h, d
-	ld l, e
-	add hl, de
-	add hl, de
+; new stuff
+	sla e
+	rl d
+	sla e
+	rl d ; de = MaxHP*4
+	
+	ld h, b
+	ld l, c
+	add hl, bc
+	add hl, bc ; hl = CurrHP*3
+	
+	ld a, e
+	sub l
+	ld e, a
+	ld a, d
+	sbc h
+	ld d, a ; de = MaxHP*4-CurrHP*3
+	
+	ld hl, wEnemyMonMaxHP
+	ld b, [hl]
+	inc hl
+	ld c, [hl] ; bc = MaxHP
+	
+	ld h, b
+	ld l, c
+	add hl, bc
+	add hl, bc ; hl = MaxHP*3
+	
+	ld a, d
+	cp h
+	jr c, .divisorCheck
+	jr nz, .capValue
+	
+	ld a, e
+	cp l
+	jr c, .divisorCheck
+	jr z, .divisorCheck
+	
+.capValue
 	ld d, h
 	ld e, l
-	ld a, d
-	and a
-	jr z, .okay_1
 
+.divisorCheck
+	; Divide hl and de by 2 until hl fits in a single byte
+	ld a, h
+	and a
+	jr z, .multiplyCatchRate
+
+	srl h
+	rr l
 	srl d
 	rr e
-	srl d
-	rr e
-	srl b
-	rr c
-	srl b
-	rr c
+	
+	jr .divisorCheck
 
-	ld a, c
-	and a
-	jr nz, .okay_1
-	ld c, $1
-.okay_1
-	ld b, e
-
-	push bc
-	ld a, b
-	sub c
+.multiplyCatchRate
+	ldh a, [$ffb6]
 	ldh [hMultiplier], a
+	ld a, d
+	ldh [$ffb5], a
+	ld a, e
+	ldh [$ffb6], a
 	xor a
-	ldh [hDividend + 0], a
-	ldh [hMultiplicand + 0], a
-	ldh [hMultiplicand + 1], a
+	ldh [hProduct], a
+	ldh [hMultiplicand], a
+	push hl
 	call Multiply
-	pop bc
-
-	ld a, b
+	pop hl
+	
+.realDivide
+	ld a, l
 	ldh [hDivisor], a
-	ld b, 4
+	ld b, $4
 	call Divide
-
+; modifications done
 	ldh a, [hQuotient + 3]
 	and a
 	jr nz, .statuscheck
 	ld a, 1
 .statuscheck
-; This routine is buggy. It was intended that SLP and FRZ provide a higher
-; catch rate than BRN/PSN/PAR, which in turn provide a higher catch rate than
-; no status effect at all. But instead, it makes BRN/PSN/PAR provide no
-; benefit.
-; Uncomment the line below to fix this.
+; fixed
 	ld b, a
 	ld a, [wEnemyMonStatus]
-	and 1 << FRZ | SLP
-	ld c, 10
-	jr nz, .addstatus
-	; ld a, [wEnemyMonStatus]
 	and a
-	ld c, 5
-	jr nz, .addstatus
 	ld c, 0
+	jr z, .addstatus
+	and 1 << FRZ | SLP
+	ld c, 5
+	jr z, .addstatus
+	ld c, 10
 .addstatus
 	ld a, b
 	add c
@@ -412,6 +444,8 @@ PokeBallEffect:
 	jp z, .shake_and_break_free
 .caught
 
+	ld de, sStatsPokemonCaughtInBalls
+	callba SRAMStatsIncrement2Byte
 	ld hl, wEnemyMonStatus
 	ld a, [hli]
 	push af
@@ -2573,6 +2607,14 @@ OpenBox:
 	text_far _SentTrophyHomeText
 	text_end
 
+DoneButton:
+	ld hl, Text_AskReallyDone
+	call PrintText
+	call YesNoBox
+	ret c
+	callba PlaythroughStatsScreen
+	ret
+
 NoEffect:
 	jp IsntTheTimeMessage
 
@@ -2595,6 +2637,8 @@ UseDisposableItem:
 	jp TossItem
 
 UseBallInTrainerBattle:
+	ld de, sStatsBallsThrown
+	callba SRAMStatsIncrement2Byte
 	call ReturnToBattle_UseBall
 	ld de, ANIM_THROW_POKE_BALL
 	ld a, e
@@ -2873,7 +2917,7 @@ GetMaxPPOfMove:
 	dec a
 
 	push hl
-	ld hl, Moves + MOVE_PP
+	call LoadHLMovesPlusPP
 	ld bc, MOVE_LENGTH
 	call AddNTimes
 	ld a, BANK(Moves)
@@ -2922,3 +2966,7 @@ GetMthMoveOfCurrentMon:
 	ld b, 0
 	add hl, bc
 	ret
+
+Text_AskReallyDone:
+	text_jump _Text_ReallyDone
+	db "@"

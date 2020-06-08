@@ -34,6 +34,14 @@ Marts:
 	dw MartMtMoon
 	dw MartIndigoPlateau
 	dw MartUnderground
+	dw MartCherrygroveBetter
+	dw MartVioletBetter
+	dw MartAzaleaBetter
+	dw MartGoldenrod4FBetter
+	dw MartGoldenrod5FBetter1
+	dw MartGoldenrod5FBetter2
+	dw MartGoldenrod5FBetter3
+	dw MartGoldenrod5FBetter4
 .End
 
 MartCherrygrove:
@@ -397,6 +405,96 @@ MartUnderground:
 	db ENERGY_ROOT
 	db HEAL_POWDER
 	db REVIVAL_HERB
+	db -1 ; end
+
+MartCherrygroveBetter:
+	db 7 ; # items
+	db POKE_BALL
+	db POTION
+	db REPEL
+	db ANTIDOTE
+	db PARLYZ_HEAL
+	db AWAKENING
+	db ICE_HEAL
+	db -1 ; end
+	
+MartVioletBetter:
+	db 11 ; # items
+	db POKE_BALL
+	db POTION
+	db ESCAPE_ROPE
+	db REPEL
+	db ANTIDOTE
+	db PARLYZ_HEAL
+	db AWAKENING
+	db ICE_HEAL
+	db X_DEFEND
+	db X_ATTACK
+	db X_SPEED
+	db -1 ; end
+
+MartAzaleaBetter:
+	db 9 ; # items
+	db CHARCOAL
+	db POKE_BALL
+	db POTION
+	db SUPER_POTION
+	db ESCAPE_ROPE
+	db REPEL
+	db ANTIDOTE
+	db PARLYZ_HEAL
+	db ICE_HEAL
+	db -1 ; end
+
+MartGoldenrod4FBetter:
+	db 11 ; # items
+	db FIRE_STONE
+	db WATER_STONE
+	db LEAF_STONE
+	db THUNDERSTONE
+	db SUN_STONE
+	db MOON_STONE
+	db PROTEIN
+	db IRON
+	db CARBOS
+	db CALCIUM
+	db HP_UP
+	db -1 ; end
+
+MartGoldenrod5FBetter1:
+	db 4 ; # items
+	db TM_THUNDERPUNCH
+	db TM_FIRE_PUNCH
+	db TM_ICE_PUNCH
+	db TM_SWEET_SCENT
+	db -1 ; end
+
+MartGoldenrod5FBetter2:
+	db 5 ; # items
+	db TM_THUNDERPUNCH
+	db TM_FIRE_PUNCH
+	db TM_ICE_PUNCH
+	db TM_HEADBUTT
+	db TM_SWEET_SCENT
+	db -1 ; end
+
+MartGoldenrod5FBetter3:
+	db 5 ; # items
+	db TM_THUNDERPUNCH
+	db TM_FIRE_PUNCH
+	db TM_ICE_PUNCH
+	db TM_ROCK_SMASH
+	db TM_SWEET_SCENT
+	db -1 ; end
+
+MartGoldenrod5FBetter4:
+	db 6 ; # items
+	db TM_THUNDERPUNCH
+	db TM_FIRE_PUNCH
+	db TM_ICE_PUNCH
+	db TM_HEADBUTT
+	db TM_ROCK_SMASH
+	db TM_SWEET_SCENT
 	db -1 ; end
 
 DefaultMart:
