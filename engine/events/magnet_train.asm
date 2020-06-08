@@ -138,6 +138,7 @@ MagnetTrain_LoadGFX_PlayMusic:
 	ld hl, vTiles0
 	ld c, 4
 	call Request2bpp
+	call Wait2bpp
 
 	; Load the trainer walking frame
 	ld hl, 12 tiles
@@ -147,6 +148,7 @@ MagnetTrain_LoadGFX_PlayMusic:
 	ld hl, vTiles0 tile $04
 	ld c, 4
 	call Request2bpp
+	call Wait2bpp
 
 	call MagnetTrain_InitLYOverrides
 

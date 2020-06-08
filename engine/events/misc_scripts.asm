@@ -9,11 +9,12 @@ Script_AbortBugContest:
 FindItemInBallScript::
 	callasm .TryReceiveItem
 	iffalse .no_room
+	increment2bytestat sStatsItemsPickedUp
 	disappear LAST_TALKED
 	opentext
 	writetext .FoundItemText
-	playsound SFX_ITEM
-	pause 60
+	playsound SFX_ITEM ; @TODO change sfx
+	waitsfx
 	itemnotify
 	closetext
 	end

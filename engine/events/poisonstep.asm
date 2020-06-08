@@ -129,6 +129,8 @@ DoPoisonStep::
 	ld c, HAPPINESS_POISONFAINT
 	farcall ChangeHappiness
 	farcall GetPartyNick
+	ld de, sStatsPlayerPokemonFainted
+	callba SRAMStatsIncrement2Byte
 	ld hl, .PoisonFaintText
 	call PrintText
 

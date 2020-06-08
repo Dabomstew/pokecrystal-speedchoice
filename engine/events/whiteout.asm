@@ -43,10 +43,20 @@ BattleBGMap:
 	ret
 
 HalveMoney:
-	farcall StubbedTrainerRankings_WhiteOuts
 
 ; Halve the player's money.
-	ld hl, wMoney
+; log old money
+	ld hl, wMoney + 2
+	ld de, wBuffer3
+	ld a, [hld]
+	ld [de], a
+	dec de
+	ld a, [hld]
+	ld [de], a
+	dec de
+	ld a, [hl]
+	ld [de], a
+; actually take the money - hl = wMoney right now
 	ld a, [hl]
 	srl a
 	ld [hli], a
@@ -56,6 +66,20 @@ HalveMoney:
 	ld a, [hl]
 	rra
 	ld [hl], a
+; calculate difference
+; hl=wMoney+2 again
+	ld a, [wBuffer3]
+	sub [hl]
+	ld [wBuffer3], a
+	dec hl
+	ld a, [wBuffer2]
+	sbc [hl]
+	ld [wBuffer2], a
+	dec hl
+	ld a, [wBuffer1]
+	sbc [hl]
+	ld [wBuffer1], a
+	callba SRAMStatsBlackoutMoneyLoss
 	ret
 
 GetWhiteoutSpawn:

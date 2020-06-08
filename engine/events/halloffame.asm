@@ -29,6 +29,10 @@ HallOfFame::
 	xor a
 	ld [wGameLogicPaused], a
 	call AnimateHallOfFame
+	mboptioncheck RACEGOAL, ELITEFOUR
+	jr nz, .done
+	callba PlaythroughStatsScreen
+.done
 	pop af
 	ld b, a
 	farcall Credits
@@ -51,6 +55,10 @@ RedCredits::
 	call DisableSpriteUpdates
 	ld a, SPAWN_RED
 	ld [wSpawnAfterChampion], a
+	mboptioncheck RACEGOAL, RED
+	jr nz, .done
+	callba PlaythroughStatsScreen
+.done
 	ld a, [wStatusFlags]
 	ld b, a
 	farcall Credits
