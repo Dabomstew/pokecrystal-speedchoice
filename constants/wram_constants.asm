@@ -25,45 +25,14 @@ AUTO_INPUT EQU $ff
 GAMETIMERPAUSE_TIMER_PAUSED_F EQU 0
 GAMETIMERPAUSE_MOBILE_7_F     EQU 7
 
-; wOptions:: ; cfcc
-TEXT_DELAY_MASK EQU %111
-	const_def 4
-	const NO_TEXT_SCROLL ; 4
-	const STEREO         ; 5
-	const BATTLE_SHIFT   ; 6
-	const BATTLE_SCENE   ; 7
-
 TEXT_DELAY_FAST EQU %001 ; 1
 TEXT_DELAY_MED  EQU %011 ; 3
 TEXT_DELAY_SLOW EQU %101 ; 5
-
-; wTextboxFrame:: ; cfce
-	const_def
-	const FRAME_1 ; 0
-	const FRAME_2 ; 1
-	const FRAME_3 ; 2
-	const FRAME_4 ; 3
-	const FRAME_5 ; 4
-	const FRAME_6 ; 5
-	const FRAME_7 ; 6
-	const FRAME_8 ; 7
-NUM_FRAMES EQU const_value
 
 ; wTextboxFlags:: ; cfcf
 	const_def
 	const FAST_TEXT_DELAY_F ; 0
 	const NO_TEXT_DELAY_F   ; 1
-
-; wGBPrinterBrightness:: ; cfd0
-GBPRINTER_LIGHTEST EQU $00
-GBPRINTER_LIGHTER  EQU $20
-GBPRINTER_NORMAL   EQU $40
-GBPRINTER_DARKER   EQU $60
-GBPRINTER_DARKEST  EQU $7f
-
-; wOptions2:: ; cfd1
-	const_def
-	const MENU_ACCOUNT ; 0
 
 ; wWalkingDirection:: ; d043
 	const_def -1

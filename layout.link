@@ -325,6 +325,8 @@ WRAMX 2
 	"Pic Animations"
 WRAMX 3
 	"Battle Tower RAM"
+WRAMX 4
+	"Aligned Tile Map"
 WRAMX 5
 	align 8
 	"GBC Video"
@@ -353,6 +355,7 @@ SRAM $01
 	"SRAM Hall of Fame"
 	"SRAM Crystal Data"
 	"SRAM Battle Tower"
+	"SRAM Speedchoice Stats"
 SRAM $02
 	"Boxes 1-7"
 SRAM $03

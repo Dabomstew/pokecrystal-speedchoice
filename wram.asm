@@ -1611,34 +1611,15 @@ wNumHits:: db
 	ds 1
 
 wOptions:: ; cfcc
-; bit 0-2: number of frames to delay when printing text
-;   fast 1; mid 3; slow 5
-; bit 3: ?
-; bit 4: no text delay
-; bit 5: stereo off/on
-; bit 6: battle style shift/set
-; bit 7: battle scene off/on
-	db
+	ds NUM_OPTIONS_BYTES
 wSaveFileExists:: db
-wTextboxFrame:: ; cfce
-; bits 0-2: textbox frame 0-7
-	db
 wTextboxFlags::
 ; bit 0: 1-frame text delay
 ; bit 4: no text delay
 	db
-wGBPrinterBrightness:: ; cfd0
-; bit 0-6: brightness
-;   lightest: $00
-;   lighter:  $20
-;   normal:   $40 (default)
-;   darker:   $60
-;   darkest:  $7F
-	db
-wOptions2:: ; cfd1
-; bit 1: menu account off/on
-	db
-	ds 2
+wPermanentOptions::
+	ds NUM_PERMAOPTIONS_BYTES
+	ds 8 - (@ - wOptions)
 wOptionsEnd::
 
 ; Time buffer, for counting the amount of time since
@@ -1647,6 +1628,22 @@ wSecondsSince:: db
 wMinutesSince:: db
 wHoursSince:: db
 wDaysSince:: db
+
+; speedchoice additions
+wOptionsMenuCount:: db
+wPlayStatsStringPtr:: 
+wOptionsStringPtr:: dw
+wPlayStatsConfigPtr:: 
+wOptionsJumptablePtr:: dw
+wPlayStatsConfigEnds:: 
+wOptionsExitButtons:: db
+wPlayStatsStatNum:: 
+wOptionsNextMenuID:: db
+wOptionsMenuID:: db
+wStoredJumptableIndex:: db
+wRequested1bppQuarters:: db
+wRequested2bppQuarters:: db
+wOptionsMenuPreset:: db
 
 
 SECTION "WRAM 1", WRAMX
@@ -1942,6 +1939,7 @@ wTMHMMoveNameBackup:: ds MOVE_NAME_LENGTH ; d066
 wStringBuffer1:: ds 19 ; d073
 wStringBuffer2:: ds 19 ; d086
 wStringBuffer3:: ds 19 ; d099
+wRandomizedMovesStatus::
 wStringBuffer4:: ds 19 ; d0ac
 wStringBuffer5:: ds 19 ; d0bf
 
@@ -2153,6 +2151,8 @@ wBuffer3:: db ; d1ec
 wBuffer4:: db ; d1ed
 wBuffer5:: db ; d1ee
 wBuffer6:: db ; d1ef
+wBuffer7:: db ; d1f0
+wBuffer8:: db ; d1f1
 
 NEXTU ; d1ea
 ; HP bar animations
@@ -3089,6 +3089,8 @@ NEXTU ; dd68
 w3_de00:: ds $200
 ENDU ; e000
 
+SECTION "Aligned Tile Map", WRAMX
+wAlignedTileMap:: ds $400
 
 SECTION "GBC Video", WRAMX, ALIGN[8]
 ; LCD expects wLYOverrides to have an alignment of $100

@@ -1,4 +1,6 @@
-roms := pokecrystal.gbc pokecrystal11.gbc pokecrystal-au.gbc
+PYTHON3 := python3
+
+roms := crystal-speedchoice.gbc
 
 crystal_obj := \
 audio.o \
@@ -16,9 +18,6 @@ gfx/pics.o \
 gfx/sprites.o \
 gfx/tilesets.o \
 lib/mobile/main.o
-
-crystal11_obj := $(crystal_obj:.o=11.o)
-crystal_au_obj := $(crystal_obj:.o=_au.o)
 
 
 ### Build tools
@@ -39,24 +38,22 @@ RGBLINK ?= $(RGBDS)rgblink
 ### Build targets
 
 .SUFFIXES:
-.PHONY: all crystal crystal11 crystal_au clean tidy compare tools
+.PHONY: all crystal clean tidy tools config
 .SECONDEXPANSION:
 .PRECIOUS:
 .SECONDARY:
 
 all: crystal
-crystal:    pokecrystal.gbc
-crystal11:  pokecrystal11.gbc
-crystal-au: pokecrystal-au.gbc
+crystal:    crystal-speedchoice.gbc
 
 clean:
-	rm -f $(roms) $(crystal_obj) $(crystal11_obj) $(crystal_au_obj) $(roms:.gbc=.map) $(roms:.gbc=.sym) rgbdscheck.o
+	rm -f $(roms) $(crystal_obj) $(roms:.gbc=.map) $(roms:.gbc=.sym) rgbdscheck.o
 	find gfx \( -name "*.[12]bpp" -o -name "*.lz" -o -name "*.gbcpal" -o -name "*.sgb.tilemap" \) -delete
 	find gfx/pokemon -mindepth 1 ! -path "gfx/pokemon/unown/*" \( -name "bitmask.asm" -o -name "frames.asm" -o -name "front.animated.tilemap" -o -name "front.dimensions" \) -delete
 	$(MAKE) clean -C tools/
 
 tidy:
-	rm -f $(roms) $(crystal_obj) $(crystal11_obj) $(crystal_au_obj) $(roms:.gbc=.map) $(roms:.gbc=.sym) rgbdscheck.o
+	rm -f $(roms) $(crystal_obj) $(roms:.gbc=.map) $(roms:.gbc=.sym) rgbdscheck.o
 	$(MAKE) clean -C tools/
 
 compare: $(roms)
@@ -68,8 +65,6 @@ tools:
 
 RGBASMFLAGS = -L -Weverything
 $(crystal_obj):    RGBASMFLAGS +=
-$(crystal11_obj):  RGBASMFLAGS += -D _CRYSTAL11
-$(crystal_au_obj): RGBASMFLAGS += -D _CRYSTAL11 -D _CRYSTAL_AU
 
 rgbdscheck.o: rgbdscheck.asm
 	$(RGBASM) -o $@ $<
@@ -88,24 +83,14 @@ ifeq (,$(filter clean tools,$(MAKECMDGOALS)))
 
 $(info $(shell $(MAKE) -C tools))
 
-$(foreach obj, $(crystal_au_obj), $(eval $(call DEP,$(obj),$(obj:_au.o=.asm))))
-$(foreach obj, $(crystal11_obj), $(eval $(call DEP,$(obj),$(obj:11.o=.asm))))
 $(foreach obj, $(crystal_obj), $(eval $(call DEP,$(obj),$(obj:.o=.asm))))
 
 endif
 
 
-pokecrystal.gbc: $(crystal_obj) layout.link
-	$(RGBLINK) -n pokecrystal.sym -m pokecrystal.map -l layout.link -p 0 -o $@ $(crystal_obj)
-	$(RGBFIX) -Cjv -t PM_CRYSTAL -i BYTE -k 01 -l 0x33 -m 0x10 -r 3 -p 0 $@
-
-pokecrystal11.gbc: $(crystal11_obj) layout.link
-	$(RGBLINK) -n pokecrystal11.sym -m pokecrystal11.map -l layout.link -p 0 -o $@ $(crystal11_obj)
-	$(RGBFIX) -Cjv -t PM_CRYSTAL -i BYTE -n 1 -k 01 -l 0x33 -m 0x10 -r 3 -p 0 $@
-
-pokecrystal-au.gbc: $(crystal_au_obj) layout.link
-	$(RGBLINK) -n pokecrystal-au.sym -m pokecrystal-au.map -l layout.link -p 0 -o $@ $(crystal_au_obj)
-	$(RGBFIX) -Cjv -t PM_CRYSTAL -i BYTU -k 01 -l 0x33 -m 0x10 -r 3 -p 0 $@
+crystal-speedchoice.gbc: $(crystal_obj) layout.link
+	$(RGBLINK) -n crystal-speedchoice.sym -m crystal-speedchoice.map -l layout.link -p 0 -o $@ $(crystal_obj)
+	$(RGBFIX) -Cjv -t PM_CRYSTAL -i KAPB -k 01 -l 0x33 -m 0x10 -r 3 -p 0 -n 5 $@
 
 
 ### LZ compression rules
@@ -258,3 +243,7 @@ gfx/mobile/stadium2_n64.2bpp: tools/gfx += --trim-whitespace
 
 %.dimensions: %.png
 	tools/png_dimensions $< $@
+	
+%.ini: %.gbc %.sym
+	$(PYTHON3) genrandoini.py $^ $@
+	echo "MD5Hash="$(shell md5sum $< | cut -d' ' -f1) >> $@

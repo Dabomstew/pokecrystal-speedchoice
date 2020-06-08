@@ -60,7 +60,12 @@ hConnectionStripLength:: db ; ffaf
 hConnectedMapWidth:: db ; ffb0
 ENDU ; ffb1
 
+UNION
 hEnemyMonSpeed:: dw ; ffb1
+NEXTU
+ds 1
+hBigDividend:: db
+ENDU
 
 UNION ; ffb3
 ; math-related values
@@ -167,3 +172,7 @@ hDMATransfer:: db ; ffe8
 hMobile:: db ; ffe9
 hSystemBooted:: db ; ffea
 hClockResetTrigger:: db ; ffeb
+hHasAlignedBGMap:: db ; ffec
+hSRAMBank:: db ; ffed
+hStatsDisabled:: db ; ffee
+hTimerType:: db ; ffef
