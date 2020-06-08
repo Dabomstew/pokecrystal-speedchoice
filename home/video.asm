@@ -116,6 +116,10 @@ WaitTop::
 UpdateBGMap::
 ; Update the BG Map, in thirds, from wTilemap and wAttrmap.
 
+	ldh a, [hHasAlignedBGMap]
+	and a
+	jp nz, UpdateBGMapAligned
+UpdateBGMapUnaligned::
 	ldh a, [hBGMapMode]
 	and a ; 0
 	ret z
@@ -127,7 +131,6 @@ UpdateBGMap::
 	jr z, .Attr
 
 ; BG Map 1
-	dec a ; useless
 
 	ldh a, [hBGMapAddress]
 	ld l, a
@@ -261,83 +264,108 @@ endr
 	ld h, a
 	ld sp, hl
 	ret
-
-Serve1bppRequest::
-; Only call during the first fifth of VBlank
-
-	ld a, [wRequested1bpp]
+	
+UpdateBGMapAligned::
+	xor a
+	ldh [hHasAlignedBGMap], a
+	ldh a, [hBGMapMode]
 	and a
 	ret z
-
-; Back out if we're too far into VBlank
-	ldh a, [rLY]
-	cp LY_VBLANK
-	ret c
-	cp LY_VBLANK + 2
-	ret nc
-
-; Copy [wRequested1bpp] 1bpp tiles from [wRequested1bppSource] to [wRequested1bppDest]
-
-	ld [hSPBuffer], sp
-
-; Source
-	ld hl, wRequested1bppSource
-	ld a, [hli]
-	ld h, [hl]
-	ld l, a
-	ld sp, hl
-
-; Destination
-	ld hl, wRequested1bppDest
-	ld a, [hli]
-	ld h, [hl]
-	ld l, a
-
-; # tiles to copy
-	ld a, [wRequested1bpp]
 	ld b, a
-
+	cp 3
+	jr nc, .skipAlignmentCheck
+	ldh a, [hBGMapAddress]
+	and a
+	jp nz, UpdateBGMapUnaligned
+.skipAlignmentCheck
 	xor a
-	ld [wRequested1bpp], a
-
-.next
-
-rept 3
-	pop de
-	ld [hl], e
-	inc l
-	ld [hl], e
-	inc l
-	ld [hl], d
-	inc l
-	ld [hl], d
-	inc l
-endr
-	pop de
-	ld [hl], e
-	inc l
-	ld [hl], e
-	inc l
-	ld [hl], d
-	inc l
-	ld [hl], d
-
-	inc hl
-	dec b
-	jr nz, .next
-
-	ld a, l
-	ld [wRequested1bppDest], a
-	ld a, h
-	ld [wRequested1bppDest + 1], a
-
-	ld [wRequested1bppSource], sp
-
-	ldh a, [hSPBuffer]
+	ldh [hBGMapThird], a
+	; BG Map 0
+	dec b ; 1
+	jr z, .Tiles
+	dec b ; 2
+	jr z, .Attr
+; BG Map 1
+	ldh a, [hBGMapAddress]
 	ld l, a
-	ldh a, [hSPBuffer + 1]
+	ldh a, [hBGMapAddress + 1]
 	ld h, a
-	ld sp, hl
+	push hl
+	xor a
+	ldh [hBGMapAddress], a
+	ld a, HIGH(VBGMap1)
+	ldh [hBGMapAddress + 1], a
+	
+	dec b
+	jr z, .bgMap1Tiles
+	dec b
+	call z, .Attr
+	jr .doneBGMap1
+.bgMap1Tiles
+	call .Tiles
+.doneBGMap1
+	pop hl
+	ld a, l
+	ldh [hBGMapAddress], a
+	ld a, h
+	ldh [hBGMapAddress + 1], a
+	ret
+	
+.Attr
+	ld a, 1
+	ldh [rVBK], a
+	call .Tiles
+	xor a
+	ldh [rVBK], a
+	ret
+
+.Tiles
+	ldh a, [rSVBK]
+	push af
+	ld a, BANK(wAlignedTileMap)
+	ld [rSVBK], a
+	xor a
+	ld l, a
+	ld h, HIGH(wAlignedTileMap)
+	ldh a, [hBGMapAddress + 1]
+	ld d, a
+	ld b, SCREEN_HEIGHT
+.hdmaLoop
+	ld a, h
+	ldh [rHDMA1], a
+	ld a, l
+	ldh [rHDMA2], a
+	ldh [rHDMA4], a ; e and l are always the same
+	ld a, d
+	ldh [rHDMA3], a
+	xor a ; value of 00 = $10 bytes
+	ldh [rHDMA5], a
+; copy remaining 4 bytes manually
+	set 4, l ; l = l + $10
+	ld e, l
+rept 3
+	ld a, [hli]
+	ld [de], a
+	inc e
+endr
+; last tile
+	ld a, [hl]
+	ld [de], a
+; done?
+	dec b
+	jr z, .done
+; move to next row
+	ld a, BG_MAP_WIDTH - (SCREEN_WIDTH - 1)
+	add l
+	ld l, a
+	jr nc, .hdmaLoop
+	inc h
+	inc d
+	jr .hdmaLoop
+; done
+.done
+	pop af
+	ldh [rSVBK], a
 	ret
 
 Serve2bppRequest::
@@ -379,13 +407,39 @@ _Serve2bppRequest::
 	ld l, a
 
 ; # tiles to copy
+	ld b, 15 ; max tiles
 	ld a, [wRequested2bpp]
+	cp b
+	jr nc, .short
 	ld b, a
 
 	xor a
 	ld [wRequested2bpp], a
-
+	jr .quarters
+.short
+	sub b
+	ld [wRequested2bpp], a
+; quarters left over from HBlank?
+.quarters
+	ld a, [wRequested2bppQuarters]
+	cp 4
+	jr z, .next
+	dec b
+	jr z, .handlequarters
 .next
+
+rept 4
+	pop de
+	ld [hl], e
+	inc l
+	ld [hl], d
+	inc l
+	pop de
+	ld [hl], e
+	inc l
+	ld [hl], d
+	inc hl
+endr
 
 rept 7
 	pop de
@@ -394,15 +448,31 @@ rept 7
 	ld [hl], d
 	inc l
 endr
+	dec b
+	jr nz, .next
+	
+	ld a, [wRequested2bppQuarters]
+	cp 4
+	jr z, .done
+.handlequarters
+	ld b, a
+.finalizeloop
 	pop de
 	ld [hl], e
 	inc l
 	ld [hl], d
-
+	inc l
+	pop de
+	ld [hl], e
+	inc l
+	ld [hl], d
 	inc hl
 	dec b
-	jr nz, .next
+	jr nz, .finalizeloop
+	ld a, 4
+	ld [wRequested2bppQuarters], a
 
+.done
 	ld a, l
 	ld [wRequested2bppDest], a
 	ld a, h

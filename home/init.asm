@@ -101,12 +101,17 @@ Init::
 	rst Bankswitch
 
 	call WriteOAMDMACodeToHRAM
+	
+	farcall InitCGBPals
 
 	xor a
 	ldh [hMapAnims], a
 	ldh [hSCX], a
 	ldh [hSCY], a
 	ldh [rJOYP], a
+	
+	ld a, TIMER_INTROS
+	ldh [hTimerType], a
 
 	ld a, $8 ; HBlank int enable
 	ldh [rSTAT], a
@@ -133,8 +138,6 @@ Init::
 	ld a, CONNECTION_NOT_ESTABLISHED
 	ldh [hSerialConnectionStatus], a
 
-	farcall InitCGBPals
-
 	ld a, HIGH(vBGMap1)
 	ldh [hBGMapAddress + 1], a
 	xor a ; LOW(vBGMap1)
@@ -149,12 +152,17 @@ Init::
 	ldh a, [hCGB]
 	and a
 	jr z, .no_double_speed
-	call NormalSpeed
+	call DoubleSpeed
 .no_double_speed
 
 	xor a
 	ldh [rIF], a
+	ldh a, [hCGB]
+	and a
 	ld a, IE_DEFAULT
+	jr nz, .writeIE
+	ld a, %0001 ; only vblank
+.writeIE
 	ldh [rIE], a
 	ei
 

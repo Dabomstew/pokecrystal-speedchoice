@@ -292,7 +292,11 @@ JoyWaitAorB::
 .loop
 	call DelayFrame
 	call GetJoypad
+	sboptioncheck HOLD_TO_MASH
 	ldh a, [hJoyPressed]
+	jr z, .checkInput
+	ldh a, [hJoyDown]
+.checkInput
 	and A_BUTTON | B_BUTTON
 	ret nz
 	call UpdateTimeAndPals
@@ -361,7 +365,11 @@ WaitPressAorB_BlinkCursor::
 	pop hl
 
 	call JoyTextDelay
+	sboptioncheck HOLD_TO_MASH
 	ldh a, [hJoyLast]
+	jr z, .checkInput
+	ldh a, [hJoyDown]
+.checkInput
 	and A_BUTTON | B_BUTTON
 	jr z, .loop
 
@@ -410,7 +418,11 @@ PromptButton::
 .input_wait_loop
 	call .blink_cursor
 	call JoyTextDelay
+	sboptioncheck HOLD_TO_MASH
 	ldh a, [hJoyPressed]
+	jr z, .checkInput
+	ldh a, [hJoyDown]
+.checkInput
 	and A_BUTTON | B_BUTTON
 	jr nz, .received_input
 	call UpdateTimeAndPals

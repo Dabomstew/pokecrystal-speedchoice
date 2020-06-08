@@ -196,21 +196,6 @@ Request2bpp::
 	ld a, b
 	rst Bankswitch
 
-	ldh a, [hTilesPerCycle]
-	push af
-	ld a, $8
-	ldh [hTilesPerCycle], a
-
-	ld a, [wLinkMode]
-	cp LINK_MOBILE
-	jr nz, .NotMobile
-	ldh a, [hMobile]
-	and a
-	jr nz, .NotMobile
-	ld a, $6
-	ldh [hTilesPerCycle], a
-
-.NotMobile:
 	ld a, e
 	ld [wRequested2bppSource], a
 	ld a, d
@@ -219,21 +204,16 @@ Request2bpp::
 	ld [wRequested2bppDest], a
 	ld a, h
 	ld [wRequested2bppDest + 1], a
-.loop
+	ld a, 4
+	ld [wRequested2bppQuarters], a
 	ld a, c
-	ld hl, hTilesPerCycle
-	cp [hl]
-	jr nc, .iterate
-
 	ld [wRequested2bpp], a
 .wait
-	call DelayFrame
+	halt
+	nop
 	ld a, [wRequested2bpp]
 	and a
 	jr nz, .wait
-
-	pop af
-	ldh [hTilesPerCycle], a
 
 	pop af
 	rst Bankswitch
@@ -241,22 +221,6 @@ Request2bpp::
 	pop af
 	ldh [hBGMapMode], a
 	ret
-
-.iterate
-	ldh a, [hTilesPerCycle]
-	ld [wRequested2bpp], a
-
-.wait2
-	call DelayFrame
-	ld a, [wRequested2bpp]
-	and a
-	jr nz, .wait2
-
-	ld a, c
-	ld hl, hTilesPerCycle
-	sub [hl]
-	ld c, a
-	jr .loop
 
 Request1bpp::
 ; Load 1bpp at b:de to occupy c tiles of hl.
@@ -270,21 +234,6 @@ Request1bpp::
 	ld a, b
 	rst Bankswitch
 
-	ldh a, [hTilesPerCycle]
-	push af
-	ld a, $8
-	ldh [hTilesPerCycle], a
-
-	ld a, [wLinkMode]
-	cp LINK_MOBILE
-	jr nz, .NotMobile
-	ldh a, [hMobile]
-	and a
-	jr nz, .NotMobile
-	ld a, $6
-	ldh [hTilesPerCycle], a
-
-.NotMobile:
 	ld a, e
 	ld [wRequested1bppSource], a
 	ld a, d
@@ -293,21 +242,16 @@ Request1bpp::
 	ld [wRequested1bppDest], a
 	ld a, h
 	ld [wRequested1bppDest + 1], a
-.loop
+	ld a, 4
+	ld [wRequested1bppQuarters], a
 	ld a, c
-	ld hl, hTilesPerCycle
-	cp [hl]
-	jr nc, .iterate
-
 	ld [wRequested1bpp], a
 .wait
-	call DelayFrame
+	halt
+	nop
 	ld a, [wRequested1bpp]
 	and a
 	jr nz, .wait
-
-	pop af
-	ldh [hTilesPerCycle], a
 
 	pop af
 	rst Bankswitch
@@ -315,22 +259,6 @@ Request1bpp::
 	pop af
 	ldh [hBGMapMode], a
 	ret
-
-.iterate
-	ldh a, [hTilesPerCycle]
-	ld [wRequested1bpp], a
-
-.wait2
-	call DelayFrame
-	ld a, [wRequested1bpp]
-	and a
-	jr nz, .wait2
-
-	ld a, c
-	ld hl, hTilesPerCycle
-	sub [hl]
-	ld c, a
-	jr .loop
 
 Get2bpp::
 	ldh a, [rLCDC]

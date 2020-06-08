@@ -1,16 +1,5 @@
 ; Functions relating to the timer interrupt and the real-time-clock.
 
-Unreferenced_Timer::
-	push af
-	ldh a, [hMobile]
-	and a
-	jr z, .not_mobile
-	call Timer
-
-.not_mobile
-	pop af
-	reti
-
 LatchClock::
 ; latch clock counter data
 	ld a, 0
@@ -39,26 +28,36 @@ GetClock::
 	ld hl, MBC3SRamBank
 	ld de, MBC3RTC
 
-	ld [hl], RTC_S
+	ld a, RTC_S
+	ldh [hSRAMBank], a
+	ld [hl], a
 	ld a, [de]
 	maskbits 60
 	ldh [hRTCSeconds], a
 
-	ld [hl], RTC_M
+	ld a, RTC_M
+	ldh [hSRAMBank], a
+	ld [hl], a
 	ld a, [de]
 	maskbits 60
 	ldh [hRTCMinutes], a
 
-	ld [hl], RTC_H
+	ld a, RTC_H
+	ldh [hSRAMBank], a
+	ld [hl], a
 	ld a, [de]
 	maskbits 24
 	ldh [hRTCHours], a
 
-	ld [hl], RTC_DL
+	ld a, RTC_DL
+	ldh [hSRAMBank], a
+	ld [hl], a
 	ld a, [de]
 	ldh [hRTCDayLo], a
 
-	ld [hl], RTC_DH
+	ld a, RTC_DH
+	ldh [hSRAMBank], a
+	ld [hl], a
 	ld a, [de]
 	ldh [hRTCDayHi], a
 
@@ -223,48 +222,40 @@ SetClock::
 	ld hl, MBC3SRamBank
 	ld de, MBC3RTC
 
-; seems to be a halt check that got partially commented out
-; this block is totally pointless
-	ld [hl], RTC_DH
-	ld a, [de]
-	bit 6, a ; halt
-	ld [de], a
-
 ; seconds
-	ld [hl], RTC_S
+	ld a, RTC_S
+	ldh [hSRAMBank], a
+	ld [hl], a
 	ldh a, [hRTCSeconds]
 	ld [de], a
 ; minutes
-	ld [hl], RTC_M
+	ld a, RTC_M
+	ldh [hSRAMBank], a
+	ld [hl], a
 	ldh a, [hRTCMinutes]
 	ld [de], a
 ; hours
-	ld [hl], RTC_H
+	ld a, RTC_H
+	ldh [hSRAMBank], a
+	ld [hl], a
 	ldh a, [hRTCHours]
 	ld [de], a
 ; day lo
-	ld [hl], RTC_DL
+	ld a, RTC_DL
+	ldh [hSRAMBank], a
+	ld [hl], a
 	ldh a, [hRTCDayLo]
 	ld [de], a
 ; day hi
-	ld [hl], RTC_DH
+	ld a, RTC_DH
+	ldh [hSRAMBank], a
+	ld [hl], a
 	ldh a, [hRTCDayHi]
 	res 6, a ; make sure timer is active
 	ld [de], a
 
 ; cleanup
 	call CloseSRAM ; unlatch clock, disable clock r/w
-	ret
-
-UnreferencedClearRTCStatus::
-; clear sRTCStatusFlags
-	xor a
-	push af
-	ld a, BANK(sRTCStatusFlags)
-	call GetSRAMBank
-	pop af
-	ld [sRTCStatusFlags], a
-	call CloseSRAM
 	ret
 
 RecordRTCStatus::

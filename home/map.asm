@@ -592,9 +592,7 @@ ReadObjectEvents::
 	jr z, .skip
 	; jr c, .skip
 
-	; could have done "inc hl" instead
-	ld bc, 1
-	add hl, bc
+	inc hl
 ; Fill the remaining sprite IDs and y coords with 0 and -1, respectively.
 ; Bleeds into wObjectMasks due to a bug.  Uncomment the above code to fix.
 	ld bc, MAPOBJECT_LENGTH
@@ -631,12 +629,67 @@ CopyMapObjectEvents::
 	jr nz, .loop2
 
 	pop hl
+	call CheckSpinnerSettings
 	ld bc, MAPOBJECT_LENGTH
 	add hl, bc
 	pop bc
 	dec c
 	jr nz, .loop
 	ret
+
+CheckSpinnerSettings::
+	ld a, [SPINNERS_ADDRESS] ; MAX_RANGE_ADDRESS
+	and SPINNERS_MASK | MAX_RANGE_VAL
+	ret z ; normal behavior
+	push hl
+	push bc
+	ld bc, MAPOBJECT_RANGE
+	add hl, bc
+	ld a, [hl]
+	and a
+	jr z, .done ; we only care if they have range
+	sboptioncheck MAX_RANGE
+	jr z, .spinnerCheck
+	ld b, MAX_RANGE_VALUE
+	ld [hl], b
+.spinnerCheck
+	; a is still the byte with SPINNERS and MAX_RANGE
+	and SPINNERS_MASK
+	jr z, .done ; no change to behavior
+	ld bc, MAPOBJECT_MOVEMENT - MAPOBJECT_RANGE
+	add hl, bc
+	cp SPINNERS_NONE << SPINNERS_SHIFT
+	jr z, .remove
+	; if we got here this is spinner hell or why
+	ld a, [hl]
+	; only change WANDER-SPRITEMOVEDATA_STANDING_RIGHT + rotators
+	cp SPRITEMOVEDATA_WANDER
+	jr c, .done
+	cp SPRITEMOVEDATA_SPINCOUNTERCLOCKWISE
+	jr z, .spin
+	cp SPRITEMOVEDATA_SPINCLOCKWISE
+	jr z, .spin
+	cp SPRITEMOVEDATA_SPINRANDOM_FAST
+	jr nc, .done
+.spin
+	ld a, SPRITEMOVEDATA_SPINRANDOM_FAST
+.changeBehavior
+	ld [hl], a
+.done
+	pop bc
+	pop hl
+	ret
+.remove
+	ld a, [hl]
+	cp SPRITEMOVEDATA_SPINRANDOM_SLOW
+	jr nz, .spinFastCheck
+	ld a, SPRITEMOVEDATA_SPINCLOCKWISE
+	jr .changeBehavior
+.spinFastCheck
+	cp SPRITEMOVEDATA_SPINRANDOM_FAST
+	jr nz, .done
+	ld a, SPRITEMOVEDATA_SPINCOUNTERCLOCKWISE
+	jr .changeBehavior
 
 ClearObjectStructs::
 	ld hl, wObject1Struct

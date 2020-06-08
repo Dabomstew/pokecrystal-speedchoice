@@ -9,6 +9,16 @@ ResetGameTime::
 	ret
 
 GameTimer::
+	ld a, [hROMBank]
+	ld [hROMBankBackup], a
+	
+	ld a, BANK(SRAMStatsFrameCount)
+	rst Bankswitch
+	call SRAMStatsFrameCount
+	
+	ld a, [hROMBankBackup]
+	rst Bankswitch
+	
 	nop
 
 	ldh a, [rSVBK]

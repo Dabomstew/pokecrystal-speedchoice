@@ -38,7 +38,7 @@ ENDM
 ; z if option off, nz if option on
 sboptioncheck: MACRO
 	ld a, [\1_ADDRESS]
-	and \1_VAL
+	bit \1, a
 ENDM
 
 ; nz if selection does not match, z if selection matches (careful of difference vs above!)
@@ -108,8 +108,15 @@ EXP_FORMULA_NORMAL     EQU %00
 EXP_FORMULA_BLACKWHITE EQU %01
 EXP_FORMULA_NO_EXP     EQU %10
 
+SPINNERS_NORMAL EQU %00
+SPINNERS_NONE   EQU %01
+SPINNERS_HELL   EQU %10
+SPINNERS_WHY    EQU %11
+
 SPINNERHELL_NORMAL_SPEED EQU %1111
 SPINNERHELL_WHY_SPEED EQU %11
+
+MAX_RANGE_VALUE EQU 5
 
 	optionbytestart
 	sboption BETTER_MARTS

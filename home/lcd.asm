@@ -1,20 +1,32 @@
 ; LCD handling
 
-Unreferenced_Function547::
-	ldh a, [hLCDCPointer]
-	cp LOW(rSCX)
-	ret nz
-	ld c, a
-	ld a, [wLYOverrides]
-	ldh [c], a
-	ret
-
 LCD::
 	push af
 	ldh a, [hLCDCPointer]
 	and a
-	jr z, .done
+	jr nz, LYOverrideCode
+	ld a, [wRequested2bpp]
+	and a
+	jr nz, _Serve2bppRequestHB
+	ld a, [wRequested1bpp]
+	and a
+	jr nz, _Serve1bppRequestHB
+	ldh a, [hBGMapMode]
+	and a
+	jr z, LCDDone
+	ldh a, [rLY]
+	cp $80
+	jr nz, LCDDone
+	push hl
+	push de
+	push bc
+	call AlignTileMap
+	pop bc
+	pop de
+	pop hl
+	jr LCDDone
 
+LYOverrideCode::
 ; At this point it's assumed we're in WRAM bank 5!
 	push bc
 	ldh a, [rLY]
@@ -28,9 +40,111 @@ LCD::
 	ldh [c], a
 	pop bc
 
-.done
+LCDDone::
 	pop af
 	reti
+	
+_Serve2bppRequestHB:
+	push hl
+	push de
+	ld hl, wRequested2bppDest
+	ld a, [hli]
+	ld d, [hl]
+	ld e, a
+	ld hl, wRequested2bppSource
+	ld a, [hli]
+	ld h, [hl]
+	ld l, a
+; Destination
+	ldh a, [rSTAT]
+	and $3
+	jr nz, RequestDone
+rept 3
+	ld a, [hli]
+	ld [de], a
+	inc e
+endr
+	ld a, [hli]
+	ld [de], a
+	inc de
+	ld a, e
+	ld [wRequested2bppDest], a
+	ld a, d
+	ld [wRequested2bppDest + 1], a
+	ld a, l
+	ld [wRequested2bppSource], a
+	ld a, h
+	ld [wRequested2bppSource + 1], a
+	ld hl, wRequested2bppQuarters
+	dec [hl]
+	jr nz, RequestDone
+	ld [hl], 4
+	ld hl, wRequested2bpp
+	dec [hl]
+RequestDone::
+	pop de
+	pop hl
+	jr LCDDone
+	
+_Serve1bppRequestHB:
+	push hl
+	push de
+	ld hl, wRequested1bppDest
+	ld a, [hli]
+	ld d, [hl]
+	ld e, a
+	ld hl, wRequested1bppSource
+	ld a, [hli]
+	ld h, [hl]
+	ld l, a
+	ldh a, [rSTAT]
+	and $3
+	jr nz, RequestDone
+; Destination
+	ld a, [hli]
+	ld [de], a
+	inc e
+	ld [de], a
+	inc e
+	ld a, [hli]
+	ld [de], a
+	inc e
+	ld [de], a
+	ld a, [rSTAT]
+	and a
+	cp 3
+	jr z, RequestDone
+	inc de
+	ld a, e
+	ld [wRequested1bppDest], a
+	ld a, d
+	ld [wRequested1bppDest + 1], a
+	ld a, l
+	ld [wRequested1bppSource], a
+	ld a, h
+	ld [wRequested1bppSource + 1], a
+	ld hl, wRequested1bppQuarters
+	dec [hl]
+	jr nz, RequestDone
+	ld [hl], 4
+	ld hl, wRequested1bpp
+	dec [hl]
+	jr RequestDone
+	
+Wait2bpp::
+	ld a, [hFFC6]
+	push af
+	xor a
+	ld [hFFC6], a
+.loop
+	halt
+	nop
+	ld a, [wRequested2bpp]
+	and a
+	jr nz, .loop
+	pop af
+	ld [hFFC6], a
+	ret
 
 DisableLCD::
 ; Turn the LCD off
