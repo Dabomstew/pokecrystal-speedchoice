@@ -291,7 +291,7 @@ GoldenrodRocketsScript:
 	end
 
 RadioTowerRocketsScript:
-	check_permaoptions ROCKETLESS
+	checkpermaoptions ROCKETLESS
 	iftrue SeventhBadgeRocketlessScript
 	setflag ENGINE_ROCKETS_IN_RADIO_TOWER
 	setevent EVENT_GOLDENROD_CITY_CIVILIANS

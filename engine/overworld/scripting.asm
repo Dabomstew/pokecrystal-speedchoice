@@ -233,9 +233,9 @@ ScriptCommandTable:
 	dw Script_getname                    ; a7
 	dw Script_wait                       ; a8
 	dw Script_checksave                  ; a9
-	dw Script_check_permaoptions         ; aa
-	dw Script_increment_2byte_stat       ; ab
-	dw Script_increment_4byte_stat       ; ac
+	dw Script_checkpermaoptions          ; aa
+	dw Script_increment2bytestat         ; ab
+	dw Script_increment4bytestat         ; ac
 
 StartScript:
 	ld hl, wScriptFlags
@@ -2819,7 +2819,7 @@ Script_checksave:
 	ld [wScriptVar], a
 	ret
 
-Script_check_permaoptions:
+Script_checkpermaoptions:
 ; script command 0xaa
 ; parameters: bit to check
 	call GetScriptByte
@@ -2847,7 +2847,7 @@ Script_check_permaoptions:
 	ld [wScriptVar], a
 	ret
 
-Script_increment_2byte_stat:
+Script_increment2bytestat:
 ; script command 0xab
 ; parameters: pointer
 	call GetScriptByte
@@ -2857,7 +2857,7 @@ Script_increment_2byte_stat:
 	callba SRAMStatsIncrement2Byte
 	ret
 	
-Script_increment_4byte_stat:
+Script_increment4bytestat:
 ; script command 0xac
 ; parameters: pointer
 	call GetScriptByte

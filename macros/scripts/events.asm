@@ -1063,8 +1063,8 @@ checksave: MACRO
 	db checksave_command
 ENDM
 
-	enum check_permaoptions_command ; $aa
-check_permaoptions: MACRO
-	db check_permaoptions_command
+	enum checkpermaoptions_command ; $aa
+checkpermaoptions: MACRO
+	db checkpermaoptions_command
 	db \1_SCRIPT ; option to check (single bit only)
 ENDM
