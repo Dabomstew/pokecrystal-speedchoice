@@ -112,7 +112,10 @@ GetFrontpicPointer:
 
 .unown
 	ld a, [wUnownLetter]
+	and a
 	ld d, BANK(UnownPicPointers)
+	jr nz, .ok
+	inc a
 
 .ok
 	ld hl, PokemonPicPointers ; UnownPicPointers
