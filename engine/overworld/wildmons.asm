@@ -266,7 +266,10 @@ ChooseWildEncounter:
 	ld a, [wTimeOfDay]
 	ld bc, NUM_GRASSMON * 2
 	call AddNTimes
+	sboptioncheck BETTER_ENC_SLOTS
 	ld de, GrassMonProbTable
+	jr z, .watermon
+	ld de, BetterGrassMonProbTable
 
 .watermon
 ; hl contains the pointer to the wild mon data, let's save that to the stack
@@ -316,11 +319,19 @@ ChooseWildEncounter:
 	ld a, b
 	ld [wCurPartyLevel], a
 	ld b, [hl]
-	; ld a, b
+	cp EVOLVED_EARLY_WILDS_MAX_LEVEL + 1
+	jr nc, .notEvolvingMon
+	sboptioncheck EVOLVED_EARLY_WILDS
+	jr z, .notEvolvingMon
+	push hl
+	farcall FullyEvolveMonInB
+	pop hl
+
+.notEvolvingMon
+	ld a, b
 	call ValidateTempWildMonSpecies
 	jr c, .nowildbattle
 
-	ld a, b ; This is in the wrong place.
 	cp UNOWN
 	jr nz, .done
 
@@ -494,8 +505,10 @@ InitRoamMons:
 ; initialize wRoamMon structs
 
 ; species
+Randomizer_RaikouSpecies::
 	ld a, RAIKOU
 	ld [wRoamMon1Species], a
+Randomizer_EnteiSpecies::
 	ld a, ENTEI
 	ld [wRoamMon2Species], a
 

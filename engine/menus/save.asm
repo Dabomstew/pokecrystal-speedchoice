@@ -229,21 +229,12 @@ _SavingDontTurnOffThePower:
 	call SavingDontTurnOffThePower
 SavedTheGame:
 	call _SaveGameData
-	; wait 32 frames
-	ld c, 32
+	; wait 5 frames
+	ld c, 5
 	call DelayFrames
-	; copy the original text speed setting to the stack
-	ld a, [wOptions]
-	push af
-	; set text speed to medium
-	ld a, TEXT_DELAY_MED
-	ld [wOptions], a
 	; <PLAYER> saved the game!
 	ld hl, SavedTheGameText
 	call PrintText
-	; restore the original text speed setting
-	pop af
-	ld [wOptions], a
 	ld de, SFX_SAVE
 	call WaitPlaySFX
 	call WaitSFX
@@ -253,6 +244,8 @@ SavedTheGame:
 	ret
 
 _SaveGameData:
+	ld de, sStatsSaveCount
+    callba SRAMStatsIncrement2Byte
 	ld a, TRUE
 	ld [wSaveFileExists], a
 	farcall StageRTCTimeForSave
@@ -329,20 +322,11 @@ SavingDontTurnOffThePower:
 	ldh [hJoypadPressed], a
 	ldh [hJoypadSum], a
 	ldh [hJoypadDown], a
-	; Save the text speed setting to the stack
-	ld a, [wOptions]
-	push af
-	; Set the text speed to medium
-	ld a, TEXT_DELAY_MED
-	ld [wOptions], a
 	; SAVING... DON'T TURN OFF THE POWER.
 	ld hl, SavingDontTurnOffThePowerText
 	call PrintText
-	; Restore the text speed setting
-	pop af
-	ld [wOptions], a
-	; Wait for 16 frames
-	ld c, 16
+	; Wait for 5 frames
+	ld c, 5
 	call DelayFrames
 	ret
 
@@ -390,26 +374,6 @@ EraseHallOfFame:
 	call ByteFill
 	jp CloseSRAM
 
-Unreferenced_Function14d18:
-	ld a, BANK(s4_a007)
-	call GetSRAMBank
-	ld hl, .Data
-	ld de, s4_a007
-	ld bc, .DataEnd - .Data
-	call CopyBytes
-	jp CloseSRAM
-
-.Data:
-	db $0d, $02, $00, $05, $00, $00
-	db $22, $02, $01, $05, $00, $00
-	db $03, $04, $05, $08, $03, $05
-	db $0e, $06, $03, $02, $00, $00
-	db $39, $07, $07, $04, $00, $05
-	db $04, $07, $01, $05, $00, $00
-	db $0f, $05, $14, $07, $05, $05
-	db $11, $0c, $0c, $06, $06, $04
-.DataEnd
-
 EraseBattleTowerStatus:
 	ld a, BANK(sBattleTowerChallengeState)
 	call GetSRAMBank
@@ -419,38 +383,6 @@ EraseBattleTowerStatus:
 
 SaveData:
 	call _SaveData
-	ret
-
-Unreferenced_Function14d6c:
-	ld a, 4 ; MBC30 bank used by JP Crystal; inaccessible by MBC3
-	call GetSRAMBank
-	ld a, [$a60b] ; address of MBC30 bank
-	ld b, $0
-	and a
-	jr z, .ok
-	ld b, $2
-
-.ok
-	ld a, b
-	ld [$a60b], a ; address of MBC30 bank
-	call CloseSRAM
-	ret
-
-Unreferenced_Function14d83:
-	ld a, 4 ; MBC30 bank used by JP Crystal; inaccessible by MBC3
-	call GetSRAMBank
-	xor a
-	ld [$a60c], a ; address of MBC30 bank
-	ld [$a60d], a ; address of MBC30 bank
-	call CloseSRAM
-	ret
-
-Unreferenced_Function14d93:
-	ld a, 7 ; MBC30 bank used by JP Crystal; inaccessible by MBC3
-	call GetSRAMBank
-	xor a
-	ld [$a000], a ; address of MBC30 bank
-	call CloseSRAM
 	ret
 
 HallOfFame_InitSaveIfNeeded:

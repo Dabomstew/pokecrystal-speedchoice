@@ -776,6 +776,12 @@ ENDM
 .BumpSound:
 	call CheckSFX
 	ret c
+	push af
+	push hl
+	ld de, sStatsBonks
+	callba SRAMStatsIncrement2Byte
+	pop hl
+	pop af
 	ld de, SFX_BUMP
 	call PlaySFX
 	ret

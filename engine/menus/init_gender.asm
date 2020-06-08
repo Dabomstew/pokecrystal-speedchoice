@@ -11,10 +11,7 @@ InitCrystalData:
 	ld [wd002], a
 	ld [wd003], a
 	ld a, [wd479]
-	res 0, a ; ???
-	ld [wd479], a
-	ld a, [wd479]
-	res 1, a ; ???
+	and %11111100
 	ld [wd479], a
 	ret
 

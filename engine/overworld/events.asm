@@ -7,6 +7,8 @@ OverworldLoop::
 	xor a ; MAPSTATUS_START
 	ld [wMapStatus], a
 .loop
+	ld a, TIMER_OVERWORLD
+	ldh [hTimerType], a
 	ld a, [wMapStatus]
 	ld hl, .jumps
 	rst JumpTable
@@ -863,6 +865,8 @@ SelectMenuCallback:
 	end
 
 CountStep:
+	callba SRAMStatsStepCount
+
 	; Don't count steps in link communication rooms.
 	ld a, [wLinkMode]
 	and a

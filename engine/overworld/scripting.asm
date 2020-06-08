@@ -233,6 +233,9 @@ ScriptCommandTable:
 	dw Script_getname                    ; a7
 	dw Script_wait                       ; a8
 	dw Script_checksave                  ; a9
+	dw Script_check_permaoptions         ; aa
+	dw Script_increment_2byte_stat       ; ab
+	dw Script_increment_4byte_stat       ; ac
 
 StartScript:
 	ld hl, wScriptFlags
@@ -590,7 +593,7 @@ Script_specialsound:
 	cp TM_HM
 	ld de, SFX_GET_TM
 	jr z, .play
-	ld de, SFX_ITEM
+	ld de, SFX_ITEM ; @TODO: check where the faster SFX is in crystal and change this
 .play
 	call PlaySFX
 	call WaitSFX
@@ -2816,10 +2819,50 @@ Script_checksave:
 	ld [wScriptVar], a
 	ret
 
-; unused
-	ld a, [.byte]
+Script_check_permaoptions:
+; script command 0xaa
+; parameters: bit to check
+	call GetScriptByte
+	ld hl, wPermanentOptions
+.loop
+	cp 8
+	jr c, .read
+	inc hl
+	sub 8
+	jr .loop
+.read
+	ld b, [hl]
+	and a
+	jr z, .test
+.shiftLoop
+	srl b
+	dec a
+	jr nz, .shiftLoop
+.test
+	ld a, b
+	and $1
+	jr z, .writeResult ; a = FALSE
+	ld a, TRUE
+.writeResult
 	ld [wScriptVar], a
 	ret
 
-.byte
-	db 0
+Script_increment_2byte_stat:
+; script command 0xab
+; parameters: pointer
+	call GetScriptByte
+	ld e, a
+	call GetScriptByte
+	ld d, a
+	callba SRAMStatsIncrement2Byte
+	ret
+	
+Script_increment_4byte_stat:
+; script command 0xac
+; parameters: pointer
+	call GetScriptByte
+	ld e, a
+	call GetScriptByte
+	ld d, a
+	callba SRAMStatsIncrement4Byte
+	ret

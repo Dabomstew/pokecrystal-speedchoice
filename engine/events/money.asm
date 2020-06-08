@@ -26,6 +26,17 @@ MaxMoney:
 	dt MAX_MONEY
 
 TakeMoney::
+; log money spent
+; easier to log it here, compared to adds which add at the source
+	push hl
+	push de
+	push bc
+	pop de
+	inc de
+	inc de
+	callba SRAMStatsAddMoneySpent
+	pop de
+	pop hl
 	ld a, 3
 	call SubtractMoney
 	jr nc, .okay

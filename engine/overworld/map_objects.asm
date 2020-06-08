@@ -1052,6 +1052,21 @@ RandomStepDuration_Slow:
 RandomStepDuration_Fast:
 	call Random
 	ldh a, [hRandomAdd]
+	ld h, a
+	ld a, [SPINNERS_ADDRESS]
+	bit SPINNERS + 1, a
+	jr z, .normalBehavior
+	bit SPINNERS, a
+	ld l, %00001111
+	jr z, .normalSpinnerHell
+	ld l, %00000011
+.normalSpinnerHell
+	ld a, h
+	and l
+	inc a
+	jr SetRandomStepDuration
+.normalBehavior
+	ld a, h
 	and %00011111
 SetRandomStepDuration:
 	ld hl, OBJECT_STEP_DURATION

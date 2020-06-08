@@ -9,9 +9,6 @@ _MainMenu:
 	farcall MainMenu
 	jp StartTitleScreen
 
-; unused
-	ret
-
 PrintDayOfWeek:
 	push de
 	ld hl, .Days
@@ -54,16 +51,12 @@ MysteryGift:
 	farcall DoMysteryGift
 	ret
 
-OptionsMenu:
-	farcall _OptionsMenu
-	ret
-
 NewGame:
 	xor a
 	ld [wDebugFlags], a
 	call ResetWRAM
 	call NewGame_ClearTilemapEtc
-	call AreYouABoyOrAreYouAGirl
+	callba IntroPermaOptions
 	call OakSpeech
 	call InitializeWorld
 	ld a, 1
@@ -77,14 +70,7 @@ NewGame:
 	jp FinishContinueFunction
 
 AreYouABoyOrAreYouAGirl:
-	farcall Mobile_AlwaysReturnNotCarry ; some mobile stuff
-	jr c, .ok
 	farcall InitGender
-	ret
-
-.ok
-	ld c, 0
-	farcall InitMobileProfile ; mobile
 	ret
 
 ResetWRAM:
@@ -195,6 +181,13 @@ endc
 	ld [wMoney + 1], a
 	ld a, LOW(START_MONEY)
 	ld [wMoney + 2], a
+
+	ld a, DONE_BUTTON
+	ld [wCurItem], a
+	ld a, 1
+	ld [wItemQuantityChangeBuffer], a
+	ld hl, wNumItems
+	call ReceiveItem
 
 	xor a
 	ld [wWhichMomItem], a
@@ -350,6 +343,8 @@ Continue:
 	jr .FailToLoad
 
 .Check2Pass:
+	ld de, sStatsReloadCount
+	callba SRAMStatsIncrement2Byte
 	ld a, $8
 	ld [wMusicFade], a
 	ld a, LOW(MUSIC_NONE)
@@ -393,33 +388,6 @@ PostCreditsSpawn:
 	ret
 
 Continue_MobileAdapterMenu:
-	farcall Mobile_AlwaysReturnNotCarry ; mobile check
-	ret nc
-
-; the rest of this stuff is never reached because
-; the previous function returns with carry not set
-	ld hl, wd479
-	bit 1, [hl]
-	ret nz
-	ld a, 5
-	ld [wMusicFade], a
-	ld a, LOW(MUSIC_MOBILE_ADAPTER_MENU)
-	ld [wMusicFadeID], a
-	ld a, HIGH(MUSIC_MOBILE_ADAPTER_MENU)
-	ld [wMusicFadeID + 1], a
-	ld c, 20
-	call DelayFrames
-	ld c, $1
-	farcall InitMobileProfile ; mobile
-	farcall _SaveData
-	ld a, 8
-	ld [wMusicFade], a
-	ld a, LOW(MUSIC_NONE)
-	ld [wMusicFadeID], a
-	ld a, HIGH(MUSIC_NONE)
-	ld [wMusicFadeID + 1], a
-	ld c, 35
-	call DelayFrames
 	ret
 
 ConfirmContinue:
@@ -648,7 +616,7 @@ OakSpeech:
 	call PrintText
 	call RotateThreePalettesRight
 	call ClearTilemap
-
+Randomizer_IntroSpriteOffset::
 	ld a, WOOPER
 	ld [wCurSpecies], a
 	ld [wCurPartySpecies], a
@@ -695,9 +663,6 @@ OakSpeech:
 	call GetSGBLayout
 	call Intro_RotatePalettesLeftFrontpic
 
-	ld hl, OakText6
-	call PrintText
-	call NamePlayer
 	ld hl, OakText7
 	call PrintText
 	ret
@@ -709,6 +674,7 @@ OakText1:
 OakText2:
 	text_far _OakText2
 	text_asm
+Randomizer_IntroCryOffset::
 	ld a, WOOPER
 	call PlayMonCry
 	call WaitSFX
@@ -1293,15 +1259,17 @@ Unreferenced_Function639b:
 	db  0 * 8,      0 * 8, 11 * 8 + 4, 11 * 8
 
 Copyright:
+	call DisableLCD
 	call ClearTilemap
 	call LoadFontsExtra
 	ld de, CopyrightGFX
 	ld hl, vTiles2 tile $60
 	lb bc, BANK(CopyrightGFX), 29
-	call Request2bpp
+	call Get2bpp
 	hlcoord 2, 7
 	ld de, CopyrightString
-	jp PlaceString
+	call PlaceString
+	jp EnableLCD
 
 CopyrightString:
 	; ©1995-2001 Nintendo

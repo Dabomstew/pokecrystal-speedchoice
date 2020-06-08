@@ -1,6 +1,10 @@
 PrintMoveDescription:
 	push hl
+	sboptioncheck NERF_HMS
 	ld hl, MoveDescriptions
+	jr z, .loadDesc
+	ld hl, MoveDescriptionsHMNerfs
+.loadDesc
 	ld a, [wCurSpecies]
 	dec a
 	ld c, a

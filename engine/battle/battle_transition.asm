@@ -10,6 +10,9 @@ BATTLETRANSITION_SQUARE EQU "8" ; $fe
 BATTLETRANSITION_BLACK  EQU "9" ; $ff
 
 DoBattleTransition:
+	ld a, TIMER_BATTLE
+	ldh [hTimerType], a
+
 	call .InitGFX
 	ldh a, [rBGP]
 	ld [wBGP], a

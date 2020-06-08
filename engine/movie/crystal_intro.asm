@@ -16,8 +16,6 @@ Copyright_GFPresents:
 	ld b, SCGB_GAMEFREAK_LOGO
 	call GetSGBLayout
 	call SetPalettes
-	ld c, 10
-	call DelayFrames
 	callfar Copyright
 	call WaitBGMap
 	ld c, 100
@@ -1891,7 +1889,15 @@ Intro_RustleGrass:
 	ld a, HIGH(vTiles2 tile $09)
 	ld [wRequested2bppDest + 1], a
 	ld a, 4
+	ld [wRequested2bppQuarters], a
 	ld [wRequested2bppSize], a
+; force the correct ROM bank
+.haltloop
+	halt
+	nop
+	ld a, [wRequested2bppSize]
+	and a
+	jr nz, .haltloop
 	ret
 
 .RustlingGrassPointers:

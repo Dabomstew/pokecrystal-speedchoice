@@ -568,7 +568,7 @@ FillMoves:
 	add hl, de
 	push hl
 	dec a
-	ld hl, Moves + MOVE_PP
+	call LoadHLMovesPlusPP
 	ld bc, MOVE_LENGTH
 	call AddNTimes
 	ld a, BANK(Moves)

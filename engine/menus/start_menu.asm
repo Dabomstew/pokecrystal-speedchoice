@@ -9,8 +9,12 @@
 	const STARTMENUITEM_EXIT     ; 6
 	const STARTMENUITEM_POKEGEAR ; 7
 	const STARTMENUITEM_QUIT     ; 8
+	const STARTMENUITEM_ESCAPE   ; 9
 
 StartMenu::
+	ld a, TIMER_MENUS
+	ldh [hTimerType], a
+
 	call ClearWindowData
 
 	ld de, SFX_MENU
@@ -185,6 +189,7 @@ StartMenu::
 	dw StartMenu_Exit,     .ExitString,     .ExitDesc
 	dw StartMenu_Pokegear, .PokegearString, .PokegearDesc
 	dw StartMenu_Quit,     .QuitString,     .QuitDesc
+	dw StartMenu_Escape,   .EscapeString,   .EscapeDesc
 
 .PokedexString:  db "#DEX@"
 .PartyString:    db "#MON@"
@@ -195,6 +200,7 @@ StartMenu::
 .ExitString:     db "EXIT@"
 .PokegearString: db "<POKE>GEAR@"
 .QuitString:     db "QUIT@"
+.EscapeString:   db "ESCAPE@"
 
 .PokedexDesc:
 	db   "#MON"
@@ -231,6 +237,10 @@ StartMenu::
 .QuitDesc:
 	db   "Quit and"
 	next "be judged.@"
+
+.EscapeDesc:
+	db   "Escape from"
+	next "trouble.@"
 
 .OpenMenu:
 	ld a, [wMenuSelection]
@@ -337,7 +347,12 @@ endr
 
 	ld a, STARTMENUITEM_OPTION
 	call .AppendMenuList
+	ld a, [SPINNERS_ADDRESS] ; MAX_RANGE_ADDRESS
+	and SPINNERHELL_VAL | MAX_RANGE_VAL
 	ld a, STARTMENUITEM_EXIT
+	jr z, .writeLastOption
+	ld a, STARTMENUITEM_ESCAPE
+.writeLastOption
 	call .AppendMenuList
 	ld a, c
 	ld [wMenuItemsList], a
@@ -401,6 +416,38 @@ endr
 .contest
 	farcall StartMenu_PrintBugContestStatus
 	ret
+
+StartMenu_Escape:
+	call GetMapPermission
+	call CheckIndoorMap
+	jr nz, .cantEscape
+	callba CheckForRangedTrainerOnMap
+	jr nc, .cantEscape
+	ld hl, .doYouWantToEscapeText
+	call StartMenuYesNo
+	jr c, .dontEscape
+	ld hl, wDigWarp
+	ld de, wNextWarp
+	ld bc, 3
+	call CopyBytes
+	ld a, BANK(digUsedEscapeRopeScript)
+	ld hl, digUsedEscapeRopeScript
+	call FarQueueScript
+	ld a, 4
+	ret
+.cantEscape
+	ld hl, .cantEscapeText
+	call MenuTextBox
+	call ExitMenu
+.dontEscape
+	ld a, 0
+	ret
+.cantEscapeText
+	text_jump _CantEscapeMenuText
+	db "@"
+.doYouWantToEscapeText
+	text_jump _DoYouWantToEscapeMenuText
+	db "@"
 
 StartMenu_Exit:
 ; Exit the menu.

@@ -1619,7 +1619,7 @@ wTextboxFlags::
 	db
 wPermanentOptions::
 	ds NUM_PERMAOPTIONS_BYTES
-	ds 8 - (@ - wOptions)
+	ds 6 - (NUM_OPTIONS_BYTES + NUM_PERMAOPTIONS_BYTES)
 wOptionsEnd::
 
 ; Time buffer, for counting the amount of time since

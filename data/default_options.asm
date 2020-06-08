@@ -1,16 +1,20 @@
 DefaultOptions:
-; wOptions: med text speed
-	db TEXT_DELAY_MED
+; wOptions: instant text, hold to mash, menu account
+	db TEXT_INSTANT | HOLD_TO_MASH_VAL | MENU_ACCOUNT
+; other options bytes: all false
+rept NUM_OPTIONS_BYTES - 1
+	db $00
+endr
 ; wSaveFileExists: no
 	db FALSE
-; wTextboxFrame: frame 1
-	db FRAME_1
 ; wTextboxFlags: use text speed
 	db 1 << FAST_TEXT_DELAY_F
-; wGBPrinterBrightness: normal
-	db GBPRINTER_NORMAL
-; wOptions2: menu account on
-	db 1 << MENU_ACCOUNT
+; wPermanentOptions: nothing yet
+rept NUM_PERMAOPTIONS_BYTES
+	db $00
+endr
 
+; padding
+rept 6 - (NUM_OPTIONS_BYTES + NUM_PERMAOPTIONS_BYTES)
 	db $00
-	db $00
+endr

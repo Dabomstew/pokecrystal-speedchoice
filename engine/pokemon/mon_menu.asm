@@ -1188,15 +1188,19 @@ PlaceMoveData:
 	hlcoord 12, 12
 	ld de, String_MoveAtk
 	call PlaceString
+	hlcoord 12, 13
+	ld de, String_MoveAcc
+	call PlaceString
 	ld a, [wCurSpecies]
 	ld b, a
 	hlcoord 2, 12
 	predef PrintMoveType
 	ld a, [wCurSpecies]
 	dec a
-	ld hl, Moves + MOVE_POWER
+	call LoadHLMovesPlusPower
 	ld bc, MOVE_LENGTH
 	call AddNTimes
+	push hl
 	ld a, BANK(Moves)
 	call GetFarByte
 	hlcoord 16, 12
@@ -1213,6 +1217,42 @@ PlaceMoveData:
 	call PlaceString
 
 .description
+; hijack for accuracy
+	pop hl
+	ld bc, MOVE_ACC - MOVE_POWER
+	add hl, bc
+	ld a, BANK(Moves)
+	call GetFarByte
+	cp 2
+	jr nc, .print_acc
+	hlcoord 16, 13
+	ld de, String_MoveNoPower
+	call PlaceString
+	jr .real_description
+.print_acc
+	ldh [hMultiplicand + 2], a
+	xor a
+	ldh [hMultiplicand], a
+	ldh [hMultiplicand + 1], a
+	ld a, 100
+	ldh [hMultiplier], a
+	call Multiply
+	ld a, 255
+	ldh [hDivisor], a
+	ld b, 4
+	call Divide
+; increase displayed number by 1 if remainder is >=128
+	ldh a, [hRemainder]
+	cp $80
+	jr c, .noIncrease
+	ld hl, hQuotient + 2
+	inc [hl]
+.noIncrease
+	ld de, hQuotient + 2
+	lb bc, 1, 3
+	hlcoord 16, 13
+	call PrintNum
+.real_description
 	hlcoord 1, 14
 	predef PrintMoveDescription
 	ld a, $1
@@ -1225,6 +1265,8 @@ String_MoveType_Bottom:
 	db "│TYPE/└@"
 String_MoveAtk:
 	db "ATK/@"
+String_MoveAcc:
+	db "ACC/@"
 String_MoveNoPower:
 	db "---@"
 
