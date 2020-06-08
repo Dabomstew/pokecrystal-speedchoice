@@ -9,8 +9,7 @@ PrintLetterDelay::
 ; wTextboxFlags[!0] and A or B override text speed with a one-frame delay.
 ; wOptions[4] and wTextboxFlags[!1] disable the delay.
 
-	ld a, [wOptions]
-	bit NO_TEXT_SCROLL, a
+	sboptioncheck NO_TEXT_SCROLL
 	ret nz
 
 ; non-scrolling text?
@@ -36,41 +35,30 @@ PrintLetterDelay::
 	jr z, .fast
 
 ; text speed
-	ld a, [wOptions]
-	and %111
+	mboptionload TEXT_SPEED
+	jr z, .end
+	ld b, TEXT_DELAY_FAST
+	dec a
+	jr z, .updatedelay
+	ld b, TEXT_DELAY_MEDIUM
+	dec a
+	jr z, .updatedelay
+	ld b, TEXT_DELAY_SLOW
 	jr .updatedelay
 
 .fast
-	ld a, TEXT_DELAY_FAST
+	ld b, TEXT_DELAY_FAST
 
 .updatedelay
+	ld a, b
 	ld [wTextDelayFrames], a
-
-.checkjoypad
-	call GetJoypad
-
-; input override
-	ld a, [wDisableTextAcceleration]
-	and a
-	jr nz, .wait
-
-; Wait one frame if holding A or B.
-	ldh a, [hJoyDown]
-	bit A_BUTTON_F, a
-	jr z, .checkb
-	jr .delay
-.checkb
-	bit B_BUTTON_F, a
-	jr z, .wait
-
-.delay
-	call DelayFrame
-	jr .end
 
 .wait
 	ld a, [wTextDelayFrames]
 	and a
-	jr nz, .checkjoypad
+	jr z, .end
+	call DelayFrame
+	jr .wait
 
 .end
 	pop af

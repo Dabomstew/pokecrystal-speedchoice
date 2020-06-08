@@ -61,3 +61,9 @@ INCLUDE "home/battle.asm"
 INCLUDE "home/sprite_anims.asm"
 INCLUDE "home/audio.asm"
 INCLUDE "home/mobile.asm"
+INCLUDE "home/hlmoves.asm"
+INCLUDE "home/align_tile_map.asm"
+
+CheckValue:: ; filled in by the randomizer
+	ds 4
+CheckValueEnd::

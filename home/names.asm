@@ -2,7 +2,7 @@ NamesPointers::
 ; entries correspond to GetName constants (see constants/text_constants.asm)
 	dba PokemonNames        ; MON_NAME (not used; jumps to GetPokemonName)
 	dba MoveNames           ; MOVE_NAME
-	dba NULL                ; DUMMY_NAME
+	dba MoveNamesNerfedHMs  
 	dba ItemNames           ; ITEM_NAME
 	dbw 0, wPartyMonOT      ; PARTY_OT_NAME
 	dbw 0, wOTPartyMonOT    ; ENEMY_OT_NAME
@@ -32,7 +32,13 @@ GetName::
 	jr .done
 
 .NotPokeName:
-	ld a, [wNamedObjectTypeBuffer]
+	cp MOVE_NAME
+	jr nz, .loadName
+	sboptioncheck NERF_HMS
+	ld a, MOVE_NAME
+	jr z, .loadName
+	ld a, MOVE_NAME_NERFEDHMS
+.loadName
 	dec a
 	ld e, a
 	ld d, 0

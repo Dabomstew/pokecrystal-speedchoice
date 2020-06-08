@@ -274,6 +274,9 @@ PushLYOverrides::
 	ld [wRequested2bppDest], a
 	ld a, HIGH(wLYOverrides)
 	ld [wRequested2bppDest + 1], a
+	
+	ld a, 4
+	ld [wRequested2bppQuarters], a
 
 	ld a, (wLYOverridesEnd - wLYOverrides) / 16
 	ld [wRequested2bpp], a

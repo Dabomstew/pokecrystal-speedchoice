@@ -1,27 +1,38 @@
 ClearBGPalettes::
 	call ClearPalettes
 WaitBGMap::
+	ldh a, [hCGB]
+	and a
+	jr z, WaitBGMapSlow
+
+WaitBGMap1Fast::
 ; Tell VBlank to update BG Map
 	ld a, 1 ; BG Map 0 tiles
 	ldh [hBGMapMode], a
+WaitBGMapFast::
 ; Wait for it to do its magic
-	ld c, 4
-	call DelayFrames
-	ret
+	ldh a, [hBGMapAddress]
+	and a
+	jr nz, WaitBGMapSlowInner
+	ldh a, [rLY]
+	cp $7E
+	call nc, DelayFrame
+	jp DelayFrame
 
 WaitBGMap2::
 	ldh a, [hCGB]
 	and a
-	jr z, .bg0
+	jr z, WaitBGMapSlow
 
 	ld a, 2
 	ldh [hBGMapMode], a
-	ld c, 4
-	call DelayFrames
+	call WaitBGMapFast
+	jr WaitBGMap1Fast
 
-.bg0
+WaitBGMapSlow::
 	ld a, 1
 	ldh [hBGMapMode], a
+WaitBGMapSlowInner::
 	ld c, 4
 	call DelayFrames
 	ret
@@ -34,37 +45,22 @@ IsCGB::
 ApplyTilemap::
 	ldh a, [hCGB]
 	and a
-	jr z, .dmg
+	jr z, WaitBGMapSlow
 
 	ld a, [wSpriteUpdatesEnabled]
-	cp 0
-	jr z, .dmg
+	and a
+	jr z, WaitBGMap
 
 	ld a, 1
 	ldh [hBGMapMode], a
 	jr CopyTilemapAtOnce
 
-.dmg
-; WaitBGMap
-	ld a, 1
-	ldh [hBGMapMode], a
-	ld c, 4
-	call DelayFrames
-	ret
-
 CGBOnly_CopyTilemapAtOnce::
 	ldh a, [hCGB]
 	and a
-	jr z, WaitBGMap
+	jr z, WaitBGMapSlow
 
 CopyTilemapAtOnce::
-	jr _CopyTilemapAtOnce
-
-; unused
-	farcall HDMATransferAttrmapAndTilemapToWRAMBank3
-	ret
-
-_CopyTilemapAtOnce:
 	ldh a, [hBGMapMode]
 	push af
 	xor a
@@ -75,72 +71,23 @@ _CopyTilemapAtOnce:
 	xor a
 	ldh [hMapAnims], a
 
-.wait
+; why lol
 	ldh a, [rLY]
-	cp $80 - 1
-	jr c, .wait
+	cp $7E
+	call nc, DelayFrame
 
-	di
-	ld a, BANK(vBGMap2)
-	ldh [rVBK], a
-	hlcoord 0, 0, wAttrmap
-	call .CopyBGMapViaStack
-	ld a, BANK(vBGMap0)
-	ldh [rVBK], a
-	hlcoord 0, 0
-	call .CopyBGMapViaStack
-
-.wait2
-	ldh a, [rLY]
-	cp $80 - 1
-	jr c, .wait2
-	ei
+	ld a, 1
+	ldh [hBGMapMode], a
+	call DelayFrame
+	
+	ld a, 2
+	ldh [hBGMapMode], a
+	call DelayFrame
 
 	pop af
 	ldh [hMapAnims], a
 	pop af
 	ldh [hBGMapMode], a
-	ret
-
-.CopyBGMapViaStack:
-; Copy all tiles to vBGMap
-	ld [hSPBuffer], sp
-	ld sp, hl
-	ldh a, [hBGMapAddress + 1]
-	ld h, a
-	ld l, 0
-	ld a, SCREEN_HEIGHT
-	ldh [hTilesPerCycle], a
-	ld b, 1 << 1 ; not in v/hblank
-	ld c, LOW(rSTAT)
-
-.loop
-rept SCREEN_WIDTH / 2
-	pop de
-; if in v/hblank, wait until not in v/hblank
-.loop\@
-	ldh a, [c]
-	and b
-	jr nz, .loop\@
-; load vBGMap
-	ld [hl], e
-	inc l
-	ld [hl], d
-	inc l
-endr
-
-	ld de, BG_MAP_WIDTH - SCREEN_WIDTH
-	add hl, de
-	ldh a, [hTilesPerCycle]
-	dec a
-	ldh [hTilesPerCycle], a
-	jr nz, .loop
-
-	ldh a, [hSPBuffer]
-	ld l, a
-	ldh a, [hSPBuffer + 1]
-	ld h, a
-	ld sp, hl
 	ret
 
 SetPalettes::

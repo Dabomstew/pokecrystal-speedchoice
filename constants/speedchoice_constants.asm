@@ -1,0 +1,127 @@
+; macros for options
+optionbyte = 0
+optiontype = 0
+optionbytestart: MACRO
+optionbyte = optionbyte + 1
+optionbit = 0
+ENDM
+
+nextoptiontype: MACRO
+optiontype = optiontype + 1
+optionbyte = 0
+optionbit = 0
+ENDM
+
+sboption: MACRO
+\1 EQU optionbit
+\1_VAL EQU (1 << optionbit)
+IF optiontype == 0
+\1_ADDRESS EQUS "wOptions + {optionbyte} - 1"
+ELSE
+\1_ADDRESS EQUS "wPermanentOptions + {optionbyte} - 1"
+ENDC
+optionbit = optionbit + 1
+ENDM
+
+mboption: MACRO
+\1_SHIFT EQU optionbit
+\1_SIZE EQU \2
+\1_MASK EQU (1 << (optionbit + \2)) - (1 << optionbit)
+IF optiontype == 0
+\1_ADDRESS EQUS "wOptions + {optionbyte} - 1"
+ELSE
+\1_ADDRESS EQUS "wPermanentOptions + {optionbyte} - 1"
+ENDC
+optionbit = optionbit + \2
+ENDM
+
+; z if option off, nz if option on
+sboptioncheck: MACRO
+	ld a, [\1_ADDRESS]
+	and \1_VAL
+ENDM
+
+; nz if selection does not match, z if selection matches (careful of difference vs above!)
+mboptioncheck: MACRO
+	ld a, [\1_ADDRESS]
+	and \1_MASK
+	cp \1_\2 << \1_SHIFT
+ENDM
+
+; load a multi bit option but don't check for a specific value yet
+mboptionload: MACRO
+	ld a, [\1_ADDRESS]
+	and \1_MASK
+ENDM
+
+pushalloptions: MACRO
+obtemp = 0
+	rept NUM_OPTIONS_BYTES
+	ld a, [wOptions + obtemp]
+	push af
+obtemp = obtemp + 1
+	endr
+ENDM
+	
+popalloptions: MACRO
+obtemp = NUM_OPTIONS_BYTES - 1
+	rept NUM_OPTIONS_BYTES
+	pop af
+	ld [wOptions + obtemp], a
+obtemp = obtemp - 1
+	endr
+ENDM
+
+; wOptions:
+	optionbytestart
+	mboption TEXT_SPEED, 2
+	sboption NO_TEXT_SCROLL ; 2
+	sboption BATTLE_SHIFT ; 3
+	sboption BATTLE_SHOW_ANIMATIONS ; 4
+	sboption HOLD_TO_MASH ; 5
+	sboption STEREO ; 6
+	sboption MENU_ACCOUNT ; 7
+
+TEXT_INSTANT EQU %00
+TEXT_FAST    EQU %01
+TEXT_MEDIUM  EQU %10
+TEXT_SLOW    EQU %11
+
+; wOptions2:
+	optionbytestart
+	mboption FRAME, 4
+	sboption PARKBALL_EFFECT ; 4
+	
+NUM_OPTIONS_BYTES EQU optionbyte
+
+; permaoptions
+	nextoptiontype
+	optionbytestart
+	sboption ROCKETLESS
+	mboption SPINNERS, 2 ; 1
+	sboption MAX_RANGE ; 3
+	sboption NERF_HMS ; 4
+	sboption BETTER_ENC_SLOTS ; 5
+	mboption EXP_FORMULA, 2 ; 6
+
+EXP_FORMULA_NORMAL     EQU %00
+EXP_FORMULA_BLACKWHITE EQU %01
+EXP_FORMULA_NO_EXP     EQU %10
+
+SPINNERHELL_NORMAL_SPEED EQU %1111
+SPINNERHELL_WHY_SPEED EQU %11
+
+	optionbytestart
+	sboption BETTER_MARTS
+	sboption EVOLVED_EARLY_WILDS ; 1
+	mboption RACEGOAL, 2 ; 2
+	sboption EARLY_KANTO ; 4
+	sboption EASY_TIN_TOWER ; 5
+
+NUM_PERMAOPTIONS_BYTES EQU optionbyte
+
+; hTimerType:
+TIMER_OVERWORLD EQU 0
+TIMER_BATTLE EQU 1
+TIMER_MENUS EQU 2
+TIMER_INTROS EQU 3
