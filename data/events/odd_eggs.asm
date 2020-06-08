@@ -28,7 +28,7 @@ prob_total = 0
 	prob 1
 
 OddEggs:
-
+Randomizer_OddEgg1::
 	db PICHU
 	db NO_ITEM
 	db THUNDERSHOCK, CHARM, DIZZY_PUNCH, 0
@@ -54,7 +54,7 @@ OddEggs:
 	bigdw 8 ; SAtk
 	bigdw 8 ; SDef
 	db "EGG@@@@@@@@"
-
+Randomizer_OddEgg2::
 	db PICHU
 	db NO_ITEM
 	db THUNDERSHOCK, CHARM, DIZZY_PUNCH, 0
@@ -80,7 +80,7 @@ OddEggs:
 	bigdw 9 ; SAtk
 	bigdw 9 ; SDef
 	db "EGG@@@@@@@@"
-
+Randomizer_OddEgg3::
 	db CLEFFA
 	db NO_ITEM
 	db POUND, CHARM, DIZZY_PUNCH, 0
@@ -106,7 +106,7 @@ OddEggs:
 	bigdw 9 ; SAtk
 	bigdw 10 ; SDef
 	db "EGG@@@@@@@@"
-
+Randomizer_OddEgg4::
 	db CLEFFA
 	db NO_ITEM
 	db POUND, CHARM, DIZZY_PUNCH, 0
@@ -132,7 +132,7 @@ OddEggs:
 	bigdw 10 ; SAtk
 	bigdw 11 ; SDef
 	db "EGG@@@@@@@@"
-
+Randomizer_OddEgg5::
 	db IGGLYBUFF
 	db NO_ITEM
 	db SING, CHARM, DIZZY_PUNCH, 0
@@ -158,7 +158,7 @@ OddEggs:
 	bigdw 9 ; SAtk
 	bigdw 7 ; SDef
 	db "EGG@@@@@@@@"
-
+Randomizer_OddEgg6::
 	db IGGLYBUFF
 	db NO_ITEM
 	db SING, CHARM, DIZZY_PUNCH, 0
@@ -184,7 +184,7 @@ OddEggs:
 	bigdw 10 ; SAtk
 	bigdw 8 ; SDef
 	db "EGG@@@@@@@@"
-
+Randomizer_OddEgg7::
 	db SMOOCHUM
 	db NO_ITEM
 	db POUND, LICK, DIZZY_PUNCH, 0
@@ -210,7 +210,7 @@ OddEggs:
 	bigdw 13 ; SAtk
 	bigdw 11 ; SDef
 	db "EGG@@@@@@@@"
-
+Randomizer_OddEgg8::
 	db SMOOCHUM
 	db NO_ITEM
 	db POUND, LICK, DIZZY_PUNCH, 0
@@ -236,7 +236,7 @@ OddEggs:
 	bigdw 14 ; SAtk
 	bigdw 12 ; SDef
 	db "EGG@@@@@@@@"
-
+Randomizer_OddEgg9::
 	db MAGBY
 	db NO_ITEM
 	db EMBER, DIZZY_PUNCH, 0, 0
@@ -262,7 +262,7 @@ OddEggs:
 	bigdw 12 ; SAtk
 	bigdw 10 ; SDef
 	db "EGG@@@@@@@@"
-
+Randomizer_OddEgg10::
 	db MAGBY
 	db NO_ITEM
 	db EMBER, DIZZY_PUNCH, 0, 0
@@ -288,7 +288,7 @@ OddEggs:
 	bigdw 13 ; SAtk
 	bigdw 11 ; SDef
 	db "EGG@@@@@@@@"
-
+Randomizer_OddEgg11::
 	db ELEKID
 	db NO_ITEM
 	db QUICK_ATTACK, LEER, DIZZY_PUNCH, 0
@@ -314,7 +314,7 @@ OddEggs:
 	bigdw 11 ; SAtk
 	bigdw 10 ; SDef
 	db "EGG@@@@@@@@"
-
+Randomizer_OddEgg12::
 	db ELEKID
 	db NO_ITEM
 	db QUICK_ATTACK, LEER, DIZZY_PUNCH, 0
@@ -340,7 +340,7 @@ OddEggs:
 	bigdw 12 ; SAtk
 	bigdw 11 ; SDef
 	db "EGG@@@@@@@@"
-
+Randomizer_OddEgg13::
 	db TYROGUE
 	db NO_ITEM
 	db TACKLE, DIZZY_PUNCH, 0, 0
@@ -366,7 +366,7 @@ OddEggs:
 	bigdw 8 ; SAtk
 	bigdw 8 ; SDef
 	db "EGG@@@@@@@@"
-
+Randomizer_OddEgg14::
 	db TYROGUE
 	db NO_ITEM
 	db TACKLE, DIZZY_PUNCH, 0, 0

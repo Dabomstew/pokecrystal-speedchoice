@@ -14,6 +14,7 @@ ENDM
 
 sboption: MACRO
 \1 EQU optionbit
+\1_ABS EQU (optionbyte - 1)*8 + optionbit
 \1_VAL EQU (1 << optionbit)
 IF optiontype == 0
 \1_ADDRESS EQUS "wOptions + {optionbyte} - 1"
@@ -25,6 +26,7 @@ ENDM
 
 mboption: MACRO
 \1_SHIFT EQU optionbit
+\1_ABS EQU (optionbyte - 1)*8 + optionbit
 \1_SIZE EQU \2
 \1_MASK EQU (1 << (optionbit + \2)) - (1 << optionbit)
 IF optiontype == 0
