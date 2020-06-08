@@ -853,7 +853,7 @@ INCLUDE "data/moves/effects_priorities.asm"
 GetMoveEffect:
 	ld a, b
 	dec a
-	ld hl, Moves + MOVE_EFFECT
+	call LoadHLMovesPlusEffect
 	ld bc, MOVE_LENGTH
 	call AddNTimes
 	ld a, BANK(Moves)
@@ -2253,6 +2253,8 @@ FaintYourPokemon:
 	hlcoord 9, 7
 	lb bc, 5, 11
 	call ClearBox
+	ld de, sStatsPlayerPokemonFainted
+	callba SRAMStatsIncrement2Byte
 	ld hl, BattleText_MonFainted
 	jp StdBattleTextbox
 
@@ -2266,6 +2268,8 @@ FaintEnemyPokemon:
 	hlcoord 1, 0
 	lb bc, 4, 10
 	call ClearBox
+	ld de, sStatsEnemyPokemonFainted
+	callba SRAMStatsIncrement2Byte
 	ld hl, BattleText_EnemyMonFainted
 	jp StdBattleTextbox
 
@@ -2377,6 +2381,15 @@ WinTrainerBattle:
 	call PrintWinLossText
 
 .skip_win_loss_text
+	ld a, [wOtherTrainerClass]
+	cp POKEMANIAC
+	jr nz, .not_pokemaniac
+	ld a, BANK(sStatsNumPokemaniacsFought)
+	call GetSRAMBank
+	ld hl, sStatsNumPokemaniacsFought
+	inc [hl]
+	call CloseSRAM
+.not_pokemaniac
 	jp .GiveMoney
 
 .mobile
@@ -2509,6 +2522,14 @@ WinTrainerBattle:
 	ret
 
 AddBattleMoneyToAccount:
+; log money gain
+	push de
+	push hl
+	pop de
+	push hl
+	callba SRAMStatsAddMoneyGain
+	pop hl
+	pop de
 	ld c, 3
 	and a
 	push de
@@ -3276,7 +3297,7 @@ LookUpTheEffectivenessOfEveryMove:
 	push de
 	push bc
 	dec a
-	ld hl, Moves
+	call LoadHLMoves
 	ld bc, MOVE_LENGTH
 	call AddNTimes
 	ld de, wEnemyMoveStruct
@@ -3777,10 +3798,18 @@ TryToRunAwayFromBattle:
 	jr nc, .can_escape
 	ld a, BATTLEPLAYERACTION_USEITEM
 	ld [wBattlePlayerAction], a
+	push de
+	ld de, sStatsFailedRuns
+	callba SRAMStatsIncrement2Byte
+	pop de
 	ld hl, BattleText_CantEscape2
 	jr .print_inescapable_text
 
 .cant_escape
+	push de
+	ld de, sStatsFailedRuns
+	callba SRAMStatsIncrement2Byte
+	pop de
 	ld hl, BattleText_CantEscape
 	jr .print_inescapable_text
 
@@ -3796,6 +3825,10 @@ TryToRunAwayFromBattle:
 	ret
 
 .can_escape
+	push de
+	ld de, sStatsBattlesFled
+	callba SRAMStatsIncrement2Byte
+	pop de
 	ld a, [wLinkMode]
 	and a
 	ld a, DRAW
@@ -4144,7 +4177,7 @@ PursuitSwitch:
 	call GetMoveEffect
 	ld a, b
 	cp EFFECT_PURSUIT
-	jr nz, .done
+	jp nz, .done
 
 	ld a, [wCurBattleMon]
 	push af
@@ -4189,6 +4222,8 @@ PursuitSwitch:
 	ld b, RESET_FLAG
 	predef SmallFarFlagAction
 	call PlayerMonFaintedAnimation
+	ld de, sStatsPlayerPokemonFainted
+	callba SRAMStatsIncrement2Byte
 	ld hl, BattleText_MonFainted
 	jr .done_fainted
 
@@ -4205,6 +4240,8 @@ PursuitSwitch:
 	call PlaySFX
 	call WaitSFX
 	call EnemyMonFaintedAnimation
+	ld de, sStatsEnemyPokemonFainted
+	callba SRAMStatsIncrement2Byte
 	ld hl, BattleText_EnemyMonFainted
 
 .done_fainted
@@ -5623,8 +5660,8 @@ MoveInfoBox:
 	xor a
 	ldh [hBGMapMode], a
 
-	hlcoord 0, 8
-	ld b, 3
+	hlcoord 0, 6
+	ld b, 5
 	ld c, 9
 	call Textbox
 	call MobileTextBorder
@@ -5643,7 +5680,7 @@ MoveInfoBox:
 	hlcoord 1, 10
 	ld de, .Disabled
 	call PlaceString
-	jr .done
+	jp .done
 
 .not_disabled
 	ld hl, wMenuCursorY
@@ -5687,6 +5724,57 @@ MoveInfoBox:
 	hlcoord 2, 10
 	predef PrintMoveType
 
+	hlcoord 1, 8
+	ld de, .Accuracy
+	call PlaceString
+	ld a, [wPlayerMoveStructAccuracy]
+	cp 2
+	jr nc, .printAcc
+	hlcoord 8, 8
+	ld de, .None
+	call PlaceString
+	jr .power
+.printAcc
+; acc*100/255
+	ldh [hMultiplicand + 2], a
+	xor a
+	ldh [hMultiplicand], a
+	ldh [hMultiplicand + 1], a
+	ld a, 100
+	ldh [hMultiplier], a
+	call Multiply
+	ld a, 255
+	ldh [hDivisor], a
+	ld b, 4
+	call Divide
+; increase displayed number by 1 if remainder is >=128
+	ldh a, [hRemainder]
+	cp $80
+	jr c, .noIncrease
+	ld hl, hQuotient + 2
+	inc [hl]
+.noIncrease
+	ld de, hQuotient + 2
+	lb bc, 1, 3
+	hlcoord 7, 8
+	call PrintNum
+.power
+	hlcoord 1, 7
+	ld de, .Power
+	call PlaceString
+	ld a, [wPlayerMoveStructPower]
+	cp 2
+	jr nc, .printPower
+	hlcoord 8, 7
+	ld de, .None
+	call PlaceString
+	jr .done
+.printPower
+	ld de, wPlayerMoveStructPower
+	lb bc, 1, 3
+	hlcoord 7, 7
+	call PrintNum
+
 .done
 	ret
 
@@ -5694,6 +5782,12 @@ MoveInfoBox:
 	db "Disabled!@"
 .Type:
 	db "TYPE/@"
+.Accuracy
+	db "ACC/ @"
+.Power
+	db "POW/ @"
+.None
+	db "--@"
 
 .PrintPP:
 	hlcoord 5, 11
@@ -6099,7 +6193,10 @@ LoadEnemyMon:
 	cp BATTLETYPE_SHINY
 	jr nz, .GenerateDVs
 
-	ld b, ATKDEFDV_SHINY ; $ea
+	call BattleRandom
+	and %11010000 ; ATK DV bits we're allowed to change
+	or  %00101010 ; correct defense ($a) + compulsory bit turned on for attack
+	ld b, a
 	ld c, SPDSPCDV_SHINY ; $aa
 	jr .UpdateDVs
 
@@ -6440,49 +6537,7 @@ CheckSleepingTreeMon:
 INCLUDE "data/wild/treemons_asleep.asm"
 
 CheckUnownLetter:
-; Return carry if the Unown letter hasn't been unlocked yet
-
-	ld a, [wUnlockedUnowns]
-	ld c, a
-	ld de, 0
-
-.loop
-
-; Don't check this set unless it's been unlocked
-	srl c
-	jr nc, .next
-
-; Is our letter in the set?
-	ld hl, UnlockedUnownLetterSets
-	add hl, de
-	ld a, [hli]
-	ld h, [hl]
-	ld l, a
-
-	push de
-	ld a, [wUnownLetter]
-	ld de, 1
-	push bc
-	call IsInArray
-	pop bc
-	pop de
-
-	jr c, .match
-
-.next
-; Make sure we haven't gone past the end of the table
-	inc e
-	inc e
-	ld a, e
-	cp UnlockedUnownLetterSets.End - UnlockedUnownLetterSets
-	jr c, .loop
-
-; Hasn't been unlocked, or the letter is invalid
-	scf
-	ret
-
-.match
-; Valid letter
+; Always valid letter
 	and a
 	ret
 
@@ -7707,6 +7762,8 @@ WithdrawMonText:
 ; depending on HP the message is different
 	push de
 	push bc
+	ld de, sStatsSwitchouts
+	callba SRAMStatsIncrement2Byte
 	ld hl, wEnemyMonHP + 1
 	ld de, wEnemyHPAtTimeOfPlayerSwitch + 1
 	ld b, [hl]
@@ -8218,7 +8275,7 @@ Unreferenced_Function3f662:
 
 	push hl
 	dec a
-	ld hl, Moves + MOVE_PP
+	call LoadHLMovesPlusPP
 	ld bc, MOVE_LENGTH
 	call AddNTimes
 	ld a, BANK(Moves)
@@ -9061,9 +9118,15 @@ CopyBackpic:
 	ret
 
 BattleStartMessage:
+	ld de, sStatsBattles
+	callba SRAMStatsIncrement2Byte
+
 	ld a, [wBattleMode]
 	dec a
 	jr z, .wild
+
+	ld de, sStatsTrainerBattles
+	callba SRAMStatsIncrement2Byte
 
 	ld de, SFX_SHINE
 	call PlaySFX
@@ -9078,6 +9141,9 @@ BattleStartMessage:
 	jr .PlaceBattleStartText
 
 .wild
+	ld de, sStatsWildBattles
+	callba SRAMStatsIncrement2Byte
+
 	call BattleCheckEnemyShininess
 	jr nc, .not_shiny
 

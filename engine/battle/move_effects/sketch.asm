@@ -66,7 +66,7 @@ BattleCommand_Sketch:
 	push bc
 	push hl
 	dec a
-	ld hl, Moves + MOVE_PP
+	call LoadHLMovesPlusPP
 	call GetMoveAttr
 	pop hl
 	ld bc, wBattleMonPP - wBattleMonMoves

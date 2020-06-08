@@ -20,7 +20,7 @@ CheckPlayerMoveTypeMatchups:
 	jr z, .exit
 	push hl
 	dec a
-	ld hl, Moves + MOVE_POWER
+	call LoadHLMovesPlusPower
 	call GetMoveAttr
 	and a
 	jr z, .next
@@ -113,7 +113,7 @@ CheckPlayerMoveTypeMatchups:
 
 	inc de
 	dec a
-	ld hl, Moves + MOVE_POWER
+	call LoadHLMovesPlusPower
 	call GetMoveAttr
 	and a
 	jr z, .loop2
@@ -373,7 +373,7 @@ FindEnemyMonsImmuneToLastCounterMove:
 	; the player's last move is damaging...
 	ld a, [wLastPlayerCounterMove]
 	dec a
-	ld hl, Moves + MOVE_POWER
+	call LoadHLMovesPlusPower
 	call GetMoveAttr
 	and a
 	jr z, .next
@@ -463,7 +463,7 @@ FindEnemyMonsWithASuperEffectiveMove:
 
 	; if move has no power: continue
 	dec a
-	ld hl, Moves + MOVE_POWER
+	call LoadHLMovesPlusPower
 	call GetMoveAttr
 	and a
 	jr z, .nope
@@ -562,7 +562,7 @@ FindEnemyMonsThatResistPlayer:
 	jr z, .skip_move
 
 	dec a
-	ld hl, Moves + MOVE_POWER
+	call LoadHLMovesPlusPower
 	call GetMoveAttr
 	and a
 	jr z, .skip_move

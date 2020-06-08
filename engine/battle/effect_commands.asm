@@ -2093,6 +2093,8 @@ BattleCommand_FailureText:
 ; If the move missed or failed, load the appropriate
 ; text, and end the effects of multi-turn or multi-
 ; hit moves.
+	callba SRAMStatsRecordMoveHitOrMiss
+
 	ld a, [wAttackMissed]
 	and a
 	ret z
@@ -2305,6 +2307,8 @@ BattleCommand_CriticalText:
 ; Prints the message for critical hits or one-hit KOs.
 
 ; If there is no message to be printed, wait 20 frames.
+	callba SRAMStatsRecordCriticalHit
+
 	ld a, [wCriticalHit]
 	and a
 	jr z, .wait
@@ -2356,6 +2360,7 @@ BattleCommand_SuperEffectiveLoopText:
 
 BattleCommand_SuperEffectiveText:
 ; supereffectivetext
+	callba SRAMStatsRecordMoveEffectiveness
 
 	ld a, [wTypeModifier]
 	and $7f
@@ -3401,6 +3406,8 @@ PlayFXAnimID:
 	ret
 
 DoEnemyDamage:
+	callba SRAMStatsTotalDamageDealt
+
 	ld hl, wCurDamage
 	ld a, [hli]
 	ld b, a
@@ -3418,6 +3425,9 @@ DoEnemyDamage:
 .ignore_substitute
 	; Substract wCurDamage from wEnemyMonHP.
 	;  store original HP in little endian wBuffer3/4
+	push hl
+	callba SRAMStatsActualDamageDealt
+	pop hl
 	ld a, [hld]
 	ld b, a
 	ld a, [wEnemyMonHP + 1]
@@ -3461,6 +3471,7 @@ DoEnemyDamage:
 	jp RefreshBattleHuds
 
 DoPlayerDamage:
+	callba SRAMStatsTotalDamageTaken
 	ld hl, wCurDamage
 	ld a, [hli]
 	ld b, a
@@ -3479,6 +3490,9 @@ DoPlayerDamage:
 	; Substract wCurDamage from wBattleMonHP.
 	;  store original HP in little endian wBuffer3/4
 	;  store new HP in little endian wBuffer5/6
+	push hl
+	callba SRAMStatsActualDamageTaken
+	pop hl
 	ld a, [hld]
 	ld b, a
 	ld a, [wBattleMonHP + 1]
@@ -6872,7 +6886,7 @@ GetMoveAttr:
 
 GetMoveData:
 ; Copy move struct a to de.
-	ld hl, Moves
+	call LoadHLMoves
 	ld bc, MOVE_LENGTH
 	call AddNTimes
 	ld a, BANK(Moves)

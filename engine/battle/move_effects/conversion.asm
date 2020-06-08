@@ -23,7 +23,7 @@ BattleCommand_Conversion:
 	push hl
 	push bc
 	dec a
-	ld hl, Moves + MOVE_TYPE
+	call LoadHLMovesPlusType
 	call GetMoveAttr
 	ld [de], a
 	inc de
