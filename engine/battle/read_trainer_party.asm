@@ -165,7 +165,7 @@ TrainerType2:
 	push hl
 	push bc
 	dec a
-	ld hl, Moves + MOVE_PP
+	call LoadHLMovesPlusPP
 	ld bc, MOVE_LENGTH
 	call AddNTimes
 	ld a, BANK(Moves)
@@ -284,7 +284,7 @@ TrainerType4:
 	push hl
 	push bc
 	dec a
-	ld hl, Moves + MOVE_PP
+	call LoadHLMovesPlusPP
 	ld bc, MOVE_LENGTH
 	call AddNTimes
 	ld a, BANK(Moves)
