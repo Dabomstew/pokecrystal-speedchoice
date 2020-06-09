@@ -1,58 +1,35 @@
-; GetOptionPointer.Pointers indexes
-	const_def
-	const OPT_TEXT_SPEED   ; 0
-	const OPT_BATTLE_SCENE ; 1
-	const OPT_BATTLE_STYLE ; 2
-	const OPT_SOUND        ; 3
-	const OPT_PRINT        ; 4
-	const OPT_MENU_ACCOUNT ; 5
-	const OPT_FRAME        ; 6
-	const OPT_CANCEL       ; 7
-NUM_OPTIONS EQU const_value    ; 8
+FIRST_OPTIONS_PAGEID EQU 0
+NUM_OPTIONS_PAGES EQUS "((PermaOptionsMenuScreens - OptionsMenuScreens)/6)"
 
-_OptionsMenu:
+FIRST_PERMAOPTIONS_PAGEID EQUS "((PermaOptionsMenuScreens - OptionsMenuScreens)/6)"
+NUM_PERMAOPTIONS_PAGES EQUS "((PermaOptionsMenuScreensEnd - PermaOptionsMenuScreens)/6)"
+
+PermaOptionsMenu:
+	ld a, FIRST_PERMAOPTIONS_PAGEID
+	jr OptionsMenuCommon
+
+OptionsMenu:
+	xor a
+	; fallthrough
+
+OptionsMenuCommon::
+	ld [wOptionsMenuID], a
+	xor a
+	ld [wStoredJumptableIndex], a
+	ld [wOptionsMenuPreset], a
 	ld hl, hInMenu
 	ld a, [hl]
 	push af
-	ld [hl], TRUE
+	ld [hl], $1
 	call ClearBGPalettes
-	hlcoord 0, 0
-	ld b, SCREEN_HEIGHT - 2
-	ld c, SCREEN_WIDTH - 2
-	call Textbox
-	hlcoord 2, 2
-	ld de, StringOptions
-	call PlaceString
-	xor a
-	ld [wJumptableIndex], a
-
-; display the settings of each option when the menu is opened
-	ld c, NUM_OPTIONS - 2 ; omit frame type, the last option
-.print_text_loop
-	push bc
-	xor a
-	ldh [hJoyLast], a
-	call GetOptionPointer
-	pop bc
-	ld hl, wJumptableIndex
-	inc [hl]
-	dec c
-	jr nz, .print_text_loop
-	call UpdateFrame ; display the frame type
-
-	xor a
-	ld [wJumptableIndex], a
-	inc a
-	ldh [hBGMapMode], a
-	call WaitBGMap
-	ld b, SCGB_DIPLOMA
-	call GetSGBLayout
-	call SetPalettes
-
+.pageLoad
+	call DrawOptionsMenu
 .joypad_loop
 	call JoyTextDelay
 	ldh a, [hJoyPressed]
-	and START | B_BUTTON
+	ld b, a
+	ld a, [wOptionsExitButtons]
+	and b
 	jr nz, .ExitOptions
 	call OptionsControl
 	jr c, .dpad
@@ -65,447 +42,205 @@ _OptionsMenu:
 	call DelayFrames
 	jr .joypad_loop
 
-.ExitOptions:
+.ExitOptions
+	ld a, [wOptionsNextMenuID]
+	cp $FF
+	jr z, .doExit
+	ld [wOptionsMenuID], a
+	jr .pageLoad
+.doExit
+	ld a, [wOptionsMenuID]
+	cp FIRST_PERMAOPTIONS_PAGEID
+	jr c, .exit
+	ld a, [wPlayerName]
+	cp "@"
+	jr nz, .exit
+	ld a, [HOLD_TO_MASH_ADDRESS]
+	push af
+	and $ff ^ HOLD_TO_MASH_VAL
+	ld [HOLD_TO_MASH_ADDRESS], a
+	ld hl, NameNotSetText
+	call PrintText
+	pop af
+	ld [HOLD_TO_MASH_ADDRESS], a
+	jr .pageLoad
+.exit
+	pop af
+	ld [hInMenu], a
 	ld de, SFX_TRANSACTION
 	call PlaySFX
-	call WaitSFX
-	pop af
-	ldh [hInMenu], a
+	jp WaitSFX
+
+DrawOptionsMenu:
+	call DrawOptionsMenuLagless
+	call LoadFontsExtra
+	ld a, [wStoredJumptableIndex]
+	ld [wJumptableIndex], a
+	xor a
+	ld [wStoredJumptableIndex], a
+	inc a
+	ldh [hBGMapMode], a
+	call WaitBGMap
+	ld b, SCGB_DIPLOMA
+	call GetSGBLayout
+	call SetPalettes
 	ret
 
-StringOptions:
-	db "TEXT SPEED<LF>"
-	db "        :<LF>"
-	db "BATTLE SCENE<LF>"
-	db "        :<LF>"
-	db "BATTLE STYLE<LF>"
-	db "        :<LF>"
-	db "SOUND<LF>"
-	db "        :<LF>"
-	db "PRINT<LF>"
-	db "        :<LF>"
-	db "MENU ACCOUNT<LF>"
-	db "        :<LF>"
-	db "FRAME<LF>"
-	db "        :TYPE<LF>"
-	db "CANCEL@"
+DrawOptionsMenuLagless_::
+	ld a, [wJumptableIndex]
+	push af
+	call DrawOptionsMenuLagless
+	pop af
+	ld [wJumptableIndex], a
+	ret
+
+DrawOptionsMenuLagless::
+	call RetrieveOptionsMenuConfig
+	hlcoord 0, 0
+	lb bc, SCREEN_HEIGHT - 2, SCREEN_WIDTH - 2
+	call Textbox
+	ld hl, wOptionsStringPtr
+	ld a, [hli]
+	ld e, a
+	ld d, [hl]
+	hlcoord 2, 2
+	call PlaceString
+	xor a
+	ld [wJumptableIndex], a
+	dec a
+	ld [wOptionsNextMenuID], a
+	ld a, [wOptionsMenuCount]
+	inc a
+	ld c, a ; number of items on the menu
+
+.print_text_loop ; this next will display the settings of each option when the menu is opened
+	push bc
+	xor a
+	ldh [hJoyPressed], a
+	call GetOptionPointer
+	pop bc
+	ld hl, wJumptableIndex
+	inc [hl]
+	dec c
+	jr nz, .print_text_loop
+	ret
+
+RetrieveOptionsMenuConfig::
+	ld a, [wOptionsMenuID]
+	ld hl, OptionsMenuScreens
+	ld bc, wOptionsNextMenuID - wOptionsMenuCount
+	call AddNTimes
+	ld de, wOptionsMenuCount
+	jp CopyBytes
+	
+options_menu: MACRO
+	db ((\2End - \2)/2 - 1) ; number of options except bottom option
+	dw (\1) ; template string
+	dw (\2) ; jumptable for options
+	db (\3) ; buttons that can be pressed to exit
+ENDM
+
+OptionsMenuScreens:
+	; default options page 1
+	options_menu MainOptionsString, MainOptionsPointers, (START | B_BUTTON)
+	; default options page 2
+	;options_menu MainOptions2String, MainOptions2Pointers, (START | B_BUTTON)
+PermaOptionsMenuScreens:
+	; permaoptions page 1
+	;options_menu PermaOptionsString, PermaOptionsPointers, START
+	; permaoptions page 2
+	;options_menu PermaOptions2String, PermaOptions2Pointers, START
+	; permaoptions page 3
+	;options_menu PermaOptions3String, PermaOptions3Pointers, START
+PermaOptionsMenuScreensEnd:
 
 GetOptionPointer:
-	ld a, [wJumptableIndex]
-	ld e, a
+	ld a, [wOptionsMenuCount]
+	ld b, a
+	ld a, [wJumptableIndex] ; load the cursor position to a
+	cp b
+	jr c, .doJump
+	ld a, b ; if on the bottom option, use the last item in the jumptable
+.doJump
+	add a
+	ld e, a ; copy it to de
 	ld d, 0
-	ld hl, .Pointers
-	add hl, de
+	ld hl, wOptionsJumptablePtr
+	ld a, [hli]
+	ld h, [hl]
+	ld l, a
 	add hl, de
 	ld a, [hli]
 	ld h, [hl]
 	ld l, a
-	jp hl
-
-.Pointers:
-; entries correspond to OPT_* constants
-	dw Options_TextSpeed
-	dw Options_BattleScene
-	dw Options_BattleStyle
-	dw Options_Sound
-	dw Options_Print
-	dw Options_MenuAccount
-	dw Options_Frame
-	dw Options_Cancel
-
-	const_def
-	const OPT_TEXT_SPEED_FAST ; 0
-	const OPT_TEXT_SPEED_MED  ; 1
-	const OPT_TEXT_SPEED_SLOW ; 2
-
-Options_TextSpeed:
-	call GetTextSpeed
-	ldh a, [hJoyPressed]
-	bit D_LEFT_F, a
-	jr nz, .LeftPressed
-	bit D_RIGHT_F, a
-	jr z, .NonePressed
-	ld a, c ; right pressed
-	cp OPT_TEXT_SPEED_SLOW
-	jr c, .Increase
-	ld c, OPT_TEXT_SPEED_FAST - 1
-
-.Increase:
-	inc c
-	ld a, e
-	jr .Save
-
-.LeftPressed:
-	ld a, c
-	and a
-	jr nz, .Decrease
-	ld c, OPT_TEXT_SPEED_SLOW + 1
-
-.Decrease:
-	dec c
-	ld a, d
-
-.Save:
-	ld b, a
-	ld a, [wOptions]
-	and $f0
-	or b
-	ld [wOptions], a
-
-.NonePressed:
-	ld b, 0
-	ld hl, .Strings
-	add hl, bc
-	add hl, bc
-	ld e, [hl]
-	inc hl
-	ld d, [hl]
-	hlcoord 11, 3
-	call PlaceString
-	and a
-	ret
-
-.Strings:
-; entries correspond to OPT_TEXT_SPEED_* constants
-	dw .Fast
-	dw .Mid
-	dw .Slow
-
-.Fast: db "FAST@"
-.Mid:  db "MID @"
-.Slow: db "SLOW@"
-
-GetTextSpeed:
-; converts TEXT_DELAY_* value in a to OPT_TEXT_SPEED_* value in c,
-; with previous/next TEXT_DELAY_* values in d/e
-	ld a, [wOptions]
-	and TEXT_DELAY_MASK
-	cp TEXT_DELAY_SLOW
-	jr z, .slow
-	cp TEXT_DELAY_FAST
-	jr z, .fast
-	; none of the above
-	ld c, OPT_TEXT_SPEED_MED
-	lb de, TEXT_DELAY_FAST, TEXT_DELAY_SLOW
-	ret
-
-.slow
-	ld c, OPT_TEXT_SPEED_SLOW
-	lb de, TEXT_DELAY_MED, TEXT_DELAY_FAST
-	ret
-
-.fast
-	ld c, OPT_TEXT_SPEED_FAST
-	lb de, TEXT_DELAY_SLOW, TEXT_DELAY_MED
-	ret
-
-Options_BattleScene:
-	ld hl, wOptions
-	ldh a, [hJoyPressed]
-	bit D_LEFT_F, a
-	jr nz, .LeftPressed
-	bit D_RIGHT_F, a
-	jr z, .NonePressed
-	bit BATTLE_SCENE, [hl]
-	jr nz, .ToggleOn
-	jr .ToggleOff
-
-.LeftPressed:
-	bit BATTLE_SCENE, [hl]
-	jr z, .ToggleOff
-	jr .ToggleOn
-
-.NonePressed:
-	bit BATTLE_SCENE, [hl]
-	jr z, .ToggleOn
-	jr .ToggleOff
-
-.ToggleOn:
-	res BATTLE_SCENE, [hl]
-	ld de, .On
-	jr .Display
-
-.ToggleOff:
-	set BATTLE_SCENE, [hl]
-	ld de, .Off
-
-.Display:
-	hlcoord 11, 5
-	call PlaceString
-	and a
-	ret
-
-.On:  db "ON @"
-.Off: db "OFF@"
-
-Options_BattleStyle:
-	ld hl, wOptions
-	ldh a, [hJoyPressed]
-	bit D_LEFT_F, a
-	jr nz, .LeftPressed
-	bit D_RIGHT_F, a
-	jr z, .NonePressed
-	bit BATTLE_SHIFT, [hl]
-	jr nz, .ToggleShift
-	jr .ToggleSet
-
-.LeftPressed:
-	bit BATTLE_SHIFT, [hl]
-	jr z, .ToggleSet
-	jr .ToggleShift
-
-.NonePressed:
-	bit BATTLE_SHIFT, [hl]
-	jr nz, .ToggleSet
-
-.ToggleShift:
-	res BATTLE_SHIFT, [hl]
-	ld de, .Shift
-	jr .Display
-
-.ToggleSet:
-	set BATTLE_SHIFT, [hl]
-	ld de, .Set
-
-.Display:
-	hlcoord 11, 7
-	call PlaceString
-	and a
-	ret
-
-.Shift: db "SHIFT@"
-.Set:   db "SET  @"
-
-Options_Sound:
-	ld hl, wOptions
-	ldh a, [hJoyPressed]
-	bit D_LEFT_F, a
-	jr nz, .LeftPressed
-	bit D_RIGHT_F, a
-	jr z, .NonePressed
-	bit STEREO, [hl]
-	jr nz, .SetMono
-	jr .SetStereo
-
-.LeftPressed:
-	bit STEREO, [hl]
-	jr z, .SetStereo
-	jr .SetMono
-
-.NonePressed:
-	bit STEREO, [hl]
-	jr nz, .ToggleStereo
-	jr .ToggleMono
-
-.SetMono:
-	res STEREO, [hl]
-	call RestartMapMusic
-
-.ToggleMono:
-	ld de, .Mono
-	jr .Display
-
-.SetStereo:
-	set STEREO, [hl]
-	call RestartMapMusic
-
-.ToggleStereo:
-	ld de, .Stereo
-
-.Display:
-	hlcoord 11, 9
-	call PlaceString
-	and a
-	ret
-
-.Mono:   db "MONO  @"
-.Stereo: db "STEREO@"
-
-	const_def
-	const OPT_PRINT_LIGHTEST ; 0
-	const OPT_PRINT_LIGHTER  ; 1
-	const OPT_PRINT_NORMAL   ; 2
-	const OPT_PRINT_DARKER   ; 3
-	const OPT_PRINT_DARKEST  ; 4
-
-Options_Print:
-	call GetPrinterSetting
-	ldh a, [hJoyPressed]
-	bit D_LEFT_F, a
-	jr nz, .LeftPressed
-	bit D_RIGHT_F, a
-	jr z, .NonePressed
-	ld a, c
-	cp OPT_PRINT_DARKEST
-	jr c, .Increase
-	ld c, OPT_PRINT_LIGHTEST - 1
-
-.Increase:
-	inc c
-	ld a, e
-	jr .Save
-
-.LeftPressed:
-	ld a, c
-	and a
-	jr nz, .Decrease
-	ld c, OPT_PRINT_DARKEST + 1
-
-.Decrease:
-	dec c
-	ld a, d
-
-.Save:
-	ld b, a
-	ld [wGBPrinterBrightness], a
-
-.NonePressed:
-	ld b, 0
-	ld hl, .Strings
-	add hl, bc
-	add hl, bc
-	ld e, [hl]
-	inc hl
-	ld d, [hl]
-	hlcoord 11, 11
-	call PlaceString
-	and a
-	ret
-
-.Strings:
-; entries correspond to OPT_PRINT_* constants
-	dw .Lightest
-	dw .Lighter
-	dw .Normal
-	dw .Darker
-	dw .Darkest
-
-.Lightest: db "LIGHTEST@"
-.Lighter:  db "LIGHTER @"
-.Normal:   db "NORMAL  @"
-.Darker:   db "DARKER  @"
-.Darkest:  db "DARKEST @"
-
-GetPrinterSetting:
-; converts GBPRINTER_* value in a to OPT_PRINT_* value in c,
-; with previous/next GBPRINTER_* values in d/e
-	ld a, [wGBPrinterBrightness]
-	and a
-	jr z, .IsLightest
-	cp GBPRINTER_LIGHTER
-	jr z, .IsLight
-	cp GBPRINTER_DARKER
-	jr z, .IsDark
-	cp GBPRINTER_DARKEST
-	jr z, .IsDarkest
-	; none of the above
-	ld c, OPT_PRINT_NORMAL
-	lb de, GBPRINTER_LIGHTER, GBPRINTER_DARKER
-	ret
-
-.IsLightest:
-	ld c, OPT_PRINT_LIGHTEST
-	lb de, GBPRINTER_DARKEST, GBPRINTER_LIGHTER
-	ret
-
-.IsLight:
-	ld c, OPT_PRINT_LIGHTER
-	lb de, GBPRINTER_LIGHTEST, GBPRINTER_NORMAL
-	ret
-
-.IsDark:
-	ld c, OPT_PRINT_DARKER
-	lb de, GBPRINTER_NORMAL, GBPRINTER_DARKEST
-	ret
-
-.IsDarkest:
-	ld c, OPT_PRINT_DARKEST
-	lb de, GBPRINTER_DARKER, GBPRINTER_LIGHTEST
-	ret
-
-Options_MenuAccount:
-	ld hl, wOptions2
-	ldh a, [hJoyPressed]
-	bit D_LEFT_F, a
-	jr nz, .LeftPressed
-	bit D_RIGHT_F, a
-	jr z, .NonePressed
-	bit MENU_ACCOUNT, [hl]
-	jr nz, .ToggleOff
-	jr .ToggleOn
-
-.LeftPressed:
-	bit MENU_ACCOUNT, [hl]
-	jr z, .ToggleOn
-	jr .ToggleOff
-
-.NonePressed:
-	bit MENU_ACCOUNT, [hl]
-	jr nz, .ToggleOn
-
-.ToggleOff:
-	res MENU_ACCOUNT, [hl]
-	ld de, .Off
-	jr .Display
-
-.ToggleOn:
-	set MENU_ACCOUNT, [hl]
-	ld de, .On
-
-.Display:
-	hlcoord 11, 13
-	call PlaceString
-	and a
-	ret
-
-.Off: db "OFF@"
-.On:  db "ON @"
-
-Options_Frame:
-	ld hl, wTextboxFrame
-	ldh a, [hJoyPressed]
-	bit D_LEFT_F, a
-	jr nz, .LeftPressed
-	bit D_RIGHT_F, a
-	jr nz, .RightPressed
-	and a
-	ret
-
-.RightPressed:
-	ld a, [hl]
-	inc a
-	jr .Save
-
-.LeftPressed:
-	ld a, [hl]
-	dec a
-
-.Save:
-	maskbits NUM_FRAMES
-	ld [hl], a
-UpdateFrame:
-	ld a, [wTextboxFrame]
-	hlcoord 16, 15 ; where on the screen the number is drawn
-	add "1"
-	ld [hl], a
-	call LoadFontsExtra
-	and a
-	ret
+	ldh a, [hJoyPressed] ; almost all options use this, so it's easier to just do it here
+	jp hl ; jump to the code of the current highlighted item
 
 Options_Cancel:
-	ldh a, [hJoyPressed]
 	and A_BUTTON
-	jr nz, .Exit
+	jr nz, Options_Exit
+Options_NoFunc:
 	and a
 	ret
 
-.Exit:
+Options_Exit:
 	scf
 	ret
 
+Options_OptionsPage:
+	lb bc, FIRST_OPTIONS_PAGEID, FIRST_OPTIONS_PAGEID + NUM_OPTIONS_PAGES - 1
+	jr Options_Page
+
+Options_PermaOptionsPage:
+	lb bc, FIRST_PERMAOPTIONS_PAGEID, FIRST_PERMAOPTIONS_PAGEID + NUM_PERMAOPTIONS_PAGES - 1
+Options_Page:
+; assumes b = MenuID of first page, c = MenuID of last page
+; also assumes all pages use sequential MenuIDs
+	bit D_LEFT_F, a
+	jr nz, .Decrease
+	bit D_RIGHT_F, a
+	jr nz, .Increase
+	coord hl, 2, 16
+	ld de, .PageString
+	push bc
+	call PlaceString
+	pop bc
+	ld a, [wOptionsMenuID]
+	sub b
+	add "1"
+	coord hl, 8, 16
+	ld [hl], a
+	and a
+	ret
+.Decrease
+	ld a, [wOptionsMenuID]
+	cp b
+	jr nz, .actuallyDecrease
+	ld a, c
+	jr .SaveAndChangePage
+.actuallyDecrease
+	dec a
+	jr .SaveAndChangePage
+.Increase
+	ld a, [wOptionsMenuID]
+	cp c
+	jr nz, .actuallyIncrease
+	ld a, b
+	jr .SaveAndChangePage
+.actuallyIncrease
+	inc a
+.SaveAndChangePage
+	ld [wOptionsNextMenuID], a
+	ld a, 7
+	ld [wStoredJumptableIndex], a
+	scf
+	ret
+.PageString
+	db "PAGE:@"
+
 OptionsControl:
 	ld hl, wJumptableIndex
-	ldh a, [hJoyLast]
+	ld a, [hJoyLast]
 	cp D_DOWN
 	jr z, .DownPressed
 	cp D_UP
@@ -513,48 +248,52 @@ OptionsControl:
 	and a
 	ret
 
-.DownPressed:
-	ld a, [hl]
-	cp OPT_CANCEL ; maximum option index
-	jr nz, .CheckMenuAccount
-	ld [hl], OPT_TEXT_SPEED ; first option
+.DownPressed
+	ld a, [hl] ; load the cursor position to a
+	cp 7
+	jr nz, .clampToMenuTest
+	ld [hl], $0
 	scf
 	ret
-
-.CheckMenuAccount: ; I have no idea why this exists...
-	cp OPT_MENU_ACCOUNT
+.clampToMenuTest
+	ld c, a
+	ld a, [wOptionsMenuCount]
+	dec a
+	cp c ; maximum index of item in real options menu
 	jr nz, .Increase
-	ld [hl], OPT_MENU_ACCOUNT
+	ld [hl], $6 ; bottom option minus 1
 
-.Increase:
+.Increase
 	inc [hl]
 	scf
 	ret
 
-.UpPressed:
+.UpPressed
 	ld a, [hl]
+	cp 7
+	jr z, .HandleBottomOption
+	and a
+	jr nz, .Decrease
+	ld a, 8
+	ld [hl], a ; move to bottom option
 
-; Another thing where I'm not sure why it exists
-	cp OPT_FRAME
-	jr nz, .NotFrame
-	ld [hl], OPT_MENU_ACCOUNT
+.Decrease
+	dec [hl]
 	scf
 	ret
-
-.NotFrame:
-	and a ; OPT_TEXT_SPEED, minimum option index
-	jr nz, .Decrease
-	ld [hl], NUM_OPTIONS ; decrements to OPT_CANCEL, maximum option index
-
-.Decrease:
-	dec [hl]
+	
+.HandleBottomOption
+; move to bottommost regular option
+	ld a, [wOptionsMenuCount]
+	dec a
+	ld [hl], a
 	scf
 	ret
 
 Options_UpdateCursorPosition:
 	hlcoord 1, 1
 	ld de, SCREEN_WIDTH
-	ld c, SCREEN_HEIGHT - 2
+	ld c, $10
 .loop
 	ld [hl], " "
 	add hl, de
@@ -566,3 +305,206 @@ Options_UpdateCursorPosition:
 	call AddNTimes
 	ld [hl], "▶"
 	ret
+
+; b = x-coordinate (0~19)
+; c = y-coordinate (0~17)
+; clobbers a, b, c; result in hl
+CoordHL:
+	ld a, c
+	add c ; *2 (0~34)
+	add a ; *4 (0~68)
+	add c ; *5 (0~85)
+	add a ; *10 (0~170)
+	add a ; *20 (0~340)
+	ld c, a
+	ld a, b
+	ld b, 0
+	jr nc, .noOverflow
+	inc b
+.noOverflow
+	hlcoord 0, 0
+	add hl, bc
+	ld c, a
+	ld b, 0
+	add hl, bc
+	ret
+	
+; hl = ram address
+; b = bit number in ram address
+; c = y-coordinate to draw at
+; de = table of strings to show for false/true (false first)
+Options_OnOff:
+	ld de, OnOffStrings
+Options_TrueFalse:
+	push de
+	ld d, a
+	ld a, 1
+	and a ; clear carry
+	inc b
+.shiftloop
+	dec b
+	jr z, .doneshift
+	rla
+	jr .shiftloop
+.doneshift
+	ld b, a
+	ld a, d
+	and D_LEFT | D_RIGHT
+	ld a, [hl]
+	jr z, .GetText
+	xor b
+	ld [hl], a
+.GetText
+	pop de
+	and b
+	jr z, .Display
+	ld a, 2
+	add e
+	ld e, a
+	jr nc, .Display
+	inc d
+.Display
+	ld a, [de]
+	ld l, a
+	inc de
+	ld a, [de]
+	ld d, a
+	ld e, l
+	ld b, 11 ; x-coord, y-coord is already in c
+	call CoordHL
+	call PlaceString
+	and a
+	ret
+	
+OnOffStrings::
+	dw .Off
+	dw .On
+.Off:
+	db "OFF@"
+.On:
+	db "ON @"
+	
+; arguments = ram address, start bit, size in bits, y-coord, number of choices, pointer to choices
+multichoiceoptiondata: macro
+	dw \1 ; ram address
+	db \2 ; bit number that data STARTS at
+	db (1 << (\2 + \3)) - (1 << \2) ; bitmask for data
+	db \4 ; y-coordinate
+	db \5 ; number of choices
+	dw \6 ; pointer to choices
+endm
+
+; hl = pointer to options multichoice struct	
+Options_Multichoice:
+	; load multichoice data to ram
+	ld bc, 8
+	ld de, wBuffer1
+	call CopyBytes
+	ldh a, [hJoyPressed]
+	bit D_LEFT_F, a
+	jr nz, .LeftPressed
+	bit D_RIGHT_F, a
+	jr nz, .RightPressed
+	jr .UpdateDisplay
+.RightPressed
+	call .GetVal
+	inc a
+	jr .Save
+
+.LeftPressed
+	call .GetVal
+	dec a
+
+.Save
+	cp $ff
+	jr nz, .nextCheck
+	ld a, [wBuffer1 + 5] ; max value
+	dec a
+	jr .store
+.nextCheck
+	ld b, a
+	ld a, [wBuffer1 + 5] ; max value
+	cp b
+	jr nz, .storeskipmove
+	xor a
+.store
+	ld b, a
+.storeskipmove
+	ld a, [wBuffer1 + 2] ; bitshift required
+	inc a
+.shiftloop
+	dec a
+	jr z, .calcAndStore
+	sla b
+	jr .shiftloop
+.calcAndStore
+	ld hl, wBuffer1
+	rst UnHL
+	ld a, [hl]
+	ld c, a
+	ld a, [wBuffer1 + 3] ; bitmask for the option in question
+	cpl ; invert it so we clear the option
+	and c ; bitmask AND current value
+	or b ; set new value
+	ld [hl], a
+	
+.UpdateDisplay:
+	call .GetVal
+	ld c, a
+	ld b, 0
+	ld hl, wBuffer1 + 6 ; pointer to strings
+	rst UnHL
+rept 2
+	add hl, bc
+endr
+	ld e, [hl]
+	inc hl
+	ld d, [hl]
+	ld a, [wBuffer1 + 4] ; y-coordinate
+; calculate ram address to put string at from y-coordinate
+	ld c, a
+	ld b, 11 ; x-coordinate
+	call CoordHL
+	call PlaceString
+	and a
+	ret
+	
+.GetVal:
+	ld hl, wBuffer1
+	rst UnHL
+	ld b, [hl]
+	ld a, [wBuffer1 + 3] ; bitmask
+	and b
+	ld b, a
+; bitshift as needed
+	ld a, [wBuffer1 + 2] ; bitshift
+	inc a
+.shiftloop2
+	dec a
+	jr z, .done
+	srl b
+	jr .shiftloop2
+.done
+	ld a, b
+	ret
+	
+NUM_OPTIONS EQUS "((.Strings_End - .Strings)/2)"
+
+INCLUDE "engine/menus/options/main_options.asm"
+;INCLUDE "engine/menus/options/main_options_2.asm"
+;INCLUDE "engine/menus/options/perma_options.asm"
+;INCLUDE "engine/menus/options/perma_options_2.asm"
+;INCLUDE "engine/menus/options/perma_options_3.asm"
+
+NameNotSetText::
+	text "Please set your"
+	line "name on page 1!@"
+	start_asm
+	ld de, SFX_WRONG
+	call PlaySFX
+	call WaitSFX
+	ld hl, .done
+	ret
+.done
+	text ""
+	prompt

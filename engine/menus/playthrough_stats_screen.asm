@@ -61,7 +61,7 @@ PlaythroughStatsScreen::
 	ld a, 1
 	ld [hBGMapMode], a
 	call WaitBGMap
-	ld b, SCGB_GS_INTRO
+	ld b, SCGB_DIPLOMA
 	call GetSGBLayout
 	call SetPalettes
 .joypad_loop

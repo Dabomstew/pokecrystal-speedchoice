@@ -92,6 +92,8 @@ TEXT_SPEED_SLOW    EQU %11
 	optionbytestart
 	mboption TEXT_FRAME, 4
 	sboption PARKBALL_EFFECT ; 4
+
+NUM_TEXTBOX_FRAMES EQU 10
 	
 NUM_OPTIONS_BYTES EQU optionbyte
 

@@ -15,7 +15,11 @@ Bankswitch::
 	ret
 
 SECTION "rst18", ROM0[$0018]
-	rst $38
+UnHL::
+	ld a, [hli]
+	ld h, [hl]
+	ld l, a
+	ret
 
 SECTION "rst20", ROM0[$0020]
 	rst $38

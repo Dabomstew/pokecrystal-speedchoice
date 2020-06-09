@@ -1,6 +1,6 @@
 DefaultOptions:
 ; wOptions: instant text, hold to mash, menu account
-	db TEXT_SPEED_INSTANT | HOLD_TO_MASH_VAL | MENU_ACCOUNT
+	db TEXT_SPEED_INSTANT | HOLD_TO_MASH_VAL | MENU_ACCOUNT_VAL
 ; other options bytes: all false
 rept NUM_OPTIONS_BYTES - 1
 	db $00

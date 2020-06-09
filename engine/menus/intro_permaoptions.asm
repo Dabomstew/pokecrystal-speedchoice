@@ -22,7 +22,7 @@ endr
 	ld hl, wPlayerGender
 	set 0, [hl]
 .setOptions
-	;callba PermaOptionsMenu
+	callba PermaOptionsMenu
 	call ClearTilemap
 	call PrintPermaOptionsToScreen
 	ld hl, AreOptionsAcceptableText
