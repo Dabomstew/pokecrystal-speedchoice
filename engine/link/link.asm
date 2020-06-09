@@ -423,11 +423,11 @@ Gen2ToGen2LinkComms:
 	ld [wOtherTrainerClass], a
 	call ClearScreen
 	farcall Link_WaitBGMap
-	ld hl, wOptions
+	ld hl, TEXT_SPEED_ADDRESS ; STEREO_ADDRESS
 	ld a, [hl]
 	push af
-	and 1 << STEREO
-	or TEXT_DELAY_MED
+	and STEREO_VAL
+	or TEXT_SPEED_MED
 	ld [hl], a
 	ld hl, wOTPlayerName
 	ld de, wOTClassName
@@ -465,7 +465,7 @@ Gen2ToGen2LinkComms:
 	pop af
 	ld [wDisableTextAcceleration], a
 	pop af
-	ld [wOptions], a
+	ld [TEXT_SPEED_ADDRESS], a
 	farcall LoadPokemonData
 	jp Function28b22
 

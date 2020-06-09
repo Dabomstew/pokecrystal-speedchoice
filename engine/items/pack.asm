@@ -13,7 +13,7 @@
 	const PACKSTATE_QUITRUNSCRIPT      ; 10
 
 Pack:
-	ld hl, wOptions
+	ld hl, NO_TEXT_SCROLL_ADDRESS
 	set NO_TEXT_SCROLL, [hl]
 	call InitPackBuffers
 .loop
@@ -28,7 +28,7 @@ Pack:
 .done
 	ld a, [wCurPocket]
 	ld [wLastPocket], a
-	ld hl, wOptions
+	ld hl, NO_TEXT_SCROLL_ADDRESS
 	res NO_TEXT_SCROLL, [hl]
 	ret
 
@@ -196,13 +196,13 @@ Pack:
 	ret c
 	farcall ChooseMonToLearnTMHM
 	jr c, .declined
-	ld hl, wOptions
+	ld hl, NO_TEXT_SCROLL_ADDRESS
 	ld a, [hl]
 	push af
 	res NO_TEXT_SCROLL, [hl]
 	farcall TeachTMHM
 	pop af
-	ld [wOptions], a
+	ld [NO_TEXT_SCROLL_ADDRESS], a
 .declined
 	xor a
 	ldh [hBGMapMode], a
@@ -560,10 +560,10 @@ GiveItem:
 	ld a, [wPartyCount]
 	and a
 	jp z, .NoPokemon
-	ld a, [wOptions]
+	ld a, [NO_TEXT_SCROLL_ADDRESS]
 	push af
 	res NO_TEXT_SCROLL, a
-	ld [wOptions], a
+	ld [NO_TEXT_SCROLL_ADDRESS], a
 	ld a, PARTYMENUACTION_GIVE_ITEM
 	ld [wPartyMenuActionText], a
 	call ClearBGPalettes
@@ -602,7 +602,7 @@ GiveItem:
 	ld [wJumptableIndex], a
 .finish
 	pop af
-	ld [wOptions], a
+	ld [NO_TEXT_SCROLL_ADDRESS], a
 	xor a
 	ldh [hBGMapMode], a
 	call Pack_InitGFX
@@ -622,7 +622,7 @@ QuitItemSubmenu:
 	ret
 
 BattlePack:
-	ld hl, wOptions
+	ld hl, NO_TEXT_SCROLL_ADDRESS
 	set NO_TEXT_SCROLL, [hl]
 	call InitPackBuffers
 .loop
@@ -637,7 +637,7 @@ BattlePack:
 .end
 	ld a, [wCurPocket]
 	ld [wLastPocket], a
-	ld hl, wOptions
+	ld hl, NO_TEXT_SCROLL_ADDRESS
 	res NO_TEXT_SCROLL, [hl]
 	ret
 
@@ -1196,13 +1196,13 @@ Pack_QuitRunScript:
 	ret
 
 Pack_PrintTextNoScroll:
-	ld a, [wOptions]
+	ld a, [NO_TEXT_SCROLL_ADDRESS]
 	push af
 	set NO_TEXT_SCROLL, a
-	ld [wOptions], a
+	ld [NO_TEXT_SCROLL_ADDRESS], a
 	call PrintText
 	pop af
-	ld [wOptions], a
+	ld [NO_TEXT_SCROLL_ADDRESS], a
 	ret
 
 WaitBGMap_DrawPackGFX:

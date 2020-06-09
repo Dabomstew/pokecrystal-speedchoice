@@ -142,7 +142,7 @@ AskFloorElevatorText:
 	text_end
 
 Elevator_GetCurrentFloorText:
-	ld hl, wOptions
+	ld hl, NO_TEXT_SCROLL_ADDRESS
 	ld a, [hl]
 	push af
 	set NO_TEXT_SCROLL, [hl]
@@ -156,7 +156,7 @@ Elevator_GetCurrentFloorText:
 	hlcoord 4, 4
 	call Elevator_GetCurrentFloorString
 	pop af
-	ld [wOptions], a
+	ld [NO_TEXT_SCROLL_ADDRESS], a
 	ret
 
 Elevator_CurrentFloorText:

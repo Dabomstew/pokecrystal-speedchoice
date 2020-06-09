@@ -3477,8 +3477,7 @@ CheckWhetherToAskSwitch:
 	ld a, [wLinkMode]
 	and a
 	jp nz, .return_nc
-	ld a, [wOptions]
-	bit BATTLE_SHIFT, a
+	sboptioncheck BATTLE_SHIFT
 	jr nz, .return_nc
 	ld a, [wCurPartyMon]
 	push af

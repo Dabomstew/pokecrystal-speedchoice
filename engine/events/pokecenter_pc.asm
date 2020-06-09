@@ -291,13 +291,13 @@ PLAYERSPC_LOG_OFF       EQU 6
 	db -1 ; end
 
 PC_DisplayTextWaitMenu:
-	ld a, [wOptions]
+	ld a, [NO_TEXT_SCROLL_ADDRESS]
 	push af
 	set NO_TEXT_SCROLL, a
-	ld [wOptions], a
+	ld [NO_TEXT_SCROLL_ADDRESS], a
 	call MenuTextbox
 	pop af
-	ld [wOptions], a
+	ld [NO_TEXT_SCROLL_ADDRESS], a
 	ret
 
 PlayersPCAskWhatDoText:

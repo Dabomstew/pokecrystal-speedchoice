@@ -220,10 +220,10 @@ _BattleTowerBattle:
 	dw SkipBattleTowerTrainer
 
 RunBattleTowerTrainer:
-	ld a, [wOptions]
+	ld a, [BATTLE_SHIFT_ADDRESS]
 	push af
-	ld hl, wOptions
-	set BATTLE_SHIFT, [hl] ; SET MODE
+	ld hl, BATTLE_SHIFT_ADDRESS
+	res BATTLE_SHIFT, [hl] ; SET MODE
 
 	ld a, [wInBattleTowerBattle]
 	push af
@@ -261,7 +261,7 @@ RunBattleTowerTrainer:
 	pop af
 	ld [wInBattleTowerBattle], a
 	pop af
-	ld [wOptions], a
+	ld [BATTLE_SHIFT_ADDRESS], a
 	ld a, TRUE
 	ld [wBattleTowerBattleEnded], a
 	ret

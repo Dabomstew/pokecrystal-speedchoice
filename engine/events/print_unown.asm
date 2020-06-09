@@ -10,10 +10,10 @@ _UnownPrinter:
 	push af
 	ld a, $1
 	ldh [hInMenu], a
-	ld a, [wOptions]
+	ld a, [NO_TEXT_SCROLL_ADDRESS]
 	push af
 	set NO_TEXT_SCROLL, a
-	ld [wOptions], a
+	ld [NO_TEXT_SCROLL_ADDRESS], a
 	call ClearBGPalettes
 	call ClearTilemap
 
@@ -92,7 +92,7 @@ _UnownPrinter:
 
 .pressed_b
 	pop af
-	ld [wOptions], a
+	ld [NO_TEXT_SCROLL_ADDRESS], a
 	pop af
 	ldh [hInMenu], a
 	call ReturnToMapFromSubmenu

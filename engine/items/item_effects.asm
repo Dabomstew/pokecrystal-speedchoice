@@ -223,7 +223,7 @@ PokeBallEffect:
 	call nz, ReturnToBattle_UseBall
 
 .skipBallMenuClose
-	ld hl, wOptions
+	ld hl, NO_TEXT_SCROLL_ADDRESS
 	res NO_TEXT_SCROLL, [hl]
 	ld hl, ItemUsedText
 	call PrintText

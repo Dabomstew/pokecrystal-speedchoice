@@ -75,7 +75,7 @@ SLOTS_END_LOOP_F EQU 7
 	const REEL_ACTION_DROP_REEL
 
 _SlotMachine:
-	ld hl, wOptions
+	ld hl, NO_TEXT_SCROLL_ADDRESS
 	set NO_TEXT_SCROLL, [hl]
 	call .InitGFX
 	call DelayFrame
@@ -88,7 +88,7 @@ _SlotMachine:
 	call WaitSFX
 	call ClearBGPalettes
 	farcall StubbedTrainerRankings_EndSlotsWinStreak
-	ld hl, wOptions
+	ld hl, NO_TEXT_SCROLL_ADDRESS
 	res NO_TEXT_SCROLL, [hl]
 	ld hl, rLCDC
 	res rLCDC_SPRITE_SIZE, [hl] ; 8x8

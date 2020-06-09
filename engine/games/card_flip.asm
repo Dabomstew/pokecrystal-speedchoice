@@ -11,7 +11,7 @@ ret_e00ed:
 	ret
 
 _CardFlip:
-	ld hl, wOptions
+	ld hl, NO_TEXT_SCROLL_ADDRESS
 	set NO_TEXT_SCROLL, [hl]
 	call ClearBGPalettes
 	call ClearTilemap
@@ -70,8 +70,8 @@ _CardFlip:
 	call PlaySFX
 	call WaitSFX
 	call ClearBGPalettes
-	ld hl, wOptions
-	res 4, [hl]
+	ld hl, NO_TEXT_SCROLL_ADDRESS
+	res NO_TEXT_SCROLL, [hl]
 	ret
 
 .CardFlip:
