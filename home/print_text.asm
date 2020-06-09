@@ -40,7 +40,7 @@ PrintLetterDelay::
 	ld b, TEXT_DELAY_FAST
 	dec a
 	jr z, .updatedelay
-	ld b, TEXT_DELAY_MEDIUM
+	ld b, TEXT_DELAY_MED
 	dec a
 	jr z, .updatedelay
 	ld b, TEXT_DELAY_SLOW

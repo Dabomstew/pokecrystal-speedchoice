@@ -5,9 +5,9 @@ AlignTileMap::
 	ldh [rSVBK], a
 	ldh a, [hBGMapMode]
 	bit 0, a
-	ld hl, TileMap
+	ld hl, wTilemap
 	jr nz, .loadSP
-	ld hl, AttrMap
+	ld hl, wAttrmap
 .loadSP
 	ld [hSPBuffer], sp
 	ld sp, hl

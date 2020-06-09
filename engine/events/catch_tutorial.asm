@@ -33,11 +33,11 @@ CatchTutorial::
 	xor a
 	ldh [hJoyDown], a
 	ldh [hJoyPressed], a
-	ld a, [wOptions]
+	ld a, [TEXT_SPEED_ADDRESS]
 	push af
-	and $ff ^ TEXT_DELAY_MASK
-	add TEXT_DELAY_MED
-	ld [wOptions], a
+	and $ff ^ TEXT_SPEED_MASK
+	add TEXT_SPEED_MEDIUM
+	ld [TEXT_SPEED_ADDRESS], a
 	ld hl, .AutoInput
 	ld a, BANK(.AutoInput)
 	call StartAutoInput
@@ -45,7 +45,7 @@ CatchTutorial::
 	call StopAutoInput
 	pop af
 
-	ld [wOptions], a
+	ld [TEXT_SPEED_ADDRESS], a
 	ld hl, wMomsName
 	ld de, wPlayerName
 	ld bc, NAME_LENGTH

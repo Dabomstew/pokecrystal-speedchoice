@@ -658,7 +658,7 @@ CheckSpinnerSettings::
 	jr z, .done ; no change to behavior
 	ld bc, MAPOBJECT_MOVEMENT - MAPOBJECT_RANGE
 	add hl, bc
-	cp SPINNERS_NONE << SPINNERS_SHIFT
+	cp SPINNERS_NONE << SPINNERS
 	jr z, .remove
 	; if we got here this is spinner hell or why
 	ld a, [hl]

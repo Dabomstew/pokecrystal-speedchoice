@@ -173,6 +173,5 @@ hMobile:: db ; ffe9
 hSystemBooted:: db ; ffea
 hClockResetTrigger:: db ; ffeb
 hHasAlignedBGMap:: db ; ffec
-hSRAMBank:: db ; ffed
-hStatsDisabled:: db ; ffee
-hTimerType:: db ; ffef
+hStatsDisabled:: db ; ffed
+hTimerType:: db ; ffee

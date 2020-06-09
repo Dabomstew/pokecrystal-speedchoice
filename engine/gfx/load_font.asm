@@ -1,23 +1,5 @@
 INCLUDE "gfx/font.asm"
 
-; This and the following two functions are unreferenced.
-; Debug, perhaps?
-Unreferenced_fb434:
-	db 0
-
-Unreferenced_Functionfb435:
-	ld a, [Unreferenced_fb434]
-	and a
-	jp nz, Get1bppViaHDMA
-	jp Get1bpp
-
-Unreferenced_Functionfb43f:
-	ld a, [Unreferenced_fb434]
-	and a
-	jp nz, Get2bppViaHDMA
-	jp Get2bpp
-; End unreferenced block
-
 _LoadStandardFont::
 	ld de, Font
 	ld hl, vTiles1
@@ -75,8 +57,7 @@ _LoadFontsBattleExtra::
 	jr LoadFrame
 
 LoadFrame:
-	ld a, [wTextboxFrame]
-	maskbits NUM_FRAMES
+	mboptionload TEXT_FRAME
 	ld bc, 6 * LEN_1BPP_TILE
 	ld hl, Frames
 	call AddNTimes

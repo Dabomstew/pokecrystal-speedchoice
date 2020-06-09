@@ -173,7 +173,6 @@ INCLUDE "data/battle/effect_command_pointers.asm"
 SECTION "bank10", ROMX
 
 INCLUDE "engine/pokedex/pokedex.asm"
-INCLUDE "data/moves/moves.asm"
 INCLUDE "engine/pokemon/evolve.asm"
 
 
@@ -726,3 +725,24 @@ INCBIN "mobile/stadium/stadium2_11.bin"
 else
 INCBIN "mobile/stadium/stadium2.bin"
 endc
+
+SECTION "permaoptionsintro", ROMX
+INCLUDE "engine/menus/intro_permaoptions.asm"
+
+SECTION "lrtrainercheck", ROMX
+INCLUDE "engine/overworld/check_for_trainer.asm"
+
+SECTION "femon", ROMX
+INCLUDE "engine/pokemon/fully_evolve_mon.asm"
+
+SECTION "stats", ROMX
+INCLUDE "engine/stat_tracking.asm"
+
+SECTION "statsdisplay", ROMX
+INCLUDE "engine/menus/playthrough_stats_screen.asm"
+
+SECTION "moves", ROMX
+INCLUDE "data/moves/moves.asm"
+
+SECTION "movenamesnerfed", ROMX
+INCLUDE "data/moves/names_nerfed.asm"

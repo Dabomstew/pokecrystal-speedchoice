@@ -1,4 +1,4 @@
-MoveNamesHMNerfs::
+MoveNamesNerfedHMs::
 	db "POUND@"
 	db "KARATE CHOP@"
 	db "DOUBLESLAP@"

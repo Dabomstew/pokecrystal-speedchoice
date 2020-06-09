@@ -1029,22 +1029,6 @@ Function106464::
 	ret
 
 Function10649b:
-	ld a, [wTextboxFrame]
-	maskbits NUM_FRAMES
-	ld bc, 6 * LEN_1BPP_TILE
-	ld hl, Frames
-	call AddNTimes
-	ld d, h
-	ld e, l
-	ld hl, vTiles2 tile "┌" ; $79
-	ld c, 6 ; "┌" to "┘"
-	ld b, BANK(Frames)
-	call Function1064c3
-	ld hl, vTiles2 tile " " ; $7f
-	ld de, TextboxSpaceGFX
-	ld c, 1
-	ld b, BANK(TextboxSpaceGFX)
-	call Function1064c3
 	ret
 
 Function1064c3:

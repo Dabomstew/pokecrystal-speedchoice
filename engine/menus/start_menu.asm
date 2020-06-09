@@ -397,8 +397,7 @@ endr
 	jp TextboxPalette
 
 .IsMenuAccountOn:
-	ld a, [wOptions2]
-	and 1 << MENU_ACCOUNT
+	sboptioncheck MENU_ACCOUNT
 	ret
 
 .DrawBugContestStatusBox:
@@ -418,7 +417,7 @@ endr
 	ret
 
 StartMenu_Escape:
-	call GetMapPermission
+	call GetMapEnvironment
 	call CheckIndoorMap
 	jr nz, .cantEscape
 	callba CheckForRangedTrainerOnMap
@@ -426,7 +425,7 @@ StartMenu_Escape:
 	ld hl, .doYouWantToEscapeText
 	call StartMenuYesNo
 	jr c, .dontEscape
-	ld hl, wDigWarp
+	ld hl, wDigWarpNumber
 	ld de, wNextWarp
 	ld bc, 3
 	call CopyBytes
@@ -437,7 +436,7 @@ StartMenu_Escape:
 	ret
 .cantEscape
 	ld hl, .cantEscapeText
-	call MenuTextBox
+	call MenuTextbox
 	call ExitMenu
 .dontEscape
 	ld a, 0

@@ -293,7 +293,7 @@ UpdateBGMapAligned::
 	push hl
 	xor a
 	ldh [hBGMapAddress], a
-	ld a, HIGH(VBGMap1)
+	ld a, HIGH(vBGMap1)
 	ldh [hBGMapAddress + 1], a
 	
 	dec b

@@ -132,10 +132,10 @@ _Serve1bppRequestHB:
 	jr RequestDone
 	
 Wait2bpp::
-	ld a, [hFFC6]
+	ldh a, [hLCDCPointer]
 	push af
 	xor a
-	ld [hFFC6], a
+	ldh [hLCDCPointer], a
 .loop
 	halt
 	nop
@@ -143,7 +143,7 @@ Wait2bpp::
 	and a
 	jr nz, .loop
 	pop af
-	ld [hFFC6], a
+	ldh [hLCDCPointer], a
 	ret
 
 DisableLCD::
