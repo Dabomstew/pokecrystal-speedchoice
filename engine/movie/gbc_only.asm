@@ -3,6 +3,8 @@ GBCOnlyScreen:
 	and a
 	ret nz
 
+	call DisableLCD
+
 	ld de, MUSIC_NONE
 	call PlayMusic
 
@@ -10,13 +12,7 @@ GBCOnlyScreen:
 
 	ld hl, GBCOnlyGFX
 	ld de, wGBCOnlyDecompressBuffer
-	ldh a, [rSVBK]
-	push af
-	ld a, 0 ; this has the same effect as selecting bank 1
-	ldh [rSVBK], a
 	call Decompress
-	pop af
-	ldh [rSVBK], a
 
 	ld de, wGBCOnlyDecompressBuffer
 	ld hl, vTiles2
@@ -29,6 +25,8 @@ GBCOnlyScreen:
 	call Get1bpp
 
 	call DrawGBCOnlyScreen
+
+	call EnableLCD
 
 	call WaitBGMap
 
