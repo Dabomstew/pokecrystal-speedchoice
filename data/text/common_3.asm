@@ -1543,3 +1543,18 @@ _MomLostGearBookletText::
 	para "Come back again in"
 	line "a while."
 	prompt
+
+_CantEscapeMenuText::
+	text "You can't do"
+	line "that here."
+	prompt
+
+_DoYouWantToEscapeMenuText::
+	text "Escape from"
+	line "this location?"
+	done
+
+_ReallyDoneText::
+	text "Have you really"
+	line "finished the race?"
+	done

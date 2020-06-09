@@ -2607,8 +2607,8 @@ OpenBox:
 	text_far _SentTrophyHomeText
 	text_end
 
-DoneButton:
-	ld hl, Text_AskReallyDone
+DoneButtonEffect:
+	ld hl, ReallyDoneText
 	call PrintText
 	call YesNoBox
 	ret c
@@ -2967,6 +2967,6 @@ GetMthMoveOfCurrentMon:
 	add hl, bc
 	ret
 
-Text_AskReallyDone:
-	text_jump _Text_ReallyDone
+ReallyDoneText:
+	text_jump _ReallyDoneText
 	db "@"

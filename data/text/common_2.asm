@@ -1529,6 +1529,19 @@ _MayRegisterItemText::
 	para "registered for use"
 	line "on SELECT Button."
 	done
+	
+_PleaseSetOptionsText::
+	text "Please set the"
+	line "game settings."
+	
+	para "Press START when"
+	line "you're finished."
+	prompt
+	
+_AreOptionsAcceptableText::
+	text "Are these options"
+	line "acceptable?"
+	done
 
 _OakText1::
 	text "Hello! Sorry to"

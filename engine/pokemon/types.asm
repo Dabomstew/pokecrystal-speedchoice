@@ -45,7 +45,7 @@ PrintMoveType:
 	ld a, b
 	dec a
 	ld bc, MOVE_LENGTH
-	ld hl, Moves
+	call LoadHLMoves
 	call AddNTimes
 	ld de, wStringBuffer1
 	ld a, BANK(Moves)
