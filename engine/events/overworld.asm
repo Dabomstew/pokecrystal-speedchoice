@@ -829,10 +829,6 @@ EscapeRopeOrDig:
 	ld a, $80
 	ret
 
-.UseDigText:
-	text_far _UseDigText
-	text_end
-
 .UseEscapeRopeText:
 	text_far _UseEscapeRopeText
 	text_end
@@ -840,40 +836,44 @@ EscapeRopeOrDig:
 .CantUseDigText:
 	text_far _CantUseDigText
 	text_end
-
-.UsedEscapeRopeScript:
+	
+UsedEscapeRopeScript::
 	reloadmappart
 	special UpdateTimePals
-	writetext .UseEscapeRopeText
-	sjump .UsedDigOrEscapeRopeScript
-
-.UsedDigScript:
+	writetext UseEscapeRopeText
+	sjump UsedDigOrEscapeRopeScript
+	
+UsedDigScript:
 	reloadmappart
 	special UpdateTimePals
-	writetext .UseDigText
+	writetext UseDigText
 
-.UsedDigOrEscapeRopeScript:
+UsedDigOrEscapeRopeScript:
 	waitbutton
 	closetext
 	playsound SFX_WARP_TO
-	applymovement PLAYER, .DigOut
+	applymovement PLAYER, DigOut
 	farscall Script_AbortBugContest
 	special WarpToSpawnPoint
 	loadvar VAR_MOVEMENT, PLAYER_NORMAL
 	newloadmap MAPSETUP_DOOR
 	playsound SFX_WARP_FROM
-	applymovement PLAYER, .DigReturn
+	applymovement PLAYER, DigReturn
 	end
-
-.DigOut:
+	
+DigOut:
 	step_dig 32
 	hide_object
 	step_end
 
-.DigReturn:
+DigReturn:
 	show_object
 	return_dig 32
 	step_end
+	
+UseDigText:
+	text_far _UseDigText
+	text_end
 
 TeleportFunction:
 	call FieldMoveJumptableReset

@@ -6,6 +6,7 @@ GiveShuckle:
 	ld [wMonType], a
 
 ; Level 15 Shuckle.
+Randomizer_ShuckleSpecies::
 	ld a, SHUCKLE
 	ld [wCurPartySpecies], a
 	ld a, 15

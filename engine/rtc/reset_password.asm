@@ -17,6 +17,8 @@ _ResetClock:
 	ret z
 	call ClockResetPassword
 	jr c, .wrongpassword
+	ld de, sStatsClockResetCount
+	callba SRAMStatsIncrement2Byte
 	ld a, BANK(sRTCStatusFlags)
 	call GetSRAMBank
 	ld a, $80

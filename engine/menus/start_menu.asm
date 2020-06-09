@@ -430,8 +430,8 @@ StartMenu_Escape:
 	ld de, wNextWarp
 	ld bc, 3
 	call CopyBytes
-	ld a, BANK(digUsedEscapeRopeScript)
-	ld hl, digUsedEscapeRopeScript
+	ld a, BANK(UsedEscapeRopeScript)
+	ld hl, UsedEscapeRopeScript
 	call FarQueueScript
 	ld a, 4
 	ret

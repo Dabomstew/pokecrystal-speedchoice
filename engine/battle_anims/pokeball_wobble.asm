@@ -15,8 +15,8 @@ GetPokeBallWobble:
 	inc a
 	ld [wBuffer2], a
 
-; Wobble up to 3 times.
-	cp 3 + 1
+; Wobble up to 2 times.
+	cp 2 + 1
 	jr z, .finished
 
 	ld a, [wWildMon]
@@ -36,7 +36,7 @@ GetPokeBallWobble:
 
 .checkwobble
 	ld b, [hl]
-	call Random
+	ld a, [wBuffer2]
 	cp b
 	ld c, 0 ; next
 	jr c, .done

@@ -5,6 +5,7 @@ HiddenItemScript::
 	writetext .PlayerFoundItemText
 	giveitem ITEM_FROM_MEM
 	iffalse .bag_full
+	increment2bytestat sStatsItemsPickedUp
 	callasm SetMemEvent
 	specialsound
 	itemnotify
