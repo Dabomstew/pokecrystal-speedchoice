@@ -3478,7 +3478,7 @@ CheckWhetherToAskSwitch:
 	and a
 	jp nz, .return_nc
 	sboptioncheck BATTLE_SHIFT
-	jr nz, .return_nc
+	jr z, .return_nc
 	ld a, [wCurPartyMon]
 	push af
 	ld a, [wCurBattleMon]
