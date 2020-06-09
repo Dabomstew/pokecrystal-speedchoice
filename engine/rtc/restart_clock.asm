@@ -31,7 +31,7 @@ RestartClock:
 ; If we're here, we had an RTC overflow.
 	ld hl, .ClockTimeMayBeWrongText
 	call PrintText
-	ld hl, wOptions
+	ld hl, NO_TEXT_SCROLL_ADDRESS
 	ld a, [hl]
 	push af
 	set NO_TEXT_SCROLL, [hl]
@@ -42,7 +42,7 @@ RestartClock:
 	call .SetClock
 	call ExitMenu
 	pop bc
-	ld hl, wOptions
+	ld hl, NO_TEXT_SCROLL_ADDRESS
 	ld [hl], b
 	ld c, a
 	ret

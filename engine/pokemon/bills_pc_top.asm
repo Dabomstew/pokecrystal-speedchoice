@@ -23,14 +23,14 @@ _BillsPC:
 	ldh [hBGMapMode], a
 	call LoadStandardMenuHeader
 	call ClearPCItemScreen
-	ld hl, wOptions
+	ld hl, NO_TEXT_SCROLL_ADDRESS
 	ld a, [hl]
 	push af
 	set NO_TEXT_SCROLL, [hl]
 	ld hl, .PCWhatText
 	call PrintText
 	pop af
-	ld [wOptions], a
+	ld [NO_TEXT_SCROLL_ADDRESS], a
 	call LoadFontsBattleExtra
 	ret
 

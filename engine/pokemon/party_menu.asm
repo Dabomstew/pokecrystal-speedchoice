@@ -41,7 +41,7 @@ LoadPartyMenuGFX:
 	ret
 
 WritePartyMenuTilemap:
-	ld hl, wOptions
+	ld hl, NO_TEXT_SCROLL_ADDRESS
 	ld a, [hl]
 	push af
 	set NO_TEXT_SCROLL, [hl]
@@ -63,7 +63,7 @@ WritePartyMenuTilemap:
 	jr .loop
 .end
 	pop af
-	ld [wOptions], a
+	ld [NO_TEXT_SCROLL_ADDRESS], a
 	ret
 
 .Jumptable:
@@ -730,14 +730,14 @@ PrintPartyMenuText:
 	ld d, [hl]
 	ld e, a
 .gotstring
-	ld a, [wOptions]
+	ld a, [NO_TEXT_SCROLL_ADDRESS]
 	push af
 	set NO_TEXT_SCROLL, a
-	ld [wOptions], a
+	ld [NO_TEXT_SCROLL_ADDRESS], a
 	hlcoord 1, 16 ; Coord
 	call PlaceString
 	pop af
-	ld [wOptions], a
+	ld [NO_TEXT_SCROLL_ADDRESS], a
 	ret
 
 PartyMenuStrings:
@@ -851,11 +851,11 @@ PrintPartyMenuActionText:
 	ld a, [hli]
 	ld h, [hl]
 	ld l, a
-	ld a, [wOptions]
+	ld a, [NO_TEXT_SCROLL_ADDRESS]
 	push af
 	set NO_TEXT_SCROLL, a
-	ld [wOptions], a
+	ld [NO_TEXT_SCROLL_ADDRESS], a
 	call PrintText
 	pop af
-	ld [wOptions], a
+	ld [NO_TEXT_SCROLL_ADDRESS], a
 	ret

@@ -123,7 +123,7 @@ RunTradeAnimScript:
 	ld a, [hl]
 	push af
 	res 0, [hl]
-	ld hl, wOptions
+	ld hl, NO_TEXT_SCROLL_ADDRESS
 	ld a, [hl]
 	push af
 	set NO_TEXT_SCROLL, [hl]
@@ -137,7 +137,7 @@ RunTradeAnimScript:
 	call DoTradeAnimation
 	jr nc, .anim_loop
 	pop af
-	ld [wOptions], a
+	ld [NO_TEXT_SCROLL_ADDRESS], a
 	pop af
 	ld [wVramState], a
 	pop af

@@ -25,7 +25,7 @@ PHONE_DISPLAY_HEIGHT EQU 4
 	const POKEGEARSTATE_RADIOJOYPAD     ; c
 
 PokeGear:
-	ld hl, wOptions
+	ld hl, NO_TEXT_SCROLL_ADDRESS
 	ld a, [hl]
 	push af
 	set NO_TEXT_SCROLL, [hl]
@@ -59,7 +59,7 @@ PokeGear:
 	pop af
 	ldh [hInMenu], a
 	pop af
-	ld [wOptions], a
+	ld [NO_TEXT_SCROLL_ADDRESS], a
 	call ClearBGPalettes
 	xor a ; LOW(vBGMap0)
 	ldh [hBGMapAddress], a
@@ -898,7 +898,7 @@ PokegearPhone_MakePhoneCall:
 	call GetMapPhoneService
 	and a
 	jr nz, .no_service
-	ld hl, wOptions
+	ld hl, NO_TEXT_SCROLL_ADDRESS
 	res NO_TEXT_SCROLL, [hl]
 	xor a
 	ldh [hInMenu], a
@@ -917,7 +917,7 @@ PokegearPhone_MakePhoneCall:
 	call Function90199
 	ld c, 10
 	call DelayFrames
-	ld hl, wOptions
+	ld hl, NO_TEXT_SCROLL_ADDRESS
 	set NO_TEXT_SCROLL, [hl]
 	ld a, $1
 	ldh [hInMenu], a
@@ -1767,7 +1767,7 @@ LetsAllSingName:      db "Let's All Sing!@"
 PokeFluteStationName: db "# FLUTE@"
 
 _TownMap:
-	ld hl, wOptions
+	ld hl, NO_TEXT_SCROLL_ADDRESS
 	ld a, [hl]
 	push af
 	set NO_TEXT_SCROLL, [hl]
@@ -1836,7 +1836,7 @@ _TownMap:
 	pop af
 	ldh [hInMenu], a
 	pop af
-	ld [wOptions], a
+	ld [NO_TEXT_SCROLL_ADDRESS], a
 	call ClearBGPalettes
 	ret
 
@@ -1935,7 +1935,7 @@ _TownMap:
 	ret
 
 PlayRadio:
-	ld hl, wOptions
+	ld hl, NO_TEXT_SCROLL_ADDRESS
 	ld a, [hl]
 	push af
 	set NO_TEXT_SCROLL, [hl]
@@ -1961,7 +1961,7 @@ PlayRadio:
 
 .stop
 	pop af
-	ld [wOptions], a
+	ld [NO_TEXT_SCROLL_ADDRESS], a
 	call ExitPokegearRadio_HandleMusic
 	ret
 
@@ -2169,19 +2169,19 @@ FlyMapScroll:
 	ret
 
 .showHidePlayer:
-	ld hl, wd008
+	ld hl, wTownMapBuffer3
 	ld a, [hli]
 	ld b, [hl]
 	ld c, a
 	ld hl, SPRITEANIMSTRUCT_YCOORD
 	add hl, bc
-	ld a, [wd007]
+	ld a, [wTownMapBuffer1]
 	cp d
 	jr nz, .show
 	ld a, $c0
 	jr .got_y
 .show
-	ld a, [wd00a]
+	ld a, [wTownMapBuffer2]
 .got_y
 	ld [hl], a
 	ret
@@ -2300,11 +2300,11 @@ INCLUDE "data/maps/flypoints.asm"
 
 ret_91c8f:
 	ld a, c
-	ld [wd008], a
+	ld [wTownMapBuffer3], a
 	ld a, b
-	ld [wd008+1], a
+	ld [wTownMapBuffer3+1], a
 	ld a, d
-	ld [wd00a], a
+	ld [wTownMapBuffer2], a
 	ret
 
 FlyMap:
@@ -2318,7 +2318,7 @@ FlyMap:
 ; Start from New Bark Town
 	call GetJohtoFlyParams
 	xor a
-	ld [wd007], a
+	ld [wTownMapBuffer1], a
 ; Fill out the map
 	call .MapHud
 	pop af
@@ -2341,7 +2341,7 @@ FlyMap:
 	xor a
 	ldh [hWY], a
 	inc a
-	ld [wd007], a
+	ld [wTownMapBuffer1], a
 	call .MapHud
 	pop af
 	call TownMapPlayerIcon
@@ -2353,13 +2353,13 @@ FlyMap:
 ; Start from New Bark Town
 	call GetJohtoFlyParams
 	xor a
-	ld [wd007], a
+	ld [wTownMapBuffer1], a
 	pop af
 .MapHud:
 	call FillKantoMap
 	call TownMapBubble
 	call TownMapPals
-	hlbgcoord 0, 0, VBGMap1
+	hlbgcoord 0, 0, vBGMap1
 	call TownMapBGUpdate
 	call FillJohtoMap
 	call TownMapBubble
@@ -2375,7 +2375,7 @@ FlyMap:
 	
 GetJohtoFlyParams:
 	ld a, FLY_NEW_BARK
-	ld [wd002], a
+	ld [wTownMapPlayerIconLandmark], a
 ; Flypoints begin at New Bark Town...
 	ld [wStartFlypoint], a
 ; ..and end at Silver Cave
@@ -2416,7 +2416,7 @@ GetKantoFlyParams:
 	ld [wEndFlypoint], a
 ; Use the lowest index flypoint the player visits as the default flypoint
 	ld a, b
-	ld [wd002], a
+	ld [wTownMapPlayerIconLandmark], a
 	and a
 	ret
 
@@ -2433,7 +2433,7 @@ FlyMapIsInKanto:
 ; If we're not in a valid location, i.e. Pokecenter floor 2F,
 
 ; the backup map information is used
-	cp SPECIAL_MAP
+	cp LANDMARK_SPECIAL
 	jr nz, .CheckRegion
 	ld a, [wBackupMapGroup]
 	ld b, a

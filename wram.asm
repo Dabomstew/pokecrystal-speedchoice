@@ -1710,6 +1710,10 @@ wTownMapCursorObjectPointer:: dw
 NEXTU
 wTownMapCursorCoordinates:: dw
 ENDU
+ds 1
+wTownMapBuffer1:: db
+wTownMapBuffer2:: db
+wTownMapBuffer3:: dw
 
 NEXTU ; d002
 ; phone call data

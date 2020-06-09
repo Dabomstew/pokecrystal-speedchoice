@@ -1,5 +1,5 @@
 CheckForRangedTrainerOnMap::
-	ld a, [wCurrentMapPersonEventCount]
+	ld a, [wCurMapObjectEventCount]
 	and a
 	ret z
 	push de

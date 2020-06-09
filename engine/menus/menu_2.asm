@@ -110,38 +110,6 @@ CoinString:
 ShowMoney_TerminatorString:
 	db "@"
 
-Unreferenced_StartMenu_PrintSafariGameStatus:
-	ld hl, wOptions
-	ld a, [hl]
-	push af
-	set NO_TEXT_SCROLL, [hl]
-	hlcoord 0, 0
-	ld b, 3
-	ld c, 7
-	call Textbox
-	hlcoord 1, 1
-	ld de, wSafariTimeRemaining
-	lb bc, 2, 3
-	call PrintNum
-	hlcoord 4, 1
-	ld de, .slash_500
-	call PlaceString
-	hlcoord 1, 3
-	ld de, .booru_ko
-	call PlaceString
-	hlcoord 5, 3
-	ld de, wSafariBallsRemaining
-	lb bc, 1, 2
-	call PrintNum
-	pop af
-	ld [wOptions], a
-	ret
-
-.slash_500
-	db "／５００@"
-.booru_ko
-	db "ボール　　　こ@"
-
 StartMenu_DrawBugContestStatusBox:
 	hlcoord 0, 0
 	ld b, 5
@@ -150,7 +118,7 @@ StartMenu_DrawBugContestStatusBox:
 	ret
 
 StartMenu_PrintBugContestStatus:
-	ld hl, wOptions
+	ld hl, NO_TEXT_SCROLL_ADDRESS
 	ld a, [hl]
 	push af
 	set NO_TEXT_SCROLL, [hl]
@@ -190,7 +158,7 @@ StartMenu_PrintBugContestStatus:
 
 .skip_level
 	pop af
-	ld [wOptions], a
+	ld [NO_TEXT_SCROLL_ADDRESS], a
 	ret
 
 .Balls_JP:

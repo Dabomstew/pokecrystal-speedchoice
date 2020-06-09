@@ -13,7 +13,7 @@ TrainerCard:
 	push af
 	xor a
 	ld [wVramState], a
-	ld hl, wOptions
+	ld hl, NO_TEXT_SCROLL_ADDRESS
 	ld a, [hl]
 	push af
 	set NO_TEXT_SCROLL, [hl]
@@ -33,7 +33,7 @@ TrainerCard:
 
 .quit
 	pop af
-	ld [wOptions], a
+	ld [NO_TEXT_SCROLL_ADDRESS], a
 	pop af
 	ld [wVramState], a
 	ret

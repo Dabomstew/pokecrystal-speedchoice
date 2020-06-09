@@ -103,7 +103,6 @@ CheckForLuckyNumberWinners:
 	ld a, [wScriptVar]
 	and a
 	ret z ; found nothing
-	farcall StubbedTrainerRankings_LuckyNumberShow
 	ld a, [wTempByteValue]
 	and a
 	push af

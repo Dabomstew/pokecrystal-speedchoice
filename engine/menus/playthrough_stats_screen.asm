@@ -27,7 +27,7 @@ PlaythroughStatsScreen::
 	hlcoord 0, 0
 	ld b, 16
 	ld c, 18
-	call TextBox
+	call Textbox
 ; render title
 	ld hl, wPlayStatsStringPtr
 	ld a, [hli]
@@ -61,7 +61,7 @@ PlaythroughStatsScreen::
 	ld a, 1
 	ld [hBGMapMode], a
 	call WaitBGMap
-	ld b, SCGB_08
+	ld b, SCGB_GS_INTRO
 	call GetSGBLayout
 	call SetPalettes
 .joypad_loop
@@ -347,7 +347,7 @@ endr
 	push af
 ; move the printed number elsewhere
 	ldh a, [hRemainder]
-	ldh [wBuffer1], a
+	ld [wBuffer1], a
 ; print seconds
 	ld bc, -5
 	add hl, bc

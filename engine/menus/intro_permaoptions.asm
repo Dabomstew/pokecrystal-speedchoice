@@ -22,8 +22,8 @@ endr
 	ld hl, wPlayerGender
 	set 0, [hl]
 .setOptions
-	callba PermaOptionsMenu
-	call ClearTileMap
+	;callba PermaOptionsMenu
+	call ClearTilemap
 	call PrintPermaOptionsToScreen
 	ld hl, AreOptionsAcceptableText
 	call PrintText

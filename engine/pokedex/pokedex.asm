@@ -26,7 +26,7 @@ Pokedex:
 	push hl
 	ldh a, [hSCX]
 	push af
-	ld hl, wOptions
+	ld hl, NO_TEXT_SCROLL_ADDRESS
 	ld a, [hl]
 	push af
 	set NO_TEXT_SCROLL, [hl]
@@ -66,7 +66,7 @@ Pokedex:
 	pop af
 	ld [wVramState], a
 	pop af
-	ld [wOptions], a
+	ld [NO_TEXT_SCROLL_ADDRESS], a
 	pop af
 	ldh [hSCX], a
 	pop hl

@@ -427,7 +427,7 @@ Gen2ToGen2LinkComms:
 	ld a, [hl]
 	push af
 	and STEREO_VAL
-	or TEXT_SPEED_MED
+	or TEXT_SPEED_MEDIUM
 	ld [hl], a
 	ld hl, wOTPlayerName
 	ld de, wOTClassName

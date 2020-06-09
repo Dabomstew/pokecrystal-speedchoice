@@ -441,13 +441,6 @@ rept 4
 	inc hl
 endr
 
-rept 7
-	pop de
-	ld [hl], e
-	inc l
-	ld [hl], d
-	inc l
-endr
 	dec b
 	jr nz, .next
 	

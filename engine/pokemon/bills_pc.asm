@@ -1,5 +1,5 @@
 _DepositPKMN:
-	ld hl, wOptions
+	ld hl, NO_TEXT_SCROLL_ADDRESS
 	ld a, [hl]
 	push af
 	set NO_TEXT_SCROLL, [hl]
@@ -32,7 +32,7 @@ _DepositPKMN:
 	pop af
 	ld [wVramState], a
 	pop af
-	ld [wOptions], a
+	ld [NO_TEXT_SCROLL_ADDRESS], a
 	ret
 
 .RunJumptable:
@@ -255,7 +255,7 @@ Unreferenced_BillsPCClearThreeBoxes:
 	ret
 
 _WithdrawPKMN:
-	ld hl, wOptions
+	ld hl, NO_TEXT_SCROLL_ADDRESS
 	ld a, [hl]
 	push af
 	set NO_TEXT_SCROLL, [hl]
@@ -288,7 +288,7 @@ _WithdrawPKMN:
 	pop af
 	ld [wVramState], a
 	pop af
-	ld [wOptions], a
+	ld [NO_TEXT_SCROLL_ADDRESS], a
 	ret
 
 .RunJumptable:
@@ -493,7 +493,7 @@ BillsPC_Withdraw:
 	db "CANCEL@"
 
 _MovePKMNWithoutMail:
-	ld hl, wOptions
+	ld hl, NO_TEXT_SCROLL_ADDRESS
 	ld a, [hl]
 	push af
 	set NO_TEXT_SCROLL, [hl]
@@ -529,7 +529,7 @@ _MovePKMNWithoutMail:
 	pop af
 	ld [wVramState], a
 	pop af
-	ld [wOptions], a
+	ld [NO_TEXT_SCROLL_ADDRESS], a
 	ret
 
 .RunJumptable:

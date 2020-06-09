@@ -2240,7 +2240,7 @@ GetMapMusic::
 	jr z, .mahoganymart
 	bit RADIO_TOWER_MUSIC_F, c
 	jr nz, .radiotower
-	farcall Function8b342
+	call GetMapAttributesPointer
 	ld e, c
 	ld d, 0
 .done

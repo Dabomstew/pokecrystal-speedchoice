@@ -795,7 +795,7 @@ MonMenu_SweetScent:
 	ret
 
 ChooseMoveToDelete:
-	ld hl, wOptions
+	ld hl, NO_TEXT_SCROLL_ADDRESS
 	ld a, [hl]
 	push af
 	set NO_TEXT_SCROLL, [hl]
@@ -803,7 +803,7 @@ ChooseMoveToDelete:
 	call .ChooseMoveToDelete
 	pop bc
 	ld a, b
-	ld [wOptions], a
+	ld [NO_TEXT_SCROLL_ADDRESS], a
 	push af
 	call ClearBGPalettes
 	pop af
@@ -859,13 +859,13 @@ ManagePokemonMoves:
 	ld a, [wCurPartySpecies]
 	cp EGG
 	jr z, .egg
-	ld hl, wOptions
+	ld hl, NO_TEXT_SCROLL_ADDRESS
 	ld a, [hl]
 	push af
 	set NO_TEXT_SCROLL, [hl]
 	call MoveScreenLoop
 	pop af
-	ld [wOptions], a
+	ld [NO_TEXT_SCROLL_ADDRESS], a
 	call ClearBGPalettes
 
 .egg

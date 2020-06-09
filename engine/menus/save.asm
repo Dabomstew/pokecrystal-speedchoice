@@ -104,7 +104,6 @@ MoveMonWOMail_InsertMon_SaveGame:
 	call SaveBackupPokemonData
 	call SaveBackupChecksum
 	farcall BackupPartyMonMail
-	farcall BackupMobileEventIndex
 	farcall SaveRTC
 	call LoadBox
 	call ResumeGameLogic
@@ -263,7 +262,6 @@ _SaveGameData:
 	call SaveBackupChecksum
 	call UpdateStackTop
 	farcall BackupPartyMonMail
-	farcall BackupMobileEventIndex
 	farcall SaveRTC
 	ld a, BANK(sBattleTowerChallengeState)
 	call GetSRAMBank
@@ -408,9 +406,9 @@ SaveOptions:
 	ld de, sOptions
 	ld bc, wOptionsEnd - wOptions
 	call CopyBytes
-	ld a, [wOptions]
-	and $ff ^ (1 << NO_TEXT_SCROLL)
-	ld [sOptions], a
+	ld a, [NO_TEXT_SCROLL_ADDRESS]
+	and $ff ^ NO_TEXT_SCROLL_VAL
+	ld [sOptions + (NO_TEXT_SCROLL_ADDRESS - wOptions)], a
 	jp CloseSRAM
 
 SavePlayerData:
@@ -518,7 +516,6 @@ TryLoadSaveFile:
 	call LoadPokemonData
 	call LoadBox
 	farcall RestorePartyMonMail
-	farcall RestoreMobileEventIndex
 	farcall RestoreMysteryGift
 	call ValidateBackupSave
 	call SaveBackupOptions
@@ -535,7 +532,6 @@ TryLoadSaveFile:
 	call LoadBackupPokemonData
 	call LoadBox
 	farcall RestorePartyMonMail
-	farcall RestoreMobileEventIndex
 	farcall RestoreMysteryGift
 	call ValidateSave
 	call SaveOptions
@@ -546,14 +542,14 @@ TryLoadSaveFile:
 	ret
 
 .corrupt
-	ld a, [wOptions]
+	ld a, [NO_TEXT_SCROLL_ADDRESS]
 	push af
 	set NO_TEXT_SCROLL, a
-	ld [wOptions], a
+	ld [NO_TEXT_SCROLL_ADDRESS], a
 	ld hl, SaveFileCorruptedText
 	call PrintText
 	pop af
-	ld [wOptions], a
+	ld [NO_TEXT_SCROLL_ADDRESS], a
 	scf
 	ret
 

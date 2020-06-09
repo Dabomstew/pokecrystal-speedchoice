@@ -17,7 +17,7 @@ NamingScreen:
 	ld [hl], d
 	ld hl, wNamingScreenType
 	ld [hl], b
-	ld hl, wOptions
+	ld hl, NO_TEXT_SCROLL_ADDRESS
 	ld a, [hl]
 	push af
 	set NO_TEXT_SCROLL, [hl]
@@ -39,7 +39,7 @@ NamingScreen:
 	pop af
 	ldh [hMapAnims], a
 	pop af
-	ld [wOptions], a
+	ld [NO_TEXT_SCROLL_ADDRESS], a
 	call ClearJoypad
 	ret
 

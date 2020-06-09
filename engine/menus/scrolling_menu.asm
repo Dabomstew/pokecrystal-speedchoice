@@ -40,7 +40,7 @@ _ScrollingMenu::
 ScrollingMenu_InitDisplay:
 	xor a
 	ldh [hBGMapMode], a
-	ld hl, wOptions
+	ld hl, NO_TEXT_SCROLL_ADDRESS
 	ld a, [hl]
 	push af
 	set NO_TEXT_SCROLL, [hl]
@@ -48,7 +48,7 @@ ScrollingMenu_InitDisplay:
 	call ScrollingMenu_PlaceCursor
 	call ScrollingMenu_CheckCallFunction3
 	pop af
-	ld [wOptions], a
+	ld [NO_TEXT_SCROLL_ADDRESS], a
 	ret
 
 ScrollingMenuJoyAction:

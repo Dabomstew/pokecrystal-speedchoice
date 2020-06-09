@@ -804,14 +804,14 @@ EscapeRopeOrDig:
 	ld a, [wBuffer2]
 	cp $2
 	jr nz, .escaperope
-	ld hl, .UsedDigScript
+	ld hl, UsedDigScript
 	call QueueScript
 	ld a, $81
 	ret
 
 .escaperope
 	farcall SpecialKabutoChamber
-	ld hl, .UsedEscapeRopeScript
+	ld hl, UsedEscapeRopeScript
 	call QueueScript
 	ld a, $81
 	ret
@@ -828,10 +828,6 @@ EscapeRopeOrDig:
 .failescaperope
 	ld a, $80
 	ret
-
-.UseEscapeRopeText:
-	text_far _UseEscapeRopeText
-	text_end
 
 .CantUseDigText:
 	text_far _CantUseDigText
@@ -873,6 +869,10 @@ DigReturn:
 	
 UseDigText:
 	text_far _UseDigText
+	text_end
+	
+UseEscapeRopeText:
+	text_far _UseEscapeRopeText
 	text_end
 
 TeleportFunction:
