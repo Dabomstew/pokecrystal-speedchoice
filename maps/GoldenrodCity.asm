@@ -55,50 +55,51 @@ MoveTutorScript:
 	opentext
 	writetext GoldenrodCityMoveTutorAskTeachAMoveText
 	yesorno
-	iffalse .Refused
+	iffalse MoveTutorScript_Refused
 	special DisplayCoinCaseBalance
 	writetext GoldenrodCityMoveTutorAsk4000CoinsOkayText
 	yesorno
-	iffalse .Refused2
+	iffalse MoveTutorScript_Refused2
 	checkcoins 4000
-	ifequal HAVE_LESS, .NotEnoughMoney
+	ifequal HAVE_LESS, MoveTutorScript_NotEnoughMoney
 	writetext GoldenrodCityMoveTutorWhichMoveShouldITeachText
-	loadmenu .MoveMenuHeader
+	loadmenu MoveTutorScript_MoveMenuHeader
 	verticalmenu
 	closewindow
-	ifequal MOVETUTOR_FLAMETHROWER, .Flamethrower
-	ifequal MOVETUTOR_THUNDERBOLT, .Thunderbolt
-	ifequal MOVETUTOR_ICE_BEAM, .IceBeam
-	sjump .Incompatible
+	ifequal MOVETUTOR_FLAMETHROWER, MoveTutorScript_Flamethrower
+	ifequal MOVETUTOR_THUNDERBOLT, MoveTutorScript_Thunderbolt
+	ifequal MOVETUTOR_ICE_BEAM, MoveTutorScript_IceBeam
+	sjump MoveTutorScript_Incompatible
 
-.Flamethrower:
+MoveTutorScript_Flamethrower:
 	setval MOVETUTOR_FLAMETHROWER
 	writetext GoldenrodCityMoveTutorMoveText
 	special MoveTutor
-	ifequal FALSE, .TeachMove
-	sjump .Incompatible
+	ifequal FALSE, MoveTutorScript_TeachMove
+	sjump MoveTutorScript_Incompatible
 
-.Thunderbolt:
+MoveTutorScript_Thunderbolt:
 	setval MOVETUTOR_THUNDERBOLT
 	writetext GoldenrodCityMoveTutorMoveText
 	special MoveTutor
-	ifequal FALSE, .TeachMove
-	sjump .Incompatible
+	ifequal FALSE, MoveTutorScript_TeachMove
+	sjump MoveTutorScript_Incompatible
 
-.IceBeam:
+MoveTutorScript_IceBeam:
 	setval MOVETUTOR_ICE_BEAM
 	writetext GoldenrodCityMoveTutorMoveText
 	special MoveTutor
-	ifequal FALSE, .TeachMove
-	sjump .Incompatible
+	ifequal FALSE, MoveTutorScript_TeachMove
+	sjump MoveTutorScript_Incompatible
 
-.MoveMenuHeader:
+MoveTutorScript_MoveMenuHeader:
 	db MENU_BACKUP_TILES ; flags
 	menu_coords 0, 2, 15, TEXTBOX_Y - 1
-	dw .MenuData
+Randomizer_MoveTutorMenuOffset::
+	dw MoveTutorScript_MenuData
 	db 1 ; default option
 
-.MenuData:
+MoveTutorScript_MenuData:
 	db STATICMENU_CURSOR ; flags
 	db 4 ; items
 	db "FLAMETHROWER@"
@@ -106,19 +107,22 @@ MoveTutorScript:
 	db "ICE BEAM@"
 	db "CANCEL@"
 
-.Refused:
+Randomizer_MoveTutorMenuNewSpace::
+	ds $100
+
+MoveTutorScript_Refused:
 	writetext GoldenrodCityMoveTutorAwwButTheyreAmazingText
 	waitbutton
 	closetext
 	end
 
-.Refused2:
+MoveTutorScript_Refused2:
 	writetext GoldenrodCityMoveTutorHmTooBadText
 	waitbutton
 	closetext
 	end
 
-.TeachMove:
+MoveTutorScript_TeachMove:
 	writetext GoldenrodCityMoveTutorIfYouUnderstandYouveMadeItText
 	promptbutton
 	takecoins 4000
@@ -129,13 +133,13 @@ MoveTutorScript:
 	waitbutton
 	closetext
 	readvar VAR_FACING
-	ifequal LEFT, .WalkAroundPlayer
+	ifequal LEFT, MoveTutorScript_WalkAroundPlayer
 	applymovement GOLDENRODCITY_MOVETUTOR, GoldenrodCityMoveTutorEnterGameCornerMovement
-	sjump .GoInside
+	sjump MoveTutorScript_GoInside
 
-.WalkAroundPlayer:
+MoveTutorScript_WalkAroundPlayer:
 	applymovement GOLDENRODCITY_MOVETUTOR, GoldenrodCityMoveTutorWalkAroundPlayerThenEnterGameCornerMovement
-.GoInside:
+MoveTutorScript_GoInside:
 	playsound SFX_ENTER_DOOR
 	disappear GOLDENRODCITY_MOVETUTOR
 	clearevent EVENT_GOLDENROD_GAME_CORNER_MOVE_TUTOR
@@ -143,13 +147,13 @@ MoveTutorScript:
 	waitsfx
 	end
 
-.Incompatible:
+MoveTutorScript_Incompatible:
 	writetext GoldenrodCityMoveTutorBButText
 	waitbutton
 	closetext
 	end
 
-.NotEnoughMoney:
+MoveTutorScript_NotEnoughMoney:
 	writetext GoldenrodCityMoveTutorYouDontHaveEnoughCoinsText
 	waitbutton
 	closetext

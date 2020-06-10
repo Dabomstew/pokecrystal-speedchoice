@@ -10,6 +10,8 @@ CherrygroveMart_MapScripts:
 
 CherrygroveMartClerkScript:
 	opentext
+	checkpermaoptions BETTER_MARTS
+	iftrue CherrygroveBetterMartScript
 	checkevent EVENT_GAVE_MYSTERY_EGG_TO_ELM
 	iftrue .PokeBallsInStock
 	pokemart MARTTYPE_STANDARD, MART_CHERRYGROVE
@@ -18,6 +20,11 @@ CherrygroveMartClerkScript:
 
 .PokeBallsInStock:
 	pokemart MARTTYPE_STANDARD, MART_CHERRYGROVE_DEX
+	closetext
+	end
+
+CherrygroveBetterMartScript:
+	pokemart MARTTYPE_STANDARD, MART_CHERRYGROVE_BETTER
 	closetext
 	end
 

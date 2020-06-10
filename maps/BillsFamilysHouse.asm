@@ -12,18 +12,19 @@ BillScript:
 	faceplayer
 	opentext
 	checkevent EVENT_GOT_EEVEE
-	iftrue .GotEevee
+	iftrue BillScript_GotEevee
 	writetext BillTakeThisEeveeText
 	yesorno
-	iffalse .Refused
+	iffalse BillScript_Refused
 	writetext BillImCountingOnYouText
 	promptbutton
 	waitsfx
 	readvar VAR_PARTYCOUNT
-	ifequal PARTY_LENGTH, .NoRoom
+	ifequal PARTY_LENGTH, BillScript_NoRoom
 	writetext ReceivedEeveeText
 	playsound SFX_CAUGHT_MON
 	waitsfx
+Randomizer_EeveeSpecies::
 	givepoke EEVEE, 20
 	setevent EVENT_GOT_EEVEE
 	writetext BillEeveeMayEvolveText
@@ -31,19 +32,19 @@ BillScript:
 	closetext
 	end
 
-.NoRoom:
+BillScript_NoRoom:
 	writetext BillPartyFullText
 	waitbutton
 	closetext
 	end
 
-.Refused:
+BillScript_Refused:
 	writetext BillNoEeveeText
 	waitbutton
 	closetext
 	end
 
-.GotEevee:
+BillScript_GotEevee:
 	writetext BillPopWontWorkText
 	waitbutton
 	closetext

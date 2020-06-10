@@ -9,10 +9,6 @@ Marts:
 	dw MartGoldenrod2F2
 	dw MartGoldenrod3F
 	dw MartGoldenrod4F
-	dw MartGoldenrod5F1
-	dw MartGoldenrod5F2
-	dw MartGoldenrod5F3
-	dw MartGoldenrod5F4
 	dw MartOlivine
 	dw MartEcruteak
 	dw MartMahogany1
@@ -38,10 +34,14 @@ Marts:
 	dw MartVioletBetter
 	dw MartAzaleaBetter
 	dw MartGoldenrod4FBetter
-	dw MartGoldenrod5FBetter1
-	dw MartGoldenrod5FBetter2
-	dw MartGoldenrod5FBetter3
-	dw MartGoldenrod5FBetter4
+	dw MartGoldenrod5FNoTMs
+	dw MartGoldenrod5FTM02
+	dw MartGoldenrod5FTM08
+	dw MartGoldenrod5FTM0208
+	dw MartGoldenrod5FTM12
+	dw MartGoldenrod5FTM0212
+	dw MartGoldenrod5FTM0812
+	dw MartGoldenrod5FTM020812
 .End
 
 MartCherrygrove:
@@ -138,38 +138,6 @@ MartGoldenrod4F:
 	db CARBOS
 	db CALCIUM
 	db HP_UP
-	db -1 ; end
-
-MartGoldenrod5F1:
-	db 3 ; # items
-	db TM_THUNDERPUNCH
-	db TM_FIRE_PUNCH
-	db TM_ICE_PUNCH
-	db -1 ; end
-
-MartGoldenrod5F2:
-	db 4 ; # items
-	db TM_THUNDERPUNCH
-	db TM_FIRE_PUNCH
-	db TM_ICE_PUNCH
-	db TM_HEADBUTT
-	db -1 ; end
-
-MartGoldenrod5F3:
-	db 4 ; # items
-	db TM_THUNDERPUNCH
-	db TM_FIRE_PUNCH
-	db TM_ICE_PUNCH
-	db TM_ROCK_SMASH
-	db -1 ; end
-
-MartGoldenrod5F4:
-	db 5 ; # items
-	db TM_THUNDERPUNCH
-	db TM_FIRE_PUNCH
-	db TM_ICE_PUNCH
-	db TM_HEADBUTT
-	db TM_ROCK_SMASH
 	db -1 ; end
 
 MartOlivine:
@@ -461,7 +429,39 @@ MartGoldenrod4FBetter:
 	db HP_UP
 	db -1 ; end
 
-MartGoldenrod5FBetter1:
+MartGoldenrod5FNoTMs:
+	db 3 ; # items
+	db TM_THUNDERPUNCH
+	db TM_FIRE_PUNCH
+	db TM_ICE_PUNCH
+	db -1 ; end
+
+MartGoldenrod5FTM02:
+	db 4 ; # items
+	db TM_THUNDERPUNCH
+	db TM_FIRE_PUNCH
+	db TM_ICE_PUNCH
+	db TM_HEADBUTT
+	db -1 ; end
+
+MartGoldenrod5FTM08:
+	db 4 ; # items
+	db TM_THUNDERPUNCH
+	db TM_FIRE_PUNCH
+	db TM_ICE_PUNCH
+	db TM_ROCK_SMASH
+	db -1 ; end
+
+MartGoldenrod5FTM0208:
+	db 5 ; # items
+	db TM_THUNDERPUNCH
+	db TM_FIRE_PUNCH
+	db TM_ICE_PUNCH
+	db TM_HEADBUTT
+	db TM_ROCK_SMASH
+	db -1 ; end
+
+MartGoldenrod5FTM12:
 	db 4 ; # items
 	db TM_THUNDERPUNCH
 	db TM_FIRE_PUNCH
@@ -469,7 +469,7 @@ MartGoldenrod5FBetter1:
 	db TM_SWEET_SCENT
 	db -1 ; end
 
-MartGoldenrod5FBetter2:
+MartGoldenrod5FTM0212:
 	db 5 ; # items
 	db TM_THUNDERPUNCH
 	db TM_FIRE_PUNCH
@@ -478,7 +478,7 @@ MartGoldenrod5FBetter2:
 	db TM_SWEET_SCENT
 	db -1 ; end
 
-MartGoldenrod5FBetter3:
+MartGoldenrod5FTM0812:
 	db 5 ; # items
 	db TM_THUNDERPUNCH
 	db TM_FIRE_PUNCH
@@ -487,7 +487,7 @@ MartGoldenrod5FBetter3:
 	db TM_SWEET_SCENT
 	db -1 ; end
 
-MartGoldenrod5FBetter4:
+MartGoldenrod5FTM020812:
 	db 6 ; # items
 	db TM_THUNDERPUNCH
 	db TM_FIRE_PUNCH

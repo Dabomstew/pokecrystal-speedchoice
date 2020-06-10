@@ -10,7 +10,14 @@ AzaleaMart_MapScripts:
 
 AzaleaMartClerkScript:
 	opentext
+	checkpermaoptions BETTER_MARTS
+	iftrue AzaleaBetterMartScript
 	pokemart MARTTYPE_STANDARD, MART_AZALEA
+	closetext
+	end
+
+AzaleaBetterMartScript:
+	pokemart MARTTYPE_STANDARD, MART_AZALEA_BETTER
 	closetext
 	end
 

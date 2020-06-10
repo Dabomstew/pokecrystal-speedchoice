@@ -47,6 +47,8 @@ Copycat:
 	special LoadUsedSpritesGFX
 	checkevent EVENT_RETURNED_MACHINE_PART
 	iftrue .TalkAboutLostItem
+	checkpermaoptions EARLY_KANTO
+	iftrue .TalkAboutLostItem
 	opentext
 	checkflag ENGINE_PLAYER_IS_FEMALE
 	iftrue .Default_Female_2a

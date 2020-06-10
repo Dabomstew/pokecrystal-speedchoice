@@ -2864,3 +2864,51 @@ Script_increment4bytestat:
 	ld d, a
 	callba SRAMStatsIncrement4Byte
 	ret
+	
+Script_goldenrodmart5f:
+; script command 0xad
+
+	ld hl, wBuffer1
+	ld [hl], 0
+	
+	ld de, EVENT_GOT_TM02_HEADBUTT
+	ld b, CHECK_FLAG
+	push hl
+	call EventFlagAction
+	pop hl
+	ld a, c
+	and a
+	jr nz, .noHeadbutt
+	set 0, [hl]
+.noHeadbutt
+	ld de, EVENT_GOT_TM08_ROCK_SMASH
+	ld b, CHECK_FLAG
+	push hl
+	call EventFlagAction
+	pop hl
+	ld a, c
+	and a
+	jr nz, .noRockSmash
+	set 1, [hl]
+.noRockSmash
+	sboptioncheck BETTER_MARTS
+	jr z, .noSweetScent
+	ld de, EVENT_GOT_TM12_SWEET_SCENT
+	ld b, CHECK_FLAG
+	push hl
+	call EventFlagAction
+	pop hl
+	ld a, c
+	and a
+	jr nz, .noSweetScent
+	set 2, [hl]
+.noSweetScent
+	ld a, [hl]
+	add MART_GOLDENROD_5F_NOTMS
+	ld e, a
+	ld d, 0
+	ld c, MARTTYPE_STANDARD
+	ld a, [wScriptBank]
+	ld b, a
+	farcall OpenMartDialog
+	ret

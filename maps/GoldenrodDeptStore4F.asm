@@ -12,7 +12,14 @@ GoldenrodDeptStore4F_MapScripts:
 GoldenrodDeptStore4FClerkScript:
 	faceplayer
 	opentext
+	checkpermaoptions BETTER_MARTS
+	iftrue Goldenrod4FBetterMartScript
 	pokemart MARTTYPE_STANDARD, MART_GOLDENROD_4F
+	closetext
+	end
+
+Goldenrod4FBetterMartScript:
+	pokemart MARTTYPE_STANDARD, MART_GOLDENROD_4F_BETTER
 	closetext
 	end
 

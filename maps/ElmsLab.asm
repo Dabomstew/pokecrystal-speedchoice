@@ -91,7 +91,7 @@ ProfElmScript:
 	opentext
 	checkevent EVENT_GOT_SS_TICKET_FROM_ELM
 	iftrue ElmCheckMasterBall
-	checkevent EVENT_BEAT_ELITE_FOUR
+	checkevent EVENT_ELM_HAS_SS_TICKET
 	iftrue ElmGiveTicketScript
 ElmCheckMasterBall:
 	checkevent EVENT_GOT_MASTER_BALL_FROM_ELM
@@ -160,7 +160,9 @@ CyndaquilPokeBallScript:
 	iftrue LookAtElmPokeBallScript
 	turnobject ELMSLAB_ELM, DOWN
 	refreshscreen
+Randomizer_StarterCyndaquilOffset1::
 	pokepic CYNDAQUIL
+Randomizer_StarterCyndaquilOffset2::
 	cry CYNDAQUIL
 	waitbutton
 	closepokepic
@@ -173,11 +175,13 @@ CyndaquilPokeBallScript:
 	writetext ChoseStarterText
 	promptbutton
 	waitsfx
+Randomizer_StarterCyndaquilOffset3::
 	getmonname STRING_BUFFER_3, CYNDAQUIL
 	writetext ReceivedStarterText
 	playsound SFX_CAUGHT_MON
 	waitsfx
 	promptbutton
+Randomizer_StarterCyndaquilOffset4::
 	givepoke CYNDAQUIL, 5, BERRY
 	closetext
 	readvar VAR_FACING
@@ -190,7 +194,9 @@ TotodilePokeBallScript:
 	iftrue LookAtElmPokeBallScript
 	turnobject ELMSLAB_ELM, DOWN
 	refreshscreen
+Randomizer_StarterTotodileOffset1::
 	pokepic TOTODILE
+Randomizer_StarterTotodileOffset2::
 	cry TOTODILE
 	waitbutton
 	closepokepic
@@ -203,11 +209,13 @@ TotodilePokeBallScript:
 	writetext ChoseStarterText
 	promptbutton
 	waitsfx
+Randomizer_StarterTotodileOffset3::
 	getmonname STRING_BUFFER_3, TOTODILE
 	writetext ReceivedStarterText
 	playsound SFX_CAUGHT_MON
 	waitsfx
 	promptbutton
+Randomizer_StarterTotodileOffset4::
 	givepoke TOTODILE, 5, BERRY
 	closetext
 	applymovement PLAYER, AfterTotodileMovement
@@ -218,7 +226,9 @@ ChikoritaPokeBallScript:
 	iftrue LookAtElmPokeBallScript
 	turnobject ELMSLAB_ELM, DOWN
 	refreshscreen
+Randomizer_StarterChikoritaOffset1::
 	pokepic CHIKORITA
+Randomizer_StarterChikoritaOffset2::
 	cry CHIKORITA
 	waitbutton
 	closepokepic
@@ -231,11 +241,13 @@ ChikoritaPokeBallScript:
 	writetext ChoseStarterText
 	promptbutton
 	waitsfx
+Randomizer_StarterChikoritaOffset3::
 	getmonname STRING_BUFFER_3, CHIKORITA
 	writetext ReceivedStarterText
 	playsound SFX_CAUGHT_MON
 	waitsfx
 	promptbutton
+Randomizer_StarterChikoritaOffset4::
 	givepoke CHIKORITA, 5, BERRY
 	closetext
 	applymovement PLAYER, AfterChikoritaMovement
@@ -858,18 +870,21 @@ LabWhereGoingText:
 
 TakeCyndaquilText:
 	text "ELM: You'll take"
+Randomizer_StarterCyndaquilTextOffset::
 	line "CYNDAQUIL, the"
 	cont "fire #MON?"
 	done
 
 TakeTotodileText:
 	text "ELM: Do you want"
+Randomizer_StarterTotodileTextOffset::
 	line "TOTODILE, the"
 	cont "water #MON?"
 	done
 
 TakeChikoritaText:
 	text "ELM: So, you like"
+Randomizer_StarterChikoritaTextOffset::
 	line "CHIKORITA, the"
 	cont "grass #MON?"
 	done

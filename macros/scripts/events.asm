@@ -1080,3 +1080,8 @@ increment4bytestat: MACRO
 	db increment4bytestat_command
 	dw \1 ; address
 ENDM
+
+	enum goldenrodmart5f_command ; $ad
+goldenrodmart5f: MACRO
+	db goldenrodmart5f_command
+ENDM

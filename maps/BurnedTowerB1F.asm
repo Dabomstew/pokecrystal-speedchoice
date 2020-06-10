@@ -38,18 +38,21 @@ ReleaseTheBeasts:
 	pause 5
 	disappear BURNEDTOWERB1F_RAIKOU2
 	pause 15
+Randomizer_RaikouCryBT::
 	cry RAIKOU
 	appear BURNEDTOWERB1F_ENTEI1
 	turnobject PLAYER, UP
 	pause 5
 	disappear BURNEDTOWERB1F_ENTEI2
 	pause 15
+Randomizer_EnteiCryBT::
 	cry ENTEI
 	appear BURNEDTOWERB1F_SUICUNE1
 	turnobject PLAYER, UP
 	pause 5
 	disappear BURNEDTOWERB1F_SUICUNE2
 	pause 15
+Randomizer_SuicuneCryBT1::
 	cry SUICUNE
 	pause 15
 	playsound SFX_WARP_FROM
@@ -71,6 +74,7 @@ ReleaseTheBeasts:
 	applymovement BURNEDTOWERB1F_SUICUNE1, BurnedTowerSuicuneMovement2
 	turnobject PLAYER, UP
 	pause 20
+Randomizer_SuicuneCryBT2::
 	cry SUICUNE
 	pause 30
 	playsound SFX_WARP_FROM

@@ -53,6 +53,7 @@ GoldenrodVendingMachine:
 	sjump .VendItem
 
 .VendItem:
+	increment2bytestat sStatsItemsBought
 	pause 10
 	playsound SFX_ENTER_DOOR
 	writetext GoldenrodClangText

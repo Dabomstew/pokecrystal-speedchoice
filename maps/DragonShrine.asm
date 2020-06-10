@@ -116,103 +116,34 @@ DragonShrine_MapScripts:
 .PassedTheTest:
 	writetext DragonShrinePassedTestText
 	waitbutton
-	closetext
-	playsound SFX_ENTER_DOOR
-	showemote EMOTE_SHOCK, PLAYER, 15
-	playmusic MUSIC_CLAIR
-	appear DRAGONSHRINE_CLAIR
-	waitsfx
-	turnobject PLAYER, DOWN
-	pause 30
-	applymovement DRAGONSHRINE_CLAIR, DragonShrineClairWalkInMovement
-	turnobject DRAGONSHRINE_CLAIR, RIGHT
-	turnobject PLAYER, LEFT
-	turnobject DRAGONSHRINE_ELDER1, LEFT
-	opentext
-	writetext DragonShrineClairYouPassedText
-	waitbutton
-	closetext
-	special FadeOutMusic
-	applymovement DRAGONSHRINE_CLAIR, DragonShrineClairBigStepLeftMovement
-	opentext
-	writetext DragonShrineClairThatCantBeText
-	waitbutton
-	closetext
-	applymovement DRAGONSHRINE_CLAIR, DragonShrineClairSlowStepLeftMovement
-	opentext
-	writetext DragonShrineClairYoureLyingText
-	waitbutton
-	closetext
-	applymovement DRAGONSHRINE_ELDER1, DragonShrineElderWalkToClairMovement
-	turnobject DRAGONSHRINE_CLAIR, UP
-	opentext
-	writetext DragonShrineMustIInformLanceText
-	waitbutton
-	closetext
-	showemote EMOTE_SHOCK, DRAGONSHRINE_CLAIR, 15
-	opentext
-	writetext DragonShrineIUnderstandText
-	waitbutton
-	closetext
-	applymovement DRAGONSHRINE_CLAIR, DragonShrineClairTwoSlowStepsRightMovement
-	opentext
-	writetext DragonShrineHereRisingBadgeText
-	waitbutton
-	setflag ENGINE_RISINGBADGE
-	playsound SFX_GET_BADGE
-	waitsfx
-	special RestartMapMusic
-	specialphonecall SPECIALCALL_MASTERBALL
 	setscene SCENE_FINISHED
-	setmapscene DRAGONS_DEN_B1F, SCENE_DRAGONSDENB1F_CLAIR_GIVES_TM
-	writetext DragonShrinePlayerReceivedRisingBadgeText
-	promptbutton
-	writetext DragonShrineRisingBadgeExplanationText
-	waitbutton
-	closetext
-	applymovement DRAGONSHRINE_ELDER1, DragonShrineElderWalkAway1Movement
-	turnobject DRAGONSHRINE_CLAIR, UP
-	applymovement DRAGONSHRINE_ELDER1, DragonShrineElderWalkAway2Movement
-	turnobject PLAYER, UP
-	opentext
-	writetext DragonShrineElderScoldsClairText
-	waitbutton
-	closetext
-	opentext
-	writetext DragonShrineSpeechlessText
-	waitbutton
-	closetext
-	applymovement DRAGONSHRINE_CLAIR, DragonShrineClairWalkOutMovement
-	playsound SFX_ENTER_DOOR
-	disappear DRAGONSHRINE_CLAIR
-	waitsfx
-	setevent EVENT_TEMPORARY_UNTIL_MAP_RELOAD_1
-	end
+	sjump DSElder_GiveDratini
 
 DragonShrineElder1Script:
 	faceplayer
 	opentext
 	checkevent EVENT_TEMPORARY_UNTIL_MAP_RELOAD_1
-	iftrue .DontGiveDratiniYet
+	iftrue DSElder_DontGiveDratiniYet
 	checkevent EVENT_TEMPORARY_UNTIL_MAP_RELOAD_7
-	iftrue .ReceivedDratini
+	iftrue DSElder_ReceivedDratini
 	checkevent EVENT_GOT_DRATINI
-	iffalse .GiveDratini
+	iffalse DSElder_GiveDratini
 	checkevent EVENT_BEAT_RIVAL_IN_MT_MOON
-	iftrue .BeatRivalInMtMoon
+	iftrue DSElder_BeatRivalInMtMoon
 	writetext DragonShrineClairsGrandfatherText
 	waitbutton
 	closetext
 	end
 
-.GiveDratini:
+DSElder_GiveDratini:
 	writetext DragonShrineTakeThisDratiniText
 	waitbutton
 	readvar VAR_PARTYCOUNT
-	ifequal PARTY_LENGTH, .PartyFull
+	ifequal PARTY_LENGTH, DSElder_PartyFull
 	writetext DragonShrinePlayerReceivedDratiniText
 	playsound SFX_CAUGHT_MON
 	waitsfx
+Randomizer_DratiniSpecies::
 	givepoke DRATINI, 15
 	checkevent EVENT_ANSWERED_DRAGON_MASTER_QUIZ_WRONG
 	special GiveDratini
@@ -223,25 +154,25 @@ DragonShrineElder1Script:
 	closetext
 	end
 
-.PartyFull:
+DSElder_PartyFull:
 	writetext DragonShrinePartyFullText
 	waitbutton
 	closetext
 	end
 
-.BeatRivalInMtMoon:
+DSElder_BeatRivalInMtMoon:
 	writetext DragonShrineSilverIsInTrainingText
 	waitbutton
 	closetext
 	end
 
-.DontGiveDratiniYet:
+DSElder_DontGiveDratiniYet:
 	writetext DragonShrineComeAgainText
 	waitbutton
 	closetext
 	end
 
-.ReceivedDratini:
+DSElder_ReceivedDratini:
 	writetext DragonShrineSymbolicDragonText
 	waitbutton
 	closetext

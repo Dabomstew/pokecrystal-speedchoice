@@ -128,22 +128,23 @@ CeladonGameCornerPrizeRoomPokemonVendor:
 	waitbutton
 	checkitem COIN_CASE
 	iffalse CeladonPrizeRoom_NoCoinCase
-.loop
+CeladonGameCornerPkmnVendor_loop:
 	writetext CeladonPrizeRoom_AskWhichPrizeText
 	special DisplayCoinCaseBalance
-	loadmenu .MenuHeader
+	loadmenu CeladonGameCornerPkmnVendor_MenuHeader
 	verticalmenu
 	closewindow
-	ifequal 1, .Pikachu
-	ifequal 2, .Porygon
-	ifequal 3, .Larvitar
+	ifequal 1, CeladonGameCornerPkmnVendor_Pikachu
+	ifequal 2, CeladonGameCornerPkmnVendor_Porygon
+	ifequal 3, CeladonGameCornerPkmnVendor_Larvitar
 	sjump CeladonPrizeRoom_CancelPurchaseScript
 
-.Pikachu:
+CeladonGameCornerPkmnVendor_Pikachu:
 	checkcoins CELADONGAMECORNERPRIZEROOM_PIKACHU_COINS
 	ifequal HAVE_LESS, CeladonPrizeRoom_notenoughcoins
 	readvar VAR_PARTYCOUNT
 	ifequal PARTY_LENGTH, CeladonPrizeRoom_notenoughroom
+Randomizer_GameCornerPikachuSpecies1::
 	getmonname STRING_BUFFER_3, PIKACHU
 	scall CeladonPrizeRoom_askbuy
 	iffalse CeladonPrizeRoom_CancelPurchaseScript
@@ -151,17 +152,20 @@ CeladonGameCornerPrizeRoomPokemonVendor:
 	playsound SFX_TRANSACTION
 	writetext CeladonPrizeRoom_HereYouGoText
 	waitbutton
+Randomizer_GameCornerPikachuSpecies2::
 	setval PIKACHU
 	special GameCornerPrizeMonCheckDex
+Randomizer_GameCornerPikachuSpecies3::
 	givepoke PIKACHU, 25
 	takecoins CELADONGAMECORNERPRIZEROOM_PIKACHU_COINS
-	sjump .loop
+	sjump CeladonGameCornerPkmnVendor_loop
 
-.Porygon:
+CeladonGameCornerPkmnVendor_Porygon:
 	checkcoins CELADONGAMECORNERPRIZEROOM_PORYGON_COINS
 	ifequal HAVE_LESS, CeladonPrizeRoom_notenoughcoins
 	readvar VAR_PARTYCOUNT
 	ifequal PARTY_LENGTH, CeladonPrizeRoom_notenoughroom
+Randomizer_GameCornerPorygonSpecies1::
 	getmonname STRING_BUFFER_3, PORYGON
 	scall CeladonPrizeRoom_askbuy
 	iffalse CeladonPrizeRoom_CancelPurchaseScript
@@ -169,17 +173,20 @@ CeladonGameCornerPrizeRoomPokemonVendor:
 	playsound SFX_TRANSACTION
 	writetext CeladonPrizeRoom_HereYouGoText
 	waitbutton
+Randomizer_GameCornerPorygonSpecies2::
 	setval PORYGON
 	special GameCornerPrizeMonCheckDex
+Randomizer_GameCornerPorygonSpecies3::
 	givepoke PORYGON, 15
 	takecoins CELADONGAMECORNERPRIZEROOM_PORYGON_COINS
-	sjump .loop
+	sjump CeladonGameCornerPkmnVendor_loop
 
-.Larvitar:
+CeladonGameCornerPkmnVendor_Larvitar:
 	checkcoins CELADONGAMECORNERPRIZEROOM_LARVITAR_COINS
 	ifequal HAVE_LESS, CeladonPrizeRoom_notenoughcoins
 	readvar VAR_PARTYCOUNT
 	ifequal PARTY_LENGTH, CeladonPrizeRoom_notenoughroom
+Randomizer_GameCornerLarvitarSpecies1::
 	getmonname STRING_BUFFER_3, LARVITAR
 	scall CeladonPrizeRoom_askbuy
 	iffalse CeladonPrizeRoom_CancelPurchaseScript
@@ -187,23 +194,28 @@ CeladonGameCornerPrizeRoomPokemonVendor:
 	playsound SFX_TRANSACTION
 	writetext CeladonPrizeRoom_HereYouGoText
 	waitbutton
+Randomizer_GameCornerLarvitarSpecies2::
 	setval LARVITAR
 	special GameCornerPrizeMonCheckDex
+Randomizer_GameCornerLarvitarSpecies3::
 	givepoke LARVITAR, 40
 	takecoins CELADONGAMECORNERPRIZEROOM_LARVITAR_COINS
-	sjump .loop
+	sjump CeladonGameCornerPkmnVendor_loop
 
-.MenuHeader:
+CeladonGameCornerPkmnVendor_MenuHeader:
 	db MENU_BACKUP_TILES ; flags
 	menu_coords 0, 2, 17, TEXTBOX_Y - 1
-	dw .MenuData
+	dw CeladonGameCornerPkmnVendor_MenuData
 	db 1 ; default option
 
-.MenuData:
+CeladonGameCornerPkmnVendor_MenuData:
 	db STATICMENU_CURSOR ; flags
 	db 4 ; items
+Randomizer_GameCornerPikachuName::
 	db "PIKACHU    2222@"
+Randomizer_GameCornerPorygonName::
 	db "PORYGON    5555@"
+Randomizer_GameCornerLarvitarName::
 	db "LARVITAR   8888@"
 	db "CANCEL@"
 
