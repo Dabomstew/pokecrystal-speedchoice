@@ -75,6 +75,7 @@ Options_HoldToMash:
 	ld c, 5
 	jp Options_OnOff
 
+; this could be a truefalse but we want to apply it immediately
 Options_Sound:
 	ld hl, STEREO_ADDRESS
 	ldh a, [hJoyPressed]
