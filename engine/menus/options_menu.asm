@@ -132,27 +132,6 @@ RetrieveOptionsMenuConfig::
 	call AddNTimes
 	ld de, wOptionsMenuCount
 	jp CopyBytes
-	
-options_menu: MACRO
-	db ((\2End - \2)/2 - 1) ; number of options except bottom option
-	dw (\1) ; template string
-	dw (\2) ; jumptable for options
-	db (\3) ; buttons that can be pressed to exit
-ENDM
-
-OptionsMenuScreens:
-	; default options page 1
-	options_menu MainOptionsP1String, MainOptionsP1Pointers, (START | B_BUTTON)
-	; default options page 2
-	options_menu MainOptionsP2String, MainOptionsP2Pointers, (START | B_BUTTON)
-PermaOptionsMenuScreens:
-	; permaoptions page 1
-	;options_menu PermaOptionsString, PermaOptionsPointers, START
-	; permaoptions page 2
-	;options_menu PermaOptions2String, PermaOptions2Pointers, START
-	; permaoptions page 3
-	;options_menu PermaOptions3String, PermaOptions3Pointers, START
-PermaOptionsMenuScreensEnd:
 
 GetOptionPointer:
 	ld a, [wOptionsMenuCount]
@@ -281,7 +260,7 @@ OptionsControl:
 	dec [hl]
 	scf
 	ret
-	
+
 .HandleBottomOption
 ; move to bottommost regular option
 	ld a, [wOptionsMenuCount]
@@ -328,7 +307,7 @@ CoordHL:
 	ld b, 0
 	add hl, bc
 	ret
-	
+
 ; hl = ram address
 ; b = bit number in ram address
 ; c = y-coordinate to draw at
@@ -375,7 +354,7 @@ Options_TrueFalse:
 	call PlaceString
 	and a
 	ret
-	
+
 OnOffStrings::
 	dw .Off
 	dw .On
@@ -383,7 +362,7 @@ OnOffStrings::
 	db "OFF@"
 .On:
 	db "ON @"
-	
+
 ; arguments = ram address, start bit, size in bits, y-coord, number of choices, pointer to choices
 multichoiceoptiondata: macro
 	dw \1 ; ram address
@@ -394,7 +373,7 @@ multichoiceoptiondata: macro
 	dw \6 ; pointer to choices
 endm
 
-; hl = pointer to options multichoice struct	
+; hl = pointer to options multichoice struct
 Options_Multichoice:
 	; load multichoice data to ram
 	ld bc, 8
@@ -447,7 +426,7 @@ Options_Multichoice:
 	and c ; bitmask AND current value
 	or b ; set new value
 	ld [hl], a
-	
+
 .UpdateDisplay:
 	call .GetVal
 	ld c, a
@@ -468,7 +447,7 @@ endr
 	call PlaceString
 	and a
 	ret
-	
+
 .GetVal:
 	ld hl, wBuffer1
 	rst UnHL
@@ -487,12 +466,33 @@ endr
 .done
 	ld a, b
 	ret
-	
+
 NUM_OPTIONS EQUS "((.Strings_End - .Strings)/2)"
+
+options_menu: MACRO
+	db ((\2End - \2)/2 - 1) ; number of options except bottom option
+	dw (\1) ; template string
+	dw (\2) ; jumptable for options
+	db (\3) ; buttons that can be pressed to exit
+ENDM
+
+OptionsMenuScreens:
+	; default options page 1
+	options_menu MainOptionsP1String, MainOptionsP1Pointers, (START | B_BUTTON)
+	; default options page 2
+	options_menu MainOptionsP2String, MainOptionsP2Pointers, (START | B_BUTTON)
+PermaOptionsMenuScreens:
+	; permaoptions page 1
+	options_menu PermaOptionsP1String, PermaOptionsP1Pointers, START
+	; permaoptions page 2
+	;options_menu PermaOptions2String, PermaOptions2Pointers, START
+	; permaoptions page 3
+	;options_menu PermaOptions3String, PermaOptions3Pointers, START
+PermaOptionsMenuScreensEnd:
 
 INCLUDE "engine/menus/options/main_options.asm"
 INCLUDE "engine/menus/options/main_options_2.asm"
-;INCLUDE "engine/menus/options/perma_options.asm"
+INCLUDE "engine/menus/options/perma_options.asm"
 ;INCLUDE "engine/menus/options/perma_options_2.asm"
 ;INCLUDE "engine/menus/options/perma_options_3.asm"
 
