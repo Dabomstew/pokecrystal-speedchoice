@@ -50,14 +50,12 @@ Options_TextSpeed:
 
 Options_BattleScene:
 	ld hl, BATTLE_SHOW_ANIMATIONS_ADDRESS
-	ld b, BATTLE_SHOW_ANIMATIONS
-	ld c, 7
+	lb bc, BATTLE_SHOW_ANIMATIONS, 7
 	jp Options_OnOff
 
 Options_BattleStyle:
 	ld hl, BATTLE_SHIFT_ADDRESS
-	ld b, BATTLE_SHIFT
-	ld c, 9
+	lb bc, BATTLE_SHIFT, 9
 	ld de, .ShiftSet
 	jp Options_TrueFalse
 .ShiftSet
@@ -71,8 +69,7 @@ Options_BattleStyle:
 
 Options_HoldToMash:
 	ld hl, HOLD_TO_MASH_ADDRESS
-	ld b, HOLD_TO_MASH
-	ld c, 5
+	lb bc, HOLD_TO_MASH, 5
 	jp Options_OnOff
 
 ; this could be a truefalse but we want to apply it immediately
@@ -118,8 +115,7 @@ Options_Sound:
 
 Options_MenuAccount:
 	ld hl, MENU_ACCOUNT_ADDRESS
-	ld b, MENU_ACCOUNT
-	ld c, 13
+	lb bc, MENU_ACCOUNT, 13
 	jp Options_OnOff
 
 Options_Frame:

@@ -9,6 +9,5 @@ MainOptionsP2PointersEnd::
 
 Options_ParkBallEffect:
 	ld hl, PARKBALL_EFFECT_ADDRESS
-	ld b, PARKBALL_EFFECT
-	ld c, 3
+	lb bc, PARKBALL_EFFECT, 3
 	jp Options_OnOff
