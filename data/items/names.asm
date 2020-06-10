@@ -43,7 +43,7 @@ ItemNames::
 	db "SUPER REPEL@"
 	db "MAX REPEL@"
 	db "DIRE HIT@"
-	db "TERU-SAMA@"
+	db "EXP SHARE@"
 	db "FRESH WATER@"
 	db "SODA POP@"
 	db "LEMONADE@"

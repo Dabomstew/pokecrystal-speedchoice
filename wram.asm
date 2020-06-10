@@ -1942,7 +1942,21 @@ wTMHMMoveNameBackup:: ds MOVE_NAME_LENGTH ; d066
 
 wStringBuffer1:: ds 19 ; d073
 wStringBuffer2:: ds 19 ; d086
+UNION
 wStringBuffer3:: ds 19 ; d099
+NEXTU
+wParticipantCount::
+	ds 1
+wParticipantEXPDivisors::
+	ds PARTY_LENGTH
+wSharedEXPDivisors::
+	ds PARTY_LENGTH
+wCurrentDivisor::
+	ds 1
+wEXPCalcsEnd::
+	ds (19 - 2 - PARTY_LENGTH*2)
+ENDU
+
 wRandomizedMovesStatus::
 wStringBuffer4:: ds 19 ; d0ac
 wStringBuffer5:: ds 19 ; d0bf

@@ -1,0 +1,2 @@
+CalculateScalingExperienceGain:
+	ret
