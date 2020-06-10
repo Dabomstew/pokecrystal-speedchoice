@@ -142,9 +142,9 @@ ENDM
 
 OptionsMenuScreens:
 	; default options page 1
-	options_menu MainOptionsString, MainOptionsPointers, (START | B_BUTTON)
+	options_menu MainOptionsP1String, MainOptionsP1Pointers, (START | B_BUTTON)
 	; default options page 2
-	;options_menu MainOptions2String, MainOptions2Pointers, (START | B_BUTTON)
+	options_menu MainOptionsP2String, MainOptionsP2Pointers, (START | B_BUTTON)
 PermaOptionsMenuScreens:
 	; permaoptions page 1
 	;options_menu PermaOptionsString, PermaOptionsPointers, START
@@ -491,7 +491,7 @@ endr
 NUM_OPTIONS EQUS "((.Strings_End - .Strings)/2)"
 
 INCLUDE "engine/menus/options/main_options.asm"
-;INCLUDE "engine/menus/options/main_options_2.asm"
+INCLUDE "engine/menus/options/main_options_2.asm"
 ;INCLUDE "engine/menus/options/perma_options.asm"
 ;INCLUDE "engine/menus/options/perma_options_2.asm"
 ;INCLUDE "engine/menus/options/perma_options_3.asm"

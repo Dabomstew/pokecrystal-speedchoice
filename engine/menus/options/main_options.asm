@@ -1,4 +1,4 @@
-MainOptionsString::
+MainOptionsP1String::
 	db "TEXT SPEED<LF>"
 	db "        :<LF>"
 	db "HOLD TO MASH<LF>"
@@ -14,7 +14,7 @@ MainOptionsString::
 	db "FRAME<LF>"
 	db "        :TYPE@"
 
-MainOptionsPointers::
+MainOptionsP1Pointers::
 	dw Options_TextSpeed
 	dw Options_HoldToMash
 	dw Options_BattleScene
@@ -23,7 +23,7 @@ MainOptionsPointers::
 	dw Options_MenuAccount
 	dw Options_Frame
 	dw Options_OptionsPage
-MainOptionsPointersEnd::
+MainOptionsP1PointersEnd::
 
 Options_TextSpeed:
 	ld hl, .Data
@@ -77,13 +77,38 @@ Options_HoldToMash:
 
 Options_Sound:
 	ld hl, STEREO_ADDRESS
-	ld b, STEREO
-	ld c, 11
-	ld de, .MonoStereo
-	jp Options_TrueFalse
-.MonoStereo
-	dw .Mono
-	dw .Stereo
+	ldh a, [hJoyPressed]
+	and D_LEFT | D_RIGHT
+	jr z, .NonePressed
+	bit STEREO, [hl]
+	jr nz, .SetMono
+	jr .SetStereo
+
+.NonePressed:
+	bit STEREO, [hl]
+	jr nz, .ToggleStereo
+	jr .ToggleMono
+
+.SetMono:
+	res STEREO, [hl]
+	call RestartMapMusic
+
+.ToggleMono:
+	ld de, .Mono
+	jr .Display
+
+.SetStereo:
+	set STEREO, [hl]
+	call RestartMapMusic
+
+.ToggleStereo:
+	ld de, .Stereo
+
+.Display:
+	hlcoord 11, 11
+	call PlaceString
+	and a
+	ret
 
 .Mono
 	db "MONO  @"
