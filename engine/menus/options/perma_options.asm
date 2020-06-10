@@ -142,8 +142,7 @@ Options_Name:
 
 Options_PlayerGender:
 	ld hl, wPlayerGender
-	ld b, 0 ; hardcode but w/e
-	ld c, 7
+	lb bc, 0, 7 ; bit hardcoded as 0
 	ld de, .MaleFemale
 	jp Options_TrueFalse
 .MaleFemale
@@ -157,8 +156,7 @@ Options_PlayerGender:
 
 Options_Rocketless:
 	ld hl, ROCKETLESS_ADDRESS
-	ld b, ROCKETLESS
-	ld c, 9
+	lb bc, ROCKETLESS, 9
 	ld de, .NormalPurge
 	jp Options_TrueFalse
 .NormalPurge
@@ -195,8 +193,7 @@ Options_Spinners:
 
 Options_TrainerVision:
 	ld hl, MAX_RANGE_ADDRESS
-	ld b, MAX_RANGE
-	ld c, 13
+	lb bc, MAX_RANGE, 13
 	ld de, .NormalMax
 	jp Options_TrueFalse
 .NormalMax
@@ -233,8 +230,7 @@ Options_NerfHMs:
 	jr Options_NerfHMs
 .normalCase
 	ldh a, [hJoyPressed]
-	ld b, NERF_HMS
-	ld c, 15
+	lb bc, NERF_HMS, 15
 	ld de, .NoYes
 	jp Options_TrueFalse
 .randomizedMoves

@@ -485,16 +485,16 @@ PermaOptionsMenuScreens:
 	; permaoptions page 1
 	options_menu PermaOptionsP1String, PermaOptionsP1Pointers, START
 	; permaoptions page 2
-	;options_menu PermaOptions2String, PermaOptions2Pointers, START
+	options_menu PermaOptionsP2String, PermaOptionsP2Pointers, START
 	; permaoptions page 3
-	;options_menu PermaOptions3String, PermaOptions3Pointers, START
+	options_menu PermaOptionsP3String, PermaOptionsP3Pointers, START
 PermaOptionsMenuScreensEnd:
 
 INCLUDE "engine/menus/options/main_options.asm"
 INCLUDE "engine/menus/options/main_options_2.asm"
 INCLUDE "engine/menus/options/perma_options.asm"
-;INCLUDE "engine/menus/options/perma_options_2.asm"
-;INCLUDE "engine/menus/options/perma_options_3.asm"
+INCLUDE "engine/menus/options/perma_options_2.asm"
+INCLUDE "engine/menus/options/perma_options_3.asm"
 
 NameNotSetText::
 	text "Please set your"
