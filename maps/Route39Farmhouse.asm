@@ -31,6 +31,7 @@ FarmerMScript_SellMilk:
 	ifequal HAVE_LESS, FarmerMScript_NoMoney
 	giveitem MOOMOO_MILK
 	iffalse FarmerMScript_NoRoom
+	increment2bytestat sStatsItemsBought
 	takemoney YOUR_MONEY, ROUTE39FARMHOUSE_MILK_PRICE
 	special PlaceMoneyTopRight
 	waitsfx

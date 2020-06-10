@@ -33,6 +33,8 @@ SaffronGymSabrinaScript:
 	playsound SFX_GET_BADGE
 	waitsfx
 	setflag ENGINE_MARSHBADGE
+	checkcode VAR_BADGES
+	scall SaffronGymTriggerRockets
 	writetext SabrinaMarshBadgeText
 	waitbutton
 	closetext
@@ -43,6 +45,17 @@ SaffronGymSabrinaScript:
 	waitbutton
 	closetext
 	end
+
+SaffronGymTriggerRockets:
+	if_equal 7, .RadioTowerRockets
+	if_equal 6, .GoldenrodRockets
+	end
+
+.GoldenrodRockets
+	jumpstd goldenrodrockets
+
+.RadioTowerRockets
+	jumpstd radiotowerrockets
 
 TrainerMediumRebecca:
 	trainer MEDIUM, REBECCA, EVENT_BEAT_MEDIUM_REBECCA, MediumRebeccaSeenText, MediumRebeccaBeatenText, 0, .Script

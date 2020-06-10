@@ -23,7 +23,13 @@ Route24RocketScript:
 	writetext Route24RocketAfterBattleText
 	promptbutton
 	special FadeOutMusic
+	checkpermaoptions ROCKETLESS
+	iftrue .rocketless_text
 	writetext Route24RocketDisappearsText
+	sjump .finish
+.rocketless_text
+	writetext Route24RocketDisappearsRocketlessText
+.finish
 	waitbutton
 	closetext
 	special FadeBlackQuickly
@@ -114,6 +120,17 @@ Route24RocketDisappearsText:
 	para "Oh, no! Should I"
 	line "do what now on"
 	cont "from, me?"
+	done
+	
+Route24RocketDisappearsRocketlessText:
+	text "…"
+
+	para "You say what? TEAM"
+	line "ROCKET is not ex-"
+	cont "isting?"
+
+	para "Oh, no! Is making"
+	line "what of, me?"
 	done
 
 Route24_MapEvents:

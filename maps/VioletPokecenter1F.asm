@@ -17,16 +17,17 @@ VioletPokecenter1F_ElmsAideScript:
 	faceplayer
 	opentext
 	checkevent EVENT_REFUSED_TO_TAKE_EGG_FROM_ELMS_AIDE
-	iftrue .SecondTimeAsking
+	iftrue VioletPokecenter1F_ElmsAideScript_SecondTimeAsking
 	writetext VioletPokecenterElmsAideFavorText
-.AskTakeEgg:
+VioletPokecenter1F_ElmsAideScript_AskTakeEgg:
 	yesorno
-	iffalse .RefusedEgg
+	iffalse VioletPokecenter1F_ElmsAideScript_RefusedEgg
 	readvar VAR_PARTYCOUNT
-	ifequal PARTY_LENGTH, .PartyFull
+	ifequal PARTY_LENGTH, VioletPokecenter1F_ElmsAideScript_PartyFull
+Randomizer_TogepiSpecies::
 	giveegg TOGEPI, 5
-	getstring STRING_BUFFER_4, .eggname
-	scall .AideGivesEgg
+	getstring STRING_BUFFER_4, VioletPokecenter1F_ElmsAideScript_eggname
+	scall VioletPokecenter1F_ElmsAideScript_AideGivesEgg
 	setevent EVENT_GOT_TOGEPI_EGG_FROM_ELMS_AIDE
 	clearevent EVENT_ELMS_AIDE_IN_LAB
 	clearevent EVENT_TOGEPI_HATCHED
@@ -35,7 +36,7 @@ VioletPokecenter1F_ElmsAideScript:
 	waitbutton
 	closetext
 	readvar VAR_FACING
-	ifequal UP, .AideWalksAroundPlayer
+	ifequal UP, VioletPokecenter1F_ElmsAideScript_AideWalksAroundPlayer
 	turnobject PLAYER, DOWN
 	applymovement VIOLETPOKECENTER1F_ELMS_AIDE, MovementData_AideWalksStraightOutOfPokecenter
 	playsound SFX_EXIT_BUILDING
@@ -43,7 +44,7 @@ VioletPokecenter1F_ElmsAideScript:
 	waitsfx
 	end
 
-.AideWalksAroundPlayer:
+VioletPokecenter1F_ElmsAideScript_AideWalksAroundPlayer:
 	applymovement VIOLETPOKECENTER1F_ELMS_AIDE, MovementData_AideWalksLeftToExitPokecenter
 	turnobject PLAYER, DOWN
 	applymovement VIOLETPOKECENTER1F_ELMS_AIDE, MovementData_AideFinishesLeavingPokecenter
@@ -52,29 +53,29 @@ VioletPokecenter1F_ElmsAideScript:
 	waitsfx
 	end
 
-.eggname
+VioletPokecenter1F_ElmsAideScript_eggname:
 	db "EGG@"
 
-.AideGivesEgg:
+VioletPokecenter1F_ElmsAideScript_AideGivesEgg:
 	jumpstd receivetogepiegg
 	end
 
-.PartyFull:
+VioletPokecenter1F_ElmsAideScript_PartyFull:
 	writetext VioletCityElmsAideFullPartyText
 	waitbutton
 	closetext
 	end
 
-.RefusedEgg:
+VioletPokecenter1F_ElmsAideScript_RefusedEgg:
 	writetext VioletPokecenterElmsAideRefuseText
 	waitbutton
 	closetext
 	setevent EVENT_REFUSED_TO_TAKE_EGG_FROM_ELMS_AIDE
 	end
 
-.SecondTimeAsking:
+VioletPokecenter1F_ElmsAideScript_SecondTimeAsking:
 	writetext VioletPokecenterElmsAideAskEggText
-	sjump .AskTakeEgg
+	sjump VioletPokecenter1F_ElmsAideScript_AskTakeEgg
 
 VioletPokecenter1FGameboyKidScript:
 	jumptextfaceplayer VioletPokecenter1FGameboyKidText

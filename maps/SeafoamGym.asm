@@ -32,6 +32,8 @@ SeafoamGymBlaineScript:
 	playsound SFX_GET_BADGE
 	waitsfx
 	setflag ENGINE_VOLCANOBADGE
+	checkcode VAR_BADGES
+	scall SeafoamGymTriggerRockets
 	writetext BlaineAfterBattleText
 	waitbutton
 	closetext
@@ -42,6 +44,17 @@ SeafoamGymBlaineScript:
 	waitbutton
 	closetext
 	end
+
+SeafoamGymTriggerRockets:
+	if_equal 7, .RadioTowerRockets
+	if_equal 6, .GoldenrodRockets
+	end
+
+.GoldenrodRockets
+	jumpstd goldenrodrockets
+
+.RadioTowerRockets
+	jumpstd radiotowerrockets
 
 SeafoamGymGuyScript:
 	faceplayer

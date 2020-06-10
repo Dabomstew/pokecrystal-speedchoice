@@ -27,6 +27,8 @@ PewterGymBrockScript:
 	playsound SFX_GET_BADGE
 	waitsfx
 	setflag ENGINE_BOULDERBADGE
+	checkcode VAR_BADGES
+	scall PewterGymTriggerRockets
 	writetext BrockBoulderBadgeText
 	waitbutton
 	closetext
@@ -37,6 +39,17 @@ PewterGymBrockScript:
 	waitbutton
 	closetext
 	end
+
+PewterGymTriggerRockets:
+	if_equal 7, .RadioTowerRockets
+	if_equal 6, .GoldenrodRockets
+	end
+
+.GoldenrodRockets
+	jumpstd goldenrodrockets
+
+.RadioTowerRockets
+	jumpstd radiotowerrockets
 
 TrainerCamperJerry:
 	trainer CAMPER, JERRY, EVENT_BEAT_CAMPER_JERRY, CamperJerrySeenText, CamperJerryBeatenText, 0, .Script

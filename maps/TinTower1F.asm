@@ -12,61 +12,67 @@
 
 TinTower1F_MapScripts:
 	db 2 ; scene scripts
-	scene_script .FaceSuicune ; SCENE_DEFAULT
-	scene_script .DummyScene ; SCENE_FINISHED
+	scene_script TinTower1F_FaceSuicune ; SCENE_DEFAULT
+	scene_script TinTower1F_DummyScene ; SCENE_FINISHED
 
 	db 2 ; callbacks
-	callback MAPCALLBACK_OBJECTS, .NPCsCallback
-	callback MAPCALLBACK_TILES, .StairsCallback
+	callback MAPCALLBACK_OBJECTS, TinTower1F_NPCsCallback
+	callback MAPCALLBACK_TILES, TinTower1F_StairsCallback
 
-.FaceSuicune:
-	prioritysjump .SuicuneBattle
+TinTower1F_FaceSuicune:
+	prioritysjump TinTower1F_SuicuneBattle
 	end
 
-.DummyScene:
+TinTower1F_DummyScene:
 	end
 
-.NPCsCallback:
+TinTower1F_NPCsCallback:
 	checkevent EVENT_GOT_RAINBOW_WING
-	iftrue .GotRainbowWing
+	iftrue TinTower1F_GotRainbowWing
+	checkpermaoptions EASY_TIN_TOWER
+	iffalse TinTower1F_Normal
+	checkevent EVENT_DECIDED_TO_HELP_LANCE
+	iftrue TinTower1F_Success
+TinTower1F_Normal:
 	checkevent EVENT_BEAT_ELITE_FOUR
-	iffalse .FaceBeasts
+	iffalse TinTower1F_FaceBeasts
 	special BeastsCheck
-	iffalse .FaceBeasts
+	iffalse TinTower1F_FaceBeasts
+TinTower1F_Success:
 	clearevent EVENT_TIN_TOWER_1F_WISE_TRIO_2
 	setevent EVENT_TIN_TOWER_1F_WISE_TRIO_1
-.GotRainbowWing:
+TinTower1F_GotRainbowWing:
 	checkevent EVENT_FOUGHT_HO_OH
-	iffalse .Done
+	iffalse TinTower1F_Done
 	appear TINTOWER1F_EUSINE
-.Done:
+TinTower1F_Done:
 	return
 
-.FaceBeasts:
+TinTower1F_FaceBeasts:
 	checkevent EVENT_FOUGHT_SUICUNE
-	iftrue .FoughtSuicune
+	iftrue TinTower1F_FoughtSuicune
 	appear TINTOWER1F_SUICUNE
 	setval RAIKOU
 	special MonCheck
-	iftrue .NoRaikou
+	iftrue TinTower1F_NoRaikou
 	appear TINTOWER1F_RAIKOU
-	sjump .CheckEntei
+	sjump TinTower1F_CheckEntei
 
-.NoRaikou:
+TinTower1F_NoRaikou:
 	disappear TINTOWER1F_RAIKOU
-.CheckEntei:
+TinTower1F_CheckEntei:
 	setval ENTEI
 	special MonCheck
-	iftrue .NoEntei
+	iftrue TinTower1F_NoEntei
 	appear TINTOWER1F_ENTEI
-	sjump .BeastsDone
+	sjump TinTower1F_BeastsDone
 
-.NoEntei:
+TinTower1F_NoEntei:
 	disappear TINTOWER1F_ENTEI
-.BeastsDone:
+TinTower1F_BeastsDone:
 	return
 
-.FoughtSuicune:
+TinTower1F_FoughtSuicune:
 	disappear TINTOWER1F_SUICUNE
 	disappear TINTOWER1F_RAIKOU
 	disappear TINTOWER1F_ENTEI
@@ -74,21 +80,22 @@ TinTower1F_MapScripts:
 	setevent EVENT_TIN_TOWER_1F_WISE_TRIO_2
 	return
 
-.StairsCallback:
+TinTower1F_StairsCallback:
 	checkevent EVENT_GOT_RAINBOW_WING
-	iftrue .DontHideStairs
+	iftrue TinTower1F_DontHideStairs
 	changeblock 10, 2, $09 ; floor
-.DontHideStairs:
+TinTower1F_DontHideStairs:
 	return
 
-.SuicuneBattle:
+TinTower1F_SuicuneBattle:
 	applymovement PLAYER, TinTowerPlayerMovement1
 	pause 15
 	setval RAIKOU
 	special MonCheck
-	iftrue .Next1 ; if player caught Raikou, he doesn't appear in Tin Tower
+	iftrue TinTower1F_Next1 ; if player caught Raikou, he doesn't appear in Tin Tower
 	applymovement TINTOWER1F_RAIKOU, TinTowerRaikouMovement1
 	turnobject PLAYER, LEFT
+Randomizer_RaikouCryTT::
 	cry RAIKOU
 	pause 10
 	playsound SFX_WARP_FROM
@@ -96,12 +103,13 @@ TinTower1F_MapScripts:
 	disappear TINTOWER1F_RAIKOU
 	playsound SFX_EXIT_BUILDING
 	waitsfx
-.Next1:
+TinTower1F_Next1:
 	setval ENTEI
 	special MonCheck
-	iftrue .Next2 ; if player caught Entei, he doesn't appear in Tin Tower
+	iftrue TinTower1F_Next2 ; if player caught Entei, he doesn't appear in Tin Tower
 	applymovement TINTOWER1F_ENTEI, TinTowerEnteiMovement1
 	turnobject PLAYER, RIGHT
+Randomizer_EnteiCryTT::
 	cry ENTEI
 	pause 10
 	playsound SFX_WARP_FROM
@@ -109,13 +117,15 @@ TinTower1F_MapScripts:
 	disappear TINTOWER1F_ENTEI
 	playsound SFX_EXIT_BUILDING
 	waitsfx
-.Next2:
+TinTower1F_Next2:
 	turnobject PLAYER, UP
 	pause 10
 	applymovement PLAYER, TinTowerPlayerMovement2
 	applymovement TINTOWER1F_SUICUNE, TinTowerSuicuneMovement
+Randomizer_SuicuneCry::
 	cry SUICUNE
 	pause 20
+Randomizer_SuicuneSpecies::
 	loadwildmon SUICUNE, 40
 	loadvar VAR_BATTLETYPE, BATTLETYPE_SUICUNE
 	startbattle

@@ -26,11 +26,13 @@ Lugia:
 	faceplayer
 	opentext
 	writetext LugiaText
+Randomizer_LugiaCry::
 	cry LUGIA
 	pause 15
 	closetext
 	setevent EVENT_FOUGHT_LUGIA
 	loadvar VAR_BATTLETYPE, BATTLETYPE_FORCEITEM
+Randomizer_LugiaSpecies::
 	loadwildmon LUGIA, 60
 	startbattle
 	disappear WHIRLISLANDLUGIACHAMBER_LUGIA

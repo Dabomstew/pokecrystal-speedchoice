@@ -447,30 +447,36 @@ ExplodingTrap22:
 
 VoltorbExplodingTrap:
 	special FadeOutPalettes
+Randomizer_VoltorbCry::
 	cry VOLTORB
 	special FadeInPalettes
 	setlasttalked -1
 	loadvar VAR_BATTLETYPE, BATTLETYPE_TRAP
+Randomizer_VoltorbSpecies::
 	loadwildmon VOLTORB, 23
 	startbattle
 	end
 
 GeodudeExplodingTrap:
 	special FadeOutPalettes
+Randomizer_GeodudeCry::
 	cry GEODUDE
 	special FadeInPalettes
 	setlasttalked -1
 	loadvar VAR_BATTLETYPE, BATTLETYPE_TRAP
+Randomizer_GeodudeSpecies::
 	loadwildmon GEODUDE, 21
 	startbattle
 	end
 
 KoffingExplodingTrap:
 	special FadeOutPalettes
+Randomizer_KoffingCry::
 	cry KOFFING
 	special FadeInPalettes
 	setlasttalked -1
 	loadvar VAR_BATTLETYPE, BATTLETYPE_TRAP
+Randomizer_KoffingSpecies::
 	loadwildmon KOFFING, 21
 	startbattle
 	end

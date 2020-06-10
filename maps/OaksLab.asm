@@ -23,6 +23,8 @@ Oak:
 	promptbutton
 	setevent EVENT_TALKED_TO_OAK_IN_KANTO
 .CheckBadges:
+	checkpermaoptions EARLY_KANTO
+	iftrue .OpenMtSilverEarlyKanto
 	readvar VAR_BADGES
 	ifequal NUM_BADGES, .OpenMtSilver
 	ifequal NUM_JOHTO_BADGES, .Complain
@@ -39,6 +41,12 @@ Oak:
 
 .OpenMtSilver:
 	writetext OakOpenMtSilverText
+	promptbutton
+	setevent EVENT_OPENED_MT_SILVER
+	sjump .CheckPokedex
+	
+.OpenMtSilverEarlyKanto:
+	writetext EarlyKantoOakOpenMtSilverText
 	promptbutton
 	setevent EVENT_OPENED_MT_SILVER
 	sjump .CheckPokedex
@@ -143,6 +151,50 @@ OakOpenMtSilverText:
 
 	para "reach MT.SILVER"
 	line "from there."
+	done
+
+EarlyKantoOakOpenMtSilverText:
+	text "OAK: Oh? Is KANTO"
+	line "not the challenge"
+
+	para "you were looking"
+	line "for?"
+
+	para "Hmm… Well, you do"
+	line "seem capable…"
+
+	para "Tell you what,"
+	line "<PLAY_G>. I'll make"
+
+	para "arrangements so"
+	line "that you can go to"
+	cont "MT.SILVER."
+
+	para "MT.SILVER is a big"
+	line "mountain that is"
+
+	para "home to many wild"
+	line "#MON."
+
+	para "It's too dangerous"
+	line "for your average"
+
+	para "trainer, so it's"
+	line "off limits. But"
+
+	para "we can make an"
+	line "exception in your"
+	cont "case, <PLAY_G>."
+
+	para "Go up to INDIGO"
+	line "PLATEAU. You can"
+
+	para "reach MT.SILVER"
+	line "from there."
+
+	para "Besides, what's the"
+	line "worst that can"
+	cont "happen? Hahaha!"
 	done
 
 OakNoKantoBadgesText:

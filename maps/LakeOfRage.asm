@@ -43,15 +43,19 @@ LakeOfRage_MapScripts:
 
 LakeOfRageLanceScript:
 	checkevent EVENT_REFUSED_TO_HELP_LANCE_AT_LAKE_OF_RAGE
-	iftrue .AskAgainForHelp
+	iftrue LakeOfRageLanceScript_AskAgainForHelp
 	opentext
 	writetext LakeOfRageLanceForcedToEvolveText
 	promptbutton
 	faceplayer
+	checkpermaoptions ROCKETLESS
+	iftrue RocketlessLoRLanceScript1
 	writetext LakeOfRageLanceIntroText
 	yesorno
-	iffalse .RefusedToHelp
-.AgreedToHelp:
+	iffalse LakeOfRageLanceScript_RefusedToHelp
+LakeOfRageLanceScript_AgreedToHelp:
+	checkpermaoptions ROCKETLESS
+	iftrue RocketlessLoRLanceScript2
 	writetext LakeOfRageLanceRadioSignalText
 	waitbutton
 	closetext
@@ -63,27 +67,111 @@ LakeOfRageLanceScript:
 	setmapscene MAHOGANY_MART_1F, SCENE_MAHOGANYMART1F_LANCE_UNCOVERS_STAIRS
 	end
 
-.RefusedToHelp:
+LakeOfRageLanceScript_RefusedToHelp:
 	writetext LakeOfRageLanceRefusedText
 	waitbutton
 	closetext
 	setevent EVENT_REFUSED_TO_HELP_LANCE_AT_LAKE_OF_RAGE
 	end
 
-.AskAgainForHelp:
+LakeOfRageLanceScript_AskAgainForHelp:
 	faceplayer
 	opentext
 	writetext LakeOfRageLanceAskHelpText
 	yesorno
-	iffalse .RefusedToHelp
-	sjump .AgreedToHelp
+	iffalse LakeOfRageLanceScript_RefusedToHelp
+	sjump LakeOfRageLanceScript_AgreedToHelp
+
+RocketlessLoRLanceScript1:
+	writetext RocketlessLakeOfRageLanceIntroText
+	yesorno
+	iffalse LakeOfRageLanceScript_RefusedToHelp
+RocketlessLoRLanceScript2:
+	writetext RocketlessLakeOfRageLanceRadioSignalText
+	setevent EVENT_UNCOVERED_STAIRCASE_IN_MAHOGANY_MART
+	setevent EVENT_DECIDED_TO_HELP_LANCE
+	setmapscene MAHOGANY_MART_1F, SCENE_DEFAULT
+	setevent EVENT_LANCE_HEALED_YOU_IN_TEAM_ROCKET_BASE
+	setevent EVENT_TEAM_ROCKET_BASE_B2F_EXECUTIVE
+	setevent EVENT_TEAM_ROCKET_BASE_B2F_GRUNT_WITH_EXECUTIVE
+	setevent EVENT_TEAM_ROCKET_BASE_B2F_LANCE
+	setevent EVENT_BEAT_ROCKET_EXECUTIVEF_2
+	verbosegiveitem HM_WHIRLPOOL
+	setevent EVENT_GOT_HM06_WHIRLPOOL
+	setmapscene TEAM_ROCKET_BASE_B2F, SCENE_TEAMROCKETBASEB2F_NOTHING
+	setevent EVENT_CLEARED_ROCKET_HIDEOUT
+	clearflag ENGINE_ROCKET_SIGNAL_ON_CH20
+	setevent EVENT_ROUTE_43_GATE_ROCKETS
+	setevent EVENT_MAHOGANY_TOWN_POKEFAN_M_BLOCKS_GYM
+	clearevent EVENT_LAKE_OF_RAGE_CIVILIANS
+	setevent EVENT_TURNED_OFF_SECURITY_CAMERAS
+	setevent EVENT_SECURITY_CAMERA_1
+	setevent EVENT_SECURITY_CAMERA_2
+	setevent EVENT_SECURITY_CAMERA_3
+	setevent EVENT_SECURITY_CAMERA_4
+	setevent EVENT_SECURITY_CAMERA_5
+	setflag ENGINE_ROCKETS_IN_RADIO_TOWER
+	setevent EVENT_RADIO_TOWER_BLACKBELT_BLOCKS_STAIRS
+	clearevent EVENT_RADIO_TOWER_ROCKET_TAKEOVER
+	setevent EVENT_MAHOGANY_TOWN_POKEFAN_M_BLOCKS_EAST
+	setmapscene MAHOGANY_TOWN, SCENE_FINISHED
+	verbosegiveitem BASEMENT_KEY
+	setevent EVENT_BEAT_ROCKET_EXECUTIVEM_3
+	verbosegiveitem CARD_KEY
+	setevent EVENT_RECEIVED_CARD_KEY
+	setevent EVENT_GOLDENROD_DEPT_STORE_B1F_LAYOUT_1
+	clearevent EVENT_GOLDENROD_DEPT_STORE_B1F_LAYOUT_2
+	clearevent EVENT_GOLDENROD_DEPT_STORE_B1F_LAYOUT_3
+	setevent EVENT_USED_THE_CARD_KEY_IN_THE_RADIO_TOWER
+	setevent EVENT_BEAT_ROCKET_EXECUTIVEM_1
+	setevent EVENT_CLEARED_RADIO_TOWER
+	clearflag ENGINE_ROCKETS_IN_RADIO_TOWER
+	setevent EVENT_GOLDENROD_CITY_ROCKET_SCOUT
+	setevent EVENT_GOLDENROD_CITY_ROCKET_TAKEOVER
+	setevent EVENT_RADIO_TOWER_ROCKET_TAKEOVER
+	clearevent EVENT_MAHOGANY_MART_OWNERS
+	clearflag ENGINE_ROCKETS_IN_MAHOGANY
+	clearevent EVENT_RADIO_TOWER_CIVILIANS_AFTER
+	setevent EVENT_BLACKTHORN_CITY_SUPER_NERD_BLOCKS_GYM
+	clearevent EVENT_BLACKTHORN_CITY_SUPER_NERD_DOES_NOT_BLOCK_GYM
+	verbosegiveitem CLEAR_BELL
+	setmapscene RADIO_TOWER_5F, SCENE_RADIOTOWER5F_NOTHING
+	setmapscene ECRUTEAK_TIN_TOWER_ENTRANCE, SCENE_DEFAULT
+	setevent EVENT_GOT_CLEAR_BELL
+	setevent EVENT_TEAM_ROCKET_DISBANDED
+	setevent EVENT_OPENED_DOOR_TO_ROCKET_HIDEOUT_TRANSMITTER
+	setmapscene TEAM_ROCKET_BASE_B3F, SCENE_TEAMROCKETBASEB3F_NOTHING
+	setevent EVENT_OPENED_DOOR_TO_GIOVANNIS_OFFICE
+	setevent EVENT_TEAM_ROCKET_BASE_POPULATION
+	setevent EVENT_TEAM_ROCKET_BASE_B3F_LANCE_PASSWORDS
+	setevent EVENT_TEAM_ROCKET_BASE_B3F_EXECUTIVE
+	setevent EVENT_RIVAL_TEAM_ROCKET_BASE
+	checkpermaoptions EARLY_KANTO
+	iffalse .skip_boat_and_train
+	; setup for boat
+	setflag ENGINE_CREDITS_SKIP
+	specialphonecall SPECIALCALL_SSTICKET
+	setevent EVENT_OLIVINE_PORT_SPRITES_BEFORE_HALL_OF_FAME
+	clearevent EVENT_OLIVINE_PORT_SPRITES_AFTER_HALL_OF_FAME
+	; fix people flags later on
+	clearevent EVENT_GOLDENROD_TRAIN_STATION_GENTLEMAN
+	clearevent EVENT_SAFFRON_TRAIN_STATION_POPULATION
+.skip_boat_and_train
+	waitbutton
+	closetext
+	playsound SFX_WARP_TO
+	applymovement LAKEOFRAGE_LANCE, LakeOfRageLanceTeleportIntoSkyMovement
+	disappear LAKEOFRAGE_LANCE
+	end
 
 RedGyarados:
 	opentext
 	writetext LakeOfRageGyaradosCryText
 	pause 15
+Randomizer_RedGyaradosCry::
 	cry GYARADOS
 	closetext
+Randomizer_RedGyaradosSpecies::
 	loadwildmon GYARADOS, 30
 	loadvar VAR_BATTLETYPE, BATTLETYPE_SHINY
 	startbattle
@@ -279,6 +367,30 @@ LakeOfRageLanceIntroText:
 	line "could you help me"
 	cont "investigate?"
 	done
+	
+RocketlessLakeOfRageLanceIntroText:
+	text "Did you come here"
+	line "because of the"
+	cont "rumors?"
+
+	para "You're <PLAYER>?"
+	line "I'm LANCE, a"
+	cont "trainer like you."
+
+	para "I saw the way you"
+	line "battled earlier,"
+	cont "<PLAY_G>."
+
+	para "I can tell that"
+	line "you're a trainer"
+
+	para "with considerable"
+	line "skill."
+
+	para "If you don't mind,"
+	line "could you take"
+	cont "this junk away?"
+	done
 
 LakeOfRageLanceRadioSignalText:
 	text "LANCE: Excellent!"
@@ -297,6 +409,18 @@ LakeOfRageLanceRadioSignalText:
 
 	para "I'll be waiting"
 	line "for you, <PLAY_G>."
+	done
+	
+RocketlessLakeOfRageLanceRadioSignalText:
+	text "LANCE: Excellent!"
+
+	para "I found all this"
+	line "around town,"
+	cont "but I have no use"
+	cont "for it at all."
+
+	para "Take it off my"
+	line "hands, please!"
 	done
 
 LakeOfRageLanceRefusedText:

@@ -57,6 +57,8 @@ PokemonFanClubClefairyGuyScript:
 	iftrue .GotLostItem
 	checkevent EVENT_RETURNED_MACHINE_PART
 	iftrue .FoundClefairyDoll
+	checkpermaoptions EARLY_KANTO
+	iftrue .FoundClefairyDoll
 	writetext PokemonFanClubClefairyGuyClefairyIsSoAdorableText
 	waitbutton
 	closetext

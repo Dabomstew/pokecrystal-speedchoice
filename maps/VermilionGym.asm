@@ -31,6 +31,8 @@ VermilionGymSurgeScript:
 	playsound SFX_GET_BADGE
 	waitsfx
 	setflag ENGINE_THUNDERBADGE
+	checkcode VAR_BADGES
+	scall VermilionGymTriggerRockets
 	writetext LtSurgeThunderBadgeText
 	waitbutton
 	closetext
@@ -41,6 +43,17 @@ VermilionGymSurgeScript:
 	waitbutton
 	closetext
 	end
+	
+VermilionGymTriggerRockets:
+	if_equal 7, .RadioTowerRockets
+	if_equal 6, .GoldenrodRockets
+	end
+
+.GoldenrodRockets
+	jumpstd goldenrodrockets
+
+.RadioTowerRockets
+	jumpstd radiotowerrockets
 
 TrainerGentlemanGregory:
 	trainer GENTLEMAN, GREGORY, EVENT_BEAT_GENTLEMAN_GREGORY, GentlemanGregorySeenText, GentlemanGregoryBeatenText, 0, .Script

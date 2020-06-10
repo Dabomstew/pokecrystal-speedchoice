@@ -50,9 +50,11 @@ VermilionSnorlax:
 .Awake:
 	writetext VermilionCityRadioNearSnorlaxText
 	pause 15
+Randomizer_SnorlaxCry::
 	cry SNORLAX
 	closetext
 	loadvar VAR_BATTLETYPE, BATTLETYPE_FORCEITEM
+Randomizer_SnorlaxSpecies::
 	loadwildmon SNORLAX, 50
 	startbattle
 	disappear VERMILIONCITY_BIG_SNORLAX

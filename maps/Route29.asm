@@ -50,6 +50,7 @@ Route29Tutorial1:
 	follow ROUTE29_COOLTRAINER_M1, PLAYER
 	applymovement ROUTE29_COOLTRAINER_M1, DudeMovementData1b
 	stopfollow
+Randomizer_CatchingTutorialMonOffset1::
 	loadwildmon RATTATA, 5
 	catchtutorial BATTLETYPE_TUTORIAL
 	turnobject ROUTE29_COOLTRAINER_M1, UP
@@ -75,6 +76,7 @@ Route29Tutorial2:
 	follow ROUTE29_COOLTRAINER_M1, PLAYER
 	applymovement ROUTE29_COOLTRAINER_M1, DudeMovementData2b
 	stopfollow
+Randomizer_CatchingTutorialMonOffset2::
 	loadwildmon RATTATA, 5
 	catchtutorial BATTLETYPE_TUTORIAL
 	turnobject ROUTE29_COOLTRAINER_M1, UP
@@ -106,15 +108,16 @@ CatchingTutorialDudeScript:
 	faceplayer
 	opentext
 	readvar VAR_BOXSPACE
-	ifequal 0, .BoxFull
+	ifequal 0, CatchingTutorialDudeScript_BoxFull
 	checkevent EVENT_LEARNED_TO_CATCH_POKEMON
-	iftrue .BoxFull
+	iftrue CatchingTutorialDudeScript_BoxFull
 	checkevent EVENT_GAVE_MYSTERY_EGG_TO_ELM
-	iffalse .BoxFull
+	iffalse CatchingTutorialDudeScript_BoxFull
 	writetext CatchingTutorialRepeatText
 	yesorno
-	iffalse .Declined
+	iffalse CatchingTutorialDudeScript_Declined
 	closetext
+Randomizer_CatchingTutorialMonOffset3::
 	loadwildmon RATTATA, 5
 	catchtutorial BATTLETYPE_TUTORIAL
 	opentext
@@ -124,13 +127,13 @@ CatchingTutorialDudeScript:
 	setevent EVENT_LEARNED_TO_CATCH_POKEMON
 	end
 
-.BoxFull:
+CatchingTutorialDudeScript_BoxFull:
 	writetext CatchingTutorialBoxFullText
 	waitbutton
 	closetext
 	end
 
-.Declined:
+CatchingTutorialDudeScript_Declined:
 	writetext CatchingTutorialDeclinedText
 	waitbutton
 	closetext

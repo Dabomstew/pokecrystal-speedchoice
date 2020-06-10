@@ -18,6 +18,8 @@ SaffronMagnetTrainStationOfficerScript:
 	opentext
 	checkevent EVENT_RESTORED_POWER_TO_KANTO
 	iftrue .MagnetTrainToGoldenrod
+	checkpermaoptions EARLY_KANTO
+	iftrue .MagnetTrainToGoldenrod
 	writetext SaffronMagnetTrainStationOfficerTrainIsntOperatingText
 	waitbutton
 	closetext

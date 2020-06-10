@@ -60,6 +60,7 @@ RageCandyBarMerchantScript:
 	ifequal HAVE_LESS, .NotEnoughMoney
 	giveitem RAGECANDYBAR
 	iffalse .NoRoom
+	increment2bytestat sStatsItemsBought
 	waitsfx
 	playsound SFX_TRANSACTION
 	takemoney YOUR_MONEY, MAHOGANYTOWN_RAGECANDYBAR_PRICE

@@ -220,12 +220,16 @@ TrainerGruntM19:
 	end
 
 RocketElectrode1:
+Randomizer_Electrode1Cry::
 	cry ELECTRODE
+Randomizer_Electrode1Species::
 	loadwildmon ELECTRODE, 23
 	startbattle
 	iftrue TeamRocketBaseB2FReloadMap
 	disappear TEAMROCKETBASEB2F_ELECTRODE1
 	disappear TEAMROCKETBASEB2F_ELECTRODE4
+	checkpermaoptions ROCKETLESS
+	iftrue TeamRocketBaseB2FReloadMap
 	checkevent EVENT_TEAM_ROCKET_BASE_B2F_ELECTRODE_1
 	iffalse TeamRocketBaseB2FReloadMap
 	checkevent EVENT_TEAM_ROCKET_BASE_B2F_ELECTRODE_2
@@ -238,12 +242,16 @@ RocketElectrode1:
 	sjump RocketBaseElectrodeScript
 
 RocketElectrode2:
+Randomizer_Electrode2Cry::
 	cry ELECTRODE
+Randomizer_Electrode2Species::
 	loadwildmon ELECTRODE, 23
 	startbattle
 	iftrue TeamRocketBaseB2FReloadMap
 	disappear TEAMROCKETBASEB2F_ELECTRODE2
 	disappear TEAMROCKETBASEB2F_ELECTRODE5
+	checkpermaoptions ROCKETLESS
+	iftrue TeamRocketBaseB2FReloadMap
 	checkevent EVENT_TEAM_ROCKET_BASE_B2F_ELECTRODE_1
 	iffalse TeamRocketBaseB2FReloadMap
 	checkevent EVENT_TEAM_ROCKET_BASE_B2F_ELECTRODE_2
@@ -256,12 +264,16 @@ RocketElectrode2:
 	sjump RocketBaseElectrodeScript
 
 RocketElectrode3:
+Randomizer_Electrode3Cry::
 	cry ELECTRODE
+Randomizer_Electrode3Species::
 	loadwildmon ELECTRODE, 23
 	startbattle
 	iftrue TeamRocketBaseB2FReloadMap
 	disappear TEAMROCKETBASEB2F_ELECTRODE3
 	disappear TEAMROCKETBASEB2F_ELECTRODE6
+	checkpermaoptions ROCKETLESS
+	iftrue TeamRocketBaseB2FReloadMap
 	checkevent EVENT_TEAM_ROCKET_BASE_B2F_ELECTRODE_1
 	iffalse TeamRocketBaseB2FReloadMap
 	checkevent EVENT_TEAM_ROCKET_BASE_B2F_ELECTRODE_2

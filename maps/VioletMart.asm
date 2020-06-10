@@ -10,7 +10,14 @@ VioletMart_MapScripts:
 
 VioletMartClerkScript:
 	opentext
+	checkpermaoptions BETTER_MARTS
+	iftrue VioletBetterMartScript
 	pokemart MARTTYPE_STANDARD, MART_VIOLET
+	closetext
+	end
+
+VioletBetterMartScript:
+	pokemart MARTTYPE_STANDARD, MART_VIOLET_BETTER
 	closetext
 	end
 

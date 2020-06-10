@@ -12,53 +12,54 @@ RandyScript:
 	faceplayer
 	opentext
 	checkevent EVENT_GOT_HP_UP_FROM_RANDY
-	iftrue .gothpup
+	iftrue RandyScript_gothpup
 	checkevent EVENT_GAVE_KENYA
-	iftrue .questcomplete
+	iftrue RandyScript_questcomplete
 	checkevent EVENT_GOT_KENYA
-	iftrue .alreadyhavekenya
+	iftrue RandyScript_alreadyhavekenya
 	writetext Route35GoldenrodGateRandyAskTakeThisMonToMyFriendText
 	yesorno
-	iffalse .refused
+	iffalse RandyScript_refused
 	writetext Route35GoldenrodGateRandyThanksKidText
 	promptbutton
 	waitsfx
 	readvar VAR_PARTYCOUNT
-	ifequal PARTY_LENGTH, .partyfull
+	ifequal PARTY_LENGTH, RandyScript_partyfull
 	writetext Route35GoldenrodGatePlayerReceivedAMonWithMailText
 	playsound SFX_KEY_ITEM
 	waitsfx
+Randomizer_KenyaSpecies::
 	givepoke SPEAROW, 10, NO_ITEM, TRUE, GiftSpearowName, GiftSpearowOTName
 	givepokemail GiftSpearowMail
 	setevent EVENT_GOT_KENYA
-.alreadyhavekenya
+RandyScript_alreadyhavekenya:
 	writetext Route35GoldenrodGateRandyWeirdTreeBlockingRoadText
 	waitbutton
 	closetext
 	end
 
-.partyfull
+RandyScript_partyfull:
 	writetext Route35GoldenrodGateRandyCantCarryAnotherMonText
 	waitbutton
 	closetext
 	end
 
-.refused
+RandyScript_refused:
 	writetext Route35GoldenrodGateRandyOhNeverMindThenText
 	waitbutton
 	closetext
 	end
 
-.questcomplete
+RandyScript_questcomplete:
 	writetext Route35GoldenrodGateRandySomethingForYourTroubleText
 	promptbutton
 	verbosegiveitem HP_UP
-	iffalse .bagfull
+	iffalse RandyScript_bagfull
 	setevent EVENT_GOT_HP_UP_FROM_RANDY
-.gothpup
+RandyScript_gothpup:
 	writetext Route35GoldenrodGateRandyMyPalWasSnoozingRightText
 	waitbutton
-.bagfull
+RandyScript_bagfull:
 	closetext
 	end
 

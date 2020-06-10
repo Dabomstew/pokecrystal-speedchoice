@@ -16,9 +16,9 @@ MountMortarB1FKiyoScript:
 	faceplayer
 	opentext
 	checkevent EVENT_GOT_TYROGUE_FROM_KIYO
-	iftrue .GotTyrogue
+	iftrue MountMortarB1FKiyoScript_GotTyrogue
 	checkevent EVENT_BEAT_BLACKBELT_KIYO
-	iftrue .BeatKiyo
+	iftrue MountMortarB1FKiyoScript_BeatKiyo
 	writetext MountMortarB1FKiyoIntroText
 	waitbutton
 	closetext
@@ -28,24 +28,25 @@ MountMortarB1FKiyoScript:
 	reloadmapafterbattle
 	setevent EVENT_BEAT_BLACKBELT_KIYO
 	opentext
-.BeatKiyo:
+MountMortarB1FKiyoScript_BeatKiyo:
 	writetext MountMortarB1FTyrogueRewardText
 	promptbutton
 	waitsfx
 	readvar VAR_PARTYCOUNT
-	ifequal PARTY_LENGTH, .NoRoom
+	ifequal PARTY_LENGTH, MountMortarB1FKiyoScript_NoRoom
 	writetext MountMortarB1FReceiveMonText
 	playsound SFX_CAUGHT_MON
 	waitsfx
+Randomizer_TyrogueSpecies::
 	givepoke TYROGUE, 10
 	setevent EVENT_GOT_TYROGUE_FROM_KIYO
-.GotTyrogue:
+MountMortarB1FKiyoScript_GotTyrogue:
 	writetext MountMortarB1FKiyoGotTyrogueText
 	waitbutton
 	closetext
 	end
 
-.NoRoom:
+MountMortarB1FKiyoScript_NoRoom:
 	writetext MountMortarB1FKiyoFullPartyText
 	waitbutton
 	closetext
