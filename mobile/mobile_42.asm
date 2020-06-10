@@ -90,7 +90,7 @@ RunMobileTradeAnim_Frontpics:
 	ld a, [hl]
 	push af
 	res 0, [hl]
-	ld hl, wOptions
+	ld hl, NO_TEXT_SCROLL_ADDRESS
 	ld a, [hl]
 	push af
 	set NO_TEXT_SCROLL, [hl]
@@ -99,7 +99,7 @@ RunMobileTradeAnim_Frontpics:
 	call MobileTradeAnim_JumptableLoop
 	jr nc, .loop
 	pop af
-	ld [wOptions], a
+	ld [NO_TEXT_SCROLL_ADDRESS], a
 	pop af
 	ld [wVramState], a
 	pop af
@@ -119,7 +119,7 @@ RunMobileTradeAnim_NoFrontpics:
 	ld a, [hl]
 	push af
 	res 0, [hl]
-	ld hl, wOptions
+	ld hl, NO_TEXT_SCROLL_ADDRESS
 	ld a, [hl]
 	push af
 	set NO_TEXT_SCROLL, [hl]
@@ -128,7 +128,7 @@ RunMobileTradeAnim_NoFrontpics:
 	call MobileTradeAnim_JumptableLoop
 	jr nc, .loop
 	pop af
-	ld [wOptions], a
+	ld [NO_TEXT_SCROLL_ADDRESS], a
 	pop af
 	ld [wVramState], a
 	pop af

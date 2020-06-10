@@ -3829,11 +3829,11 @@ _StartMobileBattle:
 
 StartMobileBattle:
 	; force stereo and fast text speed
-	ld hl, wOptions
+	ld hl, TEXT_SPEED_ADDRESS ; STEREO_ADDRESS
 	ld a, [hl]
 	push af
-	and (1 << STEREO)
-	or 1 ; 1 frame per character i.e. fast text
+	and STEREO_VAL
+	or TEXT_SPEED_FAST ; 1 frame per character i.e. fast text
 	ld [hl], a
 	ld a, 1
 	ld [wDisableTextAcceleration], a
@@ -3845,7 +3845,7 @@ StartMobileBattle:
 	ld a, CONNECTION_NOT_ESTABLISHED
 	ldh [hSerialConnectionStatus], a
 	pop af
-	ld [wOptions], a
+	ld [TEXT_SPEED_ADDRESS], a
 	ret
 
 Function101a4f:

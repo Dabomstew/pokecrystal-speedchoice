@@ -5341,8 +5341,8 @@ Function11a971:
 	ret
 
 .asm_11a97f
-	ld a, [wOptions]
-	and $7
+	ld a, [TEXT_SPEED_ADDRESS]
+	and TEXT_SPEED_MASK
 	ld [hl], a
 	ld hl, wcd8d
 	ld a, [wc31b]
@@ -5531,10 +5531,10 @@ Function11ac3e:
 Function11ac51:
 	xor a
 	ldh [hBGMapMode], a
-	ld hl, wOptions
+	ld hl, NO_TEXT_SCROLL_ADDRESS
 	ld a, [hl]
 	push af
-	set 4, [hl]
+	set NO_TEXT_SCROLL, [hl]
 	ld a, [wVramState]
 	push af
 	xor a
@@ -5573,7 +5573,7 @@ Function11ac51:
 	pop af
 	ld [wVramState], a
 	pop af
-	ld [wOptions], a
+	ld [NO_TEXT_SCROLL_ADDRESS], a
 	ret
 
 Function11acb7:
