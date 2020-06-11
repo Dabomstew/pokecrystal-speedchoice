@@ -102,7 +102,7 @@ GiveExperience:
 	call CalculateNonScalingExperienceGain
 	jr .continue
 .doBW
-	call CalculateScalingExperienceGain
+	farcall CalculateScalingExperienceGain
 .continue
 ; copy exp gain to a string buffer since printnumber uses the math hram
 	ldh a, [hQuotient + 1]
@@ -773,4 +773,3 @@ AnimateExpBar:
 	ret
 
 INCLUDE "engine/battle/experience_nonscaling.asm"
-INCLUDE "engine/battle/experience_scaling.asm"

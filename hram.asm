@@ -60,12 +60,9 @@ hConnectionStripLength:: db ; ffaf
 hConnectedMapWidth:: db ; ffb0
 ENDU ; ffb1
 
-UNION
+UNION ; ffb1
+; vanilla values
 hEnemyMonSpeed:: dw ; ffb1
-NEXTU
-ds 1
-hBigDividend:: db
-ENDU
 
 UNION ; ffb3
 ; math-related values
@@ -99,6 +96,22 @@ NEXTU ; ffb3
     ds 9
 hMGStatusFlags:: db ; ffbc
 ENDU ; ffbd
+
+NEXTU ; ffb1
+; big multiply
+UNION
+hBigMultiplicand:: ds 6 ; ffb1
+NEXTU
+hBigProduct:: ds 6 ; ffb1
+ENDU
+
+hBigMultResultStore:: ds 6 ; ffb7
+
+NEXTU ; ffb1
+; big divide part 1
+hBigDividend:: ds 6 ; ffb1
+hBigDivisor:: ds 6 ; ffb7
+ENDU
 
 UNION
 hUsedSpriteIndex:: db ; ffbd
@@ -175,3 +188,5 @@ hClockResetTrigger:: db ; ffeb
 hHasAlignedBGMap:: db ; ffec
 hStatsDisabled:: db ; ffed
 hTimerType:: db ; ffee
+hBigDivisionResult:: ds 6 ; ffef
+hBigDivisionShift:: ds 6 ; fff5

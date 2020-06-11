@@ -746,3 +746,6 @@ INCLUDE "data/moves/moves.asm"
 
 SECTION "movenamesnerfed", ROMX
 INCLUDE "data/moves/names_nerfed.asm"
+
+SECTION "bwexp", ROMX
+INCLUDE "engine/battle/experience_scaling.asm"
