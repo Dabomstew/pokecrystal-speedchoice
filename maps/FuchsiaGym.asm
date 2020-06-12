@@ -65,10 +65,10 @@ FuchsiaGymTriggerRockets:
 	end
 
 .GoldenrodRockets
-	jumpstd goldenrodrockets
+	jumpstd GoldenrodRocketsScript
 
 .RadioTowerRockets
-	jumpstd radiotowerrockets
+	jumpstd RadioTowerRocketsScript
 
 LassAliceScript:
 	checkevent EVENT_BEAT_LASS_ALICE

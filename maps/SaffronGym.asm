@@ -52,10 +52,10 @@ SaffronGymTriggerRockets:
 	end
 
 .GoldenrodRockets
-	jumpstd goldenrodrockets
+	jumpstd GoldenrodRocketsScript
 
 .RadioTowerRockets
-	jumpstd radiotowerrockets
+	jumpstd RadioTowerRocketsScript
 
 TrainerMediumRebecca:
 	trainer MEDIUM, REBECCA, EVENT_BEAT_MEDIUM_REBECCA, MediumRebeccaSeenText, MediumRebeccaBeatenText, 0, .Script

@@ -55,10 +55,10 @@ CeladonGymTriggerRockets:
 	end
 
 .GoldenrodRockets
-	jumpstd goldenrodrockets
+	jumpstd GoldenrodRocketsScript
 
 .RadioTowerRockets
-	jumpstd radiotowerrockets
+	jumpstd RadioTowerRocketsScript
 
 TrainerLassMichelle:
 	trainer LASS, MICHELLE, EVENT_BEAT_LASS_MICHELLE, LassMichelleSeenText, LassMichelleBeatenText, 0, .Script

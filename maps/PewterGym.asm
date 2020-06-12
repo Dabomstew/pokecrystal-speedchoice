@@ -46,10 +46,10 @@ PewterGymTriggerRockets:
 	end
 
 .GoldenrodRockets
-	jumpstd goldenrodrockets
+	jumpstd GoldenrodRocketsScript
 
 .RadioTowerRockets
-	jumpstd radiotowerrockets
+	jumpstd RadioTowerRocketsScript
 
 TrainerCamperJerry:
 	trainer CAMPER, JERRY, EVENT_BEAT_CAMPER_JERRY, CamperJerrySeenText, CamperJerryBeatenText, 0, .Script

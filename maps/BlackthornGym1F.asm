@@ -103,10 +103,10 @@ BlackthornGymTriggerRockets:
 	end
 
 .GoldenrodRockets
-	jumpstd goldenrodrockets
+	jumpstd GoldenrodRocketsScript
 
 .RadioTowerRockets
-	jumpstd radiotowerrockets
+	jumpstd RadioTowerRocketsScript
 
 TrainerCooltrainermPaul:
 	trainer COOLTRAINERM, PAUL, EVENT_BEAT_COOLTRAINERM_PAUL, CooltrainermPaulSeenText, CooltrainermPaulBeatenText, 0, .Script
