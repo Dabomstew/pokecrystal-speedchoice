@@ -129,6 +129,17 @@ _ExpPointsLongText::
 	text " EXP!"
 	prompt
 
+_PartyGainedWithExpShareText::
+	text "Party #MON"
+	line "gained EXP"
+	cont "with EXP SHARE!"
+	prompt
+
+_PartyGainedText::
+	text "Party #MON"
+	line "gained EXP!"
+	prompt
+
 Text_GoMon::
 	text "Go! @"
 	text_end

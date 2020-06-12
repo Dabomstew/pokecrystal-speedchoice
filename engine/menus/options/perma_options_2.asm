@@ -50,10 +50,28 @@ Options_EXP:
 	db "NONE  @"
 
 Options_EXPSplitting:
-	ret
+	ld hl, .Data
+	jp Options_Multichoice
+
+.Data:
+	multichoiceoptiondata EXP_SPLITTING_ADDRESS, EXP_SPLITTING, EXP_SPLITTING_SIZE, 7, NUM_OPTIONS, .Strings
+.Strings:
+	dw .Normal
+	dw .Gen67
+	dw .Gen8
+.Strings_End:
+
+.Normal
+	db "NORMAL @"
+.Gen67
+	db "GEN 6/7@"
+.Gen8
+	db "GEN 8  @"
 
 Options_CatchEXP:
-	ret
+	ld hl, CATCH_EXP_ADDRESS
+	lb bc, CATCH_EXP, 9
+	jp Options_OnOff
 
 Options_BetterMarts:
 	ld hl, BETTER_MARTS_ADDRESS

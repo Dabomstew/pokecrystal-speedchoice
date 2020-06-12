@@ -533,6 +533,23 @@ PokeBallEffect:
 	ld hl, Text_GotchaMonWasCaught
 	call PrintText
 
+	sboptioncheck CATCH_EXP
+	jr z, .noCatchExp
+	
+	ld a, [wTempSpecies]
+	ld l, a
+	ld a, [wCurPartyLevel]
+	ld h, a
+	push hl
+	farcall GiveExperience
+	pop hl
+	ld a, l
+	ld [wCurPartySpecies], a
+	ld [wTempSpecies], a
+	ld a, h
+	ld [wCurPartyLevel], a
+
+.noCatchExp
 	call ClearSprites
 
 	ld a, [wTempSpecies]

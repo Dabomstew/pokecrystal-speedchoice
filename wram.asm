@@ -1953,8 +1953,10 @@ wSharedEXPDivisors::
 	ds PARTY_LENGTH
 wCurrentDivisor::
 	ds 1
+wPrintedShareText::
+	ds 1
 wEXPCalcsEnd::
-	ds (19 - 2 - PARTY_LENGTH*2)
+	ds (19 - 3 - PARTY_LENGTH*2)
 ENDU
 
 wRandomizedMovesStatus::

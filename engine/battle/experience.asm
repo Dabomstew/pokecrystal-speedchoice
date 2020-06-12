@@ -99,7 +99,7 @@ GiveExperience:
 	push bc ; store it back for the loop
 	mboptioncheck EXP_FORMULA, BLACKWHITE
 	jr z, .doBW
-	call CalculateNonScalingExperienceGain
+	farcall CalculateNonScalingExperienceGain
 	jr .continue
 .doBW
 	farcall CalculateScalingExperienceGain
@@ -111,11 +111,25 @@ GiveExperience:
 	ld [wStringBuffer2 + 1], a
 	ldh a, [hQuotient + 3]
 	ld [wStringBuffer2 + 2], a
+; load mon name (must always load in case of level gain)
 	ld a, [wCurPartyMon]
 	ld hl, wPartyMonNicknames
 	call GetNick
 	ld hl, Text_MonGainedExpPoint
+	ld a, [wGivingExperienceToExpShareHolders]
+	and a
+	jr z, .print ; print all participants individually
+	mboptionload EXP_SPLITTING
+	jr z, .print ; vanilla splitting = print all gains individually
+	ld a, [wPrintedShareText]
+	and a
+	jr nz, .afterPrinting
+	inc a
+	ld [wPrintedShareText], a
+	ld hl, GainedWithShareText
+.print
 	call BattleTextbox
+.afterPrinting
 	ld a, [wStringBuffer2 + 2]
 	ldh [hQuotient + 3], a
 	ld a, [wStringBuffer2 + 1]
@@ -138,6 +152,7 @@ GiveExperience:
 	ldh a, [hQuotient + 2]
 	adc d
 	ld [hld], a
+	ld d, [hl]
 	ldh a, [hQuotient + 1]
 	adc d
 	ld [hl], a
@@ -146,7 +161,7 @@ GiveExperience:
 	ld [hli], a
 	ld [hli], a
 	ld [hl], a
-	.no_exp_overflow
+.no_exp_overflow
 	ld a, [wCurPartyMon]
 	ld e, a
 	ld d, 0
@@ -582,6 +597,22 @@ ExpPointsLongText:
 	text_far _ExpPointsLongText
 	text_end
 
+GainedWithShareText:
+	text_asm
+	mboptioncheck EXP_SPLITTING, GEN67
+	ld hl, PartyGainedWithExpShareText
+	ret z
+	ld hl, PartyGainedText
+	ret
+	
+PartyGainedWithExpShareText:
+	text_far _PartyGainedWithExpShareText
+	text_end
+	
+PartyGainedText:
+	text_far _PartyGainedText
+	text_end
+
 AnimateExpBar:
 	push bc
 
@@ -771,5 +802,3 @@ AnimateExpBar:
 	ld a, $1
 	ldh [hBGMapMode], a
 	ret
-
-INCLUDE "engine/battle/experience_nonscaling.asm"
