@@ -1069,19 +1069,27 @@ checkpermaoptions: MACRO
 	db \1_SCRIPT ; option to check (single bit only)
 ENDM
 
-	enum increment2bytestat_command ; $ab
+	enum checkmbpermaoptions_command ; $ab
+checkmbpermaoptions: MACRO
+	db checkmbpermaoptions_command
+	db \1_ADDRESS - wPermanentOptions ; byte offset
+	db \1_MASK ; bitmask
+	db \1_\2 << \1 ; compare value
+ENDM
+
+	enum increment2bytestat_command ; $ac
 increment2bytestat: MACRO
 	db increment2bytestat_command
 	dw \1 ; address
 ENDM
 
-	enum increment4bytestat_command ; $ac
+	enum increment4bytestat_command ; $ad
 increment4bytestat: MACRO
 	db increment4bytestat_command
 	dw \1 ; address
 ENDM
 
-	enum goldenrodmart5f_command ; $ad
+	enum goldenrodmart5f_command ; $ae
 goldenrodmart5f: MACRO
 	db goldenrodmart5f_command
 ENDM

@@ -446,6 +446,7 @@ CalculateEXPGainDivisors:
 	jr z, .splitToNonParticipants ; gen8 = always split to non-participants
 	ld a, EXP_SHARE_GEN67
 	ld [wCurItem], a
+	ld hl, wNumItems
 	call CheckItem
 	ret nc ; gen6/7 = only split to non-participants if item in bag
 .splitToNonParticipants

@@ -44,7 +44,7 @@ ItemDescriptions:
 	dw SuperRepelDesc
 	dw MaxRepelDesc
 	dw DireHitDesc
-	dw TeruSama3Desc
+	dw ExpShareGen67Desc
 	dw FreshWaterDesc
 	dw SodaPopDesc
 	dw LemonadeDesc
@@ -482,6 +482,10 @@ TeruSama5Desc:
 ExpShareDesc:
 	db   "Shares battle EXP."
 	next "Points. (HOLD)@"
+
+ExpShareGen67Desc:
+	db   "Shares battle EXP."
+	next "Points to party.@"
 
 OldRodDesc:
 	db   "Use by water to"

@@ -234,8 +234,10 @@ ScriptCommandTable:
 	dw Script_wait                       ; a8
 	dw Script_checksave                  ; a9
 	dw Script_checkpermaoptions          ; aa
-	dw Script_increment2bytestat         ; ab
-	dw Script_increment4bytestat         ; ac
+	dw Script_checkmbpermaoptions        ; ab
+	dw Script_increment2bytestat         ; ac
+	dw Script_increment4bytestat         ; ad
+	dw Script_goldenrodmart5f            ; ae
 
 StartScript:
 	ld hl, wScriptFlags
@@ -2844,9 +2846,31 @@ Script_checkpermaoptions:
 .writeResult
 	ld [wScriptVar], a
 	ret
+	
+Script_checkmbpermaoptions:
+; script command 0xab
+; parameters: byte offset, bitmask, value
+	call GetScriptByte
+	ld l, a
+	ld h, 0
+	ld de, wPermanentOptions
+	add hl, de
+	call GetScriptByte
+	ld d, a
+	call GetScriptByte
+	ld e, a
+	ld a, [hl]
+	and d
+	cp e
+	ld a, 0
+	jr nz, .writeResult ; false
+	inc a
+.writeResult
+	ld [wScriptVar], a
+	ret
 
 Script_increment2bytestat:
-; script command 0xab
+; script command 0xac
 ; parameters: pointer
 	call GetScriptByte
 	ld e, a
@@ -2856,7 +2880,7 @@ Script_increment2bytestat:
 	ret
 	
 Script_increment4bytestat:
-; script command 0xac
+; script command 0xad
 ; parameters: pointer
 	call GetScriptByte
 	ld e, a
@@ -2866,7 +2890,7 @@ Script_increment4bytestat:
 	ret
 	
 Script_goldenrodmart5f:
-; script command 0xad
+; script command 0xae
 
 	ld hl, wBuffer1
 	ld [hl], 0
@@ -2878,7 +2902,7 @@ Script_goldenrodmart5f:
 	pop hl
 	ld a, c
 	and a
-	jr nz, .noHeadbutt
+	jr z, .noHeadbutt
 	set 0, [hl]
 .noHeadbutt
 	ld de, EVENT_GOT_TM08_ROCK_SMASH
@@ -2888,7 +2912,7 @@ Script_goldenrodmart5f:
 	pop hl
 	ld a, c
 	and a
-	jr nz, .noRockSmash
+	jr z, .noRockSmash
 	set 1, [hl]
 .noRockSmash
 	sboptioncheck BETTER_MARTS
@@ -2900,7 +2924,7 @@ Script_goldenrodmart5f:
 	pop hl
 	ld a, c
 	and a
-	jr nz, .noSweetScent
+	jr z, .noSweetScent
 	set 2, [hl]
 .noSweetScent
 	ld a, [hl]
