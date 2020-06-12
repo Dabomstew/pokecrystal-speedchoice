@@ -294,7 +294,19 @@ SRAMStatsRecordMoveEffectiveness_::
 	sramstatmethod SRAMStatsRecordEXPGain
 
 SRAMStatsRecordEXPGain_::
-; @TODO
+; big endian EXP at hQuotient + 1, 3 bytes
+	ld hl, sStatsExperienceGained
+	ldh a, [hQuotient + 3]
+	add [hl]
+	ld [hli], a
+	ldh a, [hQuotient + 2]
+	adc [hl]
+	ld [hli], a
+	ldh a, [hQuotient + 1]
+	adc [hl]
+	ld [hli], a
+	jp nc, SRAMStatsEnd
+	inc [hl]
 	jp SRAMStatsEnd
 
 SRAMStatsStart::

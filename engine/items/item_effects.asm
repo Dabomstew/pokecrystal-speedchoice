@@ -541,7 +541,11 @@ PokeBallEffect:
 	ld a, [wCurPartyLevel]
 	ld h, a
 	push hl
+	ld a, [wCurItem]
+	push af
 	farcall GiveExperience
+	pop af
+	ld [wCurItem], a
 	pop hl
 	ld a, l
 	ld [wCurPartySpecies], a

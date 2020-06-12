@@ -104,6 +104,7 @@ GiveExperience:
 .doBW
 	farcall CalculateScalingExperienceGain
 .continue
+	farcall SRAMStatsRecordEXPGain
 ; copy exp gain to a string buffer since printnumber uses the math hram
 	ldh a, [hQuotient + 1]
 	ld [wStringBuffer2], a
