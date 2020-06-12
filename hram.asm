@@ -189,4 +189,3 @@ hHasAlignedBGMap:: db ; ffec
 hStatsDisabled:: db ; ffed
 hTimerType:: db ; ffee
 hBigDivisionResult:: ds 6 ; ffef
-hBigDivisionShift:: ds 6 ; fff5

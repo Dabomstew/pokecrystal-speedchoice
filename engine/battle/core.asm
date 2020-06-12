@@ -5661,11 +5661,12 @@ MoveInfoBox:
 ; increase displayed number by 1 if remainder is >=128
 	ldh a, [hRemainder]
 	cp $80
+	ld hl, hQuotient + 3
 	jr c, .noIncrease
-	ld hl, hQuotient + 2
 	inc [hl]
 .noIncrease
-	ld de, hQuotient + 2
+	ld d, h
+	ld e, l
 	lb bc, 1, 3
 	hlcoord 7, 8
 	call PrintNum
