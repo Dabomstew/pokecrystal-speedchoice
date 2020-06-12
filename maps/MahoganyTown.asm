@@ -120,7 +120,7 @@ MahoganyGymSign:
 	jumptext MahoganyGymSignText
 
 MahoganyTownPokecenterSign:
-	jumpstd pokecentersign
+	jumpstd PokecenterSignScript
 
 MovementData_0x1900a4:
 	step DOWN

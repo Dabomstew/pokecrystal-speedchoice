@@ -124,7 +124,7 @@ BurnedTowerB1FTMEndure:
 	itemball TM_ENDURE
 
 BurnedTowerB1FBoulder:
-	jumpstd strengthboulder
+	jumpstd StrengthBoulderScript
 
 BurnedTowerRaikouMovement:
 	set_sliding

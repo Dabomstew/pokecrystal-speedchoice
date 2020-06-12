@@ -99,13 +99,13 @@ BillsSisterScript:
 	sjump .Refused
 
 BillsHouseBookshelf1:
-	jumpstd picturebookshelf
+	jumpstd PictureBookshelfScript
 
 BillsHouseBookshelf2:
-	jumpstd magazinebookshelf
+	jumpstd MagazineBookshelfScript
 
 BillsHouseRadio:
-	jumpstd radio2
+	jumpstd Radio2Script
 
 BillTakeThisEeveeText:
 	text "BILL: Hi, <PLAYER>!"

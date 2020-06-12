@@ -510,7 +510,7 @@ TeamRocketBaseB1FSecurityCamera:
 	jumptext TeamRocketBaseB1FSecurityCameraText
 
 TeamRocketBaseB1FBookshelf:
-	jumpstd teamrocketoath
+	jumpstd TeamRocketOathScript
 
 TeamRocketBaseB1FSecretSwitch:
 	opentext

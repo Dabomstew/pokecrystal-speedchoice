@@ -42,7 +42,7 @@ GoldenrodDeptStore4FDirectory:
 	jumptext GoldenrodDeptStore4FDirectoryText
 
 GoldenrodDeptStore4FElevatorButton:
-	jumpstd elevatorbutton
+	jumpstd ElevatorButtonScript
 
 GoldenrodDeptStore4FCooltrainerMText:
 	text "Hey. I love strong"

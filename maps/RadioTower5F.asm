@@ -155,7 +155,7 @@ RadioTower5FStudio1Sign:
 	jumptext RadioTower5FStudio1SignText
 
 RadioTower5FBookshelf:
-	jumpstd magazinebookshelf
+	jumpstd MagazineBookshelfScript
 
 FakeDirectorMovement:
 	step LEFT

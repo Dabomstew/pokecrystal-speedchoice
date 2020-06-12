@@ -95,7 +95,7 @@ GoldenrodDeptStore6FDirectory:
 	jumptext GoldenrodDeptStore6FDirectoryText
 
 GoldenrodDeptStore6FElevatorButton:
-	jumpstd elevatorbutton
+	jumpstd ElevatorButtonScript
 
 GoldenrodVendingText:
 	text "A vending machine!"

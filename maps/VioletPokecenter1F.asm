@@ -11,7 +11,7 @@ VioletPokecenter1F_MapScripts:
 	db 0 ; callbacks
 
 VioletPokecenterNurse:
-	jumpstd pokecenternurse
+	jumpstd PokecenterNurseScript
 
 VioletPokecenter1F_ElmsAideScript:
 	faceplayer
@@ -57,7 +57,7 @@ VioletPokecenter1F_ElmsAideScript_eggname:
 	db "EGG@"
 
 VioletPokecenter1F_ElmsAideScript_AideGivesEgg:
-	jumpstd receivetogepiegg
+	jumpstd ReceiveTogepiEggScript
 	end
 
 VioletPokecenter1F_ElmsAideScript_PartyFull:

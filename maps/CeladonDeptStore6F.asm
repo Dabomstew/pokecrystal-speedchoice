@@ -101,7 +101,7 @@ CeladonDeptStore6FDirectory:
 
 ; unused
 CeladonDeptStore6FElevatorButton:
-	jumpstd elevatorbutton
+	jumpstd ElevatorButtonScript
 
 CeladonVendingText:
 	text "A vending machine!"

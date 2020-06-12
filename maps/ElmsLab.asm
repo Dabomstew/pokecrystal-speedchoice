@@ -521,7 +521,7 @@ AideScript_GiveYouBalls:
 	end
 
 AideScript_ReceiveTheBalls:
-	jumpstd receiveitem
+	jumpstd ReceiveItemScript
 	end
 
 ElmsAideScript:
@@ -615,10 +615,10 @@ ElmsLabPC:
 
 ElmsLabTrashcan2:
 ; unused
-	jumpstd trashcan
+	jumpstd TrashCanScript
 
 ElmsLabBookshelf:
-	jumpstd difficultbookshelf
+	jumpstd DifficultBookshelfScript
 
 ElmsLab_WalkUpToElmMovement:
 	step UP
