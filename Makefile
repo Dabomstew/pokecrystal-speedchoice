@@ -46,6 +46,8 @@ RGBLINK ?= $(RGBDS)rgblink
 all: crystal
 crystal:    crystal-speedchoice.gbc
 
+config: crystal-speedchoice.ini
+
 clean:
 	rm -f $(roms) $(crystal_obj) $(roms:.gbc=.map) $(roms:.gbc=.sym) rgbdscheck.o
 	find gfx \( -name "*.[12]bpp" -o -name "*.lz" -o -name "*.gbcpal" -o -name "*.sgb.tilemap" \) -delete
@@ -90,7 +92,7 @@ endif
 
 crystal-speedchoice.gbc: $(crystal_obj) layout.link
 	$(RGBLINK) -n crystal-speedchoice.sym -m crystal-speedchoice.map -l layout.link -p 0 -o $@ $(crystal_obj)
-	$(RGBFIX) -Cjv -t PM_CRYSTAL -i KAPB -k 01 -l 0x33 -m 0x10 -r 3 -p 0 -n 5 $@
+	$(RGBFIX) -Cjv -t PM_CRYSTAL -i KAPB -k 01 -l 0x33 -m 0x10 -r 3 -p 0 -n 6 $@
 
 
 ### LZ compression rules

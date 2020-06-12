@@ -100,10 +100,10 @@ def main():
 
     set_symbol('PokemonNamesOffset', 'PokemonNames')
     setconfig('PokemonNamesLength', '10')
-    set_symbol('PokemonStatsOffset', 'BaseData0')
+    set_symbol('PokemonStatsOffset', 'BaseData')
     set_symbol('WildPokemonOffset', 'JohtoGrassWildMons')
     set_symbol('FishingWildsOffset', 'FishGroupShore_Old')
-    set_symbol('HeadbuttWildsOffset', 'TreeMons1')
+    set_symbol('HeadbuttWildsOffset', 'TreeMonSet_City')
     setconfig('HeadbuttTableSize', 13)
     set_symbol('BCCWildsOffset', 'ContestMons')
     set_symbol('FleeingDataOffset', 'FleeMons')
@@ -163,7 +163,7 @@ def main():
     setconfig('CatchingTutorialOffsets',
               '[0x{:X}, 0x{:X}, 0x{:X}]'.format(*offs))
 
-    set_symbol('PicPointers', 'PicPointers')
+    set_symbol('PicPointers', 'PokemonPicPointers')
     set_symbol('PokemonPalettes', 'PokemonPalettes')
 
     offs = [syms['MoveTutorMove_{}'.format(move)] for move in TUTORS]
@@ -197,25 +197,25 @@ def main():
         setconfig('StaticPokemonGameCorner[]',
                   '[0x{:X}, 0x{:X}, 0x{:X}, 0x{:X}]'.format(*offs))
 
-    set_tm_text(1, 'UnknownText_0x9d8da',
+    set_tm_text(1, 'ChuckExplainTMText',
                 'That is\\n%m.\\e')
-    set_tm_text(3, 'UnknownText_0x71db3',
+    set_tm_text(3, 'CeladonMansionRoofHousePharmacistCurseText',
                 'TM03 is\\n%m.\\p'
                 'It\'s a terrifying\\n'
                 'move!\\e')
     set_tm_text(5, 'Text_RoarOutro',
                 'WROOOAR!\\nIT\'S %m!\\e')
-    set_tm_text(6, 'UnknownText_0x196002',
+    set_tm_text(6, 'JanineText_ToxicSpeech',
                 'JANINE: You\'re so\\n'
                 'tough! I have a \\l'
                 'special gift!\\p'
                 'It\'s %m!\\e')
-    set_tm_text(7, 'UnknownText_0x1893f4',
+    set_tm_text(7, 'PowerPlantManagerTM07IsZapCannonText',
                 'MANAGER: TM07 is\\n'
                 'my %m.\\p'
                 'It\'s a powerful\\n'
                 'technique!\\e')
-    set_tm_text(8, 'UnknownText_0x19452c',
+    set_tm_text(8, 'RockSmashGuyText3',
                 'That happens to be\\n'
                 '%m.\\p'
                 'If any rocks are\\n'
@@ -224,24 +224,24 @@ def main():
     set_tm_text(10, 'HiddenPowerGuyText2',
                 'Do you see it? It\\n'
                 'is %m!\\e')
-    set_tm_text(11, 'UnknownText_0x5e821',
+    set_tm_text(11, 'RadioTower3FCooltrainerFItsSunnyDayText',
                 'It\'s %m.\\n'
                 'Use it wisely.\\e')
-    set_tm_text(12, 'UnknownText_0x62df6',
+    set_tm_text(12, 'Route34IlexForestGateTeacher_GotSweetScent',
                 'It\'s %m.\\p'
                 'Use it on\\n'
                 'enemy [POKé]MON.\\e')
-    set_tm_text(13, 'UnknownText_0x9d1c7',
+    set_tm_text(13, 'FarmerFText_SnoreSpeech',
                 'That there\'s\\n'
                 '%m.\\p'
                 'It\'s a rare move.\\e')
-    set_tm_text(16, 'UnknownText_0x199def',
+    set_tm_text(16, 'PryceText_IcyWindSpeech',
                 'That TM contains\\n'
                 '%m.\\p'
                 'It demonstrates\\n'
                 'the harshness of\\l'
                 'winter.\\e')
-    set_tm_text(19, 'UnknownText_0x72cb0',
+    set_tm_text(19, 'ErikaExplainTMText',
                 'That was a\\n'
                 'delightful match.\\p'
                 'I felt inspired.\\n'
@@ -252,7 +252,7 @@ def main():
                 'move!\\p'
                 'Please use it if\\n'
                 'it pleases you…\\e')
-    set_tm_text(23, 'UnknownText_0x9c3a5',
+    set_tm_text(23, 'Jasmine_IronTailSpeech',
                 '…That teaches\\n'
                 '%m.\\e')
     set_tm_text(24, 'ClairText_DescribeDragonbreathDragonDen',
@@ -272,11 +272,11 @@ def main():
                 '%m.\\p'
                 'It may be\\n'
                 'useful.\\e')
-    set_tm_text(30, 'UnknownText_0x9a0ec',
+    set_tm_text(30, 'MortyText_ShadowBallSpeech',
                 'It\'s %m.\\p'
                 'Use it if it\\n'
                 'appeals to you.\\e')
-    set_tm_text(31, 'UnknownText_0x68648',
+    set_tm_text(31, 'FalknerTMMudSlapText',
                 'By using a TM, a\\n'
                 '[POKé]MON will\\p'
                 'instantly learn a\\n'
@@ -292,11 +292,11 @@ def main():
                 'trainers only.\\p'
                 'Use it if you\\n'
                 'dare. Good luck!\\e')
-    set_tm_text(42, 'UnknownText_0x1a9d86',
+    set_tm_text(42, 'ViridianCityDreamEaterFisherGotDreamEaterText',
                 'TM42 contains\\n'
                 '%m…\\p'
                 '…Zzz…\\e')
-    set_tm_text(45, 'UnknownText_0x54302',
+    set_tm_text(45, 'WhitneyAttractText',
                 'It\'s %m!\\p'
                 'Isn\'t it just per-\\n'
                 'fect for a cutie\\l'
