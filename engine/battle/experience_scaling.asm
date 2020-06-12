@@ -104,13 +104,16 @@ endr
 	ldh [hBigDivisor], a
 	ldh [hBigDivisor + 1], a
 	call BigDivide
-; move the result (should always fit in 24 bits)
-	ldh a, [hBigDivisionResult + 3]
-	ldh [hQuotient + 1], a
-	ldh a, [hBigDivisionResult + 4]
-	ldh [hQuotient + 2], a
+; move the result + 1 to hQuotient (should always fit in 24 bits)
 	ldh a, [hBigDivisionResult + 5]
+	add 1
 	ldh [hQuotient + 3], a
+	ldh a, [hBigDivisionResult + 4]
+	adc 0
+	ldh [hQuotient + 2], a
+	ldh a, [hBigDivisionResult + 3]
+	adc 0
+	ldh [hQuotient + 1], a
 ; 1.5x exp + boosted flag if traded
 	pop bc
 	ld hl, MON_ID
@@ -191,41 +194,43 @@ ENDR
 	ret
 	
 BigDivide:
-; 48bit / 48bit, 48bit result but it'll definitely be 24bits or less
-; can use for bigger/smaller values by adjusting num_bytes and BigDivide_AccumulateAnswer
+; 48bit / 48bit, 48bit result but it'll definitely be 24bits or less for its use here
+; can use for bigger/smaller values by adjusting num_bytes
 num_bytes = 6
 ; check for div/0 and don't divide at all if it happens
-bnum = num_bytes
+	xor a
+	ld hl, hBigDivisor + num_bytes - 1
 rept num_bytes
-bnum = bnum - 1
-	ldh a, [hBigDivisor + bnum]
-	and a
+	or [hl]
 	jr nz, .dontquit
+	dec hl
 endr
 	ret
 .dontquit
 ; clear result and shifter
 	xor a
-bnum = 0
-rept num_bytes - 1
-	ldh [hBigDivisionResult + bnum], a
-	ldh [hBigDivisionShift + bnum], a
-bnum = bnum + 1
+	ld hl, hBigDivisionResult
+rept num_bytes
+	ld [hli], a
 endr
-	ldh [hBigDivisionResult + bnum], a
-	inc a ; a = 1 for final byte of the shifter
-	ldh [hBigDivisionShift + bnum], a
+	ld b, 1 ; shifter
 ; setup for the division
 .setup
 	ld hl, hBigDivisor
 	ld de, hBigDividend
 	call BigDivide_Compare
-	jr nc, .loop
+	jr nc, .zeroCheck
+; to be foolproof, we would check the MSB of hBigDivisor here and jump directly to .loop if it's set
+; for this use, this will never be the case, so it is skipped to save time
 	ld hl, hBigDivisor + num_bytes - 1
 	call BigDivide_LeftShift
-	ld hl, hBigDivisionShift + num_bytes - 1
-	call BigDivide_LeftShift
+	inc b
 	jr .setup
+.zeroCheck
+; if b=1 (without MSB of hBigDivisor set) then divisor > dividend so the answer is 0, no need to do anything more
+	dec b
+	ret z
+	inc b
 .loop
 	ld hl, hBigDivisor
 	ld de, hBigDividend
@@ -236,9 +241,8 @@ endr
 	call BigDivide_Subtract
 	call BigDivide_AccumulateAnswer
 .aftersubtract
-	ld hl, hBigDivisionShift
-	call BigDivide_RightShift
-	ret c ; if carry is set, the accumulator finished so we're done.
+	dec b
+	ret z ; done if b=0
 	ld hl, hBigDivisor
 	call BigDivide_RightShift
 	jr .loop
@@ -260,30 +264,59 @@ endr
 	ret
 
 BigDivide_AccumulateAnswer:
-; set the appropriate answer bit when we do a division step
-accblock: MACRO
-	ldh a, [hBigDivisionShift + \1]
-	and a
-IF \1 == num_bytes - 1
-	ret z
-ELSE
-	jr z, .not\1
-ENDC
+	ld a, b
+	dec a
+	ld hl, hBigDivisionResult + num_bytes - 1
+.byteCheck
+	sub 8
+	jr c, .setBit
+	dec hl
+	jr .byteCheck
+.setBit
+	add 8
 	ld d, a
-	ldh a, [hBigDivisionResult + \1]
-	or d
-	ldh [hBigDivisionResult + \1], a
+	add a
+	add d
+	ld de, BigDivide_SetBit0
+	add e
+	ld e, a
+	jr nc, .doSet
+	inc d
+.doSet
+	push de
 	ret
-IF \1 < num_bytes - 1
-.not\1
-ENDC
-ENDM
-	accblock 0
-	accblock 1
-	accblock 2
-	accblock 3
-	accblock 4
-	accblock 5
+
+BigDivide_SetBit0:
+	set 0, [hl]
+	ret
+
+BigDivide_SetBit1:
+	set 1, [hl]
+	ret
+
+BigDivide_SetBit2:
+	set 2, [hl]
+	ret
+
+BigDivide_SetBit3:
+	set 3, [hl]
+	ret
+
+BigDivide_SetBit4:
+	set 4, [hl]
+	ret
+
+BigDivide_SetBit5:
+	set 5, [hl]
+	ret
+
+BigDivide_SetBit6:
+	set 6, [hl]
+	ret
+
+BigDivide_SetBit7:
+	set 7, [hl]
+	ret
 	
 BigDivide_Compare:
 ; sets carryflag if value starting at [hl] <= value starting at [de]
