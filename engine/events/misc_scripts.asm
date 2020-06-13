@@ -13,7 +13,7 @@ FindItemInBallScript::
 	disappear LAST_TALKED
 	opentext
 	writetext .FoundItemText
-	playsound SFX_LEVEL_UP ; @TODO change sfx
+	playsound SFX_RB_GET_ITEM
 	waitsfx
 	itemnotify
 	closetext

@@ -5217,3 +5217,55 @@ Sfx_GlassTing2_Ch6:
 	duty_cycle 2
 	square_note 16, 13, 1, 2013
 	sound_ret
+
+Sfx_RBGetItem::
+	channel_count 3
+	channel 5, SFX_RBGetItem_Ch5
+	channel 6, SFX_RBGetItem_Ch6
+	channel 7, SFX_RBGetItem_Ch7
+
+SFX_RBGetItem_Ch5:
+	togglesfx
+	tempo 256
+	volume 119
+	vibrato 6, 2, 6
+	dutycycle 2
+	
+	note_type 4, 11, 1
+	octave 3
+	note G#, 2
+	note G#, 2
+	note G#, 2
+	note_type 12, 11, 3
+	octave 4
+	note E_, 4
+	sound_ret
+
+SFX_RBGetItem_Ch6:
+	togglesfx
+	vibrato 8, 2, 7
+	dutycycle 2
+	note_type 4, 12, 1
+	octave 4
+	note E_, 2
+	note E_, 2
+	note E_, 2
+	note_type 12, 12, 3
+	note B_, 4
+	sound_ret
+
+SFX_RBGetItem_Ch7:
+	togglesfx
+	note_type 4, 1, 0
+	octave 4
+	note B_, 1
+	note __, 1
+	note B_, 1
+	note __, 1
+	note B_, 1
+	note __, 1
+	note_type 12, 1, 0
+	octave 4
+	note B_, 2
+	note __, 2
+	sound_ret

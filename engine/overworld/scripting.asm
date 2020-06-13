@@ -595,7 +595,7 @@ Script_specialsound:
 	cp TM_HM
 	ld de, SFX_GET_TM
 	jr z, .play
-	ld de, SFX_LEVEL_UP ; @TODO: check where the faster SFX is in crystal and change this
+	ld de, SFX_RB_GET_ITEM
 .play
 	call PlaySFX
 	call WaitSFX

@@ -1778,7 +1778,7 @@ GymStatue2Script:
 ReceiveItemScript:
 	waitsfx
 	farwritetext ReceivedItemText
-	playsound SFX_LEVEL_UP ; @TODO item sfx (see other todo)
+	playsound SFX_RB_GET_ITEM
 	waitsfx
 	end
 
