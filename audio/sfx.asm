@@ -5230,7 +5230,7 @@ SFX_RBGetItem_Ch5:
 	volume 119
 	vibrato 6, 2, 6
 	dutycycle 2
-	
+
 	note_type 4, 11, 1
 	octave 3
 	note G#, 2

@@ -2846,7 +2846,7 @@ Script_checkpermaoptions:
 .writeResult
 	ld [wScriptVar], a
 	ret
-	
+
 Script_checkmbpermaoptions:
 ; script command 0xab
 ; parameters: byte offset, bitmask, value
@@ -2878,7 +2878,7 @@ Script_increment2bytestat:
 	ld d, a
 	callba SRAMStatsIncrement2Byte
 	ret
-	
+
 Script_increment4bytestat:
 ; script command 0xad
 ; parameters: pointer
@@ -2888,13 +2888,13 @@ Script_increment4bytestat:
 	ld d, a
 	callba SRAMStatsIncrement4Byte
 	ret
-	
+
 Script_goldenrodmart5f:
 ; script command 0xae
 
 	ld hl, wBuffer1
 	ld [hl], 0
-	
+
 	ld de, EVENT_GOT_TM02_HEADBUTT
 	ld b, CHECK_FLAG
 	push hl
