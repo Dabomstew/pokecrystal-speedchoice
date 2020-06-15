@@ -33,7 +33,7 @@ SeafoamGymBlaineScript:
 	waitsfx
 	setflag ENGINE_VOLCANOBADGE
 	checkcode VAR_BADGES
-	scall SeafoamGymTriggerRockets
+	scall SeafoamGymActivateRockets
 	writetext BlaineAfterBattleText
 	waitbutton
 	closetext
@@ -45,7 +45,7 @@ SeafoamGymBlaineScript:
 	closetext
 	end
 
-SeafoamGymTriggerRockets:
+SeafoamGymActivateRockets:
 	if_equal 7, .RadioTowerRockets
 	if_equal 6, .GoldenrodRockets
 	end

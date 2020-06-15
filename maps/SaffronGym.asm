@@ -34,7 +34,7 @@ SaffronGymSabrinaScript:
 	waitsfx
 	setflag ENGINE_MARSHBADGE
 	checkcode VAR_BADGES
-	scall SaffronGymTriggerRockets
+	scall SaffronGymActivateRockets
 	writetext SabrinaMarshBadgeText
 	waitbutton
 	closetext
@@ -46,7 +46,7 @@ SaffronGymSabrinaScript:
 	closetext
 	end
 
-SaffronGymTriggerRockets:
+SaffronGymActivateRockets:
 	if_equal 7, .RadioTowerRockets
 	if_equal 6, .GoldenrodRockets
 	end

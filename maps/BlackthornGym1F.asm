@@ -56,7 +56,7 @@ BlackthornGymClairScript:
 	waitsfx
 	setflag ENGINE_RISINGBADGE
 	checkcode VAR_BADGES
-	scall BlackthornGymTriggerRockets
+	scall BlackthornGymActivateRockets
 	specialphonecall SPECIALCALL_MASTERBALL
 	writetext BlackthornGymClairText_DescribeBadge
 	jump .GiveTM
@@ -97,7 +97,7 @@ BlackthornGymClairScript:
 	closetext
 	end
 
-BlackthornGymTriggerRockets:
+BlackthornGymActivateRockets:
 	if_equal 7, .RadioTowerRockets
 	if_equal 6, .GoldenrodRockets
 	end

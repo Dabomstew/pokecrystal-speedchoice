@@ -32,7 +32,7 @@ VermilionGymSurgeScript:
 	waitsfx
 	setflag ENGINE_THUNDERBADGE
 	checkcode VAR_BADGES
-	scall VermilionGymTriggerRockets
+	scall VermilionGymActivateRockets
 	writetext LtSurgeThunderBadgeText
 	waitbutton
 	closetext
@@ -44,7 +44,7 @@ VermilionGymSurgeScript:
 	closetext
 	end
 	
-VermilionGymTriggerRockets:
+VermilionGymActivateRockets:
 	if_equal 7, .RadioTowerRockets
 	if_equal 6, .GoldenrodRockets
 	end
