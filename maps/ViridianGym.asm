@@ -26,7 +26,7 @@ ViridianGymBlueScript:
 	waitsfx
 	setflag ENGINE_EARTHBADGE
 	checkcode VAR_BADGES
-	scall ViridianGymTriggerRockets
+	scall ViridianGymActivateRockets
 	writetext LeaderBlueAfterText
 	waitbutton
 	closetext
@@ -38,7 +38,7 @@ ViridianGymBlueScript:
 	closetext
 	end
 
-ViridianGymTriggerRockets:
+ViridianGymActivateRockets:
 	if_equal 7, .RadioTowerRockets
 	if_equal 6, .GoldenrodRockets
 	end

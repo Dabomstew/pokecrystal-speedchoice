@@ -28,7 +28,7 @@ PewterGymBrockScript:
 	waitsfx
 	setflag ENGINE_BOULDERBADGE
 	checkcode VAR_BADGES
-	scall PewterGymTriggerRockets
+	scall PewterGymActivateRockets
 	writetext BrockBoulderBadgeText
 	waitbutton
 	closetext
@@ -40,7 +40,7 @@ PewterGymBrockScript:
 	closetext
 	end
 
-PewterGymTriggerRockets:
+PewterGymActivateRockets:
 	if_equal 7, .RadioTowerRockets
 	if_equal 6, .GoldenrodRockets
 	end

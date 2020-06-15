@@ -78,14 +78,14 @@ CeruleanGymMistyScript:
 	waitsfx
 	setflag ENGINE_CASCADEBADGE
 	checkcode VAR_BADGES
-	scall CeruleanGymTriggerRockets
+	scall CeruleanGymActivateRockets
 .FightDone:
 	writetext MistyFightDoneText
 	waitbutton
 	closetext
 	end
 
-CeruleanGymTriggerRockets:
+CeruleanGymActivateRockets:
 	if_equal 7, .RadioTowerRockets
 	if_equal 6, .GoldenrodRockets
 	end

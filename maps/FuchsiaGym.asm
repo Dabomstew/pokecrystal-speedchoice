@@ -40,7 +40,7 @@ FuchsiaGymJanineScript:
 	waitsfx
 	setflag ENGINE_SOULBADGE
 	checkcode VAR_BADGES
-	scall FuchsiaGymTriggerRockets
+	scall FuchsiaGymActivateRockets
 	sjump .AfterBattle
 .FightDone:
 	faceplayer
@@ -59,7 +59,7 @@ FuchsiaGymJanineScript:
 	closetext
 	end
 
-FuchsiaGymTriggerRockets:
+FuchsiaGymActivateRockets:
 	if_equal 7, .RadioTowerRockets
 	if_equal 6, .GoldenrodRockets
 	end

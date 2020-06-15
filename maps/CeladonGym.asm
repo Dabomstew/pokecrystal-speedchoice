@@ -34,7 +34,7 @@ CeladonGymErikaScript:
 	waitsfx
 	setflag ENGINE_RAINBOWBADGE
 	checkcode VAR_BADGES
-	scall CeladonGymTriggerRockets
+	scall CeladonGymActivateRockets
 .FightDone:
 	checkevent EVENT_GOT_TM19_GIGA_DRAIN
 	iftrue .GotGigaDrain
@@ -49,7 +49,7 @@ CeladonGymErikaScript:
 	closetext
 	end
 
-CeladonGymTriggerRockets:
+CeladonGymActivateRockets:
 	if_equal 7, .RadioTowerRockets
 	if_equal 6, .GoldenrodRockets
 	end
