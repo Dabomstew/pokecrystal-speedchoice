@@ -92,6 +92,7 @@ TEXT_SPEED_SLOW    EQU %11
 	optionbytestart
 	mboption TEXT_FRAME, 4
 	sboption PARKBALL_EFFECT ; 4
+	sboption DISABLE_BIKE_MUSIC ; 5
 
 NUM_TEXTBOX_FRAMES EQU 10
 	

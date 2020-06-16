@@ -312,6 +312,10 @@ CoordHL:
 ; b = bit number in ram address
 ; c = y-coordinate to draw at
 ; de = table of strings to show for false/true (false first)
+Options_InvertedOnOff:
+	ld de, OffOnStrings
+	jr Options_TrueFalse
+
 Options_OnOff:
 	ld de, OnOffStrings
 Options_TrueFalse:
@@ -356,11 +360,14 @@ Options_TrueFalse:
 	ret
 
 OnOffStrings::
-	dw .Off
-	dw .On
-.Off:
+	dw OffOptionText
+	dw OnOptionText
+OffOnStrings::
+	dw OnOptionText
+	dw OffOptionText
+OffOptionText:
 	db "OFF@"
-.On:
+OnOptionText:
 	db "ON @"
 
 ; arguments = ram address, start bit, size in bits, y-coord, number of choices, pointer to choices

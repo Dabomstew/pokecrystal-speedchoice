@@ -1641,6 +1641,8 @@ BikeFunction:
 	ld de, Script_GetOnBike_Register
 	call .CheckIfRegistered
 	call QueueScript
+	sboptioncheck DISABLE_BIKE_MUSIC
+	jr nz, .doneOnBike
 	xor a
 	ld [wMusicFade], a
 	ld de, MUSIC_NONE
@@ -1651,6 +1653,7 @@ BikeFunction:
 	ld a, e
 	ld [wMapMusic], a
 	call PlayMusic
+.doneOnBike
 	ld a, $1
 	ret
 
