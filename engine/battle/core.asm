@@ -5723,6 +5723,14 @@ MoveInfoBox:
 	ret
 
 CheckPlayerHasUsableMoves:
+	sboptioncheck METRONOME_ONLY
+	jr z, .check_struggle
+	ld a, METRONOME
+	ld [wCurPlayerMove], a
+	xor a
+	ret
+
+.check_struggle
 	ld a, STRUGGLE
 	ld [wCurPlayerMove], a
 	ld a, [wPlayerDisableCount]
@@ -5850,6 +5858,11 @@ ParseEnemyAction:
 	ld a, [wBattleMode]
 	dec a
 	jr nz, .skip_load
+	sboptioncheck METRONOME_ONLY
+	jr z, .loop2
+	ld a, METRONOME
+	ld [wCurEnemyMove], a
+	jr .skip_load
 ; wild
 .loop2
 	ld hl, wEnemyMonMoves

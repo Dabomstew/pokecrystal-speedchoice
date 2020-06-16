@@ -73,7 +73,7 @@ Options_Preset::
 	inc de
 	dec b
 	jr nz, .setloop
-	ld a, SFX_TRANSACTION
+	ld de, SFX_TRANSACTION
 	call PlaySFX
 	call WaitSFX
 	call DrawOptionsMenuLagless_

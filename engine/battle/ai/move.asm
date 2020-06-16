@@ -15,6 +15,13 @@ AIChooseMove:
 	farcall CheckEnemyLockedIn
 	ret nz
 
+; Metronomers gon metronome.
+	sboptioncheck METRONOME_ONLY
+	jr z, .score
+	ld a, METRONOME
+	ld [wCurEnemyMove], a
+	ret
+.score
 ; The default score is 20. Unusable moves are given a score of 80.
 	ld a, 20
 	ld hl, wBuffer1

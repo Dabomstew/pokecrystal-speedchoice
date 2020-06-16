@@ -1025,6 +1025,9 @@ BattleCommand_DoTurn:
 	ret c
 
 .consume_pp
+	sboptioncheck METRONOME_ONLY
+	jr nz, .okay_return
+
 	ldh a, [hBattleTurn]
 	and a
 	ld a, [wCurMoveNum]
@@ -1039,6 +1042,7 @@ BattleCommand_DoTurn:
 	and PP_MASK
 	jr z, .out_of_pp
 	dec [hl]
+.okay_return
 	ld b, 0
 	ret
 

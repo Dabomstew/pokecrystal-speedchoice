@@ -2,11 +2,14 @@ PermaOptionsP3String::
 	db "KANTO ACCESS<LF>"
 	db "        :<LF>"
 	db "EASY TIN TOWER<LF>"
+	db "        :<LF>"
+	db "METRONOME ONLY<LF>"
 	db "        :@"
 
 PermaOptionsP3Pointers::
 	dw Options_KantoAccess
 	dw Options_EasyTinTower
+	dw Options_MetronomeOnly
 	dw Options_PermaOptionsPage
 PermaOptionsP3PointersEnd::
 
@@ -27,4 +30,9 @@ Options_KantoAccess:
 Options_EasyTinTower:
 	ld hl, EASY_TIN_TOWER_ADDRESS
 	lb bc, EASY_TIN_TOWER, 5
+	jp Options_OnOff
+
+Options_MetronomeOnly:
+	ld hl, METRONOME_ONLY_ADDRESS
+	lb bc, METRONOME_ONLY, 7
 	jp Options_OnOff
