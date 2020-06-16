@@ -18,24 +18,21 @@ SRAMStatsFrameCount_::
 	jr nc, .noOverflow
 	inc h
 .noOverflow
-	call FourByteIncrement
-	jp SRAMStatsEnd
+	jp FourByteIncrement
 
 	sramstatmethod SRAMStatsIncrement2Byte
 
 SRAMStatsIncrement2Byte_::
 	ld h, d
 	ld l, e
-	call TwoByteIncrement
-	jp SRAMStatsEnd
+	jp TwoByteIncrement
 
 	sramstatmethod SRAMStatsIncrement4Byte
 
 SRAMStatsIncrement4Byte_::
 	ld h, d
 	ld l, e
-	call FourByteIncrement
-	jp SRAMStatsEnd
+	jp FourByteIncrement
 
 	sramstatmethod SRAMStatsTotalDamageTaken
 
@@ -48,9 +45,8 @@ SRAMStatsTotalDamageTaken_::
 	ld a, [wCurDamage]
 	adc [hl]
 	ld [hli], a
-	jp nc, SRAMStatsEnd
-	call TwoByteIncrement
-	jp SRAMStatsEnd
+	ret nc
+	jp TwoByteIncrement
 
 	sramstatmethod SRAMStatsActualDamageTaken
 
@@ -77,10 +73,9 @@ SRAMStatsActualDamageTaken_::
 	ld a, [sStatsActualDamageTaken+1]
 	adc [hl]
 	ld [sStatsActualDamageTaken+1], a
-	jp nc, SRAMStatsEnd
+	ret nc
 	ld hl, sStatsActualDamageTaken+2
-	call TwoByteIncrement
-	jp SRAMStatsEnd
+	jp TwoByteIncrement
 
 	sramstatmethod SRAMStatsTotalDamageDealt
 
@@ -93,9 +88,8 @@ SRAMStatsTotalDamageDealt_::
 	ld a, [wCurDamage]
 	adc [hl]
 	ld [hli], a
-	jp nc, SRAMStatsEnd
-	call TwoByteIncrement
-	jp SRAMStatsEnd
+	ret nc
+	jp TwoByteIncrement
 
 	sramstatmethod SRAMStatsActualDamageDealt
 
@@ -122,10 +116,9 @@ SRAMStatsActualDamageDealt_::
 	ld a, [sStatsActualDamageDealt+1]
 	adc [hl]
 	ld [sStatsActualDamageDealt+1], a
-	jp nc, SRAMStatsEnd
+	ret nc
 	ld hl, sStatsActualDamageDealt+2
-	call TwoByteIncrement
-	jp SRAMStatsEnd
+	jp TwoByteIncrement
 
 	sramstatmethod SRAMStatsStepCount
 
@@ -143,8 +136,7 @@ SRAMStatsStepCount_::
 	jr z, .increment
 	ld hl, sStatsStepCountWalk
 .increment
-	call FourByteIncrement
-	jp SRAMStatsEnd
+	jp FourByteIncrement
 
 	sramstatmethod SRAMStatsBlackoutMoneyLoss
 
@@ -160,9 +152,9 @@ SRAMStatsBlackoutMoneyLoss_::
 	ld a, [wBuffer1]
 	adc [hl]
 	ld [hli], a
-	jp nc, SRAMStatsEnd
+	ret nc
 	inc [hl]
-	jp SRAMStatsEnd
+	ret
 
 	sramstatmethod SRAMStatsAddMoneyGain
 
@@ -180,9 +172,9 @@ SRAMStatsAddMoneyGain_::
 	ld a, [de]
 	adc [hl]
 	ld [hli], a
-	jp nc, SRAMStatsEnd
+	ret nc
 	inc [hl]
-	jp SRAMStatsEnd
+	ret
 
 	sramstatmethod SRAMStatsAddMoneySpent
 
@@ -200,9 +192,9 @@ SRAMStatsAddMoneySpent_::
 	ld a, [de]
 	adc [hl]
 	ld [hli], a
-	jp nc, SRAMStatsEnd
+	ret nc
 	inc [hl]
-	jp SRAMStatsEnd
+	ret
 
 	sramstatmethod SRAMStatsIncreaseItemsBought
 
@@ -212,9 +204,9 @@ SRAMStatsIncreaseItemsBought_::
 	ld a, [wItemQuantityChangeBuffer]
 	add [hl]
 	ld [hli], a
-	jp nc, SRAMStatsEnd
+	ret nc
 	inc [hl]
-	jp SRAMStatsEnd
+	ret
 
 	sramstatmethod SRAMStatsIncreaseItemsSold
 
@@ -224,16 +216,16 @@ SRAMStatsIncreaseItemsSold_::
 	ld a, [wItemQuantityChangeBuffer]
 	add [hl]
 	ld [hli], a
-	jp nc, SRAMStatsEnd
+	ret nc
 	inc [hl]
-	jp SRAMStatsEnd
+	ret
 
 	sramstatmethod SRAMStatsRecordCriticalHit
 
 SRAMStatsRecordCriticalHit_::
 	ld a, [wCriticalHit]
 	and a
-	jp z, SRAMStatsEnd
+	ret z
 	dec a
 	ld c, a
 	ldh a, [hBattleTurn]
@@ -245,8 +237,7 @@ SRAMStatsRecordCriticalHit_::
 	ld b, 0
 	ld hl, sStatsCriticalsDealt
 	add hl, bc
-	call TwoByteIncrement
-	jp SRAMStatsEnd
+	jp TwoByteIncrement
 
 	sramstatmethod SRAMStatsRecordMoveHitOrMiss
 
@@ -265,8 +256,7 @@ SRAMStatsRecordMoveHitOrMiss_::
 	ld b, 0
 	ld hl, sStatsOwnMovesHit
 	add hl, bc
-	call TwoByteIncrement
-	jp SRAMStatsEnd
+	jp TwoByteIncrement
 
 	sramstatmethod SRAMStatsRecordMoveEffectiveness
 
@@ -274,7 +264,7 @@ SRAMStatsRecordMoveEffectiveness_::
 	ld a, [wTypeModifier]
 	and $7f
 	cp 10 ; 1.0
-	jp z, SRAMStatsEnd
+	ret z
 	ld a, 1 ; not very effective
 	jr c, .sideCheck
 	xor a ; super effective
@@ -288,8 +278,7 @@ SRAMStatsRecordMoveEffectiveness_::
 	ld b, 0
 	ld hl, sStatsOwnMovesSE
 	add hl, bc
-	call TwoByteIncrement
-	jp SRAMStatsEnd
+	jp TwoByteIncrement
 
 	sramstatmethod SRAMStatsRecordEXPGain
 
@@ -305,9 +294,9 @@ SRAMStatsRecordEXPGain_::
 	ldh a, [hQuotient + 1]
 	adc [hl]
 	ld [hli], a
-	jp nc, SRAMStatsEnd
+	ret nc
 	inc [hl]
-	jp SRAMStatsEnd
+	ret
 
 	sramstatmethod SRAMStatsRecordMovesUsed
 
@@ -323,8 +312,7 @@ SRAMStatsRecordMovesUsed_::
 	ld b, 0
 	add hl, bc
 	add hl, bc
-	call TwoByteIncrement
-	jp SRAMStatsEnd
+	jp TwoByteIncrement
 
 SRAMStatsStart::
 ; takes return address in hl
@@ -342,10 +330,14 @@ SRAMStatsStart::
 	ld a, BANK(sStatsStart)
 	ldh [hSRAMBank], a
 	ld [MBC3SRamBank], a
-; done, move to actual code
+; done, set return address and move to actual code
+	push bc
+	ld bc, .Return
+	push bc
 	jp hl
-
-SRAMStatsEnd::
+.Return
+; restore old bc
+	pop bc
 ; restore old sram bank
 	pop af
 	ldh [hSRAMBank], a
