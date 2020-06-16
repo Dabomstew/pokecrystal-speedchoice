@@ -593,7 +593,7 @@ PokeBallEffect:
 
 	ld a, [wPartyCount]
 	cp PARTY_LENGTH
-	jr z, .SendToPC
+	jp z, .SendToPC
 
 	xor a ; PARTYMON
 	ld [wMonType], a
@@ -617,6 +617,15 @@ PokeBallEffect:
 	ld [hl], a
 
 .SkipPartyMonFriendBall:
+	sboptioncheck SKIP_NICKNAMING
+	jr z, .normal
+; do this part just in case
+	ld a, [wCurPartySpecies]
+	ld [wNamedObjectIndexBuffer], a
+	call GetPokemonName
+	jp .return_from_capture
+
+.normal
 	ld hl, AskGiveNicknameText
 	call PrintText
 
@@ -676,7 +685,16 @@ PokeBallEffect:
 	ld [sBoxMon1Happiness], a
 .SkipBoxMonFriendBall:
 	call CloseSRAM
+	
+	sboptioncheck SKIP_NICKNAMING
+	jr z, .normalBox
+; do this part just in case
+	ld a, [wCurPartySpecies]
+	ld [wNamedObjectIndexBuffer], a
+	call GetPokemonName
+	jp .SkipBoxMonNickname
 
+.normalBox
 	ld hl, AskGiveNicknameText
 	call PrintText
 

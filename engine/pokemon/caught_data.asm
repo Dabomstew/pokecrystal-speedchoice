@@ -152,9 +152,14 @@ CheckPartyFullAfterContest:
 	ret
 
 GiveANickname_YesNo:
+	sboptioncheck SKIP_NICKNAMING
+	jr nz, .skip
 	ld hl, CaughtAskNicknameText
 	call PrintText
 	jp YesNoBox
+.skip
+	scf
+	ret
 
 CaughtAskNicknameText:
 	text_far _CaughtAskNicknameText
