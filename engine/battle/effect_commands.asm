@@ -38,6 +38,7 @@ DoTurn:
 	call UpdateMoveData
 
 DoMove:
+	farcall SRAMStatsRecordMovesUsed
 ; Get the user's move effect.
 	ld a, BATTLE_VARS_MOVE_EFFECT
 	call GetBattleVar

@@ -1644,6 +1644,11 @@ wStoredJumptableIndex:: db
 wRequested1bppQuarters:: db
 wRequested2bppQuarters:: db
 wOptionsMenuPreset:: db
+wPlayerMonStatsSource:: db
+wPlayerMonStatsOffset:: db
+wPlayerMonStatsBoxPointer:: dw
+wPlayStatsPageType:: db
+wPlayStatsMovesUsedOffset:: db
 
 
 SECTION "WRAM 1", WRAMX

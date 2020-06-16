@@ -165,6 +165,7 @@
 	charmap "ä",         $c3
 	charmap "ö",         $c4
 	charmap "ü",         $c5
+	charmap "£",         $c6 ; actually # but don't want to break existing code
 
 	charmap "'d",        $d0
 	charmap "'l",        $d1
@@ -179,7 +180,8 @@
 	charmap "<PK>",      $e1
 	charmap "<MN>",      $e2
 	charmap "-",         $e3
-
+	charmap "<",         $e4
+	charmap ">",         $e5
 	charmap "?",         $e6
 	charmap "!",         $e7
 	charmap ".",         $e8

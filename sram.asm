@@ -267,6 +267,8 @@ sStatsMovesLearnt:: ds 2
 sStatsBallsThrown:: ds 2
 sStatsPokemonCaughtInBalls:: ds 2
 sStatsNumPokemaniacsFought:: ds 2
+sStatsPlayerMovesUsed:: ds 2*(NUM_ATTACKS+1)
+sStatsEnemyMovesUsed:: ds 2*(NUM_ATTACKS+1)
 sStatsEnd::
 
 

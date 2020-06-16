@@ -355,6 +355,8 @@ SRAM $00
 	"Scratch"
 	org $a600
 	"SRAM Bank 0"
+	org $ad00
+	"SRAM Speedchoice Stats"
 	org $b200
 	"Backup Save"
 SRAM $01
@@ -364,7 +366,6 @@ SRAM $01
 	"SRAM Hall of Fame"
 	"SRAM Crystal Data"
 	"SRAM Battle Tower"
-	"SRAM Speedchoice Stats"
 SRAM $02
 	"Boxes 1-7"
 SRAM $03

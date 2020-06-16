@@ -309,6 +309,23 @@ SRAMStatsRecordEXPGain_::
 	inc [hl]
 	jp SRAMStatsEnd
 
+	sramstatmethod SRAMStatsRecordMovesUsed
+
+SRAMStatsRecordMovesUsed_::
+	ldh a, [hBattleTurn]
+	and a
+	ld hl, sStatsPlayerMovesUsed
+	jr z, .recordMove
+	ld hl, sStatsEnemyMovesUsed
+.recordMove
+	ld a, [wNamedObjectIndexBuffer]
+	ld c, a
+	ld b, 0
+	add hl, bc
+	add hl, bc
+	call TwoByteIncrement
+	jp SRAMStatsEnd
+
 SRAMStatsStart::
 ; takes return address in hl
 ; check enable

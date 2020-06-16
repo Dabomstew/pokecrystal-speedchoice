@@ -11,8 +11,12 @@ PlaythroughStatsScreen::
 	call PlayMusic
 	xor a
 	ld [wOptionsMenuID], a
+	ld [wPlayStatsPageType], a
+	ld [wPlayerMonStatsSource], a
+	ld [wPlayerMonStatsOffset], a
 ; stop stats (mainly frame counter) actually being counted
 	inc a
+	ld [wPlayStatsMovesUsedOffset], a
 	ldh [hStatsDisabled], a
 ; Open SRAM for stats
 	ld a, BANK(sStatsStart)
@@ -44,19 +48,25 @@ PlaythroughStatsScreen::
 	ld [hl], "←"
 	hlcoord 18, 16
 	ld [hl], "→"
-	hlcoord 4, 16
+	hlcoord 3, 16
 	ld de, PSPageStartString
 	call PlaceString
 	ld a, [wOptionsMenuID]
-	add a, "1"
-	hlcoord 9, 16
-	ld [hli], a
-	inc hl
+	inc a
+	ld [wBuffer1], a
+	hlcoord 8, 16
+	lb bc, 1, 2
+	ld de, wBuffer1
+	call PrintNum
+	hlcoord 11, 16
 	ld de, PSPageOfString
 	call PlaceString
 	hlcoord 14, 16
-	ld a, NUM_STAT_SCREENS + "0"
-	ld [hl], a
+	ld a, NUM_STAT_SCREENS
+	ld [wBuffer1], a
+	lb bc, 1, 2
+	ld de, wBuffer1
+	call PrintNum
 	call LoadFontsExtra
 	ld a, 1
 	ld [hBGMapMode], a
@@ -75,6 +85,9 @@ PlaythroughStatsScreen::
 	ld a, b
 	and D_RIGHT
 	jr nz, .scrollRight
+	ld a, b
+	and D_UP | D_DOWN | SELECT
+	jr nz, .movesUsedControls
 	ld a, b
 	and START
 	jr z, .joypad_loop
@@ -104,6 +117,169 @@ PlaythroughStatsScreen::
 	jr nz, .scrollDone
 	xor a
 	jr .scrollDone
+.movesUsedControls
+	ld a, [wPlayStatsPageType]
+	and a
+	jr z, .joypad_loop
+	dec a
+	jr nz, .PokemonStatsControls
+	ld a, b
+	and D_UP
+	jr nz, .goUp
+	ld a, b
+	and D_DOWN
+	jr nz, .goDown
+; SELECT: go to metronome
+	ld a, (METRONOME - 1)/6*6 + 1
+.writeAndReload
+	ld [wPlayStatsMovesUsedOffset], a
+	jp .pageLoad
+.goUp
+	ld a, [wPlayStatsMovesUsedOffset]
+	sub 6
+	jr z, .goToBottom
+	jr nc, .writeAndReload
+.goToBottom
+	ld a, (NUM_ATTACKS - 1)/6*6 + 1
+	jr .writeAndReload
+.goDown
+	ld a, [wPlayStatsMovesUsedOffset]
+	add 6
+	cp NUM_ATTACKS + 1
+	jr c, .writeAndReload
+	ld a, 1
+	jr .writeAndReload
+.PokemonStatsControls
+	bit D_UP_F, b
+	jr nz, .PokemonStatsUp
+	bit D_DOWN_F, b
+	jp z, .joypad_loop
+; go down
+	ld a, [hJoypadDown]
+	and A_BUTTON
+	jr nz, .PokemonStatsPageDown
+.PokemonStatsSectionDown
+	ld a, [wPlayerMonStatsSource]
+	and a
+	ld b, MONS_PER_BOX
+	jr nz, .cont
+	ld b, PARTY_LENGTH
+.cont
+	ld a, [wPlayerMonStatsOffset]
+	add 2
+	cp b
+	jr z, .PokemonStatsPageDown
+	ld [wPlayerMonStatsOffset], a
+.checkValidDown
+	call CheckPokemonStatsPageEmpty
+	jp c, .pageLoad
+.PokemonStatsPageDown
+	ld a, [wPlayerMonStatsSource]
+	inc a
+	cp NUM_BOXES + 1
+	jr nz, .cont2
+	xor a
+.cont2
+	ld [wPlayerMonStatsSource], a
+	xor a
+	ld [wPlayerMonStatsOffset], a
+	jr .checkValidDown
+.checkValidUp
+	call CheckPokemonStatsPageEmpty
+	jp c, .pageLoad
+	jr .PokemonStatsSectionUp
+.PokemonStatsUp
+	ld a, [hJoypadDown]
+	and A_BUTTON
+	jr nz, .PokemonStatsPageUp
+.PokemonStatsSectionUp
+	ld a, [wPlayerMonStatsOffset]
+	sub 2
+	jr c, .PokemonStatsPageUp
+	ld [wPlayerMonStatsOffset], a
+	jr .checkValidUp
+.PokemonStatsPageUp
+	ld a, [wPlayerMonStatsSource]
+	sub 1
+	jr nc, .cont3
+	ld a, NUM_BOXES
+.cont3
+	ld [wPlayerMonStatsSource], a
+	and a
+	ld a, MONS_PER_BOX - 2
+	jr nz, .cont4
+	ld a, PARTY_LENGTH - 2
+.cont4
+	ld [wPlayerMonStatsOffset], a
+	jr .checkValidUp
+
+; set carry if the page is not empty, clear carry if empty
+CheckPokemonStatsPageEmpty::
+	ld a, [wPlayerMonStatsSource]
+	and a
+	jr nz, .box
+; party
+	ld a, [wPartyCount]
+	ld b, a
+	ld a, [wPlayerMonStatsOffset]
+	cp b
+	ret
+.box
+	call GetAddressOfBox
+	jr nc, .done
+	ld b, [hl]
+	ld a, [wPlayerMonStatsOffset]
+	cp b
+.done
+	push af
+	ld a, BANK(sStatsStart)
+	call OpenSRAM
+	pop af
+	ret
+
+GetAddressOfBox:
+; a = box number (1-indexed)
+; return c if valid, nc if invalid (different box + no save yet)
+	dec a
+	ld b, a
+	ld a, [wCurBox]
+	cp b
+	jr nz, .notCurrent
+	ld a, BANK(sBox)
+	call OpenSRAM
+	ld hl, sBoxCount
+	jr .end
+.notCurrent
+	ld a, [wSavedAtLeastOnce]
+	and a
+	ret z ; also clears carry
+; get bank to switch to
+	ld a, b
+	add a
+	add a
+	add b ; a = (boxnum-1)*5
+	ld hl, BoxAddresses
+	add l
+	ld l, a
+	jr nc, .load
+	inc h
+.load
+	ld a, BANK(BoxAddresses)
+	ld c, a
+	call GetFarByte
+	call OpenSRAM
+	inc hl
+	ld a, c
+	call GetFarByte
+	ld b, a
+	ld a, c
+	inc hl
+	call GetFarByte
+	ld h, a
+	ld l, b
+.end
+	scf
+	ret
 
 RenderStats::
 ; render stats themselves
@@ -111,8 +287,14 @@ RenderStats::
 	ld a, [hli]
 	ld h, [hl]
 	ld l, a
+	ld a, h
+	cp $fd
+	jp z, RenderPokemonStats
+	cp $fe
+	jp nc, RenderMovesUsed
 	xor a
 	ld [wPlayStatsStatNum], a
+	ld [wPlayStatsPageType], a
 .loop
 	ld a, [hli]
 	ld e, a
@@ -215,6 +397,352 @@ RenderStats::
 	inc hl
 	inc hl
 	jr .next_loop_nopop
+
+RenderMovesUsed::
+	inc a
+	ld hl, sStatsEnemyMovesUsed
+	jr z, .render
+	inc a
+	ld hl, sStatsPlayerMovesUsed
+.render
+; a = 0 when entering
+	ld [wPlayStatsStatNum], a
+	inc a ; a = 1
+	ld [wPlayStatsPageType], a
+	xor a
+.loop
+	cp 6
+	ret nc
+	ld b, a
+	ld a, [wPlayStatsMovesUsedOffset]
+	add b
+	cp NUM_ATTACKS + 1
+	ret nc
+	ld [wNamedObjectIndexBuffer], a
+	push hl
+	ld c, a
+	ld b, 0
+	dec c
+	add hl, bc
+	add hl, bc
+; reverse the stat endianness for PrintNumber
+	ld a, [hli]
+	ld [wBuffer2], a
+	ld a, [hl]
+	ld [wBuffer1], a
+	call GetMoveName
+	hlcoord 1, 4
+	ld a, [wPlayStatsStatNum]
+	sla a
+	ld bc, SCREEN_WIDTH
+	call AddNTimes
+	push hl
+	call PlaceString
+	pop hl
+	ld bc, SCREEN_WIDTH*2 - 7
+	add hl, bc
+	ld de, wBuffer1
+	lb bc, 2, 5
+	call PrintNum
+	pop hl
+	ld a, [wPlayStatsStatNum]
+	inc a
+	ld [wPlayStatsStatNum], a
+	jr .loop
+
+RenderPokemonStats:
+	ld a, 2
+	ld [wPlayStatsPageType], a
+	ld a, [wPlayerMonStatsSource]
+	and a
+	jr nz, .renderFromBox
+; from party
+	hlcoord 7, 3
+	ld de, PartyString
+	call PlaceString
+	ld a, [wPlayerMonStatsOffset]
+	ld c, a
+	ld b, 2
+.partyLoop
+	ld hl, wPlayerMonStatsOffset
+	ld a, c
+	sub [hl]
+	add a
+	ld d, a
+	add a
+	add d ; *6
+	hlcoord 1, 4
+	push bc
+	ld bc, SCREEN_WIDTH
+	call AddNTimes
+	pop bc
+	ld a, c
+	add "1"
+	ld [hl], "£"
+	inc hl
+	ld [hli], a
+	inc hl
+	ld a, [wPartyCount]
+	cp c
+	jr z, .skipParty
+	jr c, .skipParty
+	push hl
+	ld hl, wPartyMonNicknames
+	ld a, c
+	push bc
+	ld bc, NAME_LENGTH
+	call AddNTimes
+	pop bc
+	ld d, h
+	ld e, l
+	pop hl
+	push hl
+	push bc
+	call PlaceString
+	pop bc
+	pop hl
+	ld de, SCREEN_WIDTH - 3
+	add hl, de
+	push hl
+	ld hl, wPartyMon1
+	ld a, c
+	push bc
+	ld bc, PARTYMON_STRUCT_LENGTH
+	call AddNTimes
+	pop bc
+	ld d, h
+	ld e, l
+	pop hl
+	call PrintMonStats
+	jr .nextParty
+.skipParty
+	ld de, NoMonString
+	push bc
+	call PlaceString
+	pop bc
+.nextParty
+	inc c
+	dec b
+	jr nz, .partyLoop
+	ret
+.renderFromBox
+	hlcoord 7, 3
+	ld de, BoxString
+	call PlaceString
+	hlcoord 11, 3
+	ld de, wPlayerMonStatsSource
+	lb bc, PRINTNUM_LEFTALIGN | 1, 2
+	call PrintNum
+	; from box
+	; get wram offset to box data
+	ld a, [wPlayerMonStatsSource]
+	call GetAddressOfBox
+	ret nc ; shouldn't be possible but let's avoid printing garbage
+	ld a, l
+	ld [wPlayerMonStatsBoxPointer], a
+	ld a, h
+	ld [wPlayerMonStatsBoxPointer + 1], a
+	ld a, [wPlayerMonStatsOffset]
+	ld c, a
+	ld b, 2
+.boxLoop
+	ld hl, wPlayerMonStatsOffset
+	ld a, c
+	sub [hl]
+	add a
+	ld d, a
+	add a
+	add d ; *6
+	hlcoord 1, 4
+	push bc
+	ld bc, SCREEN_WIDTH
+	call AddNTimes
+	pop bc
+	ld [hl], "£"
+	inc hl
+	ld a, c
+	push bc
+	inc a
+	ld [wBuffer1], a
+	ld de, wBuffer1
+	lb bc, PRINTNUM_LEFTALIGN | 1, 2
+	call PrintNum
+	pop bc
+	inc hl
+	push hl
+	ld hl, wPlayerMonStatsBoxPointer
+	rst UnHL
+	ld a, [hl]
+	cp c
+	jr z, .skipBox
+	jr c, .skipBox
+	ld de, sBoxMonNicknames - sBox
+	add hl, de
+	ld a, c
+	push bc
+	ld bc, NAME_LENGTH
+	call AddNTimes
+	pop bc
+	ld d, h
+	ld e, l
+	pop hl
+	push hl
+	push bc
+	call PlaceString
+	pop bc
+	pop hl
+	ld a, c
+	cp 9
+	ld de, SCREEN_WIDTH - 3
+	jr c, .add
+	ld de, SCREEN_WIDTH - 4
+.add
+	add hl, de
+	push hl
+	ld hl, wPlayerMonStatsBoxPointer
+	rst UnHL
+	ld de, sBoxMons - sBox
+	add hl, de
+	ld a, c
+	push bc
+	ld bc, BOXMON_STRUCT_LENGTH
+	call AddNTimes
+	pop bc
+	ld d, h
+	ld e, l
+	pop hl
+	call PrintMonStats
+	jr .nextBox
+.skipBox
+	pop hl
+	ld de, NoMonString
+	push bc
+	call PlaceString
+	pop bc
+.nextBox
+	inc c
+	dec b
+	jr nz, .boxLoop
+	ld a, BANK(sStatsStart)
+	jp OpenSRAM
+
+PartyString:
+	db "PARTY@"
+
+BoxString:
+	db "BOX @"
+
+NoMonString:
+	db "NO #MON@"
+
+PrintMonStats:
+	push bc
+	push de
+	ld de, StatsTemplate
+	push hl
+	call PlaceString
+	pop hl
+	pop de
+	ld bc, 6
+	add hl, bc
+	push hl
+	ld hl, MON_DVS
+	add hl, de
+	ld a, [hli]
+	ld b, a
+	ld c, [hl]
+	pop hl
+; calc hp dv
+	xor a
+	bit 4, b
+	jr z, .noAtk
+	add 8
+.noAtk
+	bit 0, b
+	jr z, .noDef
+	add 4
+.noDef
+	bit 4, c
+	jr z, .noSpd
+	add 2
+.noSpd
+	bit 0, c
+	jr z, .noSpc
+	inc a
+.noSpc
+	call PrintDV
+	ld a, b
+	swap a
+	and $0F
+	call PrintDV
+	push bc
+	pop bc
+	ld a, b
+	and $0F
+	call PrintDV
+	ld a, c
+	swap a
+	and $0F
+	call PrintDV
+	ld a, c
+	and $0F
+	call PrintDV
+; evs
+	push hl
+	ld hl, MON_HP_EXP
+	add hl, de
+	ld d, h
+	ld e, l
+	pop hl
+	ld bc, -(SCREEN_WIDTH*5 - 7)
+	add hl, bc
+	rept 5
+	call PrintStatEXP
+	endr
+	pop bc
+	ret
+
+PrintStatEXP:
+	push de
+	lb bc, 2, 5
+	call PrintNum
+	pop de
+	inc de
+	inc de
+	ld bc, SCREEN_WIDTH - 5
+	add hl, bc
+	ret
+
+PrintDV:
+	push de
+	push bc
+	ld [wBuffer1], a
+	lb bc, PRINTNUM_LEADINGZEROS | 1, 2
+	ld de, wBuffer1
+	call PrintNum
+	ld bc, SCREEN_WIDTH - 2
+	add hl, bc
+	pop bc
+	pop de
+	ret
+
+PrintHexDigit:
+	ld a, b
+	and $0F
+	add "0"
+	or $80
+	ld [hli], a
+	ret
+
+DVsString:
+	db "DVs @"
+
+StatsTemplate:
+	db "HP  DVxx SXP<LF>"
+	db "ATK DVxx SXP<LF>"
+	db "DEF DVxx SXP<LF>"
+	db "SPD DVxx SXP<LF>"
+	db "SPC DVxx SXP@"
 
 Print2ByteCompare:
 	ld bc, SCREEN_WIDTH - 3
@@ -418,6 +946,39 @@ Copy4ByteValueIntoPrintScratch:
 	ld [wBuffer2], a
 	ld a, [hl]
 	ld [wBuffer1], a
+	ld hl, wBuffer1
+; fallthrough
+
+; cap 4 byte value at hl to 9999999 because that's all the space we give it on screen
+Cap4ByteValue:
+	ld a, [hli]
+	and a
+	jr nz, .cap
+	ld a, [hli]
+	cp 9999999 / $10000
+	ret c
+	jr nz, .cap2
+	ld a, [hli]
+	cp (9999999 / $100) & $ff
+	ret c
+	jr nz, .cap3
+	ld a, [hl]
+	cp 9999999 & $ff
+	ret c
+	ret z
+.cap3
+	dec hl
+.cap2
+	dec hl
+.cap
+	dec hl
+	xor a
+	ld [hli], a
+	ld a, 9999999 / $10000
+	ld [hli], a
+	ld a, (9999999 / $100) & $ff
+	ld [hli], a
+	ld [hl], 9999999 & $ff
 	ret
 
 Copy2ByteComparesIntoPrintScratch:
@@ -468,9 +1029,10 @@ Copy4ByteComparesIntoPrintScratch:
 	ld [wBuffer6], a
 	ld a, [hl]
 	ld [wBuffer5], a
-	ret
-
-
+	ld hl, wBuffer1
+	call Cap4ByteValue
+	ld hl, wBuffer5
+	jp Cap4ByteValue
 
 RetrievePlaythroughStatsConfig::
 	ld a, [wOptionsMenuID]
@@ -503,6 +1065,9 @@ PlaythroughStatsScreens::
 	stat_screen PSBattle4TitleString, PSBattle4Config
 	stat_screen PSMoneyItemsTitleString, PSMoneyItemsConfig
 	stat_screen PSMiscTitleString, PSMiscConfig
+	stat_screen PSPokemonStatsTitleString, $FD00
+	stat_screen PSPlayerMovesTitleString, $FE00
+	stat_screen PSEnemyMovesTitleString, $FF00
 PlaythroughStatsScreensEnd::
 
 PSTimersConfig::
@@ -674,6 +1239,14 @@ PSMiscClockResetsString:
 	db "CLOCK RESETS:@"
 PSMiscPokemaniacsFoughtString:
 	db "No. #MANIACS:@"
+
+PSPlayerMovesTitleString:
+	db "PLAYER MOVES USED@"
+PSEnemyMovesTitleString:
+	db " ENEMY MOVES USED@"
+
+PSPokemonStatsTitleString:
+	db "  PLAYER <PKMN> INFO@"
 
 PSPageStartString:
 	db "PAGE@"
