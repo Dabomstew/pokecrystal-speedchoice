@@ -791,29 +791,27 @@ Print4ByteCompare:
 PrintTimer:
 ; frames/milliseconds part
 ; use 4/239 as a better approximation for gbc framerate than 1/60
+	push hl
 rept 2
-	ld a, [wBuffer4]
-	add a
-	ld [wBuffer4], a
-	ld a, [wBuffer3]
-	rl a
-	ld [wBuffer3], a
-	ld a, [wBuffer2]
-	rl a
-	ld [wBuffer2], a
-	ld a, [wBuffer1]
-	rl a
-	ld [wBuffer1], a
+	ld hl, wBuffer4
+	sla [hl]
+	dec hl
+	rl [hl]
+	dec hl
+	rl [hl]
+	dec hl
+	rl [hl]
 endr
 ; copy wBuffer1-4 into dividend
-	ld a, [wBuffer1]
+	ld a, [hli]
 	ldh [hDividend], a
-	ld a, [wBuffer2]
+	ld a, [hli]
 	ldh [hDividend+1], a
-	ld a, [wBuffer3]
+	ld a, [hli]
 	ldh [hDividend+2], a
-	ld a, [wBuffer4]
+	ld a, [hl]
 	ldh [hDividend+3], a
+	pop hl
 ; divide by 239
 	ld a, 239
 	ldh [hDivisor], a

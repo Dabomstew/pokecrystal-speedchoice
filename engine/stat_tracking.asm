@@ -308,6 +308,7 @@ SRAMStatsRecordMovesUsed_::
 	ld hl, sStatsEnemyMovesUsed
 .recordMove
 	ld a, [wNamedObjectIndexBuffer]
+	dec a
 	ld c, a
 	ld b, 0
 	add hl, bc
