@@ -11,8 +11,8 @@ SRAMStatsFrameCount_::
 	call FourByteIncrement
 	ld hl, sStatsOWFrameCount
 	ldh a, [hTimerType]
-	sla a
-	sla a
+	add a
+	add a
 	add l
 	ld l, a
 	jr nc, .noOverflow
@@ -229,9 +229,9 @@ SRAMStatsRecordCriticalHit_::
 	dec a
 	ld c, a
 	ldh a, [hBattleTurn]
-	sla a
+	add a
 	or c
-	sla a
+	add a
 ; add sStatsCriticalsDealt to (battleturn << 1 | hittype)*2 to get the correct field
 	ld c, a
 	ld b, 0
@@ -249,9 +249,9 @@ SRAMStatsRecordMoveHitOrMiss_::
 .sideCheck
 	ld c, a
 	ldh a, [hBattleTurn]
-	sla a
+	add a
 	or c
-	sla a
+	add a
 	ld c, a
 	ld b, 0
 	ld hl, sStatsOwnMovesHit
@@ -271,9 +271,9 @@ SRAMStatsRecordMoveEffectiveness_::
 .sideCheck
 	ld c, a
 	ldh a, [hBattleTurn]
-	sla a
+	add a
 	or c
-	sla a
+	add a
 	ld c, a
 	ld b, 0
 	ld hl, sStatsOwnMovesSE

@@ -305,7 +305,7 @@ RenderStats::
 	push hl
 	hlcoord 1, 4
 	ld a, [wPlayStatsStatNum]
-	sla a
+	add a
 	ld bc, SCREEN_WIDTH
 	call AddNTimes
 	push hl
@@ -433,7 +433,7 @@ RenderMovesUsed::
 	call GetMoveName
 	hlcoord 1, 4
 	ld a, [wPlayStatsStatNum]
-	sla a
+	add a
 	ld bc, SCREEN_WIDTH
 	call AddNTimes
 	push hl
@@ -793,7 +793,7 @@ PrintTimer:
 ; use 4/239 as a better approximation for gbc framerate than 1/60
 rept 2
 	ld a, [wBuffer4]
-	sla a
+	add a
 	ld [wBuffer4], a
 	ld a, [wBuffer3]
 	rl a
