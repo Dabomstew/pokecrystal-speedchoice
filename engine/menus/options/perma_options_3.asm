@@ -5,6 +5,8 @@ PermaOptionsP3String::
 	db "        :<LF>"
 	db "DEX AREA BEEP<LF>"
 	db "        :<LF>"
+	db "RODS ALWAYS WORK<LF>"
+	db "        :<LF>"
 	db "METRONOME ONLY<LF>"
 	db "        :@"
 
@@ -12,6 +14,7 @@ PermaOptionsP3Pointers::
 	dw Options_KantoAccess
 	dw Options_EasyTinTower
 	dw Options_DexAreaBeep
+	dw Options_RodsAlwaysWork
 	dw Options_MetronomeOnly
 	dw Options_PermaOptionsPage
 PermaOptionsP3PointersEnd::
@@ -40,7 +43,12 @@ Options_DexAreaBeep:
 	lb bc, DEX_AREA_BEEP, 7
 	jp Options_OnOff
 
+Options_RodsAlwaysWork:
+	ld hl, ROD_ALWAYS_SUCCEEDS_ADDRESS
+	lb bc, ROD_ALWAYS_SUCCEEDS, 9
+	jp Options_OnOff
+
 Options_MetronomeOnly:
 	ld hl, METRONOME_ONLY_ADDRESS
-	lb bc, METRONOME_ONLY, 9
+	lb bc, METRONOME_ONLY, 11
 	jp Options_OnOff

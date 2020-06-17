@@ -25,10 +25,13 @@ endr
 ; Fish for monsters with rod b from encounter data in FishGroup at hl.
 ; Return monster d at level e.
 
+	sboptioncheck ROD_ALWAYS_SUCCEEDS
+	jr nz, .bite
 	call Random
 	cp [hl]
 	jr nc, .no_bite
 
+.bite
 	; Get encounter data by rod:
 	; 0: Old
 	; 1: Good
