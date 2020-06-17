@@ -388,6 +388,42 @@ endr
 	scf
 	ret
 
+IsMonWildHere::
+; return c if this pokemon is wild (grass/surf only) in the current map, nc otherwise
+; wNamedObjectIndexBuffer: species
+	call _GrassWildmonLookup
+	jr nc, .water
+	ld bc, 5 ; two map bytes, 3 encounter rates
+	add hl, bc
+	ld c, NUM_GRASSMON * 3
+	call .check
+	ret c
+.water
+	call _WaterWildmonLookup
+	ret nc
+	inc hl
+	inc hl
+	inc hl ; map, single enc rate
+	ld c, NUM_WATERMON
+.check
+	inc hl
+.loop
+	ld a, [hli]
+	ld b, a
+	ld a, [wNamedObjectIndexBuffer]
+	cp b
+	jr z, .yep
+	dec c
+	jr z, .nope
+	inc hl
+	jr .loop
+.yep
+	scf
+	ret
+.nope
+	and a
+	ret
+
 LoadWildMonDataPointer:
 	call CheckOnWater
 	jr z, _WaterWildmonLookup

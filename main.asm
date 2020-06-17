@@ -488,9 +488,6 @@ INCLUDE "engine/pokemon/bills_pc.asm"
 
 SECTION "bank39", ROMX
 
-CopyrightGFX::
-INCBIN "gfx/splash/copyright.2bpp"
-
 INCLUDE "engine/menus/options_menu.asm"
 INCLUDE "engine/movie/crystal_intro.asm"
 
@@ -752,3 +749,7 @@ INCLUDE "engine/battle/experience_nonscaling.asm"
 
 SECTION "bwexp", ROMX
 INCLUDE "engine/battle/experience_scaling.asm"
+
+SECTION "Copyright Graphics", ROMX
+CopyrightGFX::
+INCBIN "gfx/splash/copyright.2bpp"

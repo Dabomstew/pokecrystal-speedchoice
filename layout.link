@@ -304,6 +304,7 @@ ROMX $7a
 	"statsdisplay"
 	"moves"
 	"movenamesnerfed"
+	"Copyright Graphics"
 ROMX $7b
 	"Battle Tower Text"
 ROMX $7c

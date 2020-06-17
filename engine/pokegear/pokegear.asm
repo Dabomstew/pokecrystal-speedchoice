@@ -2484,6 +2484,15 @@ Pokedex_GetArea:
 	ldh [hBGMapMode], a
 	xor a ; JOHTO_REGION
 	call .GetAndPlaceNest
+	sboptioncheck DEX_AREA_BEEP
+	jr z, .loop
+	farcall IsMonWildHere
+	jr nc, .loop
+	ld de, SFX_TRANSACTION
+rept 3
+	call PlaySFX
+	call WaitSFX
+endr
 .loop
 	call JoyTextDelay
 	ld hl, hJoyPressed

@@ -147,6 +147,7 @@ EXP_SPLITTING_GEN8    EQU %10
 	optionbytestart
 	sboption CATCH_EXP
 	sboption METRONOME_ONLY ; 1
+	sboption DEX_AREA_BEEP ; 2
 
 NUM_PERMAOPTIONS_BYTES EQU optionbyte
 

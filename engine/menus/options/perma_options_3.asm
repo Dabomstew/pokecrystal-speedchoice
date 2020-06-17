@@ -3,12 +3,15 @@ PermaOptionsP3String::
 	db "        :<LF>"
 	db "EASY TIN TOWER<LF>"
 	db "        :<LF>"
+	db "DEX AREA BEEP<LF>"
+	db "        :<LF>"
 	db "METRONOME ONLY<LF>"
 	db "        :@"
 
 PermaOptionsP3Pointers::
 	dw Options_KantoAccess
 	dw Options_EasyTinTower
+	dw Options_DexAreaBeep
 	dw Options_MetronomeOnly
 	dw Options_PermaOptionsPage
 PermaOptionsP3PointersEnd::
@@ -32,7 +35,12 @@ Options_EasyTinTower:
 	lb bc, EASY_TIN_TOWER, 5
 	jp Options_OnOff
 
+Options_DexAreaBeep:
+	ld hl, DEX_AREA_BEEP_ADDRESS
+	lb bc, DEX_AREA_BEEP, 7
+	jp Options_OnOff
+
 Options_MetronomeOnly:
 	ld hl, METRONOME_ONLY_ADDRESS
-	lb bc, METRONOME_ONLY, 7
+	lb bc, METRONOME_ONLY, 9
 	jp Options_OnOff
