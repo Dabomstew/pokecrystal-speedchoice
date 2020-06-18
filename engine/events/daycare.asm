@@ -543,9 +543,7 @@ DayCare_InitBreeding:
 	cp 150
 	jr c, .loop
 	ld [wStepsToEgg], a
-	jp .UselessJump
 
-.UselessJump:
 	xor a
 	ld hl, wEggMon
 	ld bc, wEggMonEnd - wEggMon
@@ -709,7 +707,12 @@ DayCare_InitBreeding:
 	ld de, wStringBuffer1
 	ld bc, NAME_LENGTH
 	call CopyBytes
+	sboptioncheck FAST_EGG_HATCHING
+	ld a, 1
+	jr nz, .setCycles
 	ld a, [wBaseEggSteps]
+
+.setCycles
 	ld hl, wEggMonHappiness
 	ld [hli], a
 	xor a

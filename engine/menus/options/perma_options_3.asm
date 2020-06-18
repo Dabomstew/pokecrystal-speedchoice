@@ -7,6 +7,10 @@ PermaOptionsP3String::
 	db "        :<LF>"
 	db "RODS ALWAYS WORK<LF>"
 	db "        :<LF>"
+	db "FAST EGG MAKING<LF>"
+	db "        :<LF>"
+	db "FAST EGG HATCHING<LF>"
+	db "        :<LF>"
 	db "METRONOME ONLY<LF>"
 	db "        :@"
 
@@ -15,6 +19,8 @@ PermaOptionsP3Pointers::
 	dw Options_EasyTinTower
 	dw Options_DexAreaBeep
 	dw Options_RodsAlwaysWork
+	dw Options_FastEggMaking
+	dw Options_FastEggHatching
 	dw Options_MetronomeOnly
 	dw Options_PermaOptionsPage
 PermaOptionsP3PointersEnd::
@@ -48,7 +54,17 @@ Options_RodsAlwaysWork:
 	lb bc, ROD_ALWAYS_SUCCEEDS, 9
 	jp Options_OnOff
 
+Options_FastEggMaking:
+	ld hl, FAST_EGG_GENERATION_ADDRESS
+	lb bc, FAST_EGG_GENERATION, 11
+	jp Options_OnOff
+
+Options_FastEggHatching:
+	ld hl, FAST_EGG_HATCHING_ADDRESS
+	lb bc, FAST_EGG_HATCHING, 13
+	jp Options_OnOff
+
 Options_MetronomeOnly:
 	ld hl, METRONOME_ONLY_ADDRESS
-	lb bc, METRONOME_ONLY, 11
+	lb bc, METRONOME_ONLY, 15
 	jp Options_OnOff

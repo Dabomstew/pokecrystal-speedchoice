@@ -47,7 +47,14 @@ _GiveOddEgg:
 	ld de, wOddEgg
 	ld bc, NICKNAMED_MON_STRUCT_LENGTH + NAME_LENGTH
 	call CopyBytes
+	
+	; fast hatch if option on
+	sboptioncheck FAST_EGG_HATCHING
+	jr z, .removeEggTicket
+	ld a, 1
+	ld [wOddEggHappiness], a
 
+.removeEggTicket
 	ld a, EGG_TICKET
 	ld [wCurItem], a
 	ld a, 1

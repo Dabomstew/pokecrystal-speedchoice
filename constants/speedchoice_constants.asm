@@ -64,7 +64,7 @@ obtemp = 0
 obtemp = obtemp + 1
 	endr
 ENDM
-	
+
 popalloptions: MACRO
 obtemp = NUM_OPTIONS_BYTES - 1
 	rept NUM_OPTIONS_BYTES
@@ -96,7 +96,7 @@ TEXT_SPEED_SLOW    EQU %11
 	sboption SKIP_NICKNAMING ; 6
 
 NUM_TEXTBOX_FRAMES EQU 10
-	
+
 NUM_OPTIONS_BYTES EQU optionbyte
 
 ; permaoptions
@@ -149,6 +149,9 @@ EXP_SPLITTING_GEN8    EQU %10
 	sboption METRONOME_ONLY ; 1
 	sboption DEX_AREA_BEEP ; 2
 	sboption ROD_ALWAYS_SUCCEEDS ; 3
+	sboption FAST_EGG_GENERATION ; 4
+	sboption FAST_EGG_HATCHING ; 5
+
 
 NUM_PERMAOPTIONS_BYTES EQU optionbyte
 

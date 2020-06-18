@@ -1196,8 +1196,7 @@ GiveEgg::
 	ld hl, wPartyMon1Happiness
 	ld bc, PARTYMON_STRUCT_LENGTH
 	call AddNTimes
-	ld a, [wDebugFlags]
-	bit DEBUG_FIELD_F, a
+	sboptioncheck FAST_EGG_HATCHING
 	ld a, 1
 	jr nz, .got_init_happiness
 	ld a, [wBaseEggSteps]

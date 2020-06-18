@@ -196,6 +196,8 @@ DayCareStep::
 	call Random
 	ld [hl], a
 	callfar CheckBreedmonCompatibility
+	sboptioncheck FAST_EGG_GENERATION
+	jr nz, .hasEgg
 	ld a, [wBreedingCompatibility]
 	cp 230
 	ld b, 31 percent + 1
@@ -214,6 +216,7 @@ DayCareStep::
 	call Random
 	cp b
 	ret nc
+.hasEgg
 	ld hl, wDayCareMan
 	res DAYCAREMAN_MONS_COMPATIBLE_F, [hl]
 	set DAYCAREMAN_HAS_EGG_F, [hl]
