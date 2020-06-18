@@ -134,6 +134,8 @@ PowerPlantGymGuy4Script:
 PowerPlantManager:
 	faceplayer
 	opentext
+	setmapscene CERULEAN_GYM, SCENE_CERULEANGYM_GRUNT_RUNS_OUT
+	setscene SCENE_POWERPLANT_GUARD_GETS_PHONE_CALL
 	checkevent EVENT_RETURNED_MACHINE_PART
 	iftrue .ReturnedMachinePart
 	checkitem MACHINE_PART

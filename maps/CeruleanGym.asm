@@ -54,6 +54,7 @@ CeruleanGym_MapScripts:
 	pause 15
 	turnobject PLAYER, DOWN
 	pause 15
+	clearevent EVENT_FOUND_MACHINE_PART_IN_CERULEAN_GYM
 	end
 
 CeruleanGymMistyScript:
