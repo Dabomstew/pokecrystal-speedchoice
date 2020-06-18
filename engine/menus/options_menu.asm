@@ -484,17 +484,13 @@ options_menu: MACRO
 ENDM
 
 OptionsMenuScreens:
-	; default options page 1
 	options_menu MainOptionsP1String, MainOptionsP1Pointers, (START | B_BUTTON)
-	; default options page 2
 	options_menu MainOptionsP2String, MainOptionsP2Pointers, (START | B_BUTTON)
 PermaOptionsMenuScreens:
-	; permaoptions page 1
 	options_menu PermaOptionsP1String, PermaOptionsP1Pointers, START
-	; permaoptions page 2
 	options_menu PermaOptionsP2String, PermaOptionsP2Pointers, START
-	; permaoptions page 3
 	options_menu PermaOptionsP3String, PermaOptionsP3Pointers, START
+	options_menu PermaOptionsP4String, PermaOptionsP4Pointers, START
 PermaOptionsMenuScreensEnd:
 
 INCLUDE "engine/menus/options/main_options.asm"
@@ -502,6 +498,7 @@ INCLUDE "engine/menus/options/main_options_2.asm"
 INCLUDE "engine/menus/options/perma_options.asm"
 INCLUDE "engine/menus/options/perma_options_2.asm"
 INCLUDE "engine/menus/options/perma_options_3.asm"
+INCLUDE "engine/menus/options/perma_options_4.asm"
 
 NameNotSetText::
 	text "Please set your"

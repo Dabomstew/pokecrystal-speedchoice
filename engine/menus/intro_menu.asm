@@ -57,6 +57,7 @@ NewGame:
 	call ResetWRAM
 	call NewGame_ClearTilemapEtc
 	callba IntroPermaOptions
+	call GiveStartItems
 	call OakSpeech
 	call InitializeWorld
 	ld a, 1
@@ -217,6 +218,17 @@ endc
 	dec a
 	ld [hl], a
 	ret
+
+GiveStartItems:
+	sboptioncheck START_WITH_BIKE
+	ret z
+	
+	ld a, BICYCLE
+	ld [wCurItem], a
+	ld a, 1
+	ld [wItemQuantityChangeBuffer], a
+	ld hl, wNumItems
+	jp ReceiveItem
 
 SetDefaultBoxNames:
 	ld hl, wBoxNames
@@ -745,15 +757,6 @@ NamePlayer:
 	db "CHRIS@@@@@@"
 .Kris:
 	db "KRIS@@@@@@@"
-
-Unreferenced_Function60e9:
-	call LoadMenuHeader
-	call VerticalMenu
-	ld a, [wMenuCursorY]
-	dec a
-	call CopyNameFromMenu
-	call CloseWindow
-	ret
 
 StorePlayerName:
 	ld a, "@"
