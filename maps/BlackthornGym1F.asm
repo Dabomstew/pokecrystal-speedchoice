@@ -29,7 +29,7 @@ BlackthornGym1F_MapScripts:
 BlackthornGymClairScript:
 	faceplayer
 	opentext
-	checkflag ENGINE_RISINGBADGE
+	checkflag ENGINE_FLYPOINT_SILVER_CAVE
 	iftrue .AlreadyGotBadge
 	checkevent EVENT_BEAT_CLAIR
 	iftrue .FightDone

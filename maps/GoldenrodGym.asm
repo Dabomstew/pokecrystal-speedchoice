@@ -50,7 +50,7 @@ GoldenrodGymWhitneyScript:
 .StoppedCrying:
 	checkevent EVENT_GOT_TM45_ATTRACT
 	iftrue .GotAttract
-	checkflag ENGINE_PLAINBADGE
+	checkflag ENGINE_FLYPOINT_SILVER_CAVE
 	iftrue .GotPlainBadge
 	writetext WhitneyWhatDoYouWantText
 	promptbutton
