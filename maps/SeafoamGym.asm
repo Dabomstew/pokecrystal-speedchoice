@@ -14,7 +14,7 @@ SeafoamGym_MapScripts:
 SeafoamGymBlaineScript:
 	faceplayer
 	opentext
-	checkflag ENGINE_VOLCANOBADGE
+	checkevent EVENT_BEAT_BLAINE
 	iftrue .FightDone
 	writetext BlaineIntroText
 	waitbutton
