@@ -263,6 +263,13 @@ _ReceivedItemText::
 	text "."
 	done
 
+_ReceivedEngineFlagText::
+	text "<PLAYER> received"
+	line "@"
+	text_ram wStringBuffer3
+	text "."
+	done
+
 _PutItemInPocketText::
 	text "<PLAYER> put the"
 	line "@"

@@ -54,3 +54,83 @@ FindItemInBallScript::
 	ld a, $1
 	ld [wScriptVar], a
 	ret
+
+HiddenEngineFlagScript::
+	callasm .SetMemEvent
+	sjump PickupEngineFlagCommon
+
+.SetMemEvent:
+	ld hl, wEngineFlagPickupEvent
+	ld a, [hli]
+	ld d, [hl]
+	ld e, a
+	ld b, SET_FLAG
+	call EventFlagAction
+	ret
+
+FindEngineFlagInBallScript::
+	disappear LAST_TALKED
+
+PickupEngineFlagCommon::
+	callasm .ReceiveFlag
+	increment2bytestat sStatsItemsPickedUp
+	opentext
+	writetext .FoundFlagText
+	playsound SFX_RB_GET_ITEM
+	waitsfx
+	closetext
+	end
+
+.FoundFlagText:
+	text_far _FoundItemText
+	text_end
+
+.ReceiveFlag:
+	ld a, [wEngineFlagPickupFlagID]
+	ld e, a
+	ld d, 0
+	ld b, SET_FLAG
+	farcall EngineFlagAction
+GetEngineFlagName::
+	ld a, [wEngineFlagPickupFlagID]
+	cp ENGINE_POKEDEX
+	ld de, .PokedexString
+	jr z, .setName
+	cp ENGINE_POKEGEAR + 1
+	ld de, .UnknownString
+	jr nc, .setName
+	ld hl, .FirstFlagNamesLookupTable
+	add a
+	ld c, a
+	ld b, 0
+	add hl, bc
+	ld a, [hli]
+	ld d, [hl]
+	ld e, a
+.setName
+	ld hl, wStringBuffer3
+	call CopyName2
+	ld a, TRUE
+	ld [wScriptVar], a
+	ret
+	
+.PokedexString:
+	db "#DEX@"
+.UnknownString:
+	db "???@"
+.FirstFlagNamesLookupTable:
+	dw .RadioCardString
+	dw .MapCardString
+	dw .PhoneCardString
+	dw .ExpnCardString
+	dw .PokegearString
+.RadioCardString:
+	db "RADIO CARD@"
+.MapCardString:
+	db "MAP CARD@"
+.PhoneCardString:
+	db "PHONE CARD@"
+.ExpnCardString:
+	db "EXPN CARD@"
+.PokegearString:
+	db "#GEAR@"

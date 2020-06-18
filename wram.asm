@@ -1854,6 +1854,13 @@ wItemBallQuantity:: db
 wItemBallDataEnd::
 
 NEXTU ; d03e
+; engine flag ball or hidden item data
+wEngineFlagPickupData::
+wEngineFlagPickupEvent:: dw
+wEngineFlagPickupFlagID:: db
+wEngineFlagPickupDataEnd::
+
+NEXTU ; d03e
 ; hidden item data
 wHiddenItemData::
 wHiddenItemEvent:: dw

@@ -90,6 +90,7 @@ RETVAR_EXECUTE EQU (2 << 6)
 	const PLAYEREVENT_WHITEOUT
 	const PLAYEREVENT_HATCH
 	const PLAYEREVENT_JOYCHANGEFACING
+	const PLAYEREVENT_ENGINEFLAGBALL
 NUM_PLAYER_EVENTS EQU const_value
 
 ; PlayerMovement.pointers indexes (see engine/overworld/events.asm)
@@ -123,6 +124,7 @@ OBJECT_EVENT_SIZE EQU 13 ; object_event
 	const BGEVENT_IFNOTSET
 	const BGEVENT_ITEM
 	const BGEVENT_COPY
+	const BGEVENT_ENGINEFLAG
 
 ; object_event types
 ; TryObjectEvent arguments (see engine/overworld/events.asm)
@@ -130,7 +132,7 @@ OBJECT_EVENT_SIZE EQU 13 ; object_event
 	const OBJECTTYPE_SCRIPT
 	const OBJECTTYPE_ITEMBALL
 	const OBJECTTYPE_TRAINER
-	const OBJECTTYPE_3
+	const OBJECTTYPE_ENGINEFLAGBALL
 	const OBJECTTYPE_4
 	const OBJECTTYPE_5
 	const OBJECTTYPE_6
@@ -303,3 +305,10 @@ NUM_UNOWN_PUZZLES EQU const_value
 	const MOVETUTOR_FLAMETHROWER ; 1
 	const MOVETUTOR_THUNDERBOLT  ; 2
 	const MOVETUTOR_ICE_BEAM     ; 3
+
+; keyrandogiveitemorsetengineflag values for first argument
+	const_def
+	const KRGIVE_ENGINEFLAG        ; 0
+	const KRGIVE_KEYITEM           ; 1
+	const KRGIVE_VERBOSEENGINEFLAG ; 2
+	const KRGIVE_VERBOSEKEYITEM    ; 3

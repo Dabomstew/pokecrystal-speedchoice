@@ -581,7 +581,7 @@ TryObjectEvent:
 	dbw OBJECTTYPE_ITEMBALL, .itemball
 	dbw OBJECTTYPE_TRAINER, .trainer
 	; the remaining four are dummy events
-	dbw OBJECTTYPE_3, .three
+	dbw OBJECTTYPE_ENGINEFLAGBALL, .engineflagball
 	dbw OBJECTTYPE_4, .four
 	dbw OBJECTTYPE_5, .five
 	dbw OBJECTTYPE_6, .six
@@ -608,6 +608,20 @@ TryObjectEvent:
 	ld bc, wItemBallDataEnd - wItemBallData
 	call FarCopyBytes
 	ld a, PLAYEREVENT_ITEMBALL
+	scf
+	ret
+
+.engineflagball
+	ld hl, MAPOBJECT_SCRIPT_POINTER
+	add hl, bc
+	ld a, [hli]
+	ld h, [hl]
+	ld l, a
+	call GetMapScriptsBank
+	ld de, wEngineFlagPickupFlagID
+	ld bc, wEngineFlagPickupDataEnd - wEngineFlagPickupFlagID
+	call FarCopyBytes
+	ld a, PLAYEREVENT_ENGINEFLAGBALL
 	scf
 	ret
 
@@ -655,6 +669,7 @@ TryBGEvent:
 	dw .ifnotset
 	dw .itemifset
 	dw .copy
+	dw .engineflagifset
 
 .up
 	ld b, OW_UP
@@ -696,6 +711,20 @@ TryBGEvent:
 	call FarCopyBytes
 	ld a, BANK(HiddenItemScript)
 	ld hl, HiddenItemScript
+	call CallScript
+	scf
+	ret
+	
+.engineflagifset
+	call CheckBGEventFlag
+	jp nz, .dontread
+	call PlayTalkObject
+	call GetMapScriptsBank
+	ld de, wEngineFlagPickupData
+	ld bc, wEngineFlagPickupDataEnd - wEngineFlagPickupData
+	call FarCopyBytes
+	ld a, BANK(HiddenEngineFlagScript)
+	ld hl, HiddenEngineFlagScript
 	call CallScript
 	scf
 	ret
@@ -990,6 +1019,7 @@ PlayerEventScriptPointers:
 	dba Script_OverworldWhiteout ; PLAYEREVENT_WHITEOUT
 	dba HatchEggScript           ; PLAYEREVENT_HATCH
 	dba ChangeDirectionScript    ; PLAYEREVENT_JOYCHANGEFACING
+	dba FindEngineFlagInBallScript ; PLAYEREVENT_ENGINEFLAGBALL
 	dba Invalid_0x96c2d          ; (NUM_PLAYER_EVENTS)
 
 Invalid_0x96c2d:

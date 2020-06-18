@@ -99,8 +99,19 @@ else
 endc
 ENDM
 
+engineflagball: MACRO
+;\1: engine flag: from constants/engine_flags.asm
+	db \1
+ENDM
+
 hiddenitem: MACRO
 ;\1: item: from constants/item_constants.asm
+;\2: flag: an EVENT_* constant
+	dwb \2, \1
+ENDM
+
+hiddenengineflag: MACRO
+;\1: engine flag: from constants/engine_flags.asm
 ;\2: flag: an EVENT_* constant
 	dwb \2, \1
 ENDM
