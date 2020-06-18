@@ -25,6 +25,7 @@ OlivineLighthouseJasmine:
 	end
 
 .BroughtSecretpotion:
+	setevent EVENT_JASMINE_EXPLAINED_AMPHYS_SICKNESS
 	writetext JasmineCureAmphyText
 	yesorno
 	iffalse .no
