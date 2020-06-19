@@ -6,10 +6,11 @@
 	const RADIOTOWER5F_POKE_BALL
 
 RadioTower5F_MapScripts:
-	db 3 ; scene scripts
+	db 4 ; scene scripts
 	scene_script .DummyScene0 ; SCENE_DEFAULT
 	scene_script .DummyScene1 ; SCENE_RADIOTOWER5F_ROCKET_BOSS
 	scene_script .DummyScene2 ; SCENE_RADIOTOWER5F_NOTHING
+	scene_script .DummyScene3
 
 	db 0 ; callbacks
 
@@ -20,6 +21,9 @@ RadioTower5F_MapScripts:
 	end
 
 .DummyScene2:
+	end
+	
+.DummyScene3:
 	end
 
 FakeDirectorScript:
@@ -45,7 +49,34 @@ FakeDirectorScript:
 	promptbutton
 	verbosegiveitem BASEMENT_KEY
 	closetext
-	setscene SCENE_RADIOTOWER5F_ROCKET_BOSS
+	setscene $1
+	setevent EVENT_BEAT_ROCKET_EXECUTIVEM_3
+	end
+
+FakeDirectorScriptB:
+	turnobject RADIOTOWER5F_DIRECTOR, UP
+	showemote EMOTE_SHOCK, RADIOTOWER5F_DIRECTOR, 15
+	opentext
+	writetext FakeDirectorTextBefore1
+	waitbutton
+	closetext
+	applymovement RADIOTOWER5F_DIRECTOR, FakeDirectorMovement
+	playmusic MUSIC_ROCKET_ENCOUNTER
+	opentext
+	writetext FakeDirectorTextBefore2
+	waitbutton
+	closetext
+	winlosstext FakeDirectorWinText, 0
+	setlasttalked RADIOTOWER5F_DIRECTOR
+	loadtrainer EXECUTIVEM, EXECUTIVEM_3
+	startbattle
+	reloadmapafterbattle
+	opentext
+	writetext FakeDirectorTextAfter
+	promptbutton
+	verbosegiveitem BASEMENT_KEY
+	closetext
+	setscene $2
 	setevent EVENT_BEAT_ROCKET_EXECUTIVEM_3
 	end
 
@@ -124,7 +155,73 @@ RadioTower5FRocketBossScene:
 	writetext RadioTower5FDirectorDescribeClearBellText
 	waitbutton
 	closetext
-	setscene SCENE_RADIOTOWER5F_NOTHING
+	setscene $2
+	setmapscene ECRUTEAK_TIN_TOWER_ENTRANCE, SCENE_DEFAULT
+	setevent EVENT_GOT_CLEAR_BELL
+	setevent EVENT_TEAM_ROCKET_DISBANDED
+	checkpermaoptions EARLY_KANTO
+	iffalse .skip_boat_and_train
+; setup for boat
+	setflag ENGINE_CREDITS_SKIP
+	specialphonecall SPECIALCALL_SSTICKET
+; fix people flags later on
+	clearevent EVENT_GOLDENROD_TRAIN_STATION_GENTLEMAN
+	clearevent EVENT_SAFFRON_TRAIN_STATION_POPULATION
+.skip_boat_and_train
+	applymovement RADIOTOWER5F_DIRECTOR, RadioTower5FDirectorWalksOut
+	playsound SFX_EXIT_BUILDING
+	disappear RADIOTOWER5F_DIRECTOR
+	end
+
+RadioTower5FRocketBossSceneB:
+	applymovement PLAYER, RadioTower5FPlayerTwoStepsLeftMovement
+	playmusic MUSIC_ROCKET_ENCOUNTER
+	turnobject RADIOTOWER5F_ROCKET, RIGHT
+	opentext
+	writetext RadioTower5FRocketBossBeforeText
+	waitbutton
+	closetext
+	winlosstext RadioTower5FRocketBossWinText, 0
+	setlasttalked RADIOTOWER5F_ROCKET
+	loadtrainer EXECUTIVEM, EXECUTIVEM_1
+	startbattle
+	reloadmapafterbattle
+	opentext
+	writetext RadioTower5FRocketBossAfterText
+	waitbutton
+	closetext
+	special FadeBlackQuickly
+	special ReloadSpritesNoPalettes
+	disappear RADIOTOWER5F_ROCKET
+	disappear RADIOTOWER5F_ROCKET_GIRL
+	pause 15
+	special FadeInQuickly
+	setevent EVENT_BEAT_ROCKET_EXECUTIVEM_1
+	setevent EVENT_CLEARED_RADIO_TOWER
+	clearflag ENGINE_ROCKETS_IN_RADIO_TOWER
+	setevent EVENT_GOLDENROD_CITY_ROCKET_SCOUT
+	setevent EVENT_GOLDENROD_CITY_ROCKET_TAKEOVER
+	setevent EVENT_RADIO_TOWER_ROCKET_TAKEOVER
+	clearevent EVENT_MAHOGANY_MART_OWNERS
+	clearflag ENGINE_ROCKETS_IN_MAHOGANY
+	clearevent EVENT_GOLDENROD_CITY_CIVILIANS
+	clearevent EVENT_RADIO_TOWER_CIVILIANS_AFTER
+	setevent EVENT_BLACKTHORN_CITY_SUPER_NERD_BLOCKS_GYM
+	clearevent EVENT_BLACKTHORN_CITY_SUPER_NERD_DOES_NOT_BLOCK_GYM
+	special PlayMapMusic
+	disappear RADIOTOWER5F_DIRECTOR
+	moveobject RADIOTOWER5F_DIRECTOR, 12, 0
+	appear RADIOTOWER5F_DIRECTOR
+	applymovement RADIOTOWER5F_DIRECTOR, RadioTower5FDirectorWalksIn
+	turnobject PLAYER, RIGHT
+	opentext
+	writetext RadioTower5FDirectorThankYouText
+	promptbutton
+	verbosegiveitem CLEAR_BELL
+	writetext RadioTower5FDirectorDescribeClearBellText
+	waitbutton
+	closetext
+	setscene $3
 	setmapscene ECRUTEAK_TIN_TOWER_ENTRANCE, SCENE_DEFAULT
 	setevent EVENT_GOT_CLEAR_BELL
 	setevent EVENT_TEAM_ROCKET_DISBANDED
@@ -431,9 +528,11 @@ RadioTower5F_MapEvents:
 	warp_event  0,  0, RADIO_TOWER_4F, 1
 	warp_event 12,  0, RADIO_TOWER_4F, 3
 
-	db 2 ; coord events
-	coord_event  0,  3, SCENE_DEFAULT, FakeDirectorScript
-	coord_event 16,  5, SCENE_RADIOTOWER5F_ROCKET_BOSS, RadioTower5FRocketBossScene
+	db 4 ; coord events
+	coord_event  0,  3, 0, FakeDirectorScript
+	coord_event  0,  3, 3, FakeDirectorScriptB
+	coord_event 16,  5, 1, RadioTower5FRocketBossScene
+	coord_event 16,  5, 0, RadioTower5FRocketBossSceneB
 
 	db 5 ; bg events
 	bg_event  3,  0, BGEVENT_READ, RadioTower5FDirectorsOfficeSign
