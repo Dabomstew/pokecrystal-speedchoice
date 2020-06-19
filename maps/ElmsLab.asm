@@ -99,6 +99,8 @@ ElmCheckMasterBall:
 	checkflag ENGINE_RISINGBADGE
 	iftrue ElmGiveMasterBallScript
 ElmCheckEverstone:
+	checkitem MYSTERY_EGG
+	iftrue ElmAfterTheftScript
 	checkevent EVENT_GOT_EVERSTONE_FROM_ELM
 	iftrue ElmScript_CallYou
 	checkevent EVENT_SHOWED_TOGEPI_TO_ELM
