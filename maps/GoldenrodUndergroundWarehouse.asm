@@ -71,8 +71,8 @@ GoldenrodUndergroundWarehouseDirectorScript:
 	opentext
 	checkevent EVENT_RECEIVED_CARD_KEY
 	iftrue .GotCardKey
-	readvar VAR_BADGES
-	ifgreater 6, .GotCardKey
+	checkcode VAR_BADGES
+	ifless 7, .GotCardKey
 	writetext DirectorIntroText
 	promptbutton
 	verbosegiveitem CARD_KEY
