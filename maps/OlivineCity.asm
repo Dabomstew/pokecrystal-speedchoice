@@ -93,6 +93,7 @@ OlivineCitySailor2Script:
 	jumptextfaceplayer OlivineCitySailor2Text
 
 OlivineCitySign:
+	verbosegiveitem SECRETPOTION
 	jumptext OlivineCitySignText
 
 OlivineCityPortSign:

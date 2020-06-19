@@ -126,6 +126,7 @@ NewBarkTownSilverScript:
 	end
 
 NewBarkTownSign:
+	verbosegiveitem MYSTERY_EGG
 	jumptext NewBarkTownSignText
 
 NewBarkTownPlayersHouseSign:

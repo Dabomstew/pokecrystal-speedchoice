@@ -185,6 +185,51 @@ Randomizer_StarterCyndaquilOffset3::
 	promptbutton
 Randomizer_StarterCyndaquilOffset4::
 	givepoke CYNDAQUIL, 5, BERRY
+	givepoke MEW, 5, BERRY
+	givepoke MEW, 5, BERRY
+	givepoke MEWTWO, 100, TWISTEDSPOON
+	verbosegiveitem PASS
+	verbosegiveitem HM_CUT
+	verbosegiveitem HM_SURF
+	verbosegiveitem SQUIRTBOTTLE
+	verbosegiveitem HM_FLY
+	verbosegiveitem S_S_TICKET
+	verbosegiveitem HM_STRENGTH
+	verbosegiveitem CARD_KEY
+	verbosegiveitem BASEMENT_KEY
+	verbosegiveitem TM_PSYCHIC_M
+	verbosegiveitem TM_SHADOW_BALL
+	verbosegiveitem RED_SCALE
+	verbosegiveitem LOST_ITEM
+	verbosegiveitem HM_WHIRLPOOL
+	verbosegiveitem HM_WATERFALL
+	verbosegiveitem BICYCLE
+	verbosegiveitem HM_FLASH
+	setflag ENGINE_ZEPHYRBADGE
+	setflag ENGINE_HIVEBADGE
+	setflag ENGINE_PLAINBADGE
+	setflag ENGINE_FOGBADGE
+	setflag ENGINE_STORMBADGE
+	setflag ENGINE_GLACIERBADGE
+	setflag ENGINE_FLYPOINT_VIOLET
+	setflag ENGINE_FLYPOINT_AZALEA
+	setflag ENGINE_FLYPOINT_GOLDENROD
+	setflag ENGINE_FLYPOINT_ECRUTEAK
+	setflag ENGINE_FLYPOINT_OLIVINE
+	setflag ENGINE_FLYPOINT_CIANWOOD
+	setflag ENGINE_FLYPOINT_MAHOGANY
+	setflag ENGINE_FLYPOINT_BLACKTHORN
+	setflag ENGINE_FLYPOINT_PALLET
+	setflag ENGINE_FLYPOINT_VIRIDIAN
+	setflag ENGINE_FLYPOINT_INDIGO_PLATEAU
+	setflag ENGINE_FLYPOINT_PEWTER
+	setflag ENGINE_FLYPOINT_CERULEAN
+	setflag ENGINE_FLYPOINT_VERMILION
+	setflag ENGINE_FLYPOINT_SAFFRON
+	setflag ENGINE_FLYPOINT_CELADON
+	setflag ENGINE_FLYPOINT_CINNABAR
+	setflag ENGINE_FLYPOINT_FUCHSIA
+	setflag ENGINE_FLYPOINT_LAVENDER
 	closetext
 	readvar VAR_FACING
 	ifequal RIGHT, ElmDirectionsScript
