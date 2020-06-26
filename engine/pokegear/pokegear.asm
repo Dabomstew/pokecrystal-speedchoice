@@ -2150,6 +2150,7 @@ FlyMapScroll:
 ; Fill out the map
 	ld d, 1
 	call .showHidePlayer
+	call FillJohtoMap
 	ld a, $90
 	jr .mapFinally
 
@@ -2158,12 +2159,25 @@ FlyMapScroll:
 	ret c
 	ld d, 0
 	call .showHidePlayer
+	call FillKantoMap
 	xor a
 .mapFinally
 	ld [hWY], a
 .Finally:
 	call TownMapBubble
-	call WaitBGMap
+	ld a, [hWY]
+	and a
+	hlbgcoord 0, 0
+	jr nz, .writeAddress
+	hlbgcoord 0, 0, vBGMap1
+.writeAddress
+	ld a, l
+	ldh [hBGMapAddress], a
+	ld a, h
+	ldh [hBGMapAddress + 1], a
+	ld a, $1
+	ldh [hBGMapMode], a
+	call DelayFrame
 	xor a
 	ldh [hBGMapMode], a
 	ret
@@ -2345,6 +2359,7 @@ FlyMap:
 	call .MapHud
 	pop af
 	call TownMapPlayerIcon
+	call FillKantoMap ; wTilemap always contains Johto map after MapHud, we need the kanto map back to draw the town name correctly.
 	ret
 
 .NoKanto:
@@ -2372,7 +2387,7 @@ FlyMap:
 	ld a, b
 	ld [wTownMapCursorCoordinates + 1], a
 	ret
-	
+
 GetJohtoFlyParams:
 	ld a, FLY_NEW_BARK
 	ld [wTownMapPlayerIconLandmark], a
