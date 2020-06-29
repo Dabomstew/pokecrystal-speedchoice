@@ -60,6 +60,48 @@ ChangeBoxSaveGame:
 	pop de
 	ret
 
+ChangeToNonFullBox:
+	ld a, [wCurBox]
+	ld b, a
+.loop
+	inc a
+	cp NUM_BOXES
+	jr nz, .check
+	xor a
+.check
+	cp b
+	jr z, .failed
+	ld [wCurBox], a
+	call GetBoxAddress
+	call GetSRAMBank
+	ld a, [de]
+	cp MONS_PER_BOX
+	jr nz, .done
+	ld a, [wCurBox]
+	jr .loop
+.done
+	ld a, [wCurBox]
+	ld c, a
+	ld a, b
+	ld [wCurBox], a
+	push bc
+	call PauseGameLogic
+	call SavingDontTurnOffThePower
+	call SaveBox
+	pop bc
+	ld a, c
+	ld [wCurBox], a
+	call LoadBox
+	call SavedTheGame
+	call ResumeGameLogic
+	ld a, TRUE
+	ld [wScriptVar], a
+	ret
+.failed
+	ld a, FALSE
+	ld [wScriptVar], a
+	ret
+
 Link_SaveGame:
 	call AskOverwriteSaveFile
 	jr c, .refused
@@ -244,7 +286,7 @@ SavedTheGame:
 
 _SaveGameData:
 	ld de, sStatsSaveCount
-    callba SRAMStatsIncrement2Byte
+	callba SRAMStatsIncrement2Byte
 	ld a, TRUE
 	ld [wSaveFileExists], a
 	farcall StageRTCTimeForSave
@@ -785,6 +827,10 @@ _LoadData:
 
 	jp CloseSRAM
 
+; output:
+; a = sram bank of current box
+; de = sram address of start of current box
+; hl = sram address of end of current box
 GetBoxAddress:
 	ld a, [wCurBox]
 	cp NUM_BOXES

@@ -37,5 +37,20 @@ BillPhoneCalleeScript:
 
 BillPhoneCallerScript:
 	farwritetext BillPhoneNewlyFullText
+	yesorno
+	iftrue .ChangeBoxScript
+	farwritetext BillPhoneChangeManuallyText
+	waitbutton
+	end
+
+.ChangeBoxScript:
+	special ChangeToNonFullBox
+	iffalse .AllBoxesFull
+	farwritetext BillPhoneBoxChangedText
+	waitbutton
+	end
+
+.AllBoxesFull:
+	farwritetext BillAllBoxesFullText
 	waitbutton
 	end

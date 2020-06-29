@@ -97,5 +97,43 @@ BillPhoneNewlyFullText:
 	para "you want to catch"
 	line "more #MON."
 
+	para "Do you want me to"
+	line "save your game and"
+	cont "change to a"
+	cont "non-full BOX?"
+	done
+
+BillPhoneChangeManuallyText:
+	text "Ok, <PLAY_G>!"
+
+	para "Please stop by"
+	line "a #MON CENTER"
+	cont "to change BOX."
+
+	para "Bye now!"
+	done
+
+BillPhoneBoxChangedText:
+	text "Done, <PLAY_G>!"
+
+	para "You can continue"
+	line "catching #MON"
+	cont "with no issues."
+
+	para "Bye now!"
+	done
+
+BillAllBoxesFullText:
+	text "Bad news,"
+	line "<PLAY_G>."
+
+	para "All your BOXES"
+	line "are full!"
+
+	para "Please visit"
+	line "a #MON CENTER"
+	cont "to release"
+	cont "some #MON."
+
 	para "Bye now!"
 	done

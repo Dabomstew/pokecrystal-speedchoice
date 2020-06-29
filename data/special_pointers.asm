@@ -182,3 +182,6 @@ SpecialsPointers::
 	add_special InitialSetDSTFlag
 	add_special InitialClearDSTFlag
 	add_special DummySpecial_c224 ; $a8
+
+; Speedchoice
+	add_special ChangeToNonFullBox
