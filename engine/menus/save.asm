@@ -70,8 +70,8 @@ ChangeToNonFullBox:
 	xor a
 .check
 	cp b
-	jr z, .failed
 	ld [wCurBox], a
+	jr z, .failed
 	call GetBoxAddress
 	call GetSRAMBank
 	ld a, [de]
