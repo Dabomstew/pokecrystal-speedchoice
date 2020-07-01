@@ -7,9 +7,11 @@ RuinsOfAlphHoOhChamber_MapScripts:
 	callback MAPCALLBACK_TILES, .HiddenDoors
 
 .CheckWall:
-	special HoOhChamber
+	checkevent EVENT_FOUGHT_HO_OH
+	iffalse .WallStillThere
 	checkevent EVENT_WALL_OPENED_IN_HO_OH_CHAMBER
 	iftrue .OpenWall
+.WallStillThere:
 	end
 
 .OpenWall:
