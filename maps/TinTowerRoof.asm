@@ -16,6 +16,8 @@ TinTowerRoof_MapScripts:
 
 .Appear:
 	appear TINTOWERROOF_HO_OH
+	checkevent EVENT_BEAT_ELITE_FOUR
+	iffalse .NoAppear
 	return
 
 .NoAppear:
