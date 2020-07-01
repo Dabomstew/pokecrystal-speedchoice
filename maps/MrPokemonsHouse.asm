@@ -28,7 +28,8 @@ MrPokemonsHouse_MapScripts:
 	writetext MrPokemonIntroText2
 	promptbutton
 	waitsfx
-	verbosegiveitem MYSTERY_EGG
+	giveitem MYSTERY_EGG
+	writetext MrPokemonsHouse_GotEggText
 	playsound SFX_KEY_ITEM
 	waitsfx
 	itemnotify
