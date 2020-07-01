@@ -36,7 +36,7 @@ TinTower1F_NPCsCallback:
 TinTower1F_Normal:
 	checkevent EVENT_BEAT_ELITE_FOUR
 	iffalse TinTower1F_FaceBeasts
-	special BeastsCheck
+	checkevent EVENT_FOUGHT_SUICUNE
 	iffalse TinTower1F_FaceBeasts
 TinTower1F_Success:
 	clearevent EVENT_TIN_TOWER_1F_WISE_TRIO_2
@@ -81,7 +81,7 @@ TinTower1F_FoughtSuicune:
 	return
 
 TinTower1F_StairsCallback:
-	checkevent EVENT_GOT_RAINBOW_WING
+	checkitem RAINBOW_WING
 	iftrue TinTower1F_DontHideStairs
 	changeblock 10, 2, $09 ; floor
 TinTower1F_DontHideStairs:
@@ -197,8 +197,6 @@ TinTower1FSage4Script:
 TinTower1FSage5Script:
 	faceplayer
 	opentext
-	checkevent EVENT_FOUGHT_HO_OH
-	iftrue .FoughtHoOh
 	checkevent EVENT_GOT_RAINBOW_WING
 	iftrue .GotRainbowWing
 	writetext TinTower1FSage5Text1
