@@ -180,9 +180,8 @@ Randomizer_RedGyaradosSpecies::
 .NotBeaten:
 	reloadmapafterbattle
 	opentext
-	giveitem RED_SCALE
+	verbosegiveitem RED_SCALE
 	waitsfx
-	writetext LakeOfRageGotRedScaleText
 	playsound SFX_ITEM
 	waitsfx
 	itemnotify

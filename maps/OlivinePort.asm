@@ -82,12 +82,7 @@ OlivinePortWalkUpToShipScript:
 	opentext
 	checkevent EVENT_FAST_SHIP_FIRST_TIME
 	iffalse .FirstTime
-	readvar VAR_WEEKDAY
-	ifequal SUNDAY, .NextShipMonday
-	ifequal SATURDAY, .NextShipMonday
-	ifequal TUESDAY, .NextShipFriday
-	ifequal WEDNESDAY, .NextShipFriday
-	ifequal THURSDAY, .NextShipFriday
+
 .FirstTime:
 	writetext OlivinePortAskBoardText
 	yesorno
@@ -147,12 +142,6 @@ OlivinePortSailorAfterHOFScript:
 	iftrue OlivinePortAlreadyRodeScript
 	checkevent EVENT_FAST_SHIP_FIRST_TIME
 	iffalse .FirstTime
-	readvar VAR_WEEKDAY
-	ifequal SUNDAY, .NextShipMonday
-	ifequal SATURDAY, .NextShipMonday
-	ifequal TUESDAY, .NextShipFriday
-	ifequal WEDNESDAY, .NextShipFriday
-	ifequal THURSDAY, .NextShipFriday
 .FirstTime:
 	writetext OlivinePortAskBoardText
 	yesorno
@@ -397,7 +386,7 @@ OlivinePort_MapEvents:
 
 	db 7 ; object events
 	object_event  7, 23, SPRITE_SAILOR, SPRITEMOVEDATA_STANDING_UP, 0, 0, -1, -1, 0, OBJECTTYPE_SCRIPT, 0, OlivinePortSailorAtGangwayScript, EVENT_OLIVINE_PORT_SAILOR_AT_GANGWAY
-	object_event  7, 15, SPRITE_SAILOR, SPRITEMOVEDATA_STANDING_UP, 0, 0, -1, -1, 0, OBJECTTYPE_SCRIPT, 0, OlivinePortSailorBeforeHOFScript, EVENT_OLIVINE_PORT_SPRITES_BEFORE_HALL_OF_FAME
+	object_event  6, 15, SPRITE_SAILOR, SPRITEMOVEDATA_STANDING_UP, 0, 0, -1, -1, 0, OBJECTTYPE_SCRIPT, 0, OlivinePortSailorBeforeHOFScript, EVENT_OLIVINE_PORT_SPRITES_BEFORE_HALL_OF_FAME
 	object_event  6, 15, SPRITE_SAILOR, SPRITEMOVEDATA_STANDING_RIGHT, 0, 0, -1, -1, 0, OBJECTTYPE_SCRIPT, 0, OlivinePortSailorAfterHOFScript, EVENT_OLIVINE_PORT_SPRITES_AFTER_HALL_OF_FAME
 	object_event  4, 14, SPRITE_FISHING_GURU, SPRITEMOVEDATA_STANDING_UP, 0, 0, -1, -1, 0, OBJECTTYPE_SCRIPT, 0, OlivinePortFishingGuru1Script, EVENT_OLIVINE_PORT_SPRITES_BEFORE_HALL_OF_FAME
 	object_event 13, 14, SPRITE_FISHING_GURU, SPRITEMOVEDATA_STANDING_UP, 0, 0, -1, -1, 0, OBJECTTYPE_SCRIPT, 0, OlivinePortFishingGuru2Script, EVENT_OLIVINE_PORT_SPRITES_BEFORE_HALL_OF_FAME

@@ -29,6 +29,8 @@ BlackthornGym1F_MapScripts:
 BlackthornGymClairScript:
 	faceplayer
 	opentext
+	checkflag ENGINE_FLYPOINT_SILVER_CAVE
+	iftrue .AlreadyGotBadge
 	checkevent EVENT_BEAT_CLAIR
 	iftrue .FightDone
 	writetext ClairIntroText
@@ -60,8 +62,6 @@ BlackthornGymClairScript:
 	jump .GiveTM
 
 .FightDone:
-	checkevent EVENT_GOT_TM24_DRAGONBREATH
-	iffalse .AlreadyGotBadge
 	writetext ClairText_TooMuchToExpect
 	waitbutton
 	closetext
@@ -73,8 +73,10 @@ BlackthornGymClairScript:
 	writetext BlackthornGymClairText_YouKeptMeWaiting
 .GiveTM
 	promptbutton
-	verbosegiveitem TM_DRAGONBREATH
+	giveitem TM_DRAGONBREATH
 	iffalse .BagFull
+	getitemname STRING_BUFFER_3, TM_DRAGONBREATH
+	writetext BlackthornGymText_ReceivedTM24
 	playsound SFX_ITEM
 	waitsfx
 	itemnotify
