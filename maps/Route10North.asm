@@ -4,7 +4,6 @@ Route10North_MapScripts:
 	db 0 ; callbacks
 
 PowerPlantSign:
-	verbosegiveitem MACHINE_PART
 	jumptext PowerPlantSignText
 
 Route10PokecenterSign:
