@@ -8,14 +8,9 @@ GoldenrodFlowerShop_MapScripts:
 	db 0 ; callbacks
 
 FlowerShopTeacherScript:
-	checkevent EVENT_FOUGHT_SUDOWOODO
-	iftrue .Lalala
 	checkevent EVENT_GOT_SQUIRTBOTTLE
 	iftrue .GotSquirtbottle
-	checkevent EVENT_MET_FLORIA
-	iffalse .HaventMetFloria
-	checkevent EVENT_TALKED_TO_FLORIA_AT_FLOWER_SHOP
-	iffalse .Lalala
+	; TODO: Introduce flag for re-enabling vanilla check that requires talking to floria by the sudowoodo
 	checkflag ENGINE_PLAINBADGE
 	iffalse .NoPlainBadge
 	faceplayer
@@ -49,8 +44,6 @@ FlowerShopTeacherScript:
 FlowerShopFloriaScript:
 	faceplayer
 	opentext
-	checkevent EVENT_FOUGHT_SUDOWOODO
-	iftrue .FoughtSudowoodo
 	checkevent EVENT_GOT_SQUIRTBOTTLE
 	iftrue .GotSquirtbottle
 	writetext GoldenrodFlowerShopFloriaWonderIfSisWillLendWaterBottleText
