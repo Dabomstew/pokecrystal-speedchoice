@@ -16,6 +16,7 @@ TinTowerRoof_MapScripts:
 
 .Appear:
 	appear TINTOWERROOF_HO_OH
+	; TODO: Put this behind a flag so that it doesn't mess with the early tin tower setting
 	checkevent EVENT_BEAT_ELITE_FOUR
 	iffalse .NoAppear
 	return
