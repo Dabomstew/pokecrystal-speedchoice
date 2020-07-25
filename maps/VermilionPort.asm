@@ -84,6 +84,16 @@ VermilionPortWalkUpToShipScript:
 	iftrue .skip
 	turnobject PLAYER, LEFT
 	opentext
+	checkitemrando
+	iftrue .Available
+	readvar VAR_WEEKDAY
+	ifequal MONDAY, .NextShipWednesday
+	ifequal TUESDAY, .NextShipWednesday
+	ifequal THURSDAY, .NextShipSunday
+	ifequal FRIDAY, .NextShipSunday
+	ifequal SATURDAY, .NextShipSunday
+	
+.Available:
 	writetext VermilionPortAskBoardingText
 	yesorno
 	iffalse VermilionPortNotRidingMoveAwayScript
@@ -140,6 +150,16 @@ VermilionPortSailorScript:
 	opentext
 	checkevent EVENT_TEMPORARY_UNTIL_MAP_RELOAD_1
 	iftrue VermilionPortAlreadyRodeScript
+	checkitemrando
+	iftrue .Available
+	readvar VAR_WEEKDAY
+	ifequal MONDAY, .NextShipWednesday
+	ifequal TUESDAY, .NextShipWednesday
+	ifequal THURSDAY, .NextShipSunday
+	ifequal FRIDAY, .NextShipSunday
+	ifequal SATURDAY, .NextShipSunday
+
+.Available:
 	writetext VermilionPortAskBoardingText
 	yesorno
 	iffalse VermilionPortNotRidingScript

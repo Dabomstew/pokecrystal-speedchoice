@@ -137,6 +137,11 @@ RadioTower5FRocketBossScene:
 	setevent EVENT_GOLDENROD_CITY_ROCKET_TAKEOVER
 	setevent EVENT_FLOWER_SHOP_ROCKET
 	setevent EVENT_RADIO_TOWER_ROCKET_TAKEOVER
+	checkitemrando
+	iftrue .SkipHidingDirector
+	setevent EVENT_BASEMENT_DIRECTOR
+
+.SkipHidingDirector:
 	clearevent EVENT_MAHOGANY_MART_OWNERS
 	clearflag ENGINE_ROCKETS_IN_MAHOGANY
 	clearevent EVENT_GOLDENROD_CITY_CIVILIANS
@@ -204,6 +209,11 @@ RadioTower5FRocketBossSceneB:
 	setevent EVENT_GOLDENROD_CITY_ROCKET_TAKEOVER
 	setevent EVENT_FLOWER_SHOP_ROCKET
 	setevent EVENT_RADIO_TOWER_ROCKET_TAKEOVER
+	checkitemrando
+	iftrue .SkipHidingDirector
+	setevent EVENT_BASEMENT_DIRECTOR
+
+.SkipHidingDirector:
 	clearevent EVENT_MAHOGANY_MART_OWNERS
 	clearflag ENGINE_ROCKETS_IN_MAHOGANY
 	clearevent EVENT_GOLDENROD_CITY_CIVILIANS

@@ -81,9 +81,17 @@ OlivinePortWalkUpToShipScript:
 	turnobject PLAYER, LEFT
 	opentext
 	checkevent EVENT_FAST_SHIP_FIRST_TIME
-	iffalse .FirstTime
+	iffalse .FirstTimeOrAlways
+	checkitemrando
+	iftrue .FirstTimeOrAlways
+	readvar VAR_WEEKDAY
+	ifequal SUNDAY, .NextShipMonday
+	ifequal SATURDAY, .NextShipMonday
+	ifequal TUESDAY, .NextShipFriday
+	ifequal WEDNESDAY, .NextShipFriday
+	ifequal THURSDAY, .NextShipFriday
 
-.FirstTime:
+.FirstTimeOrAlways:
 	writetext OlivinePortAskBoardText
 	yesorno
 	iffalse OlivinePortNotRidingMoveAwayScript
@@ -141,8 +149,17 @@ OlivinePortSailorAfterHOFScript:
 	checkevent EVENT_TEMPORARY_UNTIL_MAP_RELOAD_1
 	iftrue OlivinePortAlreadyRodeScript
 	checkevent EVENT_FAST_SHIP_FIRST_TIME
-	iffalse .FirstTime
-.FirstTime:
+	iffalse .FirstTimeOrAlways
+	checkitemrando
+	iftrue .FirstTimeOrAlways
+	readvar VAR_WEEKDAY
+	ifequal SUNDAY, .NextShipMonday
+	ifequal SATURDAY, .NextShipMonday
+	ifequal TUESDAY, .NextShipFriday
+	ifequal WEDNESDAY, .NextShipFriday
+	ifequal THURSDAY, .NextShipFriday
+
+.FirstTimeOrAlways:
 	writetext OlivinePortAskBoardText
 	yesorno
 	iffalse OlivinePortNotRidingScript
