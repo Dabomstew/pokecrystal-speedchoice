@@ -309,6 +309,7 @@ RadioTowerRocketsScript:
 	checkitemrando
 	iftrue .done
 	clearevent EVENT_FLOWER_SHOP_ROCKET
+	setevent EVENT_RADIO_CARD_WOMAN
 .done:
 	end
 
