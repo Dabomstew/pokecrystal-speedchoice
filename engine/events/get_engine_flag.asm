@@ -36,22 +36,10 @@ PickupEngineFlagCommon::
 	farcall EngineFlagAction
 GetEngineFlagName::
 	ld a, [wEngineFlagPickupFlagID]
-	cp ENGINE_ZEPHYRBADGE
-	jr c, .notBadges
-	cp ENGINE_UNLOCKED_UNOWNS_A_TO_K
-	jr nc, .notBadges
-	ld hl, .BadgeNamesLookupTable
-	sub ENGINE_ZEPHYRBADGE
-	jr .lookupcommon
-.notBadges
-	cp ENGINE_POKEDEX
-	ld de, .PokedexString
-	jr z, .setName
-	cp ENGINE_POKEGEAR + 1
+	cp ENGINE_EARTHBADGE + 1
 	ld de, .UnknownString
 	jr nc, .setName
-	ld hl, .FirstFlagNamesLookupTable
-.lookupcommon
+	ld hl, .FlagNames
 	add a
 	ld c, a
 	ld b, 0
@@ -66,27 +54,19 @@ GetEngineFlagName::
 	ld [wScriptVar], a
 	ret
 
-.PokedexString:
-	db "#DEX@"
-.UnknownString:
-	db "???@"
-.FirstFlagNamesLookupTable:
+.FlagNames:
 	dw .RadioCardString
 	dw .MapCardString
 	dw .PhoneCardString
 	dw .ExpnCardString
 	dw .PokegearString
-.RadioCardString:
-	db "RADIO CARD@"
-.MapCardString:
-	db "MAP CARD@"
-.PhoneCardString:
-	db "PHONE CARD@"
-.ExpnCardString:
-	db "EXPN CARD@"
-.PokegearString:
-	db "#GEAR@"
-.BadgeNamesLookupTable:
+rept ENGINE_POKEDEX - ENGINE_POKEGEAR - 1
+	dw .UnknownString
+endr
+	dw .PokedexString
+rept ENGINE_ZEPHYRBADGE - ENGINE_POKEDEX - 1
+	dw .UnknownString
+endr
 	dw .ZephyrBadgeString
 	dw .HiveBadgeString
 	dw .PlainBadgeString
@@ -103,6 +83,20 @@ GetEngineFlagName::
 	dw .MarshBadgeString
 	dw .VolcanoBadgeString
 	dw .EarthBadgeString
+.PokedexString:
+	db "#DEX@"
+.UnknownString:
+	db "???@"
+.RadioCardString:
+	db "RADIO CARD@"
+.MapCardString:
+	db "MAP CARD@"
+.PhoneCardString:
+	db "PHONE CARD@"
+.ExpnCardString:
+	db "EXPN CARD@"
+.PokegearString:
+	db "#GEAR@"
 .ZephyrBadgeString:
 	db "ZEPHYRBADGE@"
 .HiveBadgeString:
