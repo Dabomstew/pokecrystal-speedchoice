@@ -1,9 +1,11 @@
 ItemRandoData::
+ItemRandoDataVersion::
+	db 1
 ItemRandoActive::
 	db
 ItemRandoRocketless::
 	db
-ItemRandoSkipDragonsDen::
+ItemRandoEasyClairBadge::
 	db
 ItemRandoEarlyKanto::
 	db

@@ -117,7 +117,92 @@ DragonShrine_MapScripts:
 	writetext DragonShrinePassedTestText
 	waitbutton
 	setscene SCENE_FINISHED
-	sjump DSElder_GiveDratini
+	checkpermaoptions EASY_CLAIR_BADGE
+	iftrue DSElder_GiveDratini
+	closetext
+	playsound SFX_ENTER_DOOR
+	showemote EMOTE_SHOCK, PLAYER, 15
+	playmusic MUSIC_CLAIR
+	appear DRAGONSHRINE_CLAIR
+	waitsfx
+	turnobject PLAYER, DOWN
+	pause 30
+	applymovement DRAGONSHRINE_CLAIR, DragonShrineClairWalkInMovement
+	turnobject DRAGONSHRINE_CLAIR, RIGHT
+	turnobject PLAYER, LEFT
+	turnobject DRAGONSHRINE_ELDER1, LEFT
+	opentext
+	writetext DragonShrineClairYouPassedText
+	waitbutton
+	closetext
+	special FadeOutMusic
+	applymovement DRAGONSHRINE_CLAIR, DragonShrineClairBigStepLeftMovement
+	opentext
+	writetext DragonShrineClairThatCantBeText
+	waitbutton
+	closetext
+	applymovement DRAGONSHRINE_CLAIR, DragonShrineClairSlowStepLeftMovement
+	opentext
+	writetext DragonShrineClairYoureLyingText
+	waitbutton
+	closetext
+	applymovement DRAGONSHRINE_ELDER1, DragonShrineElderWalkToClairMovement
+	turnobject DRAGONSHRINE_CLAIR, UP
+	opentext
+	writetext DragonShrineMustIInformLanceText
+	waitbutton
+	closetext
+	showemote EMOTE_SHOCK, DRAGONSHRINE_CLAIR, 15
+	opentext
+	writetext DragonShrineIUnderstandText
+	waitbutton
+	closetext
+	applymovement DRAGONSHRINE_CLAIR, DragonShrineClairTwoSlowStepsRightMovement
+	opentext
+	writetext DragonShrineHereRisingBadgeText
+	waitbutton
+	setflag ENGINE_RISINGBADGE
+	playsound SFX_GET_BADGE
+	waitsfx
+	special RestartMapMusic
+	checkcode VAR_BADGES
+	scall DragonShrineActivateRockets
+	specialphonecall SPECIALCALL_MASTERBALL
+	setmapscene DRAGONS_DEN_B1F, SCENE_DRAGONSDENB1F_CLAIR_GIVES_TM
+	writetext DragonShrinePlayerReceivedRisingBadgeText
+	promptbutton
+	writetext DragonShrineRisingBadgeExplanationText
+	waitbutton
+	closetext
+	applymovement DRAGONSHRINE_ELDER1, DragonShrineElderWalkAway1Movement
+	turnobject DRAGONSHRINE_CLAIR, UP
+	applymovement DRAGONSHRINE_ELDER1, DragonShrineElderWalkAway2Movement
+	turnobject PLAYER, UP
+	opentext
+	writetext DragonShrineElderScoldsClairText
+	waitbutton
+	closetext
+	opentext
+	writetext DragonShrineSpeechlessText
+	waitbutton
+	closetext
+	applymovement DRAGONSHRINE_CLAIR, DragonShrineClairWalkOutMovement
+	playsound SFX_ENTER_DOOR
+	disappear DRAGONSHRINE_CLAIR
+	waitsfx
+	setevent EVENT_TEMPORARY_UNTIL_MAP_RELOAD_1
+	end
+
+DragonShrineActivateRockets:
+	if_equal 7, .RadioTowerRockets
+	if_equal 6, .GoldenrodRockets
+	end
+
+.GoldenrodRockets
+	jumpstd GoldenrodRocketsScript
+
+.RadioTowerRockets
+	jumpstd RadioTowerRocketsScript
 
 DragonShrineElder1Script:
 	faceplayer

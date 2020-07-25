@@ -48,6 +48,8 @@ BlackthornGymClairScript:
 	clearevent EVENT_MAHOGANY_MART_OWNERS
 	setevent EVENT_BLACKTHORN_CITY_GRAMPS_BLOCKS_DRAGONS_DEN
 	clearevent EVENT_BLACKTHORN_CITY_GRAMPS_NOT_BLOCKING_DRAGONS_DEN
+	checkpermaoptions EASY_CLAIR_BADGE
+	iffalse .DoDDen
 	writetext ClairText_Lazy
 	waitsfx
 	playsound SFX_GET_BADGE
@@ -58,6 +60,11 @@ BlackthornGymClairScript:
 	specialphonecall SPECIALCALL_MASTERBALL
 	writetext BlackthornGymClairText_DescribeBadge
 	jump .GiveTM
+
+.DoDDen:
+	writetext ClairText_GoToDragonsDen
+	waitbutton
+	closetext
 
 .FightDone:
 	checkevent EVENT_GOT_TM24_DRAGONBREATH
@@ -71,7 +78,8 @@ BlackthornGymClairScript:
 	checkevent EVENT_GOT_TM24_DRAGONBREATH
 	iftrue .GotTM24
 	writetext BlackthornGymClairText_YouKeptMeWaiting
-.GiveTM
+
+.GiveTM:
 	promptbutton
 	verbosegiveitem TM_DRAGONBREATH
 	iffalse .BagFull
