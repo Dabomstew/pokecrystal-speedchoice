@@ -23,12 +23,7 @@ VioletGymFalknerScript:
 	reloadmapafterbattle
 	setevent EVENT_BEAT_FALKNER
 	opentext
-	writetext ReceivedZephyrBadgeText
-	playsound SFX_GET_BADGE
-	waitsfx
-	setflag ENGINE_ZEPHYRBADGE
-	readvar VAR_BADGES
-	scall VioletGymActivateRockets
+	verbosesetflag ENGINE_ZEPHYRBADGE
 .FightDone:
 	checkevent EVENT_GOT_TM31_MUD_SLAP
 	iftrue .SpeechAfterTM

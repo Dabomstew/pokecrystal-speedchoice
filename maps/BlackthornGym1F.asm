@@ -52,11 +52,7 @@ BlackthornGymClairScript:
 	iffalse .DoDDen
 	writetext ClairText_Lazy
 	waitsfx
-	playsound SFX_GET_BADGE
-	waitsfx
-	setflag ENGINE_RISINGBADGE
-	checkcode VAR_BADGES
-	scall BlackthornGymActivateRockets
+	verbosesetflag ENGINE_RISINGBADGE
 	specialphonecall SPECIALCALL_MASTERBALL
 	writetext BlackthornGymClairText_DescribeBadge
 	jump .GiveTM
@@ -263,9 +259,6 @@ ClairText_Lazy:
 	para "This is the"
 	line "RISINGBADGE."
 	cont "Just take it."
-
-	para "<PLAYER> received"
-	line "RISINGBADGE."
 	done
 
 BlackthornGymClairText_DescribeBadge:

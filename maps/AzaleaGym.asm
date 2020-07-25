@@ -26,12 +26,7 @@ AzaleaGymBugsyScript:
 	reloadmapafterbattle
 	setevent EVENT_BEAT_BUGSY
 	opentext
-	writetext Text_ReceivedHiveBadge
-	playsound SFX_GET_BADGE
-	waitsfx
-	setflag ENGINE_HIVEBADGE
-	readvar VAR_BADGES
-	scall AzaleaGymActivateRockets
+	verbosesetflag ENGINE_HIVEBADGE
 .FightDone:
 	checkevent EVENT_GOT_TM49_FURY_CUTTER
 	iftrue .GotFuryCutter

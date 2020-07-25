@@ -74,12 +74,7 @@ CeruleanGymMistyScript:
 	setevent EVENT_BEAT_SWIMMERF_BRIANA
 	setevent EVENT_BEAT_SWIMMERM_PARKER
 	opentext
-	writetext ReceivedCascadeBadgeText
-	playsound SFX_GET_BADGE
-	waitsfx
-	setflag ENGINE_CASCADEBADGE
-	checkcode VAR_BADGES
-	scall CeruleanGymActivateRockets
+	verbosesetflag ENGINE_CASCADEBADGE
 .FightDone:
 	writetext MistyFightDoneText
 	waitbutton

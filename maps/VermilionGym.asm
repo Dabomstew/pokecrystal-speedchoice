@@ -27,12 +27,7 @@ VermilionGymSurgeScript:
 	setevent EVENT_BEAT_GUITARIST_VINCENT
 	setevent EVENT_BEAT_JUGGLER_HORTON
 	opentext
-	writetext ReceivedThunderBadgeText
-	playsound SFX_GET_BADGE
-	waitsfx
-	setflag ENGINE_THUNDERBADGE
-	checkcode VAR_BADGES
-	scall VermilionGymActivateRockets
+	verbosesetflag ENGINE_THUNDERBADGE
 	writetext LtSurgeThunderBadgeText
 	waitbutton
 	closetext

@@ -29,12 +29,7 @@ SaffronGymSabrinaScript:
 	setevent EVENT_BEAT_PSYCHIC_FRANKLIN
 	setevent EVENT_BEAT_PSYCHIC_JARED
 	opentext
-	writetext ReceivedMarshBadgeText
-	playsound SFX_GET_BADGE
-	waitsfx
-	setflag ENGINE_MARSHBADGE
-	checkcode VAR_BADGES
-	scall SaffronGymActivateRockets
+	verbosesetflag ENGINE_MARSHBADGE
 	writetext SabrinaMarshBadgeText
 	waitbutton
 	closetext

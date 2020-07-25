@@ -161,16 +161,10 @@ DragonShrine_MapScripts:
 	opentext
 	writetext DragonShrineHereRisingBadgeText
 	waitbutton
-	setflag ENGINE_RISINGBADGE
-	playsound SFX_GET_BADGE
-	waitsfx
+	verbosesetflag ENGINE_RISINGBADGE
 	special RestartMapMusic
-	checkcode VAR_BADGES
-	scall DragonShrineActivateRockets
 	specialphonecall SPECIALCALL_MASTERBALL
 	setmapscene DRAGONS_DEN_B1F, SCENE_DRAGONSDENB1F_CLAIR_GIVES_TM
-	writetext DragonShrinePlayerReceivedRisingBadgeText
-	promptbutton
 	writetext DragonShrineRisingBadgeExplanationText
 	waitbutton
 	closetext
@@ -192,17 +186,6 @@ DragonShrine_MapScripts:
 	waitsfx
 	setevent EVENT_TEMPORARY_UNTIL_MAP_RELOAD_1
 	end
-
-DragonShrineActivateRockets:
-	if_equal 7, .RadioTowerRockets
-	if_equal 6, .GoldenrodRockets
-	end
-
-.GoldenrodRockets
-	jumpstd GoldenrodRocketsScript
-
-.RadioTowerRockets
-	jumpstd RadioTowerRocketsScript
 
 DragonShrineElder1Script:
 	faceplayer

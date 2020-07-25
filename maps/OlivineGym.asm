@@ -21,12 +21,7 @@ OlivineGymJasmineScript:
 	reloadmapafterbattle
 	setevent EVENT_BEAT_JASMINE
 	opentext
-	writetext Text_ReceivedMineralBadge
-	playsound SFX_GET_BADGE
-	waitsfx
-	setflag ENGINE_MINERALBADGE
-	readvar VAR_BADGES
-	scall OlivineGymActivateRockets
+	verbosesetflag ENGINE_MINERALBADGE
 .FightDone:
 	checkevent EVENT_GOT_TM23_IRON_TAIL
 	iftrue .GotIronTail

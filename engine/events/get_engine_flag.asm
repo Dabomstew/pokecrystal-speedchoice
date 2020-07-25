@@ -50,8 +50,6 @@ GetEngineFlagName::
 .setName
 	ld hl, wStringBuffer3
 	call CopyName2
-	ld a, TRUE
-	ld [wScriptVar], a
 	ret
 
 .FlagNames:

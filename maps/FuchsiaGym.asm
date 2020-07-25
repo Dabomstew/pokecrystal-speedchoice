@@ -35,12 +35,7 @@ FuchsiaGymJanineScript:
 	variablesprite SPRITE_FUCHSIA_GYM_4, SPRITE_YOUNGSTER
 	special LoadUsedSpritesGFX
 	opentext
-	writetext Text_ReceivedSoulBadge
-	playsound SFX_GET_BADGE
-	waitsfx
-	setflag ENGINE_SOULBADGE
-	checkcode VAR_BADGES
-	scall FuchsiaGymActivateRockets
+	verbosesetflag ENGINE_SOULBADGE
 	sjump .AfterBattle
 .FightDone:
 	faceplayer

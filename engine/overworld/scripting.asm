@@ -3012,9 +3012,24 @@ Script_engineflagsound:
 	cp ENGINE_EARTHBADGE + 1
 	jr nc, .notBadge
 	ld de, SFX_GET_BADGE
-	jr .play
+	call PlaySFX
+	call WaitSFX
+	ld b, BANK(ActivateRocketsScript)
+	ld de, ActivateRocketsScript
+	jp ScriptCall
 .notBadge
 	ld de, SFX_RB_GET_ITEM
-.play
 	call PlaySFX
 	jp WaitSFX
+
+ActivateRocketsScript:
+	readvar VAR_BADGES
+	ifequal 7, .RadioTowerRockets
+	ifequal 6, .GoldenrodRockets
+	end
+
+.GoldenrodRockets:
+	jumpstd GoldenrodRocketsScript
+
+.RadioTowerRockets:
+	jumpstd RadioTowerRocketsScript

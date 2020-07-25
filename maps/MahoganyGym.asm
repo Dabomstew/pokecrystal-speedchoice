@@ -26,12 +26,7 @@ MahoganyGymPryceScript:
 	reloadmapafterbattle
 	setevent EVENT_BEAT_PRYCE
 	opentext
-	writetext Text_ReceivedGlacierBadge
-	playsound SFX_GET_BADGE
-	waitsfx
-	setflag ENGINE_GLACIERBADGE
-	readvar VAR_BADGES
-	scall MahoganyGymActivateRockets
+	verbosesetflag ENGINE_GLACIERBADGE
 .FightDone:
 	checkevent EVENT_GOT_TM16_ICY_WIND
 	iftrue PryceScript_Defeat
