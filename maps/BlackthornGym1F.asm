@@ -75,9 +75,6 @@ BlackthornGymClairScript:
 	promptbutton
 	verbosegiveitem TM_DRAGONBREATH
 	iffalse .BagFull
-	playsound SFX_ITEM
-	waitsfx
-	itemnotify
 	setevent EVENT_GOT_TM24_DRAGONBREATH
 	writetext BlackthornGymClairText_DescribeTM24
 	promptbutton

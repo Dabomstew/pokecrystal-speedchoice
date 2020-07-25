@@ -182,10 +182,6 @@ Randomizer_RedGyaradosSpecies::
 	reloadmapafterbattle
 	opentext
 	verbosegiveitem RED_SCALE
-	waitsfx
-	playsound SFX_ITEM
-	waitsfx
-	itemnotify
 	closetext
 	setscene 0 ; Lake of Rage does not have a scene variable
 	appear LAKEOFRAGE_LANCE

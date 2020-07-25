@@ -29,9 +29,6 @@ MrPokemonsHouse_MapScripts:
 	promptbutton
 	waitsfx
 	verbosegiveitem MYSTERY_EGG
-	playsound SFX_KEY_ITEM
-	waitsfx
-	itemnotify
 	setevent EVENT_GOT_MYSTERY_EGG_FROM_MR_POKEMON
 	blackoutmod CHERRYGROVE_CITY
 	writetext MrPokemonIntroText3

@@ -80,9 +80,6 @@ PokemonFanClubClefairyGuyScript:
 	verbosegiveitem LOST_ITEM
 	iffalse .NoRoom
 	disappear POKEMONFANCLUB_FAIRY
-	playsound SFX_KEY_ITEM
-	waitsfx
-	itemnotify
 	setevent EVENT_GOT_LOST_ITEM_FROM_FAN_CLUB
 	closetext
 	end
