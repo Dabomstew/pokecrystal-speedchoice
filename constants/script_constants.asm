@@ -307,10 +307,3 @@ NUM_UNOWN_PUZZLES EQU const_value
 	const MOVETUTOR_FLAMETHROWER ; 1
 	const MOVETUTOR_THUNDERBOLT  ; 2
 	const MOVETUTOR_ICE_BEAM     ; 3
-
-; keyrandogiveitemorsetengineflag values for first argument
-	const_def
-	const KRGIVE_ENGINEFLAG        ; 0
-	const KRGIVE_KEYITEM           ; 1
-	const KRGIVE_VERBOSEENGINEFLAG ; 2
-	const KRGIVE_VERBOSEKEYITEM    ; 3
