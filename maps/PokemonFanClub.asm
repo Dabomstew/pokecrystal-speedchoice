@@ -56,9 +56,9 @@ PokemonFanClubClefairyGuyScript:
 	checkevent EVENT_GOT_LOST_ITEM_FROM_FAN_CLUB
 	iftrue .GotLostItem
 	checkevent EVENT_RETURNED_MACHINE_PART
-	iftrue .MetCopycat
+	iftrue .FoundClefairyDoll
 	checkpermaoptions EARLY_KANTO
-	iftrue .MetCopycat
+	iftrue .FoundClefairyDoll
 	writetext PokemonFanClubClefairyGuyClefairyIsSoAdorableText
 	waitbutton
 	closetext
@@ -66,6 +66,8 @@ PokemonFanClubClefairyGuyScript:
 
 .FoundClefairyDoll:
 	writetext PokemonFanClubClefairyGuyMakingDoWithADollIFoundText
+	checkitemrando
+	iftrue .MetCopycat
 	checkevent EVENT_MET_COPYCAT_FOUND_OUT_ABOUT_LOST_ITEM
 	iftrue .MetCopycat
 	waitbutton
