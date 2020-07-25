@@ -1094,11 +1094,10 @@ goldenrodmart5f: MACRO
 	db goldenrodmart5f_command
 ENDM
 
-	enum giveitemorsetengineflag_command ; $af
-giveitemorsetengineflag: MACRO
-	db giveitemorsetengineflag_command
-	db \1 ; 0 = engine flag, 1 = key item, 2 = verbose engine flag, 3 = verbose item
-	db \2 ; argument
+	enum verbosesetflag_command ; $af
+verbosesetflag: MACRO
+	db verbosesetflag_command
+	dw \1 ; engine_flag
 ENDM
 
 	enum checkitemrando_command ; $b0
@@ -1109,4 +1108,9 @@ ENDM
 	enum verbosegiveprogressiverod_command ; $b1
 verbosegiveprogressiverod: MACRO
 	db verbosegiveprogressiverod_command
+ENDM
+
+	enum engineflagsound_command ; $b2
+engineflagsound: MACRO
+	db engineflagsound_command
 ENDM
