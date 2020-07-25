@@ -1094,9 +1094,14 @@ goldenrodmart5f: MACRO
 	db goldenrodmart5f_command
 ENDM
 
-	enum keyrandogiveitemorsetengineflag_command ; $af
-keyrandogiveitemorsetengineflag: MACRO
-	db keyrandogiveitemorsetengineflag_command
+	enum giveitemorsetengineflag_command ; $af
+giveitemorsetengineflag: MACRO
+	db giveitemorsetengineflag_command
 	db \1 ; 0 = engine flag, 1 = key item, 2 = verbose engine flag, 3 = verbose item
 	db \2 ; argument
+ENDM
+
+	enum checkitemrando_command ; $b0
+checkitemrando: MACRO
+	db checkitemrando_command
 ENDM

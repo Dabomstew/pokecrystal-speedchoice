@@ -85,7 +85,7 @@ RuinsOfAlphHoOhChamberDescriptionSign:
 RuinsOfAlphHoOhChamberWallPatternLeft:
 	; Note: This is added because somehow its possible for the door to close and never reopen
 	checkevent EVENT_WALL_OPENED_IN_HO_OH_CHAMBER
-	iftrue .WallOpen
+	iftrue RuinsOfAlphHoOhChamberWallPatternRight.WallOpen
 	opentext
 	writetext RuinsOfAlphHoOhChamberWallPatternLeftText
 	setval UNOWNWORDS_HO_OH

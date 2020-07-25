@@ -753,3 +753,6 @@ INCLUDE "engine/battle/experience_scaling.asm"
 SECTION "Copyright Graphics", ROMX
 CopyrightGFX::
 INCBIN "gfx/splash/copyright.2bpp"
+
+SECTION "Item Rando Config", ROMX
+INCLUDE "engine/item_rando.asm"

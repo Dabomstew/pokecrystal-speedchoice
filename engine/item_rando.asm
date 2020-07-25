@@ -1,0 +1,12 @@
+ItemRandoData::
+ItemRandoActive::
+	db
+ItemRandoRocketless::
+	db
+ItemRandoSkipDragonsDen::
+	db
+ItemRandoEarlyKanto::
+	db
+ItemRandoEarlyTinTower::
+	db
+ItemRandoDataEnd::

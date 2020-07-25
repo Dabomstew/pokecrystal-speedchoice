@@ -238,7 +238,8 @@ ScriptCommandTable:
 	dw Script_increment2bytestat         ; ac
 	dw Script_increment4bytestat         ; ad
 	dw Script_goldenrodmart5f            ; ae
-	dw Script_keyrandogiveitemorsetengineflag ; af
+	dw Script_giveitemorsetengineflag    ; af
+	dw Script_checkitemrando            ; b0
 
 StartScript:
 	ld hl, wScriptFlags
@@ -2934,7 +2935,7 @@ Script_goldenrodmart5f:
 	farcall OpenMartDialog
 	ret
 
-Script_keyrandogiveitemorsetengineflag:
+Script_giveitemorsetengineflag:
 ; script command 0xaf
 ; parameters: type, index
 ; type is 0 = engine flag / 1 = item / 2 = verbose engine flag / 3 = verbose item
@@ -3006,3 +3007,11 @@ GiveEngineFlagScript:
 ReceivedEngineFlagText:
 	text_far _ReceivedEngineFlagText
 	text_end
+
+Script_checkitemrando:
+; script command 0xb0
+	ld a, BANK(ItemRandoActive)
+	ld hl, ItemRandoActive
+	call GetFarByte
+	ld [wScriptVar], a
+	ret
