@@ -582,7 +582,7 @@ TryObjectEvent:
 	dbw OBJECTTYPE_TRAINER, .trainer
 	; the remaining four are dummy events
 	dbw OBJECTTYPE_ENGINEFLAGBALL, .engineflagball
-	dbw OBJECTTYPE_4, .four
+	dbw OBJECTTYPE_PROGRESSIVERODBALL, .progressiverodball
 	dbw OBJECTTYPE_5, .five
 	dbw OBJECTTYPE_6, .six
 	db -1
@@ -622,6 +622,11 @@ TryObjectEvent:
 	ld bc, wEngineFlagPickupDataEnd - wEngineFlagPickupFlagID
 	call FarCopyBytes
 	ld a, PLAYEREVENT_ENGINEFLAGBALL
+	scf
+	ret
+	
+.progressiverodball
+	ld a, PLAYEREVENT_PROGRESSIVERODBALL
 	scf
 	ret
 
@@ -670,6 +675,7 @@ TryBGEvent:
 	dw .itemifset
 	dw .copy
 	dw .engineflagifset
+	dw .progressiverodifset
 
 .up
 	ld b, OW_UP
@@ -725,6 +731,20 @@ TryBGEvent:
 	call FarCopyBytes
 	ld a, BANK(HiddenEngineFlagScript)
 	ld hl, HiddenEngineFlagScript
+	call CallScript
+	scf
+	ret
+	
+.progressiverodifset
+	call CheckBGEventFlag
+	jp nz, .dontread
+	call PlayTalkObject
+	call GetMapScriptsBank
+	ld de, wHiddenItemData
+	ld bc, wHiddenItemDataEnd - wHiddenItemData
+	call FarCopyBytes
+	ld a, BANK(HiddenProgressiveRodScript)
+	ld hl, HiddenProgressiveRodScript
 	call CallScript
 	scf
 	ret
@@ -1020,6 +1040,7 @@ PlayerEventScriptPointers:
 	dba HatchEggScript           ; PLAYEREVENT_HATCH
 	dba ChangeDirectionScript    ; PLAYEREVENT_JOYCHANGEFACING
 	dba FindEngineFlagInBallScript ; PLAYEREVENT_ENGINEFLAGBALL
+	dba FindProgressiveRodInBallScript ; PLAYEREVENT_PROGRESSIVERODBALL
 	dba Invalid_0x96c2d          ; (NUM_PLAYER_EVENTS)
 
 Invalid_0x96c2d:

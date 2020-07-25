@@ -1105,3 +1105,8 @@ ENDM
 checkitemrando: MACRO
 	db checkitemrando_command
 ENDM
+
+	enum verbosegiveprogressiverod_command ; $b1
+verbosegiveprogressiverod: MACRO
+	db verbosegiveprogressiverod_command
+ENDM

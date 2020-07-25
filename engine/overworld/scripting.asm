@@ -239,7 +239,8 @@ ScriptCommandTable:
 	dw Script_increment4bytestat         ; ad
 	dw Script_goldenrodmart5f            ; ae
 	dw Script_giveitemorsetengineflag    ; af
-	dw Script_checkitemrando            ; b0
+	dw Script_checkitemrando             ; b0
+	dw Script_verbosegiveprogressiverod  ; b1
 
 StartScript:
 	ld hl, wScriptFlags
@@ -510,6 +511,8 @@ Script_verbosegiveitem:
 ; parameters: item, quantity
 
 	call Script_giveitem
+
+Script_verbosegiveitem_aftergive:
 	call CurItemName
 	ld de, wStringBuffer1
 	ld a, STRING_BUFFER_4
@@ -2051,6 +2054,8 @@ Script_giveitem:
 	ld [wCurItem], a
 	call GetScriptByte
 	ld [wItemQuantityChangeBuffer], a
+
+Script_giveitem_loaded:
 	ld hl, wNumItems
 	call ReceiveItem
 	jr nc, .full
@@ -3015,3 +3020,25 @@ Script_checkitemrando:
 	call GetFarByte
 	ld [wScriptVar], a
 	ret
+
+Script_verbosegiveprogressiverod:
+	ld a, OLD_ROD
+	ld [wCurItem], a
+	ld hl, wNumItems
+	call CheckItem
+	ld a, OLD_ROD
+	jr nc, .picked
+	ld a, GOOD_ROD
+	ld [wCurItem], a
+	ld hl, wNumItems
+	call CheckItem
+	ld a, GOOD_ROD
+	jr nc, .picked
+	ld a, SUPER_ROD
+
+.picked
+	ld [wCurItem], a
+	ld a, 1
+	ld [wItemQuantityChangeBuffer], a
+	call Script_giveitem_loaded
+	jp Script_verbosegiveitem_aftergive

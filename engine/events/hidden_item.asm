@@ -36,3 +36,13 @@ SetMemEvent:
 	ld b, SET_FLAG
 	call EventFlagAction
 	ret
+
+HiddenProgressiveRodScript::
+	checkitem OLD_ROD
+	loadmem wHiddenItemID, OLD_ROD
+	iffalse HiddenItemScript
+	checkitem GOOD_ROD
+	loadmem wHiddenItemID, GOOD_ROD
+	iffalse HiddenItemScript
+	loadmem wHiddenItemID, SUPER_ROD
+	sjump HiddenItemScript

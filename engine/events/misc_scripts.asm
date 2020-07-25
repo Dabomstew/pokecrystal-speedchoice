@@ -55,6 +55,17 @@ FindItemInBallScript::
 	ld [wScriptVar], a
 	ret
 
+FindProgressiveRodInBallScript::
+	loadmem wItemBallQuantity, 1
+	checkitem OLD_ROD
+	loadmem wItemBallItemID, OLD_ROD
+	iffalse FindItemInBallScript
+	checkitem GOOD_ROD
+	loadmem wItemBallItemID, GOOD_ROD
+	iffalse FindItemInBallScript
+	loadmem wItemBallItemID, SUPER_ROD
+	sjump FindItemInBallScript
+
 HiddenEngineFlagScript::
 	callasm .SetMemEvent
 	sjump PickupEngineFlagCommon

@@ -110,6 +110,11 @@ hiddenitem: MACRO
 	dwb \2, \1
 ENDM
 
+hiddenprogressiverod: MACRO
+;\1: flag: an EVENT_* constant
+	dw \1
+ENDM
+
 hiddenengineflag: MACRO
 ;\1: engine flag: from constants/engine_flags.asm
 ;\2: flag: an EVENT_* constant
