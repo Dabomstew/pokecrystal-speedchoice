@@ -134,6 +134,13 @@ PowerPlantGymGuy4Script:
 PowerPlantManager:
 	faceplayer
 	opentext
+	checkevent EVENT_MET_MANAGER_AT_POWER_PLANT
+	iftrue .RegularScript
+	clearevent EVENT_CERULEAN_GYM_ROCKET
+	clearevent EVENT_FOUND_MACHINE_PART_IN_CERULEAN_GYM
+	setmapscene CERULEAN_GYM, SCENE_CERULEANGYM_GRUNT_RUNS_OUT
+	setscene SCENE_POWERPLANT_GUARD_GETS_PHONE_CALL
+.RegularScript:
 	checkevent EVENT_RETURNED_MACHINE_PART
 	iftrue .ReturnedMachinePart
 	checkitem MACHINE_PART
@@ -144,10 +151,6 @@ PowerPlantManager:
 	waitbutton
 	closetext
 	setevent EVENT_MET_MANAGER_AT_POWER_PLANT
-	clearevent EVENT_CERULEAN_GYM_ROCKET
-	clearevent EVENT_FOUND_MACHINE_PART_IN_CERULEAN_GYM
-	setmapscene CERULEAN_GYM, SCENE_CERULEANGYM_GRUNT_RUNS_OUT
-	setscene SCENE_POWERPLANT_GUARD_GETS_PHONE_CALL
 	end
 
 .MetManager:
@@ -157,6 +160,7 @@ PowerPlantManager:
 	end
 
 .FoundMachinePart:
+	setevent EVENT_MET_MANAGER_AT_POWER_PLANT
 	writetext PowerPlantManagerThatsThePartText
 	promptbutton
 	takeitem MACHINE_PART

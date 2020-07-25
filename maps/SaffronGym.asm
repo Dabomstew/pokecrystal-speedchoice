@@ -14,7 +14,7 @@ SaffronGym_MapScripts:
 SaffronGymSabrinaScript:
 	faceplayer
 	opentext
-	checkflag ENGINE_MARSHBADGE
+	checkevent EVENT_BEAT_SABRINA
 	iftrue .FightDone
 	writetext SabrinaIntroText
 	waitbutton

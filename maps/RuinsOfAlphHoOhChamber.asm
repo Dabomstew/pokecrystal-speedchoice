@@ -7,9 +7,11 @@ RuinsOfAlphHoOhChamber_MapScripts:
 	callback MAPCALLBACK_TILES, .HiddenDoors
 
 .CheckWall:
-	special HoOhChamber
 	checkevent EVENT_WALL_OPENED_IN_HO_OH_CHAMBER
 	iftrue .OpenWall
+	; TODO: Add flags to re-enable vanilla check here
+	checkevent EVENT_FOUGHT_HO_OH
+	iftrue .WallOpenScript
 	end
 
 .OpenWall:
@@ -34,6 +36,7 @@ RuinsOfAlphHoOhChamber_MapScripts:
 	return
 
 .WallOpenScript:
+	setevent EVENT_WALL_OPENED_IN_HO_OH_CHAMBER
 	pause 30
 	earthquake 30
 	showemote EMOTE_SHOCK, PLAYER, 20
@@ -80,14 +83,19 @@ RuinsOfAlphHoOhChamberDescriptionSign:
 	jumptext RuinsOfAlphHoOhChamberDescriptionText
 
 RuinsOfAlphHoOhChamberWallPatternLeft:
+	; Note: This is added because somehow its possible for the door to close and never reopen
+	checkevent EVENT_WALL_OPENED_IN_HO_OH_CHAMBER
+	iftrue .WallOpen
 	opentext
 	writetext RuinsOfAlphHoOhChamberWallPatternLeftText
 	setval UNOWNWORDS_HO_OH
 	special DisplayUnownWords
 	closetext
+	setscene $0
 	end
 
 RuinsOfAlphHoOhChamberWallPatternRight:
+	; Note: This is added because somehow its possible for the door to close and never reopen
 	checkevent EVENT_WALL_OPENED_IN_HO_OH_CHAMBER
 	iftrue .WallOpen
 	opentext
@@ -95,6 +103,7 @@ RuinsOfAlphHoOhChamberWallPatternRight:
 	setval UNOWNWORDS_HO_OH
 	special DisplayUnownWords
 	closetext
+	setscene $0
 	end
 
 .WallOpen:

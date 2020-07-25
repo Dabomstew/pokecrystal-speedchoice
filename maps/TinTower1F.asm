@@ -36,7 +36,7 @@ TinTower1F_NPCsCallback:
 TinTower1F_Normal:
 	checkevent EVENT_BEAT_ELITE_FOUR
 	iffalse TinTower1F_FaceBeasts
-	special BeastsCheck
+	checkevent EVENT_FOUGHT_SUICUNE
 	iffalse TinTower1F_FaceBeasts
 TinTower1F_Success:
 	clearevent EVENT_TIN_TOWER_1F_WISE_TRIO_2
@@ -81,7 +81,7 @@ TinTower1F_FoughtSuicune:
 	return
 
 TinTower1F_StairsCallback:
-	checkevent EVENT_GOT_RAINBOW_WING
+	checkitem RAINBOW_WING
 	iftrue TinTower1F_DontHideStairs
 	changeblock 10, 2, $09 ; floor
 TinTower1F_DontHideStairs:
@@ -197,21 +197,21 @@ TinTower1FSage4Script:
 TinTower1FSage5Script:
 	faceplayer
 	opentext
-	checkevent EVENT_FOUGHT_HO_OH
-	iftrue .FoughtHoOh
 	checkevent EVENT_GOT_RAINBOW_WING
 	iftrue .GotRainbowWing
 	writetext TinTower1FSage5Text1
 	promptbutton
 	verbosegiveitem RAINBOW_WING
 	closetext
+	setevent EVENT_GOT_RAINBOW_WING
+	checkitem RAINBOW_WING
+	iffalse .GotRainbowWing
 	refreshscreen
 	earthquake 72
 	waitsfx
 	playsound SFX_STRENGTH
 	changeblock 10, 2, $20 ; stairs
 	reloadmappart
-	setevent EVENT_GOT_RAINBOW_WING
 	closetext
 	opentext
 .GotRainbowWing:
@@ -551,5 +551,6 @@ TinTower1F_MapEvents:
 	object_event 11, 11, SPRITE_SAGE, SPRITEMOVEDATA_SPINRANDOM_SLOW, 0, 0, -1, -1, 0, OBJECTTYPE_SCRIPT, 0, TinTower1FSage2Script, EVENT_TIN_TOWER_1F_WISE_TRIO_1
 	object_event 14,  6, SPRITE_SAGE, SPRITEMOVEDATA_SPINRANDOM_SLOW, 0, 0, -1, -1, 0, OBJECTTYPE_SCRIPT, 0, TinTower1FSage3Script, EVENT_TIN_TOWER_1F_WISE_TRIO_1
 	object_event  4,  2, SPRITE_SAGE, SPRITEMOVEDATA_WALK_UP_DOWN, 0, 1, -1, -1, 0, OBJECTTYPE_SCRIPT, 0, TinTower1FSage4Script, EVENT_TIN_TOWER_1F_WISE_TRIO_2
-	object_event  9,  1, SPRITE_SAGE, SPRITEMOVEDATA_STANDING_DOWN, 0, 0, -1, -1, 0, OBJECTTYPE_SCRIPT, 0, TinTower1FSage5Script, EVENT_TIN_TOWER_1F_WISE_TRIO_2
+	; TODO: Use flags to make it so that this sage can also support vanilla behavior
+	object_event  9,  1, SPRITE_SAGE, SPRITEMOVEDATA_STANDING_DOWN, 0, 0, -1, -1, 0, OBJECTTYPE_SCRIPT, 0, TinTower1FSage5Script, EVENT_BEAT_ELITE_FOUR
 	object_event 14,  2, SPRITE_SAGE, SPRITEMOVEDATA_WALK_LEFT_RIGHT, 1, 0, -1, -1, 0, OBJECTTYPE_SCRIPT, 0, TinTower1FSage6Script, EVENT_TIN_TOWER_1F_WISE_TRIO_2

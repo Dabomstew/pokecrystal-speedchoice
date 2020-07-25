@@ -10,7 +10,7 @@ ViridianGym_MapScripts:
 ViridianGymBlueScript:
 	faceplayer
 	opentext
-	checkflag ENGINE_EARTHBADGE
+	checkevent EVENT_BEAT_BLUE
 	iftrue .FightDone
 	writetext LeaderBlueBeforeText
 	waitbutton
