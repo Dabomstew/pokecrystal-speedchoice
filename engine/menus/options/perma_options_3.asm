@@ -29,7 +29,7 @@ Options_KantoAccess:
 	ld hl, EARLY_KANTO_ADDRESS
 	lb bc, EARLY_KANTO, 3
 	ld de, .NormalEarly
-	jp Options_TrueFalse
+	jp Options_TrueFalse_IRLocked
 .NormalEarly
 	dw .Normal
 	dw .Early
@@ -42,12 +42,12 @@ Options_KantoAccess:
 Options_EasyTinTower:
 	ld hl, EASY_TIN_TOWER_ADDRESS
 	lb bc, EASY_TIN_TOWER, 5
-	jp Options_OnOff
+	jp Options_OnOff_IRLocked
 
 Options_EasyClairBadge:
 	ld hl, EASY_CLAIR_BADGE_ADDRESS
 	lb bc, EASY_CLAIR_BADGE, 7
-	jp Options_OnOff
+	jp Options_OnOff_IRLocked
 
 Options_DexAreaBeep:
 	ld hl, DEX_AREA_BEEP_ADDRESS

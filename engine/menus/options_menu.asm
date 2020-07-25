@@ -5,6 +5,7 @@ FIRST_PERMAOPTIONS_PAGEID EQUS "((PermaOptionsMenuScreens - OptionsMenuScreens)/
 NUM_PERMAOPTIONS_PAGES EQUS "((PermaOptionsMenuScreensEnd - PermaOptionsMenuScreens)/6)"
 
 PermaOptionsMenu:
+	call EnforceItemRandoOptions
 	ld a, FIRST_PERMAOPTIONS_PAGEID
 	jr OptionsMenuCommon
 
@@ -359,6 +360,18 @@ Options_TrueFalse:
 	and a
 	ret
 
+Options_OnOff_IRLocked:
+	ld de, OnOffStrings
+Options_TrueFalse_IRLocked:
+	push hl
+	call IsItemRandoActive
+	pop hl
+	and a
+	ld a, 0
+	jr nz, Options_TrueFalse
+	ldh a, [hJoyPressed]
+	jr Options_TrueFalse
+
 OnOffStrings::
 	dw OffOptionText
 	dw OnOptionText
@@ -512,3 +525,58 @@ NameNotSetText::
 .done
 	text ""
 	prompt
+	
+IsItemRandoActive::
+	ld a, BANK(ItemRandoData)
+	ld hl, ItemRandoActive
+	call GetFarByte
+	and a
+	ret
+
+EnforceItemRandoOptions::
+	call IsItemRandoActive
+	ret z
+	ld de, ItemRandoLockedOptionsTable
+.loop
+	ld a, [de]
+	ld l, a
+	inc de
+	ld a, [de]
+	ld h, a
+	or l
+	ret z
+	ld a, BANK(ItemRandoData)
+	call GetFarByte
+	ld c, a
+	inc de
+	ld a, [de]
+	ld l, a
+	inc de
+	ld a, [de]
+	ld h, a
+	inc de
+	ld a, [de]
+	inc de
+	ld b, a
+	cpl
+	and [hl]
+	ld [hl], a
+	ld a, c
+	and a
+	jr z, .loop
+	ld a, [hl]
+	or b
+	ld [hl], a
+	jr .loop
+
+ItemRandoLockedOptionsTable:
+lockedoption: MACRO
+	dw \2
+	dw \1_ADDRESS
+	db \1_VAL
+ENDM
+	lockedoption ROCKETLESS, ItemRandoRocketless
+	lockedoption EASY_CLAIR_BADGE, ItemRandoEasyClairBadge
+	lockedoption EARLY_KANTO, ItemRandoEarlyKanto
+	lockedoption EASY_TIN_TOWER, ItemRandoEasyTinTower
+	dw 0 ; terminator

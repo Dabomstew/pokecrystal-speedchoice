@@ -73,6 +73,7 @@ Options_Preset::
 	inc de
 	dec b
 	jr nz, .setloop
+	call EnforceItemRandoOptions
 	ld de, SFX_TRANSACTION
 	call PlaySFX
 	call WaitSFX
@@ -158,7 +159,7 @@ Options_Rocketless:
 	ld hl, ROCKETLESS_ADDRESS
 	lb bc, ROCKETLESS, 9
 	ld de, .NormalPurge
-	jp Options_TrueFalse
+	jp Options_TrueFalse_IRLocked
 .NormalPurge
 	dw .Normal
 	dw .Purge

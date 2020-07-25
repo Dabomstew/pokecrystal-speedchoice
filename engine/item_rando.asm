@@ -9,6 +9,6 @@ ItemRandoEasyClairBadge::
 	db
 ItemRandoEarlyKanto::
 	db
-ItemRandoEarlyTinTower::
+ItemRandoEasyTinTower::
 	db
 ItemRandoDataEnd::
