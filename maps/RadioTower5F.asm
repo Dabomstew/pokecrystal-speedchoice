@@ -8,9 +8,9 @@
 RadioTower5F_MapScripts:
 	db 4 ; scene scripts
 	scene_script .DummyScene0 ; SCENE_DEFAULT
-	scene_script .DummyScene1 ; SCENE_RADIOTOWER5F_ROCKET_BOSS
-	scene_script .DummyScene2 ; SCENE_RADIOTOWER5F_NOTHING
-	scene_script .DummyScene3
+	scene_script .DummyScene1 ; SCENE_RADIOTOWER5F_BEAT_FAKE_DIRECTOR
+	scene_script .DummyScene2 ; SCENE_RADIOTOWER5F_BEAT_EXECUTIVE
+	scene_script .DummyScene3 ; SCENE_RADIOTOWER5F_NOTHING
 
 	db 0 ; callbacks
 
@@ -451,9 +451,9 @@ RadioTower5F_MapEvents:
 	warp_event 12,  0, RADIO_TOWER_4F, 3
 
 	db 4 ; coord events
-	coord_event  0,  3, 0, FakeDirectorScript
+	coord_event  0,  3, SCENE_DEFAULT, FakeDirectorScript
 	coord_event  0,  3, SCENE_RADIOTOWER5F_BEAT_EXECUTIVE, FakeDirectorScript
-	coord_event 16,  5, 0, RadioTower5FRocketBossScene
+	coord_event 16,  5, SCENE_DEFAULT, RadioTower5FRocketBossScene
 	coord_event 16,  5, SCENE_RADIOTOWER5F_BEAT_FAKE_DIRECTOR, RadioTower5FRocketBossScene
 
 	db 5 ; bg events
