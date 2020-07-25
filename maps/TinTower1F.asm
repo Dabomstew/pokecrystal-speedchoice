@@ -36,6 +36,12 @@ TinTower1F_NPCsCallback:
 TinTower1F_Normal:
 	checkevent EVENT_BEAT_ELITE_FOUR
 	iffalse TinTower1F_FaceBeasts
+	checkitemrando
+	iftrue TinTower1F_CheckSuicune
+	special BeastsCheck
+	iffalse TinTower1F_FaceBeasts
+	sjump TinTower1F_Success
+TinTower1F_CheckSuicune:
 	checkevent EVENT_FOUGHT_SUICUNE
 	iffalse TinTower1F_FaceBeasts
 TinTower1F_Success:
@@ -551,6 +557,5 @@ TinTower1F_MapEvents:
 	object_event 11, 11, SPRITE_SAGE, SPRITEMOVEDATA_SPINRANDOM_SLOW, 0, 0, -1, -1, 0, OBJECTTYPE_SCRIPT, 0, TinTower1FSage2Script, EVENT_TIN_TOWER_1F_WISE_TRIO_1
 	object_event 14,  6, SPRITE_SAGE, SPRITEMOVEDATA_SPINRANDOM_SLOW, 0, 0, -1, -1, 0, OBJECTTYPE_SCRIPT, 0, TinTower1FSage3Script, EVENT_TIN_TOWER_1F_WISE_TRIO_1
 	object_event  4,  2, SPRITE_SAGE, SPRITEMOVEDATA_WALK_UP_DOWN, 0, 1, -1, -1, 0, OBJECTTYPE_SCRIPT, 0, TinTower1FSage4Script, EVENT_TIN_TOWER_1F_WISE_TRIO_2
-	; TODO: Use flags to make it so that this sage can also support vanilla behavior
-	object_event  9,  1, SPRITE_SAGE, SPRITEMOVEDATA_STANDING_DOWN, 0, 0, -1, -1, 0, OBJECTTYPE_SCRIPT, 0, TinTower1FSage5Script, EVENT_BEAT_ELITE_FOUR
+	object_event  9,  1, SPRITE_SAGE, SPRITEMOVEDATA_STANDING_DOWN, 0, 0, -1, -1, 0, OBJECTTYPE_SCRIPT, 0, TinTower1FSage5Script, EVENT_TIN_TOWER_1F_WISE_TRIO_2
 	object_event 14,  2, SPRITE_SAGE, SPRITEMOVEDATA_WALK_LEFT_RIGHT, 1, 0, -1, -1, 0, OBJECTTYPE_SCRIPT, 0, TinTower1FSage6Script, EVENT_TIN_TOWER_1F_WISE_TRIO_2
