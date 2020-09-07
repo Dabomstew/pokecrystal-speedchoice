@@ -153,6 +153,9 @@ EXP_SPLITTING_GEN8    EQU %10
 	sboption FAST_EGG_HATCHING ; 5
 	sboption START_WITH_BIKE ; 6
 	sboption EASY_CLAIR_BADGE ; 7
+	
+	optionbytestart
+	sboption EARLY_KANTO_DEX ; 0
 
 NUM_PERMAOPTIONS_BYTES EQU optionbyte
 

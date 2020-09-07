@@ -2556,9 +2556,13 @@ endr
 	ret
 
 .right
+	sboptioncheck EARLY_KANTO_DEX
+	jr nz, .noHOFCheck
 	ld a, [wStatusFlags]
 	bit STATUSFLAGS_HALL_OF_FAME_F, a
 	ret z
+	
+.noHOFCheck
 	ldh a, [hWY]
 	and a
 	ret z
