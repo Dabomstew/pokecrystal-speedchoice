@@ -1245,10 +1245,11 @@ PlaceMoveData:
 	ldh a, [hRemainder]
 	cp $80
 	jr c, .noIncrease
-	ld hl, hQuotient + 2
+	ld hl, hQuotient + 3
 	inc [hl]
 .noIncrease
-	ld de, hQuotient + 2
+	ld d, e
+	ld h, l
 	lb bc, 1, 3
 	hlcoord 16, 13
 	call PrintNum
