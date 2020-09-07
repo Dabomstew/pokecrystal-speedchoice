@@ -95,10 +95,7 @@ MrPokemonsHouse_OakScript:
 	writetext MrPokemonsHouse_OakText1
 	promptbutton
 	waitsfx
-	writetext MrPokemonsHouse_GetDexText
-	playsound SFX_ITEM
-	waitsfx
-	setflag ENGINE_POKEDEX
+	verbosesetflag ENGINE_POKEDEX
 	writetext MrPokemonsHouse_OakText2
 	waitbutton
 	closetext

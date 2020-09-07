@@ -22,7 +22,7 @@ LavRadioTower1FSuperNerd1Script:
 LavRadioTower1FGentlemanScript:
 	faceplayer
 	opentext
-	checkflag ENGINE_EXPN_CARD
+	checkevent EVENT_EXPN_CARD_RECEIVED
 	iftrue .GotExpnCard
 	checkevent EVENT_RETURNED_MACHINE_PART
 	iftrue .ReturnedMachinePart
@@ -34,9 +34,8 @@ LavRadioTower1FGentlemanScript:
 .ReturnedMachinePart:
 	writetext LavRadioTower1FGentlemanText_ReturnedMachinePart
 	promptbutton
-	getstring STRING_BUFFER_4, .expncardname
-	scall .receiveitem
-	setflag ENGINE_EXPN_CARD
+	verbosesetflag ENGINE_EXPN_CARD
+	setevent EVENT_EXPN_CARD_RECEIVED
 .GotExpnCard:
 	writetext LavRadioTower1FGentlemanText_GotExpnCard
 	waitbutton

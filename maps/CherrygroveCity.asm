@@ -67,11 +67,7 @@ CherrygroveCityGuideGent:
 	opentext
 	writetext GuideGentGiftText
 	promptbutton
-	getstring STRING_BUFFER_4, .mapcardname
-	scall .JumpstdReceiveItem
-	setflag ENGINE_MAP_CARD
-	writetext GotMapCardText
-	promptbutton
+	verbosesetflag ENGINE_MAP_CARD
 	writetext GuideGentPokegearText
 	waitbutton
 	closetext

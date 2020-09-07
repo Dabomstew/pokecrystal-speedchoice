@@ -114,7 +114,7 @@ RadioTower1FLuckyNumberManScript:
 RadioTower1FRadioCardWomanScript:
 	faceplayer
 	opentext
-	checkflag ENGINE_RADIO_CARD
+	checkevent EVENT_RADIO_CARD_RECEIVED
 	iftrue .GotCard
 	writetext RadioTower1FRadioCardWomanOfferQuizText
 	yesorno
@@ -146,11 +146,8 @@ RadioTower1FRadioCardWomanScript:
 	waitsfx
 	writetext RadioTower1FRadioCardWomanYouWinText
 	promptbutton
-	getstring STRING_BUFFER_4, .RadioCardText
-	scall .ReceiveItem
-	writetext RadioTower1FPokegearIsARadioText
-	promptbutton
-	setflag ENGINE_RADIO_CARD
+	verbosesetflag ENGINE_RADIO_CARD
+	setevent EVENT_RADIO_CARD_RECEIVED
 .GotCard:
 	writetext RadioTower1FRadioCardWomanTuneInText
 	waitbutton
