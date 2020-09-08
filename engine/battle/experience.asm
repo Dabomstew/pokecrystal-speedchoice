@@ -39,10 +39,9 @@ GiveExperience:
 	add hl, bc
 	ld d, h
 	ld e, l
-	ld hl, wEnemyMonBaseStats - 1
+	ld hl, wEnemyMonBaseStats
 	ld c, NUM_EXP_STATS
 .stat_exp_loop
-	inc hl
 	ld a, [hli]
 	push de
 	ld d, a

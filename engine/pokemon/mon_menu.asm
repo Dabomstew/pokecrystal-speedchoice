@@ -1244,12 +1244,12 @@ PlaceMoveData:
 ; increase displayed number by 1 if remainder is >=128
 	ldh a, [hRemainder]
 	cp $80
-	jr c, .noIncrease
 	ld hl, hQuotient + 3
+	jr c, .noIncrease
 	inc [hl]
 .noIncrease
-	ld d, e
-	ld h, l
+	ld d, h
+	ld e, l
 	lb bc, 1, 3
 	hlcoord 16, 13
 	call PrintNum
