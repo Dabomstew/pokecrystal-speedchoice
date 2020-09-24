@@ -85,6 +85,8 @@ ChangeToNonFullBox:
 	ld a, b
 	ld [wCurBox], a
 	push bc
+	call AskOverwriteSaveFile
+	jr c, .refused
 	call PauseGameLogic
 	call SavingDontTurnOffThePower
 	call SaveBox
@@ -94,11 +96,15 @@ ChangeToNonFullBox:
 	call LoadBox
 	call SavedTheGame
 	call ResumeGameLogic
-	ld a, TRUE
-	ld [wScriptVar], a
-	ret
+	ld a, CHANGEBOXCALL_DONE
+	jr .storeResult
+.refused
+	pop bc
+	ld a, CHANGEBOXCALL_CANCELLED
+	jr .storeResult
 .failed
-	ld a, FALSE
+	ld a, CHANGEBOXCALL_ALLFULL
+.storeResult
 	ld [wScriptVar], a
 	ret
 

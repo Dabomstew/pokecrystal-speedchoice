@@ -39,13 +39,15 @@ BillPhoneCallerScript:
 	farwritetext BillPhoneNewlyFullText
 	yesorno
 	iftrue .ChangeBoxScript
+.Manually:
 	farwritetext BillPhoneChangeManuallyText
 	waitbutton
 	end
 
 .ChangeBoxScript:
 	special ChangeToNonFullBox
-	iffalse .AllBoxesFull
+	ifequal CHANGEBOXCALL_CANCELLED, .Manually
+	ifequal CHANGEBOXCALL_ALLFULL, .AllBoxesFull
 	farwritetext BillPhoneBoxChangedText
 	waitbutton
 	end
