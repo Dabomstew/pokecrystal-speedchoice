@@ -61,6 +61,7 @@ BlackthornGymClairScript:
 	writetext ClairText_GoToDragonsDen
 	waitbutton
 	closetext
+	end
 
 .FightDone:
 	checkevent EVENT_GOT_TM24_DRAGONBREATH

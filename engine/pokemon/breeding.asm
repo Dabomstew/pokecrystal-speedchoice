@@ -317,6 +317,8 @@ HatchEggs:
 	call AddNTimes
 	ld d, h
 	ld e, l
+	sboptioncheck SKIP_NICKNAMING
+	jr nz, .nonickname
 	push de
 	ld hl, .BreedAskNicknameText
 	call PrintText
