@@ -37,7 +37,7 @@ MeetMomScript:
 	writetext ElmsLookingForYouText
 	promptbutton
 	verbosesetflag ENGINE_POKEGEAR
-	verbosesetflag ENGINE_PHONE_CARD
+	setflag ENGINE_PHONE_CARD
 	addcellnum PHONE_MOM
 	setscene SCENE_FINISHED
 	setevent EVENT_PLAYERS_HOUSE_MOM_1
