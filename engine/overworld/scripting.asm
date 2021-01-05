@@ -3006,6 +3006,7 @@ Script_verbosegiveprogressiverod:
 
 Script_engineflagsound:
 ; script command 0xb2
+	call WaitSFX
 	ld a, [wScriptVar]
 	cp ENGINE_ZEPHYRBADGE
 	jr c, .notBadge
