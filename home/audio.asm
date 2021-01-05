@@ -366,10 +366,13 @@ PlayMapMusicBike::
 
 	xor a
 	ld [wDontPlayMapMusicOnReload], a
+	sboptioncheck DISABLE_BIKE_MUSIC
+	jr nz, .noBike
 	ld de, MUSIC_BICYCLE
 	ld a, [wPlayerState]
 	cp PLAYER_BIKE
 	jr z, .play
+.noBike
 	call GetMapMusic_MaybeSpecial
 .play
 	push de
