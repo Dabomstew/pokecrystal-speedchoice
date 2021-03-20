@@ -64,8 +64,14 @@ BlackthornGymClairScript:
 	end
 
 .FightDone:
+	checkpermaoptions EASY_CLAIR_BADGE
+	iftrue .EasyClair
+	checkevent EVENT_DRAGON_SHRINE_PASSED_TEST
+	iffalse .TooMuchToExpect
+.EasyClair
 	checkevent EVENT_GOT_TM24_DRAGONBREATH
 	iffalse .AlreadyGotBadge
+.TooMuchToExpect
 	writetext ClairText_TooMuchToExpect
 	waitbutton
 	closetext

@@ -114,6 +114,7 @@ DragonShrine_MapScripts:
 	checkevent EVENT_TEMPORARY_UNTIL_MAP_RELOAD_2
 	iftrue .Question1
 .PassedTheTest:
+	setevent EVENT_DRAGON_SHRINE_PASSED_TEST
 	writetext DragonShrinePassedTestText
 	waitbutton
 	setscene SCENE_FINISHED
