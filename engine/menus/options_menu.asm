@@ -55,7 +55,7 @@ OptionsMenuCommon::
 	jr c, .exit
 	ld a, [wPlayerName]
 	cp "@"
-	jr nz, .exit
+	jr nz, .checkRivalName
 	ld a, [HOLD_TO_MASH_ADDRESS]
 	push af
 	and $ff ^ HOLD_TO_MASH_VAL
@@ -65,6 +65,19 @@ OptionsMenuCommon::
 	pop af
 	ld [HOLD_TO_MASH_ADDRESS], a
 	jr .pageLoad
+.checkRivalName
+	ld a, [wRivalName]
+	cp "@"
+	jr nz, .exit
+	ld a, [HOLD_TO_MASH_ADDRESS]
+	push af
+	and $ff ^ HOLD_TO_MASH_VAL
+	ld [HOLD_TO_MASH_ADDRESS], a
+	ld hl, NameNotSetText
+	call PrintText
+	pop af
+	ld [HOLD_TO_MASH_ADDRESS], a
+	jr .pageLoad	
 .exit
 	pop af
 	ld [hInMenu], a
@@ -514,8 +527,8 @@ INCLUDE "engine/menus/options/perma_options_3.asm"
 INCLUDE "engine/menus/options/perma_options_4.asm"
 
 NameNotSetText::
-	text "Please set your"
-	line "name on page 1!@"
+	text "Please set both"
+	line "names on page 1!@"
 	start_asm
 	ld de, SFX_WRONG
 	call PlaySFX
