@@ -1,27 +1,21 @@
 PermaOptionsP1String::
 	db "PRESET (A: SET)<LF>"
 	db "        :<LF>"
-	db "NAME<LF>"
+	db "PLAYER NAME<LF>"
 	db "        :<LF>"
 	db "GENDER<LF>"
 	db "        :<LF>"
-	db "ROCKET SECTIONS<LF>"
+	db "RIVAL NAME<LF>"
 	db "        :<LF>"
-	db "SPINNERS<LF>"
-	db "        :<LF>"
-	db "TRAINER VISION<LF>"
-	db "        :<LF>"
-	db "NERF HMs<LF>"
+	db "RACE GOAL<LF>"
 	db "        :@"
 
 PermaOptionsP1Pointers::
 	dw Options_Preset
-	dw Options_Name
+	dw Options_PlayerName
 	dw Options_PlayerGender
-	dw Options_Rocketless
-	dw Options_Spinners
-	dw Options_TrainerVision
-	dw Options_NerfHMs
+	dw Options_RivalName
+	dw Options_RaceGoal
 	dw Options_PermaOptionsPage
 PermaOptionsP1PointersEnd::
 
@@ -115,7 +109,7 @@ rept (NUM_PERMAOPTIONS_BYTES + 2)
 endr
 	ret
 
-Options_Name:
+Options_PlayerName:
 	and A_BUTTON
 	jr z, .GetText
 	ld a, [wJumptableIndex]
@@ -137,7 +131,6 @@ Options_Name:
 	call PlaceString
 	and a
 	ret
-
 .NotSetString
 	db "NOT SET@"
 
@@ -155,101 +148,46 @@ Options_PlayerGender:
 .Female
 	db "FEMALE@"
 
-Options_Rocketless:
-	ld hl, ROCKETLESS_ADDRESS
-	lb bc, ROCKETLESS, 9
-	ld de, .NormalPurge
-	jp Options_TrueFalse_IRLocked
-.NormalPurge
-	dw .Normal
-	dw .Purge
+Options_RivalName:
+	and A_BUTTON
+	jr z, .GetText
+	ld a, [wJumptableIndex]
+	push af
+	ld b, 2
+	ld de, wRivalName
+	callba NamingScreen
+	call DrawOptionsMenu
+	pop af
+	ld [wJumptableIndex], a
+.GetText
+	ld de, wRivalName
+	ld a, [de]
+	cp "@"
+	jr nz, .Display
+	ld de, .NotSetString
+.Display
+	hlcoord 11, 9
+	call PlaceString
+	and a
+	ret
+.NotSetString
+	db "NOT SET@"
 
-.Normal
-	db "NORMAL@"
-.Purge
-	db "PURGE @"
-
-Options_Spinners:
+Options_RaceGoal:
 	ld hl, .Data
 	jp Options_Multichoice
 
 .Data:
-	multichoiceoptiondata SPINNERS_ADDRESS, SPINNERS, SPINNERS_SIZE, 11, NUM_OPTIONS, .Strings
-
-.Strings
-	dw .Normal
-	dw .Purge
-	dw .Hell
-	dw .Why
+	multichoiceoptiondata RACEGOAL_ADDRESS, RACEGOAL, RACEGOAL_SIZE, 11, NUM_OPTIONS, .Strings
+.Strings:
+	dw .Manual
+	dw .E4
+	dw .Red
 .Strings_End:
 
-.Normal
-	db "NORMAL@"
-.Purge
-	db "PURGE @"
-.Hell
-	db "HELL  @"
-.Why
-	db "WHY   @"
-
-Options_TrainerVision:
-	ld hl, MAX_RANGE_ADDRESS
-	lb bc, MAX_RANGE, 13
-	ld de, .NormalMax
-	jp Options_TrueFalse
-.NormalMax
-	dw .Normal
-	dw .Max
-
-.Normal
-	db "NORMAL@"
-.Max
-	db "MAX   @"
-
-Options_NerfHMs:
-	ld hl, NERF_HMS_ADDRESS
-	ld a, [wRandomizedMovesStatus]
-	dec a
-	jr z, .normalCase
-	dec a
-	jr z, .randomizedMoves
-; check whether move data is randomized
-	ld hl, MovesHMNerfs
-	ld a, BANK(MovesHMNerfs)
-	ld bc, MOVE_LENGTH
-	ld de, wStringBuffer5
-	call FarCopyBytes
-	ld hl, .PoundUnchanged
-	ld de, wStringBuffer5
-	ld c, MOVE_LENGTH
-	call CompareBytes
-	ld a, 1
-	jr z, .write
-	inc a
-.write
-	ld [wRandomizedMovesStatus], a
-	jr Options_NerfHMs
-.normalCase
-	ldh a, [hJoyPressed]
-	lb bc, NERF_HMS, 15
-	ld de, .NoYes
-	jp Options_TrueFalse
-.randomizedMoves
-	set NERF_HMS, [hl]
-	ld de, .Randomized
-	hlcoord 2, 15
-	call PlaceString
-	and a
-	ret
-.NoYes
-	dw .No
-	dw .Yes
-
-.No
-	db "NO @"
-.Yes
-	db "YES@"
-.Randomized
-	db "RANDOMIZED MOVES!@"
-.PoundUnchanged
-	move POUND,        EFFECT_NORMAL_HIT,         40, NORMAL,   100, 35,   0
+.Manual
+	db "MANUAL@"
+.E4
+	db "E4    @"
+.Red
+	db "RED   @"

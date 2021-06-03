@@ -570,8 +570,6 @@ CopScript:
 	turnobject ELMSLAB_OFFICER, LEFT
 	opentext
 	writetext ElmsLabOfficerText1
-	promptbutton
-	special NameRival
 	writetext ElmsLabOfficerText2
 	waitbutton
 	closetext

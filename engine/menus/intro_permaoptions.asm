@@ -20,6 +20,7 @@ endr
 	ld a, "@"
 	ld [wPlayerName], a
 	ld hl, wPlayerGender
+	ld [wRivalName], a
 	set 0, [hl]
 .setOptions
 	callba PermaOptionsMenu
