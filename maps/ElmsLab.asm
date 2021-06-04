@@ -570,8 +570,6 @@ CopScript:
 	turnobject ELMSLAB_OFFICER, LEFT
 	opentext
 	writetext ElmsLabOfficerText1
-	promptbutton
-	special NameRival
 	writetext ElmsLabOfficerText2
 	waitbutton
 	closetext
@@ -1308,6 +1306,7 @@ ElmsLabOfficerText1:
 
 	para "Did you happen to"
 	line "get his name?"
+	prompt
 	done
 
 ElmsLabOfficerText2:
