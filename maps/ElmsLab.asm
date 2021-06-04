@@ -1306,6 +1306,7 @@ ElmsLabOfficerText1:
 
 	para "Did you happen to"
 	line "get his name?"
+	prompt
 	done
 
 ElmsLabOfficerText2:
