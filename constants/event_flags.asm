@@ -201,8 +201,9 @@
 	const EVENT_GAVE_GS_BALL_TO_KURT
 	const EVENT_FOREST_IS_RESTLESS
 	const EVENT_ANSWERED_DRAGON_MASTER_QUIZ_WRONG
+; Speedchoice workaround events
+	const EVENT_DRAGON_SHRINE_PASSED_TEST
 ; Unused
-	const EVENT_0C2
 	const EVENT_0C3
 	const EVENT_0C4
 	const EVENT_0C5
