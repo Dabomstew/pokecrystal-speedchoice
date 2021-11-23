@@ -205,6 +205,11 @@ TinTower1FSage5Script:
 	opentext
 	checkevent EVENT_GOT_RAINBOW_WING
 	iftrue .GotRainbowWing
+	checkclassicrainbowwing
+	iffalse .JumpOverE4Check
+	checkevent EVENT_BEAT_ELITE_FOUR
+	iffalse .GotRainbowWing
+.JumpOverE4Check:
 	writetext TinTower1FSage5Text1
 	promptbutton
 	verbosegiveitem RAINBOW_WING
@@ -445,6 +450,10 @@ TinTower1FSage5Text1:
 
 TinTower1FSage5Text2:
 	text "Now, go."
+	done
+
+TinTower1FSage5Text3:
+	text "I only talk to champions."
 	done
 
 TinTower1FSage6Text1:

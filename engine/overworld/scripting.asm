@@ -241,7 +241,9 @@ ScriptCommandTable:
 	dw Script_verbosesetflag             ; af
 	dw Script_checkitemrando             ; b0
 	dw Script_verbosegiveprogressiverod  ; b1
-	dw Script_engineflagsound            ; b2
+	dw Script_checkhoohchambernerfed     ; b2
+	dw Script_checkclassicrainbowwing    ; b3
+	dw Script_engineflagsound            ; b4
 
 StartScript:
 	ld hl, wScriptFlags
@@ -3004,8 +3006,24 @@ Script_verbosegiveprogressiverod:
 	call Script_giveitem_loaded
 	jp Script_verbosegiveitem_aftergive
 
-Script_engineflagsound:
+Script_checkhoohchambernerfed:
 ; script command 0xb2
+	ld a, BANK(HoOhChamberNerfed)
+	ld hl, HoOhChamberNerfed
+	call GetFarByte
+	ld [wScriptVar], a
+	ret
+	
+Script_checkclassicrainbowwing:
+; script command 0xb3
+	ld a, BANK(ClassicRainbowWing)
+	ld hl, ClassicRainbowWing
+	call GetFarByte
+	ld [wScriptVar], a
+	ret
+
+Script_engineflagsound:
+; script command 0xb4
 	call WaitSFX
 	ld a, [wScriptVar]
 	cp ENGINE_ZEPHYRBADGE
