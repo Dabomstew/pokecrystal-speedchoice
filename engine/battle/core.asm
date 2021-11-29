@@ -3480,7 +3480,9 @@ Function_SetEnemyMonAndSendOutAnimation:
 	call SetEnemyTurn
 	ld de, ANIM_SEND_OUT_MON
 	call Call_PlayBattleAnim
-
+	
+	sboptioncheck DISABLE_SHINY_ANIMATION
+	jr z, .not_shiny
 	call BattleCheckEnemyShininess
 	jr nc, .not_shiny
 
