@@ -3981,6 +3981,8 @@ SendOutPlayerMon:
 	ld [wBattleAnimParam], a
 	ld de, ANIM_SEND_OUT_MON
 	call Call_PlayBattleAnim
+	sboptioncheck DISABLE_SHINY_ANIMATION
+	jr z, .not_shiny
 	call BattleCheckPlayerShininess
 	jr nc, .not_shiny
 	ld a, 1
@@ -8432,6 +8434,8 @@ BattleStartMessage:
 	ld de, sStatsWildBattles
 	callba SRAMStatsIncrement2Byte
 
+	sboptioncheck DISABLE_SHINY_ANIMATION
+	jr z, .not_shiny
 	call BattleCheckEnemyShininess
 	jr nc, .not_shiny
 
