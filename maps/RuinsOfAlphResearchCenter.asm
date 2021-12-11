@@ -48,7 +48,7 @@ RuinsOfAlphResearchCenter_MapScripts:
 	writetext RuinsOfAlphResearchCenterDexUpgradedText
 	playsound SFX_ITEM
 	waitsfx
-	setflag ENGINE_UNOWN_DEX
+	verbosesetflag ENGINE_UNOWN_DEX
 	writetext RuinsOfAlphResearchCenterScientist3Text
 	waitbutton
 	closetext
