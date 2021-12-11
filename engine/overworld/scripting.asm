@@ -2961,15 +2961,13 @@ Script_verbosesetflag:
 	ld [wEngineFlagPickupFlagID], a
 	ld b, BANK(GiveEngineFlagScript)
 	ld de, GiveEngineFlagScript
-	call ScriptCall
-	ld a, TRUE
-	ld [wScriptVar], a
-	ret
+	jp ScriptCall
 
 GiveEngineFlagScript:
 	writetext ReceivedEngineFlagText
 	engineflagsound
 	waitbutton
+	setval TRUE
 	end
 
 ReceivedEngineFlagText:
