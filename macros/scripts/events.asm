@@ -1114,3 +1114,15 @@ ENDM
 engineflagsound: MACRO
 	db engineflagsound_command
 ENDM
+
+	enum checkhoohchambernerfed_command ; $b3
+checkhoohchambernerfed: MACRO
+	db checkhoohchambernerfed_command
+ENDM
+
+	enum checkclassicrainbowwing_command ; $b4
+checkclassicrainbowwing: MACRO
+	db checkclassicrainbowwing_command
+ENDM
+
+
