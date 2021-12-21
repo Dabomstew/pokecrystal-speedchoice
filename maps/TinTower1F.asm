@@ -208,7 +208,7 @@ TinTower1FSage5Script:
 	checkclassicrainbowwing
 	iffalse .JumpOverE4Check
 	checkevent EVENT_BEAT_ELITE_FOUR
-	iffalse .GotRainbowWing
+	iffalse .NotChampion
 .JumpOverE4Check:
 	writetext TinTower1FSage5Text1
 	promptbutton
@@ -233,6 +233,12 @@ TinTower1FSage5Script:
 
 .FoughtHoOh:
 	writetext TinTower1FSage5Text3
+	waitbutton
+	closetext
+	end
+
+.NotChampion:
+	writetext TinTower1FSage5Text4
 	waitbutton
 	closetext
 	end
@@ -452,8 +458,8 @@ TinTower1FSage5Text2:
 	text "Now, go."
 	done
 
-TinTower1FSage5Text3:
-	text "I only talk to champions."
+TinTower1FSage5Text4:
+	text "Go beat the Elite 4."
 	done
 
 TinTower1FSage6Text1:

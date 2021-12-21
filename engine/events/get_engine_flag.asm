@@ -84,7 +84,7 @@ endr
 .PokedexString:
 	db "#DEX@"
 .UnknownString:
-	db "???@"
+	db "UNOWNDEX@"
 .RadioCardString:
 	db "RADIO CARD@"
 .MapCardString:

@@ -241,10 +241,9 @@ ScriptCommandTable:
 	dw Script_verbosesetflag             ; af
 	dw Script_checkitemrando             ; b0
 	dw Script_verbosegiveprogressiverod  ; b1
-	dw Script_checkhoohchambernerfed     ; b2
-	dw Script_checkclassicrainbowwing    ; b3
-	dw Script_engineflagsound            ; b4
-
+	dw Script_engineflagsound            ; b2
+	dw Script_checkhoohchambernerfed     ; b3
+	dw Script_checkclassicrainbowwing    ; b4
 StartScript:
 	ld hl, wScriptFlags
 	set SCRIPT_RUNNING, [hl]
@@ -2963,15 +2962,13 @@ Script_verbosesetflag:
 	ld [wEngineFlagPickupFlagID], a
 	ld b, BANK(GiveEngineFlagScript)
 	ld de, GiveEngineFlagScript
-	call ScriptCall
-	ld a, TRUE
-	ld [wScriptVar], a
-	ret
+	jp ScriptCall
 
 GiveEngineFlagScript:
 	writetext ReceivedEngineFlagText
 	engineflagsound
 	waitbutton
+	setval TRUE
 	end
 
 ReceivedEngineFlagText:
@@ -3009,24 +3006,8 @@ Script_verbosegiveprogressiverod:
 	call Script_giveitem_loaded
 	jp Script_verbosegiveitem_aftergive
 
-Script_checkhoohchambernerfed:
-; script command 0xb2
-	ld a, BANK(HoOhChamberNerfed)
-	ld hl, HoOhChamberNerfed
-	call GetFarByte
-	ld [wScriptVar], a
-	ret
-	
-Script_checkclassicrainbowwing:
-; script command 0xb3
-	ld a, BANK(ClassicRainbowWing)
-	ld hl, ClassicRainbowWing
-	call GetFarByte
-	ld [wScriptVar], a
-	ret
-
 Script_engineflagsound:
-; script command 0xb4
+; script command 0xb2
 	call WaitSFX
 	ld a, [wScriptVar]
 	cp ENGINE_ZEPHYRBADGE
@@ -3055,3 +3036,19 @@ ActivateRocketsScript:
 
 .RadioTowerRockets:
 	jumpstd RadioTowerRocketsScript
+
+Script_checkhoohchambernerfed:
+; script command 0xb3
+	ld a, BANK(HoOhChamberNerfed)
+	ld hl, HoOhChamberNerfed
+	call GetFarByte
+	ld [wScriptVar], a
+	ret
+	
+Script_checkclassicrainbowwing:
+; script command 0xb4
+	ld a, BANK(ClassicRainbowWing)
+	ld hl, ClassicRainbowWing
+	call GetFarByte
+	ld [wScriptVar], a
+	ret

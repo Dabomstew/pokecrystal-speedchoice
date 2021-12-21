@@ -2,15 +2,15 @@ ItemRandoData::
 ItemRandoDataVersion::
 	db 1
 ItemRandoActive::
-	db
+	db 1
 HoOhChamberNerfed::
-	db
+	db 
 ClassicRainbowWing::
-	db
+	db 1
 ItemRandoRocketless::
 	db
 ItemRandoEasyClairBadge::
-	db
+	db 
 ItemRandoEarlyKanto::
 	db
 ItemRandoEasyTinTower::
