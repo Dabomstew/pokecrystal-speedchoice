@@ -2,7 +2,7 @@ ItemRandoData::
 ItemRandoDataVersion::
 	db 1
 ItemRandoActive::
-	db 1
+	db 
 HoOhChamberNerfed::
 	db 
 ClassicRainbowWing::
