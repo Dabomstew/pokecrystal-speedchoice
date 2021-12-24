@@ -192,61 +192,6 @@ Randomizer_StarterCyndaquilOffset4::
 	readvar VAR_FACING
 	ifequal RIGHT, ElmDirectionsScript
 	applymovement PLAYER, AfterCyndaquilMovement
-	givepoke MEWTWO, 100, BERRY
-	givepoke MEW, 100, BERRY
-	givepoke MEW, 100, BERRY
-	clearevent EVENT_RED_IN_MT_SILVER
-	verbosegiveitem HM_FLY
-	verbosegiveitem HM_SURF
-	verbosegiveitem HM_WATERFALL
-	verbosegiveitem HM_STRENGTH
-	verbosegiveitem HM_CUT
-	verbosegiveitem HM_FLASH
-
-	verbosegiveitem CARD_KEY
-	verbosegiveitem CLEAR_BELL
-	verbosegiveitem SQUIRTBOTTLE
-
-	verbosegiveitem RAINBOW_WING
-	verbosesetflag ENGINE_RADIO_CARD
-	verbosesetflag ENGINE_POKEGEAR
-	verbosesetflag ENGINE_EXPN_CARD
-;	verbosesetflag ENGINE_UNOWN_DEX
-	setevent EVENT_FLOWER_SHOP_ROCKET
-	setflag ENGINE_FLYPOINT_GOLDENROD
-	setflag ENGINE_FLYPOINT_ECRUTEAK
-	setflag ENGINE_FLYPOINT_VIOLET
-	setflag ENGINE_FLYPOINT_LAKE_OF_RAGE
-	setflag ENGINE_FLYPOINT_BLACKTHORN
-	setflag ENGINE_FLYPOINT_INDIGO_PLATEAU
-	setflag ENGINE_FLYPOINT_CELADON
-	setflag ENGINE_FLYPOINT_CELADON
-	setflag ENGINE_FLYPOINT_SILVER_CAVE
-	verbosesetflag ENGINE_ZEPHYRBADGE
-	verbosesetflag ENGINE_HIVEBADGE
-	verbosesetflag ENGINE_PLAINBADGE
-	verbosesetflag ENGINE_FOGBADGE
-	verbosesetflag ENGINE_STORMBADGE
-	verbosesetflag ENGINE_MINERALBADGE
-;	verbosesetflag ENGINE_GLACIERBADGE
-;	verbosesetflag ENGINE_RISINGBADGE
-;	verbosesetflag ENGINE_BOULDERBADGE
-;	verbosesetflag ENGINE_CASCADEBADGE
-;	verbosesetflag ENGINE_THUNDERBADGE
-;	verbosesetflag ENGINE_RAINBOWBADGE
-;	verbosesetflag ENGINE_SOULBADGE
-;	verbosesetflag ENGINE_MARSHBADGE
-;	verbosesetflag ENGINE_VOLCANOBADGE
-;	verbosesetflag ENGINE_EARTHBADGE
-
-
-
-
-
-
-
-
-
 	sjump ElmDirectionsScript
 
 TotodilePokeBallScript:
@@ -364,7 +309,6 @@ LookAtElmPokeBallScript:
 ElmsLabHealingMachine:
 	opentext
 	checkevent EVENT_GOT_A_POKEMON_FROM_ELM
-	verbosesetflag ENGINE_GLACIERBADGE
 	iftrue .CanHeal
 	writetext ElmsLabHealingMachineText1
 	waitbutton
@@ -471,7 +415,7 @@ ElmScript_NoRoomForEverstone:
 ElmGiveMasterBallScript:
 	writetext ElmGiveMasterBallText1
 	promptbutton
-	verbosesetflag ENGINE_POKEDEX
+	verbosegiveitem MASTER_BALL
 	iffalse .notdone
 	setevent EVENT_GOT_MASTER_BALL_FROM_ELM
 	writetext ElmGiveMasterBallText2
