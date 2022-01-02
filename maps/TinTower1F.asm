@@ -459,7 +459,7 @@ TinTower1FSage5Text2:
 	done
 
 TinTower1FSage5Text4:
-	text "Go beat the Elite 4."
+	text "Defeat the Elite 4"
 	done
 
 TinTower1FSage6Text1:
