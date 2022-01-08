@@ -518,7 +518,6 @@ AideScript_GiveYouBalls:
 	verbosegiveitem POKE_BALL, 5
 	writetext AideText_ExplainBalls
 	promptbutton
-	itemnotify
 	closetext
 	setscene SCENE_ELMSLAB_NOTHING
 	end
