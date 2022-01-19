@@ -35,8 +35,8 @@ Red:
 	end
 
 RedSeenText:
-	text "<……>"
-	line "<……>"
+	text "<……>              "
+	line "<……>              "
 	done
 
 RedWinLossText:

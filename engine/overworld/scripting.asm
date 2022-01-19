@@ -242,7 +242,8 @@ ScriptCommandTable:
 	dw Script_checkitemrando             ; b0
 	dw Script_verbosegiveprogressiverod  ; b1
 	dw Script_engineflagsound            ; b2
-
+	dw Script_checkhoohchambernerfed     ; b3
+	dw Script_checkclassicrainbowwing    ; b4
 StartScript:
 	ld hl, wScriptFlags
 	set SCRIPT_RUNNING, [hl]
@@ -3035,3 +3036,19 @@ ActivateRocketsScript:
 
 .RadioTowerRockets:
 	jumpstd RadioTowerRocketsScript
+
+Script_checkhoohchambernerfed:
+; script command 0xb3
+	ld a, BANK(HoOhChamberNerfed)
+	ld hl, HoOhChamberNerfed
+	call GetFarByte
+	ld [wScriptVar], a
+	ret
+	
+Script_checkclassicrainbowwing:
+; script command 0xb4
+	ld a, BANK(ClassicRainbowWing)
+	ld hl, ClassicRainbowWing
+	call GetFarByte
+	ld [wScriptVar], a
+	ret
