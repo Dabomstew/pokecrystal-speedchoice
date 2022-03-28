@@ -515,12 +515,9 @@ AideScript_GiveYouBalls:
 	opentext
 	writetext AideText_GiveYouBalls
 	promptbutton
-	getitemname STRING_BUFFER_4, POKE_BALL
-	scall AideScript_ReceiveTheBalls
-	giveitem POKE_BALL, 5
+	verbosegiveitem POKE_BALL, 5
 	writetext AideText_ExplainBalls
 	promptbutton
-	itemnotify
 	closetext
 	setscene SCENE_ELMSLAB_NOTHING
 	end

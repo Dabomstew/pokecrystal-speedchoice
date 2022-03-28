@@ -89,19 +89,8 @@ EatathonContestPoster:
 	jumptext EatathonContestPosterText
 
 CeladonCafeTrashcan:
-	checkevent EVENT_FOUND_LEFTOVERS_IN_CELADON_CAFE
-	iftrue .TrashEmpty
-	giveitem LEFTOVERS
-	iffalse .PackFull
-	opentext
-	getitemname STRING_BUFFER_3, LEFTOVERS
-	writetext FoundLeftoversText
-	playsound SFX_ITEM
-	waitsfx
-	itemnotify
-	closetext
-	setevent EVENT_FOUND_LEFTOVERS_IN_CELADON_CAFE
-	end
+	hiddenitem LEFTOVERS, EVENT_FOUND_LEFTOVERS_IN_CELADON_CAFE
+
 
 .PackFull:
 	opentext
@@ -216,7 +205,7 @@ CeladonCafe_MapEvents:
 
 	db 2 ; bg events
 	bg_event  5,  0, BGEVENT_READ, EatathonContestPoster
-	bg_event  7,  1, BGEVENT_READ, CeladonCafeTrashcan
+	bg_event  7,  1, BGEVENT_ITEM, CeladonCafeTrashcan
 
 	db 5 ; object events
 	object_event  9,  3, SPRITE_SUPER_NERD, SPRITEMOVEDATA_STANDING_LEFT, 0, 0, -1, -1, PAL_NPC_BROWN, OBJECTTYPE_SCRIPT, 0, CeladonCafeChef, -1
