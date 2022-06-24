@@ -3400,6 +3400,8 @@ FarPlayBattleAnimation:
 	; fallthrough
 
 PlayFXAnimID:
+	call _CheckBattleScene
+	ret c
 	ld a, e
 	ld [wFXAnimID], a
 	ld a, d
@@ -3471,6 +3473,8 @@ DoEnemyDamage:
 	hlcoord 2, 2
 	xor a
 	ld [wWhichHPBar], a
+	call _CheckBattleScene
+	jp c, .did_no_damage
 	predef AnimateHPBar
 .did_no_damage
 	jp RefreshBattleHuds
@@ -3535,6 +3539,8 @@ DoPlayerDamage:
 	hlcoord 10, 9
 	ld a, 1
 	ld [wWhichHPBar], a
+	call _CheckBattleScene
+        jp c, .did_no_damage
 	predef AnimateHPBar
 .did_no_damage
 	jp RefreshBattleHuds
