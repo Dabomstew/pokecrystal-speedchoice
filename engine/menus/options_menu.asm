@@ -579,4 +579,6 @@ ENDM
 	lockedoption EASY_CLAIR_BADGE, ItemRandoEasyClairBadge
 	lockedoption EARLY_KANTO, ItemRandoEarlyKanto
 	lockedoption EASY_TIN_TOWER, ItemRandoEasyTinTower
+	lockedoption START_WITH_BIKE, ItemRandoStartWithBike
+	lockedoption BETTER_MARTS, ItemRandoBetterMarts
 	dw 0 ; terminator

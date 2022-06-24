@@ -46,9 +46,9 @@ Marts:
 
 MartCherrygrove:
 	db 4 ; # items
-	db WATER_STONE
-	db BICYCLE
-	db PASS
+	db POTION
+	db ANTIDOTE
+	db PARLYZ_HEAL
 	db AWAKENING
 	db -1 ; end
 

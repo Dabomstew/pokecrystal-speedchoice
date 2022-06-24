@@ -76,7 +76,7 @@ Options_CatchEXP:
 Options_BetterMarts:
 	ld hl, BETTER_MARTS_ADDRESS
 	lb bc, BETTER_MARTS, 11
-	jp Options_OnOff
+	jp Options_OnOff_IRLocked
 
 Options_GoodEarlyWilds:
 	ld hl, EVOLVED_EARLY_WILDS_ADDRESS

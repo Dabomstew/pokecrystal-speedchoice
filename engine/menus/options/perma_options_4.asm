@@ -21,7 +21,7 @@ Options_EarlyKantoDex:
 Options_StartWithBike:
 	ld hl, START_WITH_BIKE_ADDRESS
 	lb bc, START_WITH_BIKE, 5
-	jp Options_OnOff
+	jp Options_OnOff_IRLocked
 
 Options_MetronomeOnly:
 	ld hl, METRONOME_ONLY_ADDRESS

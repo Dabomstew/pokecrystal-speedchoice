@@ -10,9 +10,13 @@ ClassicRainbowWing::
 ItemRandoRocketless::
 	db
 ItemRandoEasyClairBadge::
-	db 
+	db
 ItemRandoEarlyKanto::
 	db
 ItemRandoEasyTinTower::
 	db
+ItemRandoBetterMarts::
+        db 1
+ItemRandoStartWithBike::
+        db
 ItemRandoDataEnd::
