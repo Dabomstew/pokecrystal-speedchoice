@@ -278,13 +278,13 @@
 	const EVENT_RADIO_CARD_WOMAN
 	const EVENT_RADIO_CARD_RECEIVED
 	const EVENT_EXPN_CARD_RECEIVED
-	const EVENT_10A
+	const TIN_TOWER_STAIRS_AVAILABLE
 	const EVENT_10B
 	const EVENT_10C
 	const EVENT_10D
 	const EVENT_10E
 	const EVENT_10F
-	const EVENT_110
+	const EVENT_110 ; Starting here, these flags are used for berry tree item replacement
 	const EVENT_111
 	const EVENT_112
 	const EVENT_113
@@ -314,7 +314,7 @@
 	const EVENT_12B
 	const EVENT_12C
 	const EVENT_12D
-	const EVENT_12E
+	const EVENT_12E ; Up to here for berry flags
 	const EVENT_12F
 	const EVENT_130
 	const EVENT_131

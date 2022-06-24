@@ -87,20 +87,30 @@ TinTower1F_FoughtSuicune:
 	return
 
 TinTower1F_StairsCallback:
+	checkevent TIN_TOWER_STAIRS_AVAILABLE
+	iftrue TinTower1F_DontHideStairs
 	checkitem RAINBOW_WING
 	iftrue TinTower1F_DontHideStairs
+	getX 2, 1
+	iftrue TinTower1F_DontHideStairs
 	changeblock 10, 2, $09 ; floor
+	return
 TinTower1F_DontHideStairs:
+	setevent TIN_TOWER_STAIRS_AVAILABLE
 	return
 
 TinTower1F_SuicuneBattle:
+	getX 2, 1
+	iftrue .skipMove1
 	applymovement PLAYER, TinTowerPlayerMovement1
+.skipMove1
 	pause 15
 	setval RAIKOU
 	special MonCheck
 	iftrue TinTower1F_Next1 ; if player caught Raikou, he doesn't appear in Tin Tower
 	applymovement TINTOWER1F_RAIKOU, TinTowerRaikouMovement1
 	turnobject PLAYER, LEFT
+
 Randomizer_RaikouCryTT::
 	cry RAIKOU
 	pause 10
@@ -126,8 +136,13 @@ Randomizer_EnteiCryTT::
 TinTower1F_Next2:
 	turnobject PLAYER, UP
 	pause 10
+	getX 2, 1
+	iftrue .skip_move2
 	applymovement PLAYER, TinTowerPlayerMovement2
+.skip_move2
 	applymovement TINTOWER1F_SUICUNE, TinTowerSuicuneMovement
+
+
 Randomizer_SuicuneCry::
 	cry SUICUNE
 	pause 20

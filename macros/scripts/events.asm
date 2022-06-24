@@ -1125,4 +1125,9 @@ checkclassicrainbowwing: MACRO
 	db checkclassicrainbowwing_command
 ENDM
 
-
+	enum getX_command ; $b5
+getX: MACRO
+        db getX_command
+        db \1 ; value
+	db \2 ; type
+ENDM

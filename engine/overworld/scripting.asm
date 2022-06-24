@@ -244,6 +244,7 @@ ScriptCommandTable:
 	dw Script_engineflagsound            ; b2
 	dw Script_checkhoohchambernerfed     ; b3
 	dw Script_checkclassicrainbowwing    ; b4
+	dw Script_getX			     ; b5
 StartScript:
 	ld hl, wScriptFlags
 	set SCRIPT_RUNNING, [hl]
@@ -3047,7 +3048,6 @@ Script_checkhoohchambernerfed:
 	call GetFarByte
 	ld [wScriptVar], a
 	ret
-	
 Script_checkclassicrainbowwing:
 ; script command 0xb4
 	ld a, BANK(ClassicRainbowWing)
@@ -3055,3 +3055,29 @@ Script_checkclassicrainbowwing:
 	call GetFarByte
 	ld [wScriptVar], a
 	ret
+
+Script_getX:
+; script command 0xb5
+; parameters: x, y
+	call GetScriptByte
+	ld b, a
+	call GetScriptByte
+	and a
+	jr z, .compareX
+	call .compareY
+
+.compareX:
+	ld a, [wXCoord]
+	call .test
+	end
+
+.compareY:
+	ld a, [wYCoord]
+	call .test
+	end
+
+.test:
+	cp b
+	ret nz
+	ld a, TRUE
+	ld [wScriptVar], a
