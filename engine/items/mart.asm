@@ -445,9 +445,32 @@ BuyMenuLoop:
 	cp B_BUTTON
 	jr z, .set_carry
 	cp A_BUTTON
-	jr z, .useless_pointer
+	jr z, .check_buy
 
-.useless_pointer
+
+.check_item
+	ld hl, wNumItems
+	call CheckItem
+	ret
+
+.check_buy
+	farcall _CheckTossableItem
+	ld a, [wItemAttributeParamBuffer]
+	ld d, a
+	and a
+	jr z, .main_buy
+	call .check_item
+	jr c, .cannot_buy
+	call .main_buy
+	ret
+
+.cannot_buy
+	ld hl, MartCantSellText
+        call PrintText
+	ret
+
+
+.main_buy
 	call MartAskPurchaseQuantity
 	jr c, .cancel
 	call MartConfirmPurchase
@@ -498,14 +521,26 @@ BuyMenuLoop:
 	and a
 	ret
 
+
 StandardMartAskPurchaseQuantity:
+	farcall _CheckTossableItem
+        ld a, [wItemAttributeParamBuffer]
+        ld d, a
+        and a
 	ld a, 99
+        call nz, .limit_to_one
+
 	ld [wItemQuantityBuffer], a
 	ld a, MARTTEXT_HOW_MANY
 	call LoadBuyMenuText
 	farcall SelectQuantityToBuy
 	call ExitMenu
 	ret
+
+.limit_to_one:
+	ld a, 1
+	ret
+
 
 MartConfirmPurchase:
 	predef PartyMonItemName
@@ -844,6 +879,10 @@ MartPackFullText:
 MartCantBuyText:
 	text_far _MartCantBuyText
 	text_end
+
+MartCantSellText:
+        text_far _MartCantSellText
+        text_end
 
 MartComeAgainText:
 	text_far _MartComeAgainText
