@@ -598,6 +598,9 @@ Script_specialsound:
 	cp TM_HM
 	ld de, SFX_GET_TM
 	jr z, .play
+	cp KEY_ITEM
+        ld de, SFX_KEY_ITEM
+	jr z, .play
 	ld de, SFX_RB_GET_ITEM
 .play
 	call PlaySFX
