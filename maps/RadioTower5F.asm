@@ -87,6 +87,8 @@ TrainerExecutivef1:
 	end
 
 RadioTower5FRocketBossScene:
+	checkflag EVENT_RADIO_TOWER_ROCKET_TAKEOVER
+	iffalse .not_yet
 	applymovement PLAYER, RadioTower5FPlayerTwoStepsLeftMovement
 	playmusic MUSIC_ROCKET_ENCOUNTER
 	turnobject RADIOTOWER5F_ROCKET, RIGHT
@@ -119,6 +121,9 @@ RadioTower5FRocketBossScene:
 	checkitemrando
 	iftrue .SkipHidingDirector
 	setevent EVENT_BASEMENT_DIRECTOR
+
+.not_yet
+	end
 
 .SkipHidingDirector:
 	clearevent EVENT_MAHOGANY_MART_OWNERS
