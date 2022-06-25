@@ -443,6 +443,9 @@ SpecialMapMusic::
 	ret
 
 .surf
+	sboptioncheck DISABLE_SURF_MUSIC
+	jr nz, .no
+	
 	ld de, MUSIC_SURF
 	scf
 	ret
