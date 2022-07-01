@@ -28,7 +28,7 @@ FindItemInBallScript::
 	closetext
 	end
 
-.DecideSound:
+.DecideSound
 	farcall CheckItemPocket
         ld a, [wItemAttributeParamBuffer]
         cp TM_HM
@@ -40,7 +40,7 @@ FindItemInBallScript::
         ld de, SFX_RB_GET_ITEM
 .play
         call PlaySFX
-        call WaitSFX
+	ret
 
 .FoundItemText:
 	text_far _FoundItemText
