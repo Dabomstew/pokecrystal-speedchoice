@@ -301,6 +301,7 @@ Buena_getprize:
 	ld c, a
 	add hl, bc
 	add hl, bc
+	add hl, bc
 	ret
 
 INCLUDE "data/items/buena_prizes.asm"

@@ -51,12 +51,20 @@ GoldenrodUnderground_MapScripts:
 
 .CheckDayOfWeek:
 	readvar VAR_WEEKDAY
+	ifnotequal 8, .AnyDay
 	ifequal MONDAY, .Monday
 	ifequal TUESDAY, .Tuesday
 	ifequal WEDNESDAY, .Wednesday
 	ifequal THURSDAY, .Thursday
 	ifequal FRIDAY, .Friday
 	ifequal SATURDAY, .Saturday
+
+.AnyDay:
+	appear GOLDENRODUNDERGROUND_GRANNY
+	appear GOLDENRODUNDERGROUND_GRAMPS
+	appear GOLDENRODUNDERGROUND_OLDER_HAIRCUT_BROTHER
+	appear GOLDENRODUNDERGROUND_YOUNGER_HAIRCUT_BROTHER
+	return
 
 .Sunday:
 	disappear GOLDENRODUNDERGROUND_GRAMPS
@@ -172,11 +180,11 @@ BargainMerchantScript:
 	checkflag ENGINE_GOLDENROD_UNDERGROUND_MERCHANT_CLOSED
 	iftrue GoldenrodUndergroundScript_ShopClosed
 	readvar VAR_WEEKDAY
-	ifequal MONDAY, .CheckMorn
+	ifnotequal 8, .CheckMorn
 	sjump GoldenrodUndergroundScript_ShopClosed
 
 .CheckMorn:
-	checktime MORN
+	checktime ANYTIME
 	iffalse GoldenrodUndergroundScript_ShopClosed
 	pokemart MARTTYPE_BARGAIN, 0
 	closetext

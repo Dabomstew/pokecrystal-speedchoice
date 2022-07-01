@@ -330,9 +330,10 @@ ReadMart:
 	call GetMartPrice
 	ld b, h
 	ld c, l
+	inc hl
 	pop hl
-
 	pop de
+	
 	jr .loop
 
 .done
