@@ -50,14 +50,16 @@ GoldenrodUnderground_MapScripts:
 	return
 
 .CheckDayOfWeek:
+	checkitemrando
+        iftrue .AnyDay
 	readvar VAR_WEEKDAY
-	ifnotequal 8, .AnyDay
 	ifequal MONDAY, .Monday
 	ifequal TUESDAY, .Tuesday
 	ifequal WEDNESDAY, .Wednesday
 	ifequal THURSDAY, .Thursday
 	ifequal FRIDAY, .Friday
 	ifequal SATURDAY, .Saturday
+	ifequal SUNDAY, .Sunday
 
 .AnyDay:
 	appear GOLDENRODUNDERGROUND_GRANNY
@@ -165,6 +167,8 @@ TrainerPokemaniacDonald:
 
 BitterMerchantScript:
 	opentext
+	checkitemrando
+	iftrue .Open
 	readvar VAR_WEEKDAY
 	ifequal SUNDAY, .Open
 	ifequal SATURDAY, .Open
@@ -177,6 +181,8 @@ BitterMerchantScript:
 
 BargainMerchantScript:
 	opentext
+        checkitemrando
+        iftrue .OpenBargain
 	checkflag ENGINE_GOLDENROD_UNDERGROUND_MERCHANT_CLOSED
 	iftrue GoldenrodUndergroundScript_ShopClosed
 	readvar VAR_WEEKDAY
@@ -186,12 +192,16 @@ BargainMerchantScript:
 .CheckMorn:
 	checktime ANYTIME
 	iffalse GoldenrodUndergroundScript_ShopClosed
+
+.OpenBargain:
 	pokemart MARTTYPE_BARGAIN, 0
 	closetext
 	end
 
 OlderHaircutBrotherScript:
 	opentext
+        checkitemrando
+        iftrue .DoHaircut
 	readvar VAR_WEEKDAY
 	ifequal TUESDAY, .DoHaircut
 	ifequal THURSDAY, .DoHaircut
@@ -275,6 +285,8 @@ OlderHaircutBrotherScript:
 
 YoungerHaircutBrotherScript:
 	opentext
+        checkitemrando
+        iftrue .DoHaircut
 	readvar VAR_WEEKDAY
 	ifequal SUNDAY, .DoHaircut
 	ifequal WEDNESDAY, .DoHaircut
