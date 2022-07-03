@@ -87,8 +87,8 @@ TrainerExecutivef1:
 	end
 
 RadioTower5FRocketBossScene:
-	checkflag EVENT_RADIO_TOWER_ROCKET_TAKEOVER
-	iffalse .not_yet
+	checkevent EVENT_RADIO_TOWER_ROCKET_TAKEOVER
+	iftrue .not_yet
 	applymovement PLAYER, RadioTower5FPlayerTwoStepsLeftMovement
 	playmusic MUSIC_ROCKET_ENCOUNTER
 	turnobject RADIOTOWER5F_ROCKET, RIGHT
@@ -121,6 +121,7 @@ RadioTower5FRocketBossScene:
 	checkitemrando
 	iftrue .SkipHidingDirector
 	setevent EVENT_BASEMENT_DIRECTOR
+	ret
 
 .not_yet
 	end
