@@ -3060,24 +3060,28 @@ Script_getX:
 ; script command 0xb5
 ; parameters: x, y
 	call GetScriptByte
-	ld b, a
+	ld l, a
 	call GetScriptByte
-	and a
+	cp 0
 	jr z, .compareX
 	call .compareY
+	ret
 
 .compareX:
 	ld a, [wXCoord]
 	call .test
-	end
+	ret
 
 .compareY:
 	ld a, [wYCoord]
 	call .test
-	end
+	ret
 
-.test:
-	cp b
-	ret nz
+.true:
 	ld a, TRUE
 	ld [wScriptVar], a
+	ret
+
+.test:
+	cp l
+	jr z, .true
