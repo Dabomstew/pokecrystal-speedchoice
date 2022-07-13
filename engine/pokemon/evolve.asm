@@ -66,7 +66,7 @@ EvolveAfterBattle_MasterLoop:
 	ld b, a
 
 	cp EVOLVE_TRADE
-	jr z, .trade
+	jp z, .trade
 
 	ld a, [wLinkMode]
 	and a
@@ -79,15 +79,23 @@ EvolveAfterBattle_MasterLoop:
 	ld a, [wForceEvolution]
 	and a
 	jp nz, .dont_evolve_2
-
+	
 	ld a, b
+	cp EVOLVE_E_LEVEL
+	jp z, .every_level
+	
 	cp EVOLVE_LEVEL
 	jp z, .level
 
 	cp EVOLVE_HAPPINESS
 	jr z, .happiness
+	
+	cp EVOLVE_STAT
+	jr z, .stat
 
-; EVOLVE_STAT
+	jp .dont_evolve_1
+
+.stat
 	ld a, [wTempMonLevel]
 	cp [hl]
 	jp c, .dont_evolve_1
@@ -113,7 +121,7 @@ EvolveAfterBattle_MasterLoop:
 	jp nz, .dont_evolve_2
 
 	inc hl
-	jr .proceed
+	jp .proceed
 
 .happiness
 	ld a, [wTempMonHappiness]
@@ -125,7 +133,7 @@ EvolveAfterBattle_MasterLoop:
 
 	ld a, [hli]
 	cp TR_ANYTIME
-	jr z, .proceed
+	jp z, .proceed
 	cp TR_MORNDAY
 	jr z, .happiness_daylight
 
@@ -133,13 +141,13 @@ EvolveAfterBattle_MasterLoop:
 	ld a, [wTimeOfDay]
 	cp NITE_F
 	jp nz, .dont_evolve_3
-	jr .proceed
+	jp .proceed
 
 .happiness_daylight
 	ld a, [wTimeOfDay]
 	cp NITE_F
 	jp z, .dont_evolve_3
-	jr .proceed
+	jp .proceed
 
 .trade
 	ld a, [wLinkMode]
@@ -152,7 +160,7 @@ EvolveAfterBattle_MasterLoop:
 	ld a, [hli]
 	ld b, a
 	inc a
-	jr z, .proceed
+	jp z, .proceed
 
 	ld a, [wLinkMode]
 	cp LINK_TIMECAPSULE
@@ -164,7 +172,7 @@ EvolveAfterBattle_MasterLoop:
 
 	xor a
 	ld [wTempMonItem], a
-	jr .proceed
+	jp .proceed
 
 .item
 	ld a, [hli]
@@ -179,9 +187,30 @@ EvolveAfterBattle_MasterLoop:
 	ld a, [wLinkMode]
 	and a
 	jp nz, .dont_evolve_3
-	jr .proceed
+	jp .proceed
 
 .level
+	push af
+	push bc
+	push de
+	push hl
+	
+	sboptioncheck EVOLVE_EVERY_LEVEL
+	jr z, .level2
+	
+	pop hl
+	pop de
+	pop bc
+	pop af
+	
+	jp .dont_evolve_2
+	
+.level2
+	pop hl
+	pop de
+	pop bc
+	pop af
+
 	ld a, [hli]
 	ld b, a
 	ld a, [wTempMonLevel]
@@ -189,6 +218,32 @@ EvolveAfterBattle_MasterLoop:
 	jp c, .dont_evolve_3
 	call IsMonHoldingEverstone
 	jp z, .dont_evolve_3
+	
+	jp .proceed
+
+.every_level
+	push af
+	push bc
+	push de
+	push hl
+	
+	sboptioncheck EVOLVE_EVERY_LEVEL
+	jr nz, .every_level2
+	
+	pop hl
+	pop de
+	pop bc
+	pop af
+	
+	jp .dont_evolve_4
+	
+.every_level2
+	pop hl
+	pop de
+	pop bc
+	pop af
+	
+	jp .proceed_every_level
 
 .proceed
 	ld a, [wTempMonLevel]
@@ -317,6 +372,182 @@ EvolveAfterBattle_MasterLoop:
 	ld l, e
 	ld h, d
 	jp EvolveAfterBattle_MasterLoop
+	
+.proceed_every_level:
+	ld a, [wTempMonLevel]
+	ld [wCurPartyLevel], a
+	ld a, $1
+	ld [wMonTriedToEvolve], a
+
+	push hl
+
+	; generates pseudo-random evolution
+	push de
+
+	ld a, [wTempMonLevel]	; current level
+	
+	ld d, a					; save current value
+	ld a, [wTempMonSpecies]	; current species ID
+	add d					; add saved value
+	
+	ld d, a					; save current value
+	ld a, [wPlayerID]		; Trainer ID high byte?
+	add d					; add saved value
+	ld d, a					; save current value
+	ld a, [wPlayerID + 1]	; Trainer ID low byte?
+	add d					; add saved value
+	
+	ld d, a					; save current value
+	ld a, [wTempMonDVs]		; ATK/DEF DVs
+	add d					; add saved value
+	ld d, a					; save current value
+	ld a, [wTempMonDVs + 1]	; SPD/SPC DVs
+	add d					; add saved value
+	
+	ld d, a					; storing current result in d
+	
+	; check for invalid new species IDs (0 and 252-255 are invalid)
+	; subtract 1 first, so 251-255 are invalid (fixing if necessary), then add 1 at the end
+	sub 1
+	ld d, a					; save current value
+	cp 252					; c flag will be set if a < 252 (valid number)
+	jp c, .valid_id
+	
+	ld a, d
+	add 6					; fixes 251-255 so they wrap around to 1-5 (includes previous offset)
+	jp .done_fixing_id
+	
+.valid_id:
+	ld a, d
+	add 1					; undo previous offset
+
+.done_fixing_id:
+	
+	; a should now have a pseudo-random value 1-251 for selecting a new species for the evo.
+	
+	ld [wBuffer8], a	; saves new species to wram
+	ld [wEvolutionNewSpecies], a
+	
+	pop de
+	
+	ld a, [wCurPartyMon]
+	ld hl, wPartyMonNicknames
+	call GetNick
+	call CopyName1
+	ld hl, EvolvingTextEL
+	call PrintText
+
+	ld c, 50
+	call DelayFrames
+
+	xor a
+	ldh [hBGMapMode], a
+	hlcoord 0, 0
+	lb bc, 12, 20
+	call ClearBox
+
+	ld a, $1
+	ldh [hBGMapMode], a
+	call ClearSprites
+
+	farcall EvolutionAnimation
+
+	push af
+	call ClearSprites
+	pop af
+	jp c, CancelEvolution
+
+	ld hl, CongratulationsYourPokemonText
+	call PrintText
+
+	pop hl
+
+	ld a, [wBuffer8] ; load the previously calculated new pokemon species
+	;ld a, [hl]
+	ld [wCurSpecies], a
+	ld [wTempMonSpecies], a
+	ld [wEvolutionNewSpecies], a
+	ld [wNamedObjectIndexBuffer], a
+	call GetPokemonName
+
+	push hl
+	ld hl, EvolvedIntoText
+	call PrintTextboxText
+
+	ld de, MUSIC_NONE
+	call PlayMusic
+	ld de, SFX_CAUGHT_MON
+	call PlaySFX
+	call WaitSFX
+
+	ld c, 40
+	call DelayFrames
+
+	call ClearTilemap
+	call UpdateSpeciesNameIfNotNicknamed
+	call GetBaseData
+
+	ld hl, wTempMonExp + 2
+	ld de, wTempMonMaxHP
+	ld b, TRUE
+	predef CalcMonStats
+
+	ld a, [wCurPartyMon]
+	ld hl, wPartyMons
+	ld bc, PARTYMON_STRUCT_LENGTH
+	call AddNTimes
+	ld e, l
+	ld d, h
+	ld bc, MON_MAXHP
+	add hl, bc
+	ld a, [hli]
+	ld b, a
+	ld c, [hl]
+	ld hl, wTempMonMaxHP + 1
+	ld a, [hld]
+	sub c
+	ld c, a
+	ld a, [hl]
+	sbc b
+	ld b, a
+	ld hl, wTempMonHP + 1
+	ld a, [hl]
+	add c
+	ld [hld], a
+	ld a, [hl]
+	adc b
+	ld [hl], a
+
+	ld hl, wTempMonSpecies
+	ld bc, PARTYMON_STRUCT_LENGTH
+	call CopyBytes
+
+	ld a, [wCurSpecies]
+	ld [wTempSpecies], a
+	xor a
+	ld [wMonType], a
+	call LearnLevelMoves
+	ld a, [wTempSpecies]
+	dec a
+	call SetSeenAndCaughtMon
+
+	ld a, [wTempSpecies]
+	cp UNOWN
+	jr nz, .skip_unown_every_level
+
+	ld hl, wTempMonDVs
+	predef GetUnownLetter
+	callfar UpdateUnownDex
+
+.skip_unown_every_level:
+	pop de
+	pop hl
+	ld a, [wTempMonSpecies]
+	ld [hl], a
+	push hl
+	ld l, e
+	ld h, d
+	jp EvolveAfterBattle_MasterLoop
 
 .dont_evolve_1
 	inc hl
@@ -324,6 +555,7 @@ EvolveAfterBattle_MasterLoop:
 	inc hl
 .dont_evolve_3
 	inc hl
+.dont_evolve_4	
 	jp .loop
 
 ; unused
@@ -407,6 +639,10 @@ StoppedEvolvingText:
 
 EvolvingText:
 	text_far _EvolvingText
+	text_end
+	
+EvolvingTextEL:
+	text_far _EvolvingTextEL
 	text_end
 
 LearnLevelMoves:
