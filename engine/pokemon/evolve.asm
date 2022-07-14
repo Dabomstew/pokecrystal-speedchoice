@@ -385,27 +385,44 @@ EvolveAfterBattle_MasterLoop:
 	push de
 
 	ld a, [wTempMonLevel]	; current level
+	swap a					; swap bits
 	
 	ld d, a					; save current value
 	ld a, [wTempMonSpecies]	; current species ID
 	add d					; add saved value
+	swap a					; swap bits
 	
 	ld d, a					; save current value
-	ld a, [wPlayerID]		; Trainer ID high byte?
+	ld a, [wPlayerID]		; Trainer ID high byte
 	add d					; add saved value
+	swap a					; swap bits
+	
 	ld d, a					; save current value
-	ld a, [wPlayerID + 1]	; Trainer ID low byte?
+	ld a, [wPlayerID + 1]	; Trainer ID low byte
 	add d					; add saved value
+	swap a					; swap bits
 	
 	ld d, a					; save current value
 	ld a, [wTempMonDVs]		; ATK/DEF DVs
 	add d					; add saved value
+	swap a					; swap bits
+	
 	ld d, a					; save current value
 	ld a, [wTempMonDVs + 1]	; SPD/SPC DVs
 	add d					; add saved value
+	swap a					; swap bits
 	
-	ld d, a					; storing current result in d
+	ld d, a					; save current value
+	ld a, [wTempMonSpecies]	; current species ID
+	cp d					; compare new species with old species
+	jr nz, .not_same		; if species changed, jump to .not_same
 	
+	ld a, d					; restore generated species ID
+	swap a					; if species didn't change, swap bits
+	ld d, a					; save current value
+	
+.not_same
+	ld a, d					; restore generated species ID
 	; check for invalid new species IDs (0 and 252-255 are invalid)
 	; subtract 1 first, so 251-255 are invalid (fixing if necessary), then add 1 at the end
 	sub 1
