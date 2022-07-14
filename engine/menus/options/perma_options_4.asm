@@ -4,12 +4,15 @@ PermaOptionsP4String::
 	db "START WITH BIKE<LF>"
 	db "        :<LF>"
 	db "METRONOME ONLY<LF>"
+	db "        :<LF>"
+	db "GUARANTEED CATCH<LF>"
 	db "        :@"
 
 PermaOptionsP4Pointers::
 	dw Options_EarlyKantoDex
 	dw Options_StartWithBike
 	dw Options_MetronomeOnly
+	dw Options_GuaranteedCatch
 	dw Options_PermaOptionsPage
 PermaOptionsP4PointersEnd::
 
@@ -26,4 +29,9 @@ Options_StartWithBike:
 Options_MetronomeOnly:
 	ld hl, METRONOME_ONLY_ADDRESS
 	lb bc, METRONOME_ONLY, 7
+	jp Options_OnOff
+	
+Options_GuaranteedCatch:
+	ld hl, GUARANTEED_CATCH_ADDRESS
+	lb bc, GUARANTEED_CATCH, 9
 	jp Options_OnOff
