@@ -280,7 +280,7 @@ GetBaseData::
 	
 .same_exp_curve
 	ld hl, wBaseGrowthRate		; load the address where the current growth rate is stored
-	ld [hl], GROWTH_MEDIUM_FAST	; load the desired growth rate into wBaseGrowthRate
+	ld [hl], GROWTH_FAST		; load the desired growth rate into wBaseGrowthRate
 	
 	pop hl						; restore the registers to the values before the sboption check
 	pop de
