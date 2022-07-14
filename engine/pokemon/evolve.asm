@@ -190,26 +190,8 @@ EvolveAfterBattle_MasterLoop:
 	jp .proceed
 
 .level
-	push af
-	push bc
-	push de
-	push hl
-	
 	sboptioncheck EVOLVE_EVERY_LEVEL
-	jr z, .level2
-	
-	pop hl
-	pop de
-	pop bc
-	pop af
-	
-	jp .dont_evolve_2
-	
-.level2
-	pop hl
-	pop de
-	pop bc
-	pop af
+	jp nz, .dont_evolve_2
 
 	ld a, [hli]
 	ld b, a
@@ -221,27 +203,9 @@ EvolveAfterBattle_MasterLoop:
 	
 	jp .proceed
 
-.every_level
-	push af
-	push bc
-	push de
-	push hl
-	
+.every_level	
 	sboptioncheck EVOLVE_EVERY_LEVEL
-	jr nz, .every_level2
-	
-	pop hl
-	pop de
-	pop bc
-	pop af
-	
-	jp .dont_evolve_4
-	
-.every_level2
-	pop hl
-	pop de
-	pop bc
-	pop af
+	jr z, .dont_evolve_4
 	
 	jp .proceed_every_level
 
