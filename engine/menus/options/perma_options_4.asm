@@ -5,14 +5,14 @@ PermaOptionsP4String::
 	db "        :<LF>"
 	db "METRONOME ONLY<LF>"
 	db "        :<LF>"
-	db "HAPPINESS EVO<LF>"
+	db "CHANGE HAPPY EVO<LF>"
 	db "        :@"
 
 PermaOptionsP4Pointers::
 	dw Options_EarlyKantoDex
 	dw Options_StartWithBike
 	dw Options_MetronomeOnly
-	dw Options_HappinessEvo
+	dw Options_NoHappyEvo
 	dw Options_PermaOptionsPage
 PermaOptionsP4PointersEnd::
 
@@ -31,16 +31,7 @@ Options_MetronomeOnly:
 	lb bc, METRONOME_ONLY, 7
 	jp Options_OnOff
 
-Options_HappinessEvo:
-	ld hl, HAPPINESS_EVO_ADDRESS
-	lb bc, HAPPINESS_EVO, 9
-	ld de, .ChangeKeep
-	jp Options_TrueFalse
-.ChangeKeep
-	dw .Change
-	dw .Keep
-
-.Change
-	db "CHANGE@"
-.Keep
-	db "KEEP  @"
+Options_NoHappyEvo:
+	ld hl, NO_HAPPY_EVO_ADDRESS
+	lb bc, NO_HAPPY_EVO, 9
+	jp Options_OnOff
