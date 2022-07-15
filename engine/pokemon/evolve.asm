@@ -205,7 +205,7 @@ EvolveAfterBattle_MasterLoop:
 
 .every_level	
 	sboptioncheck EVOLVE_EVERY_LEVEL
-	jr z, .dont_evolve_4
+	jp z, .dont_evolve_4
 	
 	jp .proceed_every_level
 
@@ -338,6 +338,9 @@ EvolveAfterBattle_MasterLoop:
 	jp EvolveAfterBattle_MasterLoop
 	
 .proceed_every_level:
+	ld a, 255
+	ld [wForceEvolution], a
+
 	ld a, [wTempMonLevel]
 	ld [wCurPartyLevel], a
 	ld a, $1
