@@ -31,9 +31,20 @@ BillsGrandpa:
 	iftrue .ShowedLickitung
 	writetext BillsGrandpaLickitungText
 	promptbutton
+
+	checkitemrando
+	iffalse .askLickitung
+	refreshscreen
+	pokepic LICKITUNG
+	cry LICKITUNG
+	waitbutton
+	closepokepic
+
+
+.askLickitung
 	writetext BillsGrandpaAskToSeeMonText
-	yesorno
-	iffalse .SaidNo
+        yesorno
+        iffalse .SaidNo
 	scall .ExcitedToSee
 	special BillsGrandfather
 	iffalse .SaidNo
@@ -45,6 +56,16 @@ BillsGrandpa:
 .GotEverstone:
 	writetext BillsGrandpaOddishText
 	promptbutton
+
+	checkitemrando
+        iffalse .askOddish
+        refreshscreen
+        pokepic ODDISH
+        cry ODDISH
+        waitbutton
+        closepokepic
+
+.askOddish
 	writetext BillsGrandpaAskToSeeMonText
 	yesorno
 	iffalse .SaidNo
@@ -59,6 +80,16 @@ BillsGrandpa:
 .GotLeafStone:
 	writetext BillsGrandpaStaryuText
 	promptbutton
+
+	checkitemrando
+        iffalse .askStaryu
+        refreshscreen
+        pokepic STARYU
+        cry STARYU
+        waitbutton
+        closepokepic
+
+.askStaryu
 	writetext BillsGrandpaAskToSeeMonText
 	yesorno
 	iffalse .SaidNo
@@ -75,6 +106,16 @@ BillsGrandpa:
 	iftrue .AskVulpix
 	writetext BillsGrandpaGrowlitheText
 	promptbutton
+
+	checkitemrando
+        iffalse .askGrowlithe
+        refreshscreen
+        pokepic GROWLITHE
+        cry GROWLITHE
+        waitbutton
+        closepokepic
+
+.askGrowlithe
 	writetext BillsGrandpaAskToSeeMonText
 	yesorno
 	iffalse .SaidNo
@@ -103,6 +144,16 @@ BillsGrandpa:
 .GotFireStone:
 	writetext BillsGrandpaPichuText
 	promptbutton
+
+	checkitemrando
+        iffalse .askPichu
+        refreshscreen
+        pokepic PICHU
+        cry PICHU
+        waitbutton
+        closepokepic
+
+.askPichu
 	writetext BillsGrandpaAskToSeeMonText
 	yesorno
 	iffalse .SaidNo
