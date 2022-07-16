@@ -156,7 +156,8 @@ EXP_SPLITTING_GEN8    EQU %10
 	
 	optionbytestart
 	sboption EARLY_KANTO_DEX ; 0
-	sboption NO_HAPPY_EVO ; 1
+	sboption EVOLVE_EVERY_LEVEL ; 1
+	sboption NO_HAPPY_EVO ; 2
 
 NUM_PERMAOPTIONS_BYTES EQU optionbyte
 

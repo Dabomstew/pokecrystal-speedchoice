@@ -83,8 +83,12 @@ EvolveAfterBattle_MasterLoop:
 	ld a, [wForceEvolution]
 	and a
 	jp nz, .dont_evolve_2
-
+	
 	ld a, b
+	cp EVOLVE_E_LEVEL
+	jp z, .every_level
+	
+  ld a, b
 	cp EVOLVE_LEVEL
 	jp z, .level
 	
@@ -92,10 +96,14 @@ EvolveAfterBattle_MasterLoop:
 	cp EVOLVE_NO_HAPPY_LEVEL
 	jp z, .nohappylevel
 
+  ld a, b
 	cp EVOLVE_HAPPINESS
 	jr z, .happiness
-
+	
 ; EVOLVE_STAT
+  sboptioncheck EVOLVE_EVERY_LEVEL
+	jp nz, .dont_evolve_1
+
 	ld a, [wTempMonLevel]
 	cp [hl]
 	jp c, .dont_evolve_1
@@ -124,6 +132,9 @@ EvolveAfterBattle_MasterLoop:
 	jp .proceed
 
 .happiness
+  sboptioncheck EVOLVE_EVERY_LEVEL
+	jp nz, .dont_evolve_2
+
 	sboptioncheck NO_HAPPY_EVO
 	jp nz, .dont_evolve_2	
 
@@ -163,7 +174,7 @@ EvolveAfterBattle_MasterLoop:
 	ld a, [hli]
 	ld b, a
 	inc a
-	jr z, .proceed
+	jp z, .proceed
 
 	ld a, [wLinkMode]
 	cp LINK_TIMECAPSULE
@@ -175,7 +186,7 @@ EvolveAfterBattle_MasterLoop:
 
 	xor a
 	ld [wTempMonItem], a
-	jr .proceed
+	jp .proceed
 
 .item
 	ld a, [hli]
@@ -190,7 +201,7 @@ EvolveAfterBattle_MasterLoop:
 	ld a, [wLinkMode]
 	and a
 	jp nz, .dont_evolve_3
-	jr .proceed
+	jp .proceed
 	
 .nohappyitem
 	sboptioncheck NO_HAPPY_EVO
@@ -208,9 +219,12 @@ EvolveAfterBattle_MasterLoop:
 	ld a, [wLinkMode]
 	and a
 	jp nz, .dont_evolve_3
-	jr .proceed
+	jp .proceed
 
 .level
+	sboptioncheck EVOLVE_EVERY_LEVEL
+	jp nz, .dont_evolve_2
+
 	ld a, [hli]
 	ld b, a
 	ld a, [wTempMonLevel]
@@ -218,11 +232,21 @@ EvolveAfterBattle_MasterLoop:
 	jp c, .dont_evolve_3
 	call IsMonHoldingEverstone
 	jp z, .dont_evolve_3
-	jr .proceed
+	
+	jp .proceed
+
+.every_level	
+	sboptioncheck EVOLVE_EVERY_LEVEL
+	jp z, .dont_evolve_4
+	
+	jp .proceed_every_level
 	
 .nohappylevel
 	sboptioncheck NO_HAPPY_EVO
 	jp z, .dont_evolve_2
+  
+  sboptioncheck EVOLVE_EVERY_LEVEL
+	jp nz, .dont_evolve_2
 	
 	ld a, [hli]
 	ld b, a
@@ -360,6 +384,202 @@ EvolveAfterBattle_MasterLoop:
 	ld l, e
 	ld h, d
 	jp EvolveAfterBattle_MasterLoop
+	
+.proceed_every_level:
+	ld a, 255
+	ld [wForceEvolution], a
+
+	ld a, [wTempMonLevel]
+	ld [wCurPartyLevel], a
+	ld a, $1
+	ld [wMonTriedToEvolve], a
+
+	push hl
+
+	; generates pseudo-random evolution
+	push de
+
+	ld a, [wTempMonLevel]	; current level
+	swap a					; swap bits
+	
+	ld d, a					; save current value
+	ld a, [wTempMonSpecies]	; current species ID
+	add d					; add saved value
+	swap a					; swap bits
+	
+	ld d, a					; save current value
+	ld a, [wPlayerID]		; Trainer ID high byte
+	add d					; add saved value
+	swap a					; swap bits
+	
+	ld d, a					; save current value
+	ld a, [wPlayerID + 1]	; Trainer ID low byte
+	add d					; add saved value
+	swap a					; swap bits
+	
+	ld d, a					; save current value
+	ld a, [wTempMonDVs]		; ATK/DEF DVs
+	add d					; add saved value
+	swap a					; swap bits
+	
+	ld d, a					; save current value
+	ld a, [wTempMonDVs + 1]	; SPD/SPC DVs
+	add d					; add saved value
+	swap a					; swap bits
+	
+	ld d, a					; save current value
+	ld a, [wTempMonSpecies]	; current species ID
+	cp d					; compare new species with old species
+	jr nz, .not_same		; if species changed, jump to .not_same
+	
+	ld a, d					; restore generated species ID
+	swap a					; if species didn't change, swap bits
+	ld d, a					; save current value
+	
+.not_same
+	ld a, d					; restore generated species ID
+	; check for invalid new species IDs (0 and 252-255 are invalid)
+	; subtract 1 first, so 251-255 are invalid (fixing if necessary), then add 1 at the end
+	sub 1
+	ld d, a					; save current value
+	cp 252					; c flag will be set if a < 252 (valid number)
+	jp c, .valid_id
+	
+	ld a, d
+	add 6					; fixes 251-255 so they wrap around to 1-5 (includes previous offset)
+	jp .done_fixing_id
+	
+.valid_id:
+	ld a, d
+	add 1					; undo previous offset
+
+.done_fixing_id:
+	
+	; a should now have a pseudo-random value 1-251 for selecting a new species for the evo.
+	
+	ld [wBuffer8], a	; saves new species to wram
+	ld [wEvolutionNewSpecies], a
+	
+	pop de
+	
+	ld a, [wCurPartyMon]
+	ld hl, wPartyMonNicknames
+	call GetNick
+	call CopyName1
+	ld hl, EvolvingTextEL
+	call PrintText
+
+	ld c, 50
+	call DelayFrames
+
+	xor a
+	ldh [hBGMapMode], a
+	hlcoord 0, 0
+	lb bc, 12, 20
+	call ClearBox
+
+	ld a, $1
+	ldh [hBGMapMode], a
+	call ClearSprites
+
+	farcall EvolutionAnimation
+
+	push af
+	call ClearSprites
+	pop af
+	jp c, CancelEvolution
+
+	ld hl, CongratulationsYourPokemonText
+	call PrintText
+
+	pop hl
+
+	ld a, [wBuffer8] ; load the previously calculated new pokemon species
+	;ld a, [hl]
+	ld [wCurSpecies], a
+	ld [wTempMonSpecies], a
+	ld [wEvolutionNewSpecies], a
+	ld [wNamedObjectIndexBuffer], a
+	call GetPokemonName
+
+	push hl
+	ld hl, EvolvedIntoText
+	call PrintTextboxText
+
+	ld de, MUSIC_NONE
+	call PlayMusic
+	ld de, SFX_CAUGHT_MON
+	call PlaySFX
+	call WaitSFX
+
+	ld c, 40
+	call DelayFrames
+
+	call ClearTilemap
+	call UpdateSpeciesNameIfNotNicknamed
+	call GetBaseData
+
+	ld hl, wTempMonExp + 2
+	ld de, wTempMonMaxHP
+	ld b, TRUE
+	predef CalcMonStats
+
+	ld a, [wCurPartyMon]
+	ld hl, wPartyMons
+	ld bc, PARTYMON_STRUCT_LENGTH
+	call AddNTimes
+	ld e, l
+	ld d, h
+	ld bc, MON_MAXHP
+	add hl, bc
+	ld a, [hli]
+	ld b, a
+	ld c, [hl]
+	ld hl, wTempMonMaxHP + 1
+	ld a, [hld]
+	sub c
+	ld c, a
+	ld a, [hl]
+	sbc b
+	ld b, a
+	ld hl, wTempMonHP + 1
+	ld a, [hl]
+	add c
+	ld [hld], a
+	ld a, [hl]
+	adc b
+	ld [hl], a
+
+	ld hl, wTempMonSpecies
+	ld bc, PARTYMON_STRUCT_LENGTH
+	call CopyBytes
+
+	ld a, [wCurSpecies]
+	ld [wTempSpecies], a
+	xor a
+	ld [wMonType], a
+	call LearnLevelMoves
+	ld a, [wTempSpecies]
+	dec a
+	call SetSeenAndCaughtMon
+
+	ld a, [wTempSpecies]
+	cp UNOWN
+	jr nz, .skip_unown_every_level
+
+	ld hl, wTempMonDVs
+	predef GetUnownLetter
+	callfar UpdateUnownDex
+
+.skip_unown_every_level:
+	pop de
+	pop hl
+	ld a, [wTempMonSpecies]
+	ld [hl], a
+	push hl
+	ld l, e
+	ld h, d
+	jp EvolveAfterBattle_MasterLoop
 
 .dont_evolve_1
 	inc hl
@@ -367,6 +587,7 @@ EvolveAfterBattle_MasterLoop:
 	inc hl
 .dont_evolve_3
 	inc hl
+.dont_evolve_4	
 	jp .loop
 
 ; unused
@@ -450,6 +671,10 @@ StoppedEvolvingText:
 
 EvolvingText:
 	text_far _EvolvingText
+	text_end
+	
+EvolvingTextEL:
+	text_far _EvolvingTextEL
 	text_end
 
 LearnLevelMoves:

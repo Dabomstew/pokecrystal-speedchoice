@@ -264,6 +264,21 @@ GetBaseData::
 	ld de, wCurBaseData
 	ld bc, BASE_DATA_SIZE
 	call CopyBytes
+	
+	push af						; save the register before the option check
+	sboptioncheck EVOLVE_EVERY_LEVEL
+	jr nz, .same_exp_curve
+	pop af						; restore the registers after the option check
+	
+	jr .same_exp_curve2
+	
+.same_exp_curve
+	pop af						; restore the register to the values before the sboption check
+
+	ld hl, wBaseGrowthRate		; load the address where the current growth rate is stored
+	ld [hl], GROWTH_FAST		; load the desired growth rate into wBaseGrowthRate
+	
+.same_exp_curve2	
 	jr .end
 
 .egg
