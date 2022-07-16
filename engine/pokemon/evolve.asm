@@ -66,7 +66,7 @@ EvolveAfterBattle_MasterLoop:
 	ld b, a
 
 	cp EVOLVE_TRADE
-	jr z, .trade
+	jp z, .trade
 
 	ld a, [wLinkMode]
 	and a
@@ -75,6 +75,10 @@ EvolveAfterBattle_MasterLoop:
 	ld a, b
 	cp EVOLVE_ITEM
 	jp z, .item
+	
+	ld a, b
+	cp EVOLVE_NO_HAPPY_ITEM
+	jp z, .nohappyitem
 
 	ld a, [wForceEvolution]
 	and a
@@ -83,6 +87,10 @@ EvolveAfterBattle_MasterLoop:
 	ld a, b
 	cp EVOLVE_LEVEL
 	jp z, .level
+	
+	ld a, b
+	cp EVOLVE_NO_HAPPY_LEVEL
+	jp z, .nohappylevel
 
 	cp EVOLVE_HAPPINESS
 	jr z, .happiness
@@ -113,9 +121,12 @@ EvolveAfterBattle_MasterLoop:
 	jp nz, .dont_evolve_2
 
 	inc hl
-	jr .proceed
+	jp .proceed
 
 .happiness
+	sboptioncheck NO_HAPPY_EVO
+	jp nz, .dont_evolve_2	
+
 	ld a, [wTempMonHappiness]
 	cp HAPPINESS_TO_EVOLVE
 	jp c, .dont_evolve_2
@@ -125,7 +136,7 @@ EvolveAfterBattle_MasterLoop:
 
 	ld a, [hli]
 	cp TR_ANYTIME
-	jr z, .proceed
+	jp z, .proceed
 	cp TR_MORNDAY
 	jr z, .happiness_daylight
 
@@ -133,13 +144,13 @@ EvolveAfterBattle_MasterLoop:
 	ld a, [wTimeOfDay]
 	cp NITE_F
 	jp nz, .dont_evolve_3
-	jr .proceed
+	jp .proceed
 
 .happiness_daylight
 	ld a, [wTimeOfDay]
 	cp NITE_F
 	jp z, .dont_evolve_3
-	jr .proceed
+	jp .proceed
 
 .trade
 	ld a, [wLinkMode]
@@ -180,6 +191,24 @@ EvolveAfterBattle_MasterLoop:
 	and a
 	jp nz, .dont_evolve_3
 	jr .proceed
+	
+.nohappyitem
+	sboptioncheck NO_HAPPY_EVO
+	jp z, .dont_evolve_2
+
+	ld a, [hli]
+	ld b, a
+	ld a, [wCurItem]
+	cp b
+	jp nz, .dont_evolve_3
+
+	ld a, [wForceEvolution]
+	and a
+	jp z, .dont_evolve_3
+	ld a, [wLinkMode]
+	and a
+	jp nz, .dont_evolve_3
+	jr .proceed
 
 .level
 	ld a, [hli]
@@ -189,6 +218,20 @@ EvolveAfterBattle_MasterLoop:
 	jp c, .dont_evolve_3
 	call IsMonHoldingEverstone
 	jp z, .dont_evolve_3
+	jr .proceed
+	
+.nohappylevel
+	sboptioncheck NO_HAPPY_EVO
+	jp z, .dont_evolve_2
+	
+	ld a, [hli]
+	ld b, a
+	ld a, [wTempMonLevel]
+	cp b
+	jp c, .dont_evolve_3
+	call IsMonHoldingEverstone
+	jp z, .dont_evolve_3
+	jr .proceed
 
 .proceed
 	ld a, [wTempMonLevel]
