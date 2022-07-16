@@ -8,6 +8,8 @@ PermaOptionsP4String::
 	db "EVO EVERY LEVEL<LF>"
   db "        :<LF>"
 	db "CHANGE HAPPY EVO<LF>"
+  db "        :<LF>"
+  db "GUARANTEED CATCH<LF>"
 	db "        :@"
 
 PermaOptionsP4Pointers::
@@ -16,6 +18,7 @@ PermaOptionsP4Pointers::
 	dw Options_MetronomeOnly
 	dw Options_EvolveEveryLevel
 	dw Options_NoHappyEvo
+  dw Options_GuaranteedCatch
 	dw Options_PermaOptionsPage
 PermaOptionsP4PointersEnd::
 
@@ -42,4 +45,9 @@ Options_EvolveEveryLevel:
 Options_NoHappyEvo:
 	ld hl, NO_HAPPY_EVO_ADDRESS
 	lb bc, NO_HAPPY_EVO, 11
+	jp Options_OnOff
+
+Options_GuaranteedCatch:
+	ld hl, GUARANTEED_CATCH_ADDRESS
+	lb bc, GUARANTEED_CATCH, 13
 	jp Options_OnOff
