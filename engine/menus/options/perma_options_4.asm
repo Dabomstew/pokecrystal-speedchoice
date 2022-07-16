@@ -5,14 +5,20 @@ PermaOptionsP4String::
 	db "        :<LF>"
 	db "METRONOME ONLY<LF>"
 	db "        :<LF>"
-	db "GUARANTEED CATCH<LF>"
+	db "EVO EVERY LEVEL<LF>"
+  db "        :<LF>"
+	db "CHANGE HAPPY EVO<LF>"
+  db "        :<LF>"
+  db "GUARANTEED CATCH<LF>"
 	db "        :@"
 
 PermaOptionsP4Pointers::
 	dw Options_EarlyKantoDex
 	dw Options_StartWithBike
 	dw Options_MetronomeOnly
-	dw Options_GuaranteedCatch
+	dw Options_EvolveEveryLevel
+	dw Options_NoHappyEvo
+  dw Options_GuaranteedCatch
 	dw Options_PermaOptionsPage
 PermaOptionsP4PointersEnd::
 
@@ -30,8 +36,18 @@ Options_MetronomeOnly:
 	ld hl, METRONOME_ONLY_ADDRESS
 	lb bc, METRONOME_ONLY, 7
 	jp Options_OnOff
-	
+
+Options_EvolveEveryLevel:
+	ld hl, EVOLVE_EVERY_LEVEL_ADDRESS
+	lb bc, EVOLVE_EVERY_LEVEL, 9
+  jp Options_OnOff
+
+Options_NoHappyEvo:
+	ld hl, NO_HAPPY_EVO_ADDRESS
+	lb bc, NO_HAPPY_EVO, 11
+	jp Options_OnOff
+
 Options_GuaranteedCatch:
 	ld hl, GUARANTEED_CATCH_ADDRESS
-	lb bc, GUARANTEED_CATCH, 9
+	lb bc, GUARANTEED_CATCH, 13
 	jp Options_OnOff
