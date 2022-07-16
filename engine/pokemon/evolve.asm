@@ -75,6 +75,10 @@ EvolveAfterBattle_MasterLoop:
 	ld a, b
 	cp EVOLVE_ITEM
 	jp z, .item
+	
+	ld a, b
+	cp EVOLVE_NO_HAPPY_ITEM
+	jp z, .nohappyitem
 
 	ld a, [wForceEvolution]
 	and a
@@ -84,18 +88,22 @@ EvolveAfterBattle_MasterLoop:
 	cp EVOLVE_E_LEVEL
 	jp z, .every_level
 	
+  ld a, b
 	cp EVOLVE_LEVEL
 	jp z, .level
+	
+	ld a, b
+	cp EVOLVE_NO_HAPPY_LEVEL
+	jp z, .nohappylevel
 
+  ld a, b
 	cp EVOLVE_HAPPINESS
 	jr z, .happiness
 	
-	cp EVOLVE_STAT
-	jr z, .stat
+; EVOLVE_STAT
+  sboptioncheck EVOLVE_EVERY_LEVEL
+	jp nz, .dont_evolve_1
 
-	jp .dont_evolve_1
-
-.stat
 	ld a, [wTempMonLevel]
 	cp [hl]
 	jp c, .dont_evolve_1
@@ -124,6 +132,12 @@ EvolveAfterBattle_MasterLoop:
 	jp .proceed
 
 .happiness
+  sboptioncheck EVOLVE_EVERY_LEVEL
+	jp nz, .dont_evolve_2
+
+	sboptioncheck NO_HAPPY_EVO
+	jp nz, .dont_evolve_2	
+
 	ld a, [wTempMonHappiness]
 	cp HAPPINESS_TO_EVOLVE
 	jp c, .dont_evolve_2
@@ -188,6 +202,24 @@ EvolveAfterBattle_MasterLoop:
 	and a
 	jp nz, .dont_evolve_3
 	jp .proceed
+	
+.nohappyitem
+	sboptioncheck NO_HAPPY_EVO
+	jp z, .dont_evolve_2
+
+	ld a, [hli]
+	ld b, a
+	ld a, [wCurItem]
+	cp b
+	jp nz, .dont_evolve_3
+
+	ld a, [wForceEvolution]
+	and a
+	jp z, .dont_evolve_3
+	ld a, [wLinkMode]
+	and a
+	jp nz, .dont_evolve_3
+	jp .proceed
 
 .level
 	sboptioncheck EVOLVE_EVERY_LEVEL
@@ -208,6 +240,22 @@ EvolveAfterBattle_MasterLoop:
 	jp z, .dont_evolve_4
 	
 	jp .proceed_every_level
+	
+.nohappylevel
+	sboptioncheck NO_HAPPY_EVO
+	jp z, .dont_evolve_2
+  
+  sboptioncheck EVOLVE_EVERY_LEVEL
+	jp nz, .dont_evolve_2
+	
+	ld a, [hli]
+	ld b, a
+	ld a, [wTempMonLevel]
+	cp b
+	jp c, .dont_evolve_3
+	call IsMonHoldingEverstone
+	jp z, .dont_evolve_3
+	jr .proceed
 
 .proceed
 	ld a, [wTempMonLevel]

@@ -6,6 +6,8 @@ PermaOptionsP4String::
 	db "METRONOME ONLY<LF>"
 	db "        :<LF>"
 	db "EVO EVERY LEVEL<LF>"
+  db "        :<LF>"
+	db "CHANGE HAPPY EVO<LF>"
 	db "        :@"
 
 PermaOptionsP4Pointers::
@@ -13,6 +15,7 @@ PermaOptionsP4Pointers::
 	dw Options_StartWithBike
 	dw Options_MetronomeOnly
 	dw Options_EvolveEveryLevel
+	dw Options_NoHappyEvo
 	dw Options_PermaOptionsPage
 PermaOptionsP4PointersEnd::
 
@@ -34,4 +37,9 @@ Options_MetronomeOnly:
 Options_EvolveEveryLevel:
 	ld hl, EVOLVE_EVERY_LEVEL_ADDRESS
 	lb bc, EVOLVE_EVERY_LEVEL, 9
+  jp Options_OnOff
+
+Options_NoHappyEvo:
+	ld hl, NO_HAPPY_EVO_ADDRESS
+	lb bc, NO_HAPPY_EVO, 11
 	jp Options_OnOff

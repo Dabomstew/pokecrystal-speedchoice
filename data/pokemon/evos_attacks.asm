@@ -10,7 +10,9 @@ SECTION "Evolutions and Attacks", ROMX
 ;    * db EVOLVE_TRADE, held item (or -1 for none), species
 ;    * db EVOLVE_HAPPINESS, TR_* constant (ANYTIME, MORNDAY, NITE), species
 ;    * db EVOLVE_STAT, level, ATK_*_DEF constant (LT, GT, EQ), species
-;    * db EVOLVE_E_LEVEL
+;    * db EVOLVE_NO_HAPPY_LEVEL, level, species (for No Happiness Evolutions)
+;    * db EVOLVE_NO_HAPPY_ITEM, used item, species (for No Happiness Evolutions)
+;    * db EVOLVE_E_LEVEL (for Evolve Every Level)
 ; - db 0 ; no more evolutions
 ; - Learnset (in increasing level order):
 ;    * db level, move
@@ -588,7 +590,8 @@ ZubatEvosAttacks:
 
 GolbatEvosAttacks:
 	db EVOLVE_HAPPINESS, TR_ANYTIME, CROBAT
-	db EVOLVE_E_LEVEL
+	db EVOLVE_NO_HAPPY_LEVEL, 40, CROBAT
+  db EVOLVE_E_LEVEL
 	db 0 ; no more evolutions
 	db 1, SCREECH
 	db 1, LEECH_LIFE
@@ -1647,7 +1650,8 @@ RhydonEvosAttacks:
 
 ChanseyEvosAttacks:
 	db EVOLVE_HAPPINESS, TR_ANYTIME, BLISSEY
-	db EVOLVE_E_LEVEL
+	db EVOLVE_NO_HAPPY_LEVEL, 40, BLISSEY
+  db EVOLVE_E_LEVEL
 	db 0 ; no more evolutions
 	db 1, POUND
 	db 5, GROWL
@@ -1933,7 +1937,9 @@ EeveeEvosAttacks:
 	db EVOLVE_ITEM, FIRE_STONE, FLAREON
 	db EVOLVE_HAPPINESS, TR_MORNDAY, ESPEON
 	db EVOLVE_HAPPINESS, TR_NITE, UMBREON
-	db EVOLVE_E_LEVEL
+	db EVOLVE_NO_HAPPY_ITEM, SUN_STONE, ESPEON
+	db EVOLVE_NO_HAPPY_ITEM, MOON_STONE, UMBREON
+  db EVOLVE_E_LEVEL
 	db 0 ; no more evolutions
 	db 1, TACKLE
 	db 1, TAIL_WHIP
@@ -2521,7 +2527,8 @@ LanturnEvosAttacks:
 
 PichuEvosAttacks:
 	db EVOLVE_HAPPINESS, TR_ANYTIME, PIKACHU
-	db EVOLVE_E_LEVEL
+	db EVOLVE_NO_HAPPY_LEVEL, 20, PIKACHU
+  db EVOLVE_E_LEVEL
 	db 0 ; no more evolutions
 	db 1, THUNDERSHOCK
 	db 1, CHARM
@@ -2532,7 +2539,8 @@ PichuEvosAttacks:
 
 CleffaEvosAttacks:
 	db EVOLVE_HAPPINESS, TR_ANYTIME, CLEFAIRY
-	db EVOLVE_E_LEVEL
+	db EVOLVE_NO_HAPPY_LEVEL, 20, CLEFAIRY
+  db EVOLVE_E_LEVEL
 	db 0 ; no more evolutions
 	db 1, POUND
 	db 1, CHARM
@@ -2543,7 +2551,8 @@ CleffaEvosAttacks:
 
 IgglybuffEvosAttacks:
 	db EVOLVE_HAPPINESS, TR_ANYTIME, JIGGLYPUFF
-	db EVOLVE_E_LEVEL
+	db EVOLVE_NO_HAPPY_LEVEL, 20, JIGGLYPUFF
+  db EVOLVE_E_LEVEL
 	db 0 ; no more evolutions
 	db 1, SING
 	db 1, CHARM
@@ -2554,7 +2563,8 @@ IgglybuffEvosAttacks:
 
 TogepiEvosAttacks:
 	db EVOLVE_HAPPINESS, TR_ANYTIME, TOGETIC
-	db EVOLVE_E_LEVEL
+	db EVOLVE_NO_HAPPY_LEVEL, 20, TOGETIC
+  db EVOLVE_E_LEVEL
 	db 0 ; no more evolutions
 	db 1, GROWL
 	db 1, CHARM
