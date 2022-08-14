@@ -61,7 +61,9 @@ EvolveAfterBattle_MasterLoop:
 .loop
 	ld a, [hli]
 	and a
-	jr z, EvolveAfterBattle_MasterLoop
+	; checks Evolve Every Level last (when we reach the 0 at the end of the evo table)
+	; the Evolve Every Level script will loop back to EvolveAfterBattle_MasterLoop
+	jp z, .every_level
 
 	ld b, a
 
@@ -75,33 +77,21 @@ EvolveAfterBattle_MasterLoop:
 	ld a, b
 	cp EVOLVE_ITEM
 	jp z, .item
-	
-	ld a, b
-	cp EVOLVE_NO_HAPPY_ITEM
-	jp z, .nohappyitem
 
 	ld a, [wForceEvolution]
 	and a
 	jp nz, .dont_evolve_2
 	
 	ld a, b
-	cp EVOLVE_E_LEVEL
-	jp z, .every_level
-	
-  ld a, b
 	cp EVOLVE_LEVEL
 	jp z, .level
-	
-	ld a, b
-	cp EVOLVE_NO_HAPPY_LEVEL
-	jp z, .nohappylevel
 
-  ld a, b
+	ld a, b
 	cp EVOLVE_HAPPINESS
 	jr z, .happiness
 	
-; EVOLVE_STAT
-  sboptioncheck EVOLVE_EVERY_LEVEL
+	; EVOLVE_STAT
+	sboptioncheck EVOLVE_EVERY_LEVEL
 	jp nz, .dont_evolve_1
 
 	ld a, [wTempMonLevel]
@@ -132,16 +122,17 @@ EvolveAfterBattle_MasterLoop:
 	jp .proceed
 
 .happiness
-  sboptioncheck EVOLVE_EVERY_LEVEL
+	sboptioncheck EVOLVE_EVERY_LEVEL
 	jp nz, .dont_evolve_2
 
 	sboptioncheck NO_HAPPY_EVO
-	jp nz, .dont_evolve_2	
+	jp nz, .skip_happiness	
 
 	ld a, [wTempMonHappiness]
 	cp HAPPINESS_TO_EVOLVE
 	jp c, .dont_evolve_2
 
+.skip_happiness
 	call IsMonHoldingEverstone
 	jp z, .dont_evolve_2
 
@@ -189,24 +180,9 @@ EvolveAfterBattle_MasterLoop:
 	jp .proceed
 
 .item
-	ld a, [hli]
-	ld b, a
-	ld a, [wCurItem]
-	cp b
-	jp nz, .dont_evolve_3
-
-	ld a, [wForceEvolution]
-	and a
-	jp z, .dont_evolve_3
-	ld a, [wLinkMode]
-	and a
-	jp nz, .dont_evolve_3
-	jp .proceed
+	sboptioncheck EVOLVE_EVERY_LEVEL
+	jp nz, .dont_evolve_2
 	
-.nohappyitem
-	sboptioncheck NO_HAPPY_EVO
-	jp z, .dont_evolve_2
-
 	ld a, [hli]
 	ld b, a
 	ld a, [wCurItem]
@@ -237,25 +213,9 @@ EvolveAfterBattle_MasterLoop:
 
 .every_level	
 	sboptioncheck EVOLVE_EVERY_LEVEL
-	jp z, .dont_evolve_4
+	jp z, EvolveAfterBattle_MasterLoop
 	
 	jp .proceed_every_level
-	
-.nohappylevel
-	sboptioncheck NO_HAPPY_EVO
-	jp z, .dont_evolve_2
-  
-  sboptioncheck EVOLVE_EVERY_LEVEL
-	jp nz, .dont_evolve_2
-	
-	ld a, [hli]
-	ld b, a
-	ld a, [wTempMonLevel]
-	cp b
-	jp c, .dont_evolve_3
-	call IsMonHoldingEverstone
-	jp z, .dont_evolve_3
-	jr .proceed
 
 .proceed
 	ld a, [wTempMonLevel]
@@ -454,7 +414,6 @@ EvolveAfterBattle_MasterLoop:
 	add 1					; undo previous offset
 
 .done_fixing_id:
-	
 	; a should now have a pseudo-random value 1-251 for selecting a new species for the evo.
 	
 	ld [wBuffer8], a	; saves new species to wram
