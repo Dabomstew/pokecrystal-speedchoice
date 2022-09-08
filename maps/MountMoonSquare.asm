@@ -15,6 +15,11 @@ MountMoonSquare_MapScripts:
 	end
 
 .DisappearMoonStone:
+	checkitemrando
+	iffalse .HideStone
+	end
+
+.HideStone:
 	setevent EVENT_MOUNT_MOON_SQUARE_HIDDEN_MOON_STONE
 	return
 
@@ -65,9 +70,10 @@ ClefairyDance:
 	disappear MOUNTMOONSQUARE_FAIRY1
 	disappear MOUNTMOONSQUARE_FAIRY2
 	stopfollow
-	clearevent EVENT_MOUNT_MOON_SQUARE_HIDDEN_MOON_STONE
 	setflag ENGINE_MT_MOON_SQUARE_CLEFAIRY
+	clearevent EVENT_MOUNT_MOON_SQUARE_HIDDEN_MOON_STONE
 	end
+
 
 .NoDancing:
 	end
