@@ -757,5 +757,8 @@ INCBIN "gfx/splash/copyright.2bpp"
 SECTION "Item Rando Config", ROMX
 INCLUDE "engine/item_rando.asm"
 
+SECTION "Warp Rando Config", ROMX
+INCLUDE "engine/warp_rando.asm"
+
 SECTION "Engine Flag Scripts", ROMX
 INCLUDE "engine/events/get_engine_flag.asm"
