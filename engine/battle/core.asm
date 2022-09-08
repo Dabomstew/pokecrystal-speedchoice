@@ -2160,7 +2160,7 @@ FaintYourPokemon:
 	ld a, $f0
 	ld [wCryTracks], a
 	ld a, [wBattleMonSpecies]
-	call PlayStereoCry
+	call PlayStereoCry2
 	call PlayerMonFaintedAnimation
 	hlcoord 9, 7
 	lb bc, 5, 11
@@ -3507,7 +3507,7 @@ Function_SetEnemyMonAndSendOutAnimation:
 	ld a, $f
 	ld [wCryTracks], a
 	ld a, [wTempEnemyMonSpecies]
-	call PlayStereoCry
+	call PlayStereoCry2
 
 .skip_cry
 	call UpdateEnemyHUD
@@ -3998,7 +3998,7 @@ SendOutPlayerMon:
 	ld a, $f0
 	ld [wCryTracks], a
 	ld a, [wCurPartySpecies]
-	call PlayStereoCry
+	call PlayStereoCry2
 
 .statused
 	call UpdatePlayerHUD
@@ -4126,7 +4126,7 @@ PursuitSwitch:
 	ld a, $f0
 	ld [wCryTracks], a
 	ld a, [wBattleMonSpecies]
-	call PlayStereoCry
+	call PlayStereoCry2
 	ld a, [wLastPlayerMon]
 	ld c, a
 	ld hl, wBattleParticipantsNotFainted
@@ -8461,7 +8461,7 @@ BattleStartMessage:
 	ld a, $f
 	ld [wCryTracks], a
 	ld a, [wTempEnemyMonSpecies]
-	call PlayStereoCry
+	call PlayStereoCry2
 
 .skip_cry
 	ld a, [wBattleType]

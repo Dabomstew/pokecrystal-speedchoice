@@ -1,4 +1,10 @@
 BattleIntroSlidingPics:
+;	ld a, [wRepelEffect]
+;       and a
+;	jr z, .Start
+;	ret
+
+.Start:
 	ldh a, [rSVBK]
 	push af
 	ld a, BANK(wLYOverrides)

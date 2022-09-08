@@ -3397,6 +3397,9 @@ FarPlayBattleAnimation:
 	and 1 << SUBSTATUS_FLYING | 1 << SUBSTATUS_UNDERGROUND
 	ret nz
 
+	call _CheckBattleScene
+	ret c
+
 	; fallthrough
 
 PlayFXAnimID:
@@ -6813,6 +6816,9 @@ LoadAnim:
 	; fallthrough
 
 PlayUserBattleAnim:
+	call _CheckBattleScene
+        ret c
+
 	push hl
 	push de
 	push bc
@@ -6823,6 +6829,9 @@ PlayUserBattleAnim:
 	ret
 
 PlayOpponentBattleAnim:
+	call _CheckBattleScene
+	ret c
+
 	ld a, e
 	ld [wFXAnimID], a
 	ld a, d
