@@ -68,7 +68,19 @@ TrainerPokefanmDerek:
 	writetext PokefanMDerekPikachuIsItText
 	waitbutton
 	closetext
-	end
+	checkitemrando
+        iftrue .SeePikachu
+        end
+
+.SeePikachu:
+        refreshscreen
+        pokepic PIKACHU
+        setval PIKACHU
+        special UnusedSetSeenMon
+        cry PIKACHU
+        waitbutton
+        closepokepic
+        end
 
 .AskNumber1:
 	jumpstd AskNumber1MScript

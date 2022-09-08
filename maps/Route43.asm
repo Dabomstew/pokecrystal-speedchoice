@@ -269,7 +269,19 @@ TrainerPicnickerTiffany:
 	writetext PicnickerTiffanyClefairyText
 	waitbutton
 	closetext
-	end
+        checkitemrando
+        iftrue .SeeClefairy
+        end
+
+.SeeClefairy:
+        refreshscreen
+        pokepic CLEFAIRY
+        setval CLEFAIRY
+        special UnusedSetSeenMon
+        cry CLEFAIRY
+        waitbutton
+        closepokepic
+        end
 
 .AskNumber1:
 	jumpstd AskNumber1FScript

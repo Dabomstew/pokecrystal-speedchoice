@@ -242,6 +242,18 @@ TrainerPokefanfBeverly1:
 	writetext PokefanFBeverlyMarillFriendText
 	waitbutton
 	closetext
+	checkitemrando
+	iftrue .SeeMarill
+	end
+
+.SeeMarill:
+	refreshscreen
+        pokepic MARILL
+        setval MARILL
+        special UnusedSetSeenMon
+        cry MARILL
+        waitbutton
+        closepokepic
 	end
 
 .AskNumber1:

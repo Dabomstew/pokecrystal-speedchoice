@@ -89,10 +89,22 @@ RuinsOfAlphResearchCenterScientist1Script:
 	end
 
 .UnownAppeared:
+	checkitemrando
+	iftrue .SeeUnown
+        special UnusedSetSeenMon
 	writetext RuinsOfAlphResearchCenterScientist1Text_UnownAppeared
 	waitbutton
 	closetext
 	end
+
+.SeeUnown:
+	refreshscreen
+	pokepic UNOWN
+	setval UNOWN
+	special UnusedSetSeenMon
+	cry UNOWN
+	waitbutton
+	closepokepic
 
 .GotUnownDex:
 	writetext RuinsOfAlphResearchCenterScientist1Text_GotUnownDex

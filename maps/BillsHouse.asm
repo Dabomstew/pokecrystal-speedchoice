@@ -36,6 +36,9 @@ BillsGrandpa:
 	iffalse .askLickitung
 	refreshscreen
 	pokepic LICKITUNG
+	;;TODO Set seen flag for MonLockedChecks
+	setval LICKITUNG
+	special UnusedSetSeenMon
 	cry LICKITUNG
 	waitbutton
 	closepokepic
@@ -61,7 +64,9 @@ BillsGrandpa:
         iffalse .askOddish
         refreshscreen
         pokepic ODDISH
-        cry ODDISH
+        setval ODDISH
+        special UnusedSetSeenMon
+	cry ODDISH
         waitbutton
         closepokepic
 
@@ -84,7 +89,9 @@ BillsGrandpa:
 	checkitemrando
         iffalse .askStaryu
         refreshscreen
-        pokepic STARYU
+	pokepic STARYU
+	setval STARYU
+        special UnusedSetSeenMon
         cry STARYU
         waitbutton
         closepokepic
@@ -111,6 +118,8 @@ BillsGrandpa:
         iffalse .askGrowlithe
         refreshscreen
         pokepic GROWLITHE
+	setval GROWLITHE
+        special UnusedSetSeenMon
         cry GROWLITHE
         waitbutton
         closepokepic
@@ -149,6 +158,8 @@ BillsGrandpa:
         iffalse .askPichu
         refreshscreen
         pokepic PICHU
+	setval PICHU
+        special UnusedSetSeenMon
         cry PICHU
         waitbutton
         closepokepic

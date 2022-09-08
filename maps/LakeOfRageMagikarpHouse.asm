@@ -34,6 +34,18 @@ MagikarpLengthRaterScript:
 	waitbutton
 	closetext
 	setevent EVENT_LAKE_OF_RAGE_ASKED_FOR_MAGIKARP
+	checkitemrando
+	iftrue .SeeMagikarp
+	end
+
+.SeeMagikarp:
+	refreshscreen
+        pokepic MAGIKARP
+        setval MAGIKARP
+        special UnusedSetSeenMon
+        cry MAGIKARP
+        waitbutton
+        closepokepic
 	end
 
 .AskedForMagikarp:
