@@ -30,6 +30,7 @@ VioletGymFalknerScript:
 	setevent EVENT_BEAT_BIRD_KEEPER_ROD
 	setevent EVENT_BEAT_BIRD_KEEPER_ABE
 	specialphonecall SPECIALCALL_ASSISTANT
+	clearevent EVENT_ELMS_AIDE_IN_VIOLET_POKEMON_CENTER
 	writetext FalknerZephyrBadgeText
 	promptbutton
 	verbosegiveitem TM_MUD_SLAP

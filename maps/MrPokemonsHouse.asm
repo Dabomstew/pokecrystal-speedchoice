@@ -136,6 +136,7 @@ MrPokemonsHouse_OakScript:
 	checkevent EVENT_GOT_CHIKORITA_FROM_ELM
 	iftrue .RivalTakesCyndaquil
 	setevent EVENT_TOTODILE_POKEBALL_IN_ELMS_LAB
+	setevent EVENT_ELM_CALLED_ABOUT_STOLEN_POKEMON
 	end
 
 .RivalTakesChikorita:

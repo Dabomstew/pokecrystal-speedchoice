@@ -82,7 +82,7 @@ ElmPhoneCallerScript:
 	farwritetext ElmPhoneEggAssistantText
 	specialphonecall SPECIALCALL_NONE
 	clearevent EVENT_ELMS_AIDE_IN_VIOLET_POKEMON_CENTER
-	setevent EVENT_ELMS_AIDE_IN_LAB
+;;	setevent EVENT_ELMS_AIDE_IN_LAB
 	end
 
 .rocket
