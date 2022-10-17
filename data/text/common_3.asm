@@ -483,6 +483,13 @@ _EvolvingText::
 	text_start
 	line "is evolving!"
 	done
+	
+_EvolvingTextEL::
+	text "What? @"
+	text_ram wStringBuffer2
+	text_start
+	line "is rand evolving!"
+	done
 
 _MartHowManyText::
 	text "How many?"
