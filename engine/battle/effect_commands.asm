@@ -3397,7 +3397,7 @@ FarPlayBattleAnimation:
 	and 1 << SUBSTATUS_FLYING | 1 << SUBSTATUS_UNDERGROUND
 	ret nz
 
-	call _CheckBattleScene
+	call _CheckBattleScene2
 	ret c
 
 	; fallthrough
@@ -3476,7 +3476,7 @@ DoEnemyDamage:
 	hlcoord 2, 2
 	xor a
 	ld [wWhichHPBar], a
-	call _CheckBattleScene
+	call _CheckBattleScene2
 	jp c, .did_no_damage
 	predef AnimateHPBar
 .did_no_damage
@@ -3542,7 +3542,7 @@ DoPlayerDamage:
 	hlcoord 10, 9
 	ld a, 1
 	ld [wWhichHPBar], a
-	call _CheckBattleScene
+	call _CheckBattleScene2
         jp c, .did_no_damage
 	predef AnimateHPBar
 .did_no_damage
@@ -6816,7 +6816,7 @@ LoadAnim:
 	; fallthrough
 
 PlayUserBattleAnim:
-	call _CheckBattleScene
+	call _CheckBattleScene2
         ret c
 
 	push hl
@@ -6829,7 +6829,7 @@ PlayUserBattleAnim:
 	ret
 
 PlayOpponentBattleAnim:
-	call _CheckBattleScene
+	call _CheckBattleScene2
 	ret c
 
 	ld a, e
@@ -6927,6 +6927,17 @@ AppearUserLowerSub:
 AppearUserRaiseSub:
 	farcall _AppearUserRaiseSub
 	ret
+
+_CheckBattleScene2:
+; Checks the options.  Returns carry if all battle animations are disabled.
+        push hl
+        push de
+        push bc
+        farcall CheckBattleScene2
+        pop bc
+        pop de
+        pop hl
+        ret
 
 _CheckBattleScene:
 ; Checks the options.  Returns carry if battle animations are disabled.

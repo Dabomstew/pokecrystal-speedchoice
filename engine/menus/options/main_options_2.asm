@@ -38,10 +38,13 @@ Options_Nicknames:
 	jp Options_TrueFalse
 
 .Options
-	dw .Yes
-	dw .No
+        dw .Yes
+        dw .No
 
 .Yes
-	db "YES@"
+        db "YES@"
 .No
-	db "NO @"
+        db "NO @"
+
+
+

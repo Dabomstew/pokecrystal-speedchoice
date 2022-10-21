@@ -10,7 +10,9 @@ PermaOptionsP4String::
 	db "CHANGE HAPPY EVO<LF>"
 	db "        :<LF>"
 	db "GUARANTEED CATCH<LF>"
-	db "        :@"
+	db "        :<LF>"
+	db "EXTRA ANIMATIONS<LF>"
+        db "        :<LF>@"
 
 PermaOptionsP4Pointers::
 	dw Options_EarlyKantoDex
@@ -19,6 +21,7 @@ PermaOptionsP4Pointers::
 	dw Options_EvolveEveryLevel
 	dw Options_NoHappyEvo
 	dw Options_GuaranteedCatch
+	dw Options_RemoveAnimations
 	dw Options_PermaOptionsPage
 PermaOptionsP4PointersEnd::
 
@@ -51,3 +54,8 @@ Options_GuaranteedCatch:
 	ld hl, GUARANTEED_CATCH_ADDRESS
 	lb bc, GUARANTEED_CATCH, 13
 	jp Options_OnOff
+
+Options_RemoveAnimations:
+        ld hl, REMOVE_ANIMATIONS_ADDRESS
+        lb bc, REMOVE_ANIMATIONS, 15
+	jp Options_InvertedOnOff
