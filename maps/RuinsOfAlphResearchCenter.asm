@@ -105,6 +105,7 @@ RuinsOfAlphResearchCenterScientist1Script:
 	cry UNOWN
 	waitbutton
 	closepokepic
+	closetext
 
 .GotUnownDex:
 	writetext RuinsOfAlphResearchCenterScientist1Text_GotUnownDex

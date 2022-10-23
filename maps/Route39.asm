@@ -67,9 +67,9 @@ TrainerPokefanmDerek:
 .WantsPikachu:
 	writetext PokefanMDerekPikachuIsItText
 	waitbutton
-	closetext
 	checkitemrando
         iftrue .SeePikachu
+	closetext
         end
 
 .SeePikachu:
@@ -78,8 +78,10 @@ TrainerPokefanmDerek:
         setval PIKACHU
         special UnusedSetSeenMon
         cry PIKACHU
+	waitsfx
         waitbutton
-        closepokepic
+	closepokepic
+	closetext
         end
 
 .AskNumber1:

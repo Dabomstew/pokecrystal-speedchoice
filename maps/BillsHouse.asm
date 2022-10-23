@@ -36,12 +36,12 @@ BillsGrandpa:
 	iffalse .askLickitung
 	refreshscreen
 	pokepic LICKITUNG
-	;;TODO Set seen flag for MonLockedChecks
 	setval LICKITUNG
 	special UnusedSetSeenMon
 	cry LICKITUNG
 	waitbutton
 	closepokepic
+	closetext
 
 
 .askLickitung
@@ -69,6 +69,7 @@ BillsGrandpa:
 	cry ODDISH
         waitbutton
         closepokepic
+	closetext
 
 .askOddish
 	writetext BillsGrandpaAskToSeeMonText
@@ -95,6 +96,7 @@ BillsGrandpa:
         cry STARYU
         waitbutton
         closepokepic
+	closetext
 
 .askStaryu
 	writetext BillsGrandpaAskToSeeMonText
@@ -123,6 +125,7 @@ BillsGrandpa:
         cry GROWLITHE
         waitbutton
         closepokepic
+	closetext
 
 .askGrowlithe
 	writetext BillsGrandpaAskToSeeMonText
@@ -163,6 +166,7 @@ BillsGrandpa:
         cry PICHU
         waitbutton
         closepokepic
+	closetext
 
 .askPichu
 	writetext BillsGrandpaAskToSeeMonText

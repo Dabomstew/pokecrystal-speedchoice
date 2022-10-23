@@ -241,9 +241,9 @@ TrainerPokefanfBeverly1:
 .NoMarill:
 	writetext PokefanFBeverlyMarillFriendText
 	waitbutton
-	closetext
 	checkitemrando
 	iftrue .SeeMarill
+	closetext
 	end
 
 .SeeMarill:
@@ -254,6 +254,7 @@ TrainerPokefanfBeverly1:
         cry MARILL
         waitbutton
         closepokepic
+	closetext
 	end
 
 .AskNumber1:

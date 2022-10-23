@@ -32,10 +32,10 @@ MagikarpLengthRaterScript:
 .ClearedRocketHideout:
 	writetext MagikarpLengthRaterText_WorldsLargestMagikarp
 	waitbutton
-	closetext
 	setevent EVENT_LAKE_OF_RAGE_ASKED_FOR_MAGIKARP
 	checkitemrando
 	iftrue .SeeMagikarp
+	closetext
 	end
 
 .SeeMagikarp:
@@ -46,6 +46,7 @@ MagikarpLengthRaterScript:
         cry MAGIKARP
         waitbutton
         closepokepic
+	closetext
 	end
 
 .AskedForMagikarp:

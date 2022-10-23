@@ -268,9 +268,9 @@ TrainerPicnickerTiffany:
 .NoClefairy:
 	writetext PicnickerTiffanyClefairyText
 	waitbutton
-	closetext
         checkitemrando
         iftrue .SeeClefairy
+	closetext
         end
 
 .SeeClefairy:
@@ -281,6 +281,7 @@ TrainerPicnickerTiffany:
         cry CLEFAIRY
         waitbutton
         closepokepic
+	closetext
         end
 
 .AskNumber1:
