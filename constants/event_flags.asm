@@ -316,9 +316,9 @@
 	const EVENT_12D
 	const EVENT_12E ; Up to here for berry flags
 	const EVENT_12F
-	const EVENT_130
-	const EVENT_131
-	const EVENT_132
+	const EVENT_SPOKE_TO_TM12_NPC
+	const EVENT_SPOKE_TO_TM02_NPC
+	const EVENT_SPOKE_TO_TM08_NPC
 	const EVENT_133
 	const EVENT_134
 	const EVENT_135

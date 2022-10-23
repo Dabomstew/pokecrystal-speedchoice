@@ -2904,7 +2904,7 @@ Script_goldenrodmart5f:
 	ld hl, wBuffer1
 	ld [hl], 0
 
-	ld de, EVENT_GOT_TM02_HEADBUTT
+	ld de, EVENT_SPOKE_TO_TM02_NPC ;; EVENT_GOT_TM02_HEADBUTT
 	ld b, CHECK_FLAG
 	push hl
 	call EventFlagAction
@@ -2914,7 +2914,7 @@ Script_goldenrodmart5f:
 	jr z, .noHeadbutt
 	set 0, [hl]
 .noHeadbutt
-	ld de, EVENT_GOT_TM08_ROCK_SMASH
+	ld de, EVENT_SPOKE_TO_TM08_NPC ;;EVENT_GOT_TM08_ROCK_SMASH
 	ld b, CHECK_FLAG
 	push hl
 	call EventFlagAction
@@ -2926,7 +2926,7 @@ Script_goldenrodmart5f:
 .noRockSmash
 	sboptioncheck BETTER_MARTS
 	jr z, .noSweetScent
-	ld de, EVENT_GOT_TM12_SWEET_SCENT
+	ld de, EVENT_SPOKE_TO_TM12_NPC ;;EVENT_GOT_TM12_SWEET_SCENT
 	ld b, CHECK_FLAG
 	push hl
 	call EventFlagAction
