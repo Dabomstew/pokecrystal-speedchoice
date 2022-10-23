@@ -21,8 +21,12 @@ OlivineGymJasmineScript:
 	reloadmapafterbattle
 	setevent EVENT_BEAT_JASMINE
 	opentext
-	verbosesetflag ENGINE_MINERALBADGE
 .FightDone:
+	checkevent EVENT_GOT_MINERAL_BADGE
+	iftrue .GotMineralBadge
+	verbosesetflag ENGINE_MINERALBADGE
+	iffalse .GotMineralBadge
+.GotMineralBadge:
 	checkevent EVENT_GOT_TM23_IRON_TAIL
 	iftrue .GotIronTail
 	writetext Jasmine_BadgeSpeech

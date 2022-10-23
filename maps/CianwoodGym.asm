@@ -42,9 +42,18 @@ CianwoodGymChuckScript:
 	startbattle
 	reloadmapafterbattle
 	setevent EVENT_BEAT_CHUCK
+        setevent EVENT_BEAT_BLACKBELT_YOSHI
+        setevent EVENT_BEAT_BLACKBELT_LAO
+        setevent EVENT_BEAT_BLACKBELT_NOB
+        setevent EVENT_BEAT_BLACKBELT_LUNG
 	opentext
-	verbosesetflag ENGINE_STORMBADGE
 .FightDone:
+	checkevent EVENT_GOT_STORM_BADGE
+	iftrue .GotStormBadge
+	verbosesetflag ENGINE_STORMBADGE
+	iffalse .GotStormBadge
+	setevent EVENT_GOT_STORM_BADGE
+.GotStormBadge:
 	checkevent EVENT_GOT_TM01_DYNAMICPUNCH
 	iftrue .AlreadyGotTM
 	setevent EVENT_BEAT_BLACKBELT_YOSHI

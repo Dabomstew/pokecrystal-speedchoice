@@ -209,8 +209,11 @@ OlderHaircutBrotherScript:
 	sjump GoldenrodUndergroundScript_ShopClosed
 
 .DoHaircut:
+       	checkitemrando
+        iftrue .PerformHaircut
 	checkflag ENGINE_GOLDENROD_UNDERGROUND_GOT_HAIRCUT
 	iftrue .AlreadyGotHaircut
+.PerformHaircut:
 	special PlaceMoneyTopRight
 	writetext GoldenrodUndergroundOlderHaircutBrotherOfferHaircutText
 	yesorno
@@ -294,8 +297,11 @@ YoungerHaircutBrotherScript:
 	sjump GoldenrodUndergroundScript_ShopClosed
 
 .DoHaircut:
+	checkitemrando
+	iftrue .PerformHaircut
 	checkflag ENGINE_GOLDENROD_UNDERGROUND_GOT_HAIRCUT
 	iftrue .AlreadyGotHaircut
+.PerformHaircut:
 	special PlaceMoneyTopRight
 	writetext GoldenrodUndergroundYoungerHaircutBrotherOfferHaircutText
 	yesorno

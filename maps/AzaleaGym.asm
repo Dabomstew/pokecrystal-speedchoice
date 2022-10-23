@@ -28,6 +28,12 @@ AzaleaGymBugsyScript:
 	opentext
 	verbosesetflag ENGINE_HIVEBADGE
 .FightDone:
+	checkevent EVENT_GOT_HIVE_BADGE
+	iftrue .GotHiveBadge
+	verbosesetflag ENGINE_HIVEBADGE
+	iffalse .GotHiveBadge
+	setevent EVENT_GOT_HIVE_BADGE
+.GotHiveBadge:
 	checkevent EVENT_GOT_TM49_FURY_CUTTER
 	iftrue .GotFuryCutter
 	setevent EVENT_BEAT_TWINS_AMY_AND_MAY
