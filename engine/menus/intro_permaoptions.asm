@@ -1,8 +1,17 @@
 VersionNumberText::
-	db "v7.4@"
+        db "v7.4@"
 
-;;Revision Number
+SpeedchoiceVersion:
+; Speedchoice Major Version
+db 7
+
+; Speedchoice Minor Version
+db 4
+
+; Speedchoice Revision
 db 1
+
+
 
 IntroPermaOptions::
 	xor a
