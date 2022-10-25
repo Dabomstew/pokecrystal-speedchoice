@@ -40,12 +40,12 @@ MagikarpLengthRaterScript:
 
 .SeeMagikarp:
 	refreshscreen
-        pokepic MAGIKARP
-        setval MAGIKARP
-        special UnusedSetSeenMon
-        cry MAGIKARP
-        waitbutton
-        closepokepic
+	pokepic MAGIKARP
+	setval MAGIKARP
+	special UnusedSetSeenMon
+	cry MAGIKARP
+	waitbutton
+	closepokepic
 	closetext
 	end
 

@@ -46,8 +46,8 @@ BillsGrandpa:
 
 .askLickitung
 	writetext BillsGrandpaAskToSeeMonText
-        yesorno
-        iffalse .SaidNo
+	yesorno
+	iffalse .SaidNo
 	scall .ExcitedToSee
 	special BillsGrandfather
 	iffalse .SaidNo
@@ -61,14 +61,14 @@ BillsGrandpa:
 	promptbutton
 
 	checkitemrando
-        iffalse .askOddish
-        refreshscreen
-        pokepic ODDISH
-        setval ODDISH
-        special UnusedSetSeenMon
+	iffalse .askOddish
+	refreshscreen
+	pokepic ODDISH
+	setval ODDISH
+	special UnusedSetSeenMon
 	cry ODDISH
-        waitbutton
-        closepokepic
+	waitbutton
+	closepokepic
 	closetext
 
 .askOddish
@@ -88,14 +88,14 @@ BillsGrandpa:
 	promptbutton
 
 	checkitemrando
-        iffalse .askStaryu
-        refreshscreen
+	iffalse .askStaryu
+	refreshscreen
 	pokepic STARYU
 	setval STARYU
-        special UnusedSetSeenMon
-        cry STARYU
-        waitbutton
-        closepokepic
+	special UnusedSetSeenMon
+	cry STARYU
+	waitbutton
+	closepokepic
 	closetext
 
 .askStaryu
@@ -117,14 +117,14 @@ BillsGrandpa:
 	promptbutton
 
 	checkitemrando
-        iffalse .askGrowlithe
-        refreshscreen
-        pokepic GROWLITHE
+	iffalse .askGrowlithe
+	refreshscreen
+	pokepic GROWLITHE
 	setval GROWLITHE
-        special UnusedSetSeenMon
-        cry GROWLITHE
-        waitbutton
-        closepokepic
+	special UnusedSetSeenMon
+	cry GROWLITHE
+	waitbutton
+	closepokepic
 	closetext
 
 .askGrowlithe
@@ -158,14 +158,14 @@ BillsGrandpa:
 	promptbutton
 
 	checkitemrando
-        iffalse .askPichu
-        refreshscreen
-        pokepic PICHU
+	iffalse .askPichu
+	refreshscreen
+	pokepic PICHU
 	setval PICHU
-        special UnusedSetSeenMon
-        cry PICHU
-        waitbutton
-        closepokepic
+	special UnusedSetSeenMon
+	cry PICHU
+	waitbutton
+	closepokepic
 	closetext
 
 .askPichu

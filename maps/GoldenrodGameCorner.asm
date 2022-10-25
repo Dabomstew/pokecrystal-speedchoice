@@ -248,7 +248,7 @@ GoldenrodGameCornerPkmnVendor_MenuData:
 	db STATICMENU_CURSOR ; flags
 	db 4 ; items
 Randomizer_GameCornerAbraName::
-	db "ABRA        100@"
+	db "ABRA	100@"
 Randomizer_GameCornerCuboneName::
 	db "CUBONE      800@"
 Randomizer_GameCornerWobbuffetName::

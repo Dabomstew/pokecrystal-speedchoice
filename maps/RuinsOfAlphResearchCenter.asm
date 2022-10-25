@@ -91,7 +91,7 @@ RuinsOfAlphResearchCenterScientist1Script:
 .UnownAppeared:
 	checkitemrando
 	iftrue .SeeUnown
-        special UnusedSetSeenMon
+	special UnusedSetSeenMon
 	writetext RuinsOfAlphResearchCenterScientist1Text_UnownAppeared
 	waitbutton
 	closetext

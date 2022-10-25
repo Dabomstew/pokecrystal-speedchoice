@@ -381,18 +381,18 @@ ElmWaitingEggHatchScript:
 	checkitemrando
 	iffalse .SeenTogepi
 	refreshscreen
-        pokepic TOGEPI
-        setval TOGEPI
-        special UnusedSetSeenMon
-        cry TOGEPI
-        waitbutton
-        closepokepic
+	pokepic TOGEPI
+	setval TOGEPI
+	special UnusedSetSeenMon
+	cry TOGEPI
+	waitbutton
+	closepokepic
 
 .SeenTogepi:
 	writetext ElmWaitingEggHatchText
-        waitbutton
-        closetext
-        end
+	waitbutton
+	closetext
+	end
 
 
 ShowElmTogepiScript:

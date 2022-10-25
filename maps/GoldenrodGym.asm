@@ -58,7 +58,7 @@ GoldenrodGymWhitneyScript:
 	setevent EVENT_GOT_PLAIN_BADGE
 .GotPlainBadge:
 	checkevent EVENT_GOT_TM45_ATTRACT
-        iftrue .GotAttract
+	iftrue .GotAttract
 	writetext WhitneyPlainBadgeText
 	promptbutton
 	verbosegiveitem TM_ATTRACT

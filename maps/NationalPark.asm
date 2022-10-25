@@ -248,12 +248,12 @@ TrainerPokefanfBeverly1:
 
 .SeeMarill:
 	refreshscreen
-        pokepic MARILL
-        setval MARILL
-        special UnusedSetSeenMon
-        cry MARILL
-        waitbutton
-        closepokepic
+	pokepic MARILL
+	setval MARILL
+	special UnusedSetSeenMon
+	cry MARILL
+	waitbutton
+	closepokepic
 	closetext
 	end
 

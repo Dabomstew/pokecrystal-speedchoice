@@ -51,7 +51,7 @@ GoldenrodUnderground_MapScripts:
 
 .CheckDayOfWeek:
 	checkitemrando
-        iftrue .AnyDay
+	iftrue .AnyDay
 	readvar VAR_WEEKDAY
 	ifequal MONDAY, .Monday
 	ifequal TUESDAY, .Tuesday
@@ -181,8 +181,8 @@ BitterMerchantScript:
 
 BargainMerchantScript:
 	opentext
-        checkitemrando
-        iftrue .OpenBargain
+	checkitemrando
+	iftrue .OpenBargain
 	checkflag ENGINE_GOLDENROD_UNDERGROUND_MERCHANT_CLOSED
 	iftrue GoldenrodUndergroundScript_ShopClosed
 	readvar VAR_WEEKDAY
@@ -200,8 +200,8 @@ BargainMerchantScript:
 
 OlderHaircutBrotherScript:
 	opentext
-        checkitemrando
-        iftrue .DoHaircut
+	checkitemrando
+	iftrue .DoHaircut
 	readvar VAR_WEEKDAY
 	ifequal TUESDAY, .DoHaircut
 	ifequal THURSDAY, .DoHaircut
@@ -210,7 +210,7 @@ OlderHaircutBrotherScript:
 
 .DoHaircut:
        	checkitemrando
-        iftrue .PerformHaircut
+	iftrue .PerformHaircut
 	checkflag ENGINE_GOLDENROD_UNDERGROUND_GOT_HAIRCUT
 	iftrue .AlreadyGotHaircut
 .PerformHaircut:
@@ -288,8 +288,8 @@ OlderHaircutBrotherScript:
 
 YoungerHaircutBrotherScript:
 	opentext
-        checkitemrando
-        iftrue .DoHaircut
+	checkitemrando
+	iftrue .DoHaircut
 	readvar VAR_WEEKDAY
 	ifequal SUNDAY, .DoHaircut
 	ifequal WEDNESDAY, .DoHaircut

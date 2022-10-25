@@ -22,9 +22,9 @@ VioletGymFalknerScript:
 	startbattle
 	reloadmapafterbattle
 	setevent EVENT_BEAT_BIRD_KEEPER_ROD
-        setevent EVENT_BEAT_BIRD_KEEPER_ABE
-        specialphonecall SPECIALCALL_ASSISTANT
-        clearevent EVENT_ELMS_AIDE_IN_VIOLET_POKEMON_CENTER
+	setevent EVENT_BEAT_BIRD_KEEPER_ABE
+	specialphonecall SPECIALCALL_ASSISTANT
+	clearevent EVENT_ELMS_AIDE_IN_VIOLET_POKEMON_CENTER
 	setevent EVENT_BEAT_FALKNER
 	opentext
 .FightDone:

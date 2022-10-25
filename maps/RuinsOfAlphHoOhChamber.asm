@@ -19,7 +19,7 @@ RuinsOfAlphHoOhChamber_MapScripts:
 	checkevent EVENT_WALL_OPENED_IN_HO_OH_CHAMBER
 	iftrue .OpenWall
 	getX 0, 1
-        iftrue .OpenWall
+	iftrue .OpenWall
 	end
 
 .OpenWall:

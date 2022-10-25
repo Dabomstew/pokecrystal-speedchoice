@@ -38,10 +38,10 @@ EcruteakGymMortyScript:
 	setmapscene ECRUTEAK_TIN_TOWER_ENTRANCE, SCENE_FINISHED
 	setevent EVENT_RANG_CLEAR_BELL_1
 	setevent EVENT_RANG_CLEAR_BELL_2
-        setevent EVENT_BEAT_SAGE_JEFFREY
-        setevent EVENT_BEAT_SAGE_PING
-        setevent EVENT_BEAT_MEDIUM_MARTHA
-        setevent EVENT_BEAT_MEDIUM_GRACE
+	setevent EVENT_BEAT_SAGE_JEFFREY
+	setevent EVENT_BEAT_SAGE_PING
+	setevent EVENT_BEAT_MEDIUM_MARTHA
+	setevent EVENT_BEAT_MEDIUM_GRACE
 .FightDone:
 	checkevent EVENT_GOT_FOG_BADGE
 	iftrue .GotFogBadge
