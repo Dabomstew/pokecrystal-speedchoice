@@ -56,10 +56,6 @@ CianwoodGymChuckScript:
 .GotStormBadge:
 	checkevent EVENT_GOT_TM01_DYNAMICPUNCH
 	iftrue .AlreadyGotTM
-	setevent EVENT_BEAT_BLACKBELT_YOSHI
-	setevent EVENT_BEAT_BLACKBELT_LAO
-	setevent EVENT_BEAT_BLACKBELT_NOB
-	setevent EVENT_BEAT_BLACKBELT_LUNG
 	writetext ChuckExplainBadgeText
 	promptbutton
 	verbosegiveitem TM_DYNAMICPUNCH
