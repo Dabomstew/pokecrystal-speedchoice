@@ -32,8 +32,6 @@ SaffronGymSabrinaScript:
 	writetext SabrinaMarshBadgeText
 	waitbutton
 	closetext
-	;end
-
 .FightDone:
 	checkevent EVENT_GOT_MARSH_BADGE
 	iftrue .GotMarshBadge

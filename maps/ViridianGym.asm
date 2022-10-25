@@ -24,8 +24,6 @@ ViridianGymBlueScript:
 	writetext LeaderBlueAfterText
 	waitbutton
 	closetext
-	;end
-
 .FightDone:
 	checkevent EVENT_GOT_EARTH_BADGE
 	iftrue .GotEarthBadge
