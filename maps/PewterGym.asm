@@ -26,7 +26,7 @@ PewterGymBrockScript:
 	writetext BrockBoulderBadgeText
 	waitbutton
 	closetext
-	end
+	;end
 
 .FightDone:
 	checkevent EVENT_GOT_BOULDER_BADGE

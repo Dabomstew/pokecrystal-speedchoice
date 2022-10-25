@@ -30,7 +30,7 @@ VermilionGymSurgeScript:
 	writetext LtSurgeThunderBadgeText
 	waitbutton
 	closetext
-	end
+	;end
 
 .FightDone:
 	checkevent EVENT_GOT_THUNDER_BADGE

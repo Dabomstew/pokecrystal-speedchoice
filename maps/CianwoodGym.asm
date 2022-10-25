@@ -42,10 +42,10 @@ CianwoodGymChuckScript:
 	startbattle
 	reloadmapafterbattle
 	setevent EVENT_BEAT_CHUCK
-        setevent EVENT_BEAT_BLACKBELT_YOSHI
-        setevent EVENT_BEAT_BLACKBELT_LAO
-        setevent EVENT_BEAT_BLACKBELT_NOB
-        setevent EVENT_BEAT_BLACKBELT_LUNG
+	setevent EVENT_BEAT_BLACKBELT_YOSHI
+	setevent EVENT_BEAT_BLACKBELT_LAO
+	setevent EVENT_BEAT_BLACKBELT_NOB
+	setevent EVENT_BEAT_BLACKBELT_LUNG
 	opentext
 .FightDone:
 	checkevent EVENT_GOT_STORM_BADGE

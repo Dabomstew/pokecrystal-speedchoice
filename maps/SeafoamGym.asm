@@ -31,7 +31,7 @@ SeafoamGymBlaineScript:
 	writetext BlaineAfterBattleText
 	waitbutton
 	closetext
-	end
+	;end
 
 .FightDone:
 	checkevent EVENT_GOT_VOLCANO_BADGE

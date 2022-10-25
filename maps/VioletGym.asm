@@ -31,13 +31,12 @@ VioletGymFalknerScript:
 	checkevent EVENT_GOT_ZEPHYR_BADGE
 	iftrue .GotZephyrBadge
 	verbosesetflag ENGINE_ZEPHYRBADGE
+	promptbutton
 	iffalse .GotZephyrBadge
 	setevent EVENT_GOT_ZEPHYR_BADGE
 .GotZephyrBadge:
 	checkevent EVENT_GOT_TM31_MUD_SLAP
 	iftrue .SpeechAfterTM
-	verbosesetflag ENGINE_ZEPHYRBADGE
-	promptbutton
 	verbosegiveitem TM_MUD_SLAP
 	iffalse .NoRoomForMudSlap
 	setevent EVENT_GOT_TM31_MUD_SLAP

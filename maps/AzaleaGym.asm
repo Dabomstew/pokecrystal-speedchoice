@@ -25,8 +25,11 @@ AzaleaGymBugsyScript:
 	startbattle
 	reloadmapafterbattle
 	setevent EVENT_BEAT_BUGSY
+	setevent EVENT_BEAT_TWINS_AMY_AND_MAY
+	setevent EVENT_BEAT_BUG_CATCHER_BENNY
+	setevent EVENT_BEAT_BUG_CATCHER_AL
+	setevent EVENT_BEAT_BUG_CATCHER_JOSH
 	opentext
-	verbosesetflag ENGINE_HIVEBADGE
 .FightDone:
 	checkevent EVENT_GOT_HIVE_BADGE
 	iftrue .GotHiveBadge
@@ -36,10 +39,6 @@ AzaleaGymBugsyScript:
 .GotHiveBadge:
 	checkevent EVENT_GOT_TM49_FURY_CUTTER
 	iftrue .GotFuryCutter
-	setevent EVENT_BEAT_TWINS_AMY_AND_MAY
-	setevent EVENT_BEAT_BUG_CATCHER_BENNY
-	setevent EVENT_BEAT_BUG_CATCHER_AL
-	setevent EVENT_BEAT_BUG_CATCHER_JOSH
 	writetext BugsyText_HiveBadgeSpeech
 	promptbutton
 	verbosegiveitem TM_FURY_CUTTER
