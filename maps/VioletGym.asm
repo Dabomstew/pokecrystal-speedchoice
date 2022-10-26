@@ -37,6 +37,7 @@ VioletGymFalknerScript:
 .GotZephyrBadge:
 	checkevent EVENT_GOT_TM31_MUD_SLAP
 	iftrue .SpeechAfterTM
+	writetext FalknerZephyrBadgeText
 	verbosegiveitem TM_MUD_SLAP
 	iffalse .NoRoomForMudSlap
 	setevent EVENT_GOT_TM31_MUD_SLAP
