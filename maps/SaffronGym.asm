@@ -33,7 +33,7 @@ SaffronGymSabrinaScript:
 	checkevent EVENT_GOT_MARSH_BADGE
 	iftrue .GotMarshBadge
 	verbosesetflag ENGINE_MARSHBADGE
-	iffalse .GotMarshBadge
+	iffalse .EndSabrina
 	setevent EVENT_GOT_MARSH_BADGE
 .EndSabrina
 	writetext SabrinaMarshBadgeText
