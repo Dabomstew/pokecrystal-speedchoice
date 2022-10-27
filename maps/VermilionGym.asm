@@ -27,15 +27,17 @@ VermilionGymSurgeScript:
 	setevent EVENT_BEAT_GUITARIST_VINCENT
 	setevent EVENT_BEAT_JUGGLER_HORTON
 	opentext
-	writetext LtSurgeThunderBadgeText
-	waitbutton
-	closetext
 .FightDone:
 	checkevent EVENT_GOT_THUNDER_BADGE
 	iftrue .GotThunderBadge
 	verbosesetflag ENGINE_THUNDERBADGE
-	iffalse .GotThunderBadge
+	iffalse .EndSurge
 	setevent EVENT_GOT_THUNDER_BADGE
+.EndSurge
+	writetext LtSurgeThunderBadgeText
+	waitbutton
+	closetext
+	end
 .GotThunderBadge
 	writetext LtSurgeFightDoneText
 	waitbutton

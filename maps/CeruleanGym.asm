@@ -78,8 +78,12 @@ CeruleanGymMistyScript:
 	checkevent EVENT_GOT_CASCADE_BADGE
 	iftrue .GotCascadeBadge
 	verbosesetflag ENGINE_CASCADEBADGE
-	iffalse .GotCascadeBadge
+	iffalse .EndMisty
 	setevent EVENT_GOT_CASCADE_BADGE
+.EndMisty
+	writetext ReceivedCascadeBadgeText
+	closetext
+	end
 .GotCascadeBadge:
 	writetext MistyFightDoneText
 	waitbutton

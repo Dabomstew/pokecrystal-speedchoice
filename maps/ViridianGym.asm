@@ -21,15 +21,17 @@ ViridianGymBlueScript:
 	reloadmapafterbattle
 	setevent EVENT_BEAT_BLUE
 	opentext
-	writetext LeaderBlueAfterText
-	waitbutton
-	closetext
 .FightDone:
 	checkevent EVENT_GOT_EARTH_BADGE
 	iftrue .GotEarthBadge
 	verbosesetflag ENGINE_EARTHBADGE
-	iffalse .GotEarthBadge
+	iffalse .EndBlue
 	setevent EVENT_GOT_EARTH_BADGE
+.EndBlue:
+	writetext LeaderBlueAfterText
+	waitbutton
+	closetext
+	end
 .GotEarthBadge:
 	writetext LeaderBlueEpilogueText
 	waitbutton
