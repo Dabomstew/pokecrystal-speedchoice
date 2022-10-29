@@ -25,7 +25,9 @@ OlivineGymJasmineScript:
 	checkevent EVENT_GOT_MINERAL_BADGE
 	iftrue .GotMineralBadge
 	verbosesetflag ENGINE_MINERALBADGE
+	promptbutton
 	iffalse .GotMineralBadge
+	setevent EVENT_GOT_MINERAL_BADGE
 .GotMineralBadge:
 	checkevent EVENT_GOT_TM23_IRON_TAIL
 	iftrue .GotIronTail

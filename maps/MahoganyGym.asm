@@ -35,7 +35,9 @@ MahoganyGymPryceScript:
 	checkevent EVENT_GOT_GLACIER_BADGE
 	iftrue .GotGlacierBadge
 	verbosesetflag ENGINE_GLACIERBADGE
+	promptbutton
 	iffalse .GotGlacierBadge
+	setevent EVENT_GOT_GLACIER_BADGE
 .GotGlacierBadge:
 	checkevent EVENT_GOT_TM16_ICY_WIND
 	iftrue PryceScript_Defeat
