@@ -488,8 +488,12 @@ INCLUDE "engine/pokemon/bills_pc.asm"
 
 SECTION "bank39", ROMX
 
-INCLUDE "engine/menus/options_menu.asm"
 INCLUDE "engine/movie/crystal_intro.asm"
+
+
+SECTION "bank3A", ROMX
+
+INCLUDE "engine/menus/options_menu.asm"
 
 
 SECTION "bank3E", ROMX

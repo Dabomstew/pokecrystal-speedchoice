@@ -504,6 +504,7 @@ PermaOptionsMenuScreens:
 	options_menu PermaOptionsP2String, PermaOptionsP2Pointers, START
 	options_menu PermaOptionsP3String, PermaOptionsP3Pointers, START
 	options_menu PermaOptionsP4String, PermaOptionsP4Pointers, START
+	options_menu PermaOptionsP5String, PermaOptionsP5Pointers, START
 PermaOptionsMenuScreensEnd:
 
 INCLUDE "engine/menus/options/main_options.asm"
@@ -512,6 +513,7 @@ INCLUDE "engine/menus/options/perma_options.asm"
 INCLUDE "engine/menus/options/perma_options_2.asm"
 INCLUDE "engine/menus/options/perma_options_3.asm"
 INCLUDE "engine/menus/options/perma_options_4.asm"
+INCLUDE "engine/menus/options/perma_options_5.asm"
 
 NameNotSetText::
 	text "Please set your"
