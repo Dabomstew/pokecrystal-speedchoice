@@ -1689,6 +1689,9 @@ BikeFunction:
 	ret
 
 .CheckEnvironment:
+	sboptioncheck BIKE_INDOORS
+	jr nz, .ok
+
 	call GetMapEnvironment
 	call CheckOutdoorMap
 	jr z, .ok
