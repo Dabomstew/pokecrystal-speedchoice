@@ -1001,9 +1001,11 @@ DoRepelStep:
 	ld hl, wNumItems
 	call CheckItem
 
+	sboptioncheck FAST_REPEL
+
 	ld a, BANK(RepelWoreOffScript)
 	ld hl, RepelWoreOffScript
-
+	jr z, .got_script
 	jr nc, .got_script
 	ld a, BANK(UseAnotherRepelScript)
 	ld hl, UseAnotherRepelScript

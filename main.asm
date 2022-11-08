@@ -494,12 +494,6 @@ SECTION "bank3A", ROMX
 
 INCLUDE "engine/menus/options_menu.asm"
 
-
-SECTION "bank3A", ROMX
-
-INCLUDE "engine/menus/options_menu.asm"
-
-
 SECTION "bank3E", ROMX
 
 INCLUDE "engine/gfx/load_font.asm"
