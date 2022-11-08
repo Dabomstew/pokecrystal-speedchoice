@@ -11,7 +11,7 @@ PermaOptionsP4String::
 	db "        :<LF>"
 	db "GUARANTEED CATCH<LF>"
 	db "        :<LF>"
-	db "EXTRA ANIMATIONS<LF>"
+	db "REMOVE ANIMATIONS<LF>"
         db "        :<LF>@"
 
 PermaOptionsP4Pointers::
