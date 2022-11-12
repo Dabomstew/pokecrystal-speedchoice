@@ -41,7 +41,7 @@ BillsGrandpa:
 	cry LICKITUNG
 	waitbutton
 	closepokepic
-	closetext
+	;closetext
 
 
 .askLickitung
@@ -69,7 +69,7 @@ BillsGrandpa:
 	cry ODDISH
 	waitbutton
 	closepokepic
-	closetext
+	;closetext
 
 .askOddish
 	writetext BillsGrandpaAskToSeeMonText
@@ -96,7 +96,7 @@ BillsGrandpa:
 	cry STARYU
 	waitbutton
 	closepokepic
-	closetext
+	;closetext
 
 .askStaryu
 	writetext BillsGrandpaAskToSeeMonText
@@ -125,7 +125,7 @@ BillsGrandpa:
 	cry GROWLITHE
 	waitbutton
 	closepokepic
-	closetext
+	;closetext
 
 .askGrowlithe
 	writetext BillsGrandpaAskToSeeMonText
@@ -166,7 +166,7 @@ BillsGrandpa:
 	cry PICHU
 	waitbutton
 	closepokepic
-	closetext
+	;closetext
 
 .askPichu
 	writetext BillsGrandpaAskToSeeMonText
