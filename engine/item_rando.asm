@@ -6,7 +6,7 @@ ItemRandoActive::
 HoOhChamberNerfed::
 	db 
 ClassicRainbowWing::
-	db 1
+	db
 ItemRandoRocketless::
 	db
 ItemRandoEasyClairBadge::
