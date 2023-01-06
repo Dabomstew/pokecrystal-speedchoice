@@ -3063,6 +3063,8 @@ Script_getX:
 	ld l, a
 	call GetScriptByte
 	cp 0
+	ld a, FALSE
+	ld [wScriptVar], a
 	jr z, .compareX
 	call .compareY
 	ret

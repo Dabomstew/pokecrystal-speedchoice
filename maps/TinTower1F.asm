@@ -168,19 +168,31 @@ Randomizer_SuicuneSpecies::
 	playsound SFX_ENTER_DOOR
 	moveobject TINTOWER1F_EUSINE, 10, 15
 	appear TINTOWER1F_EUSINE
+	getX 2, 1
+        iftrue .skipAfterMovement1
 	applymovement TINTOWER1F_EUSINE, MovementData_0x1851ec
+.skipAfterMovement1
 	playsound SFX_ENTER_DOOR
 	moveobject TINTOWER1F_SAGE1, 9, 15
 	appear TINTOWER1F_SAGE1
+        getX 2, 1
+        iftrue .skipAfterMovement2
 	applymovement TINTOWER1F_SAGE1, MovementData_0x1851f5
+.skipAfterMovement2
 	playsound SFX_ENTER_DOOR
 	moveobject TINTOWER1F_SAGE2, 9, 15
 	appear TINTOWER1F_SAGE2
+        getX 2, 1
+        iftrue .skipAfterMovement3
 	applymovement TINTOWER1F_SAGE2, MovementData_0x1851fb
+.skipAfterMovement3
 	playsound SFX_ENTER_DOOR
 	moveobject TINTOWER1F_SAGE3, 9, 15
 	appear TINTOWER1F_SAGE3
+        getX 2, 1
+        iftrue .skipAfterMovement4
 	applymovement TINTOWER1F_SAGE3, MovementData_0x1851fe
+.skipAfterMovement4
 	moveobject TINTOWER1F_SAGE1, 7, 13
 	moveobject TINTOWER1F_SAGE2, 9, 13
 	moveobject TINTOWER1F_SAGE3, 11, 13
@@ -189,7 +201,10 @@ Randomizer_SuicuneSpecies::
 	writetext TinTowerEusineSuicuneText
 	waitbutton
 	closetext
+        getX 2, 1
+        iftrue .skipAfterMovement5
 	applymovement TINTOWER1F_EUSINE, MovementData_0x1851f1
+.skipAfterMovement5
 	playsound SFX_EXIT_BUILDING
 	disappear TINTOWER1F_EUSINE
 	waitsfx

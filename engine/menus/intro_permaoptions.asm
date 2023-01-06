@@ -9,7 +9,7 @@ db 7
 db 4
 
 ; Speedchoice Revision
-db 3
+db 4
 
 
 
