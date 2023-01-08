@@ -35,7 +35,7 @@ ENDM
 
 PermaOptionsPresets:
 	; Vanilla
-	permaoptionspreset Preset_VanillaName, 0, RACEGOAL_RED << RACEGOAL, 0, 0
+	permaoptionspreset Preset_VanillaName, 0, RACEGOAL_RED << RACEGOAL, 0, REMOVE_ANIMATIONS_VAL
 	; Bingo
 	permaoptionspreset Preset_BingoName, ROCKETLESS_VAL | (SPINNERS_NONE << SPINNERS) | BETTER_ENC_SLOTS_VAL | (EXP_FORMULA_BLACKWHITE << EXP_FORMULA), BETTER_MARTS_VAL | EASY_TIN_TOWER_VAL, EASY_CLAIR_BADGE_VAL, 0
 	; KIR

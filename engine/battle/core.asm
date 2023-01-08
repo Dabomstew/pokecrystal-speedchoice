@@ -1,5 +1,18 @@
 ; Core components of the battle engine.
 
+HandleCry:
+	ld b, a
+	farcall _CheckBattleScene2
+	jp z, .Skip
+	ld a, b
+	call PlayStereoCry
+	jp .End
+.Skip
+	ld a, b
+	call PlayStereoCry2
+.End
+	ret
+
 DoBattle:
 	xor a
 	ld [wBattleParticipantsNotFainted], a
@@ -2160,7 +2173,7 @@ FaintYourPokemon:
 	ld a, $f0
 	ld [wCryTracks], a
 	ld a, [wBattleMonSpecies]
-	call PlayStereoCry2
+	call HandleCry
 	call PlayerMonFaintedAnimation
 	hlcoord 9, 7
 	lb bc, 5, 11
@@ -3507,7 +3520,7 @@ Function_SetEnemyMonAndSendOutAnimation:
 	ld a, $f
 	ld [wCryTracks], a
 	ld a, [wTempEnemyMonSpecies]
-	call PlayStereoCry2
+	call HandleCry
 
 .skip_cry
 	call UpdateEnemyHUD
@@ -3998,7 +4011,7 @@ SendOutPlayerMon:
 	ld a, $f0
 	ld [wCryTracks], a
 	ld a, [wCurPartySpecies]
-	call PlayStereoCry2
+	call HandleCry
 
 .statused
 	call UpdatePlayerHUD
@@ -4126,7 +4139,7 @@ PursuitSwitch:
 	ld a, $f0
 	ld [wCryTracks], a
 	ld a, [wBattleMonSpecies]
-	call PlayStereoCry2
+	call HandleCry
 	ld a, [wLastPlayerMon]
 	ld c, a
 	ld hl, wBattleParticipantsNotFainted
@@ -4885,13 +4898,13 @@ LoadBattleMenu2:
 	ret
 
 BattleMenu_Pack:
-	ld a, [wLinkMode]
-	and a
-	jp nz, .ItemsCantBeUsed
+	;ld a, [wLinkMode]
+	;and a
+	;jp nz, .ItemsCantBeUsed
 
-	ld a, [wInBattleTowerBattle]
-	and a
-	jp nz, .ItemsCantBeUsed
+	;ld a, [wInBattleTowerBattle]
+	;and a
+	;jp nz, .ItemsCantBeUsed
 
 	call LoadStandardMenuHeader
 
@@ -4935,10 +4948,10 @@ BattleMenu_Pack:
 	call LoadTilemapToTempTilemap
 	jp BattleMenu
 
-.ItemsCantBeUsed:
-	ld hl, BattleText_ItemsCantBeUsedHere
-	call StdBattleTextbox
-	jp BattleMenu
+;.ItemsCantBeUsed:
+;	ld hl, BattleText_ItemsCantBeUsedHere
+;	call StdBattleTextbox
+;	jp BattleMenu
 
 .UseItem:
 	ld a, [wWildMon]
@@ -8461,7 +8474,7 @@ BattleStartMessage:
 	ld a, $f
 	ld [wCryTracks], a
 	ld a, [wTempEnemyMonSpecies]
-	call PlayStereoCry2
+	call HandleCry
 
 .skip_cry
 	ld a, [wBattleType]
