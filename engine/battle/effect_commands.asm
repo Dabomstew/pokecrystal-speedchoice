@@ -3403,7 +3403,7 @@ FarPlayBattleAnimation:
 	; fallthrough
 
 PlayFXAnimID:
-	call _CheckBattleScene
+	call _CheckBattleScene2
 	ret c
 	ld a, e
 	ld [wFXAnimID], a
