@@ -62,18 +62,23 @@ MrPokemonsHouse_MrPokemonScript:
 	end
 
 .RedScale:
+	checkitemrando
+	iftrue .ItemScale1
 	checkmbpermaoptions EXP_SPLITTING, GEN8
 	iftrue .AlwaysNewDiscoveries
+.ItemScale1
 	writetext MrPokemonText_GimmeTheScale
 	yesorno
 	iffalse .refused
+	checkitemrando
+	iftrue .ItemScale2
 	checkmbpermaoptions EXP_SPLITTING, GEN67
 	iftrue .Gen67ExpShare
+.ItemScale2
 	verbosegiveitem EXP_SHARE
 	iffalse .full
 	takeitem RED_SCALE
 	sjump .AlwaysNewDiscoveries
-	
 .Gen67ExpShare
 	verbosegiveitem EXP_SHARE_GEN67
 	iffalse .full
