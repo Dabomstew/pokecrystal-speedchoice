@@ -913,6 +913,99 @@ SelectMenuCallback:
 	memcallasm wQueuedScriptBank
 	end
 
+CheckBadge:
+	ld hl, wNumItems
+        ld [wCurItem], a
+        call CheckItem
+	jr c, .Have
+        jp .NotHave
+.Have
+	ld b, SET_FLAG
+        call _EngineFlagAction
+        ld a, -1
+        ld [wCurItemQuantity], a
+        ld hl, wNumItems
+        call TossItem
+.NotHave
+	ret
+
+ConvertBadges:
+	ld a, ITEM_ZEPHYRBADGE
+	ld de, ENGINE_ZEPHYRBADGE
+	call CheckBadge
+	ld a, ITEM_HIVEBADGE
+	ld de, ENGINE_HIVEBADGE
+	call CheckBadge
+	ld a, ITEM_PLAINBADGE
+	ld de, ENGINE_PLAINBADGE
+	call CheckBadge
+	ld a, ITEM_FOGBADGE
+        ld de, ENGINE_FOGBADGE
+        call CheckBadge
+	ld a, ITEM_STORMBADGE
+        ld de, ENGINE_STORMBADGE
+        call CheckBadge
+        ld a, ITEM_MINERALBADGE
+        ld de, ENGINE_MINERALBADGE
+        call CheckBadge
+        ld a, ITEM_GLACIERBADGE
+        ld de, ENGINE_GLACIERBADGE
+        call CheckBadge
+        ld a, ITEM_RISINGBADGE
+        ld de, ENGINE_RISINGBADGE
+        call CheckBadge
+        ld a, ITEM_BOULDERBADGE
+        ld de, ENGINE_BOULDERBADGE
+        call CheckBadge
+        ld a, ITEM_CASCADEBADGE
+        ld de, ENGINE_CASCADEBADGE
+        call CheckBadge
+        ld a, ITEM_THUNDERBADGE
+        ld de, ENGINE_THUNDERBADGE
+        call CheckBadge
+        ld a, ITEM_RAINBOWBADGE
+        ld de, ENGINE_RAINBOWBADGE
+        call CheckBadge
+	ld a, ITEM_MARSHBADGE
+        ld de, ENGINE_MARSHBADGE
+        call CheckBadge
+        ld a, ITEM_SOULBADGE
+        ld de, ENGINE_SOULBADGE
+        call CheckBadge
+        ld a, ITEM_VOLCANOBADGE
+        ld de, ENGINE_VOLCANOBADGE
+	call CheckBadge
+        ld a, ITEM_EARTHBADGE
+        ld de, ENGINE_EARTHBADGE
+        call CheckBadge
+
+        ld a, ITEM_POKEDEX
+        ld de, ENGINE_POKEDEX
+        call CheckBadge
+
+        ld a, ITEM_POKEGEAR
+        ld de, ENGINE_POKEGEAR
+        call CheckBadge
+
+        ld a, ITEM_RADIO_CARD
+        ld de, ENGINE_RADIO_CARD
+        call CheckBadge
+
+        ld a, ITEM_MAP_CARD
+        ld de, ENGINE_MAP_CARD
+        call CheckBadge
+
+        ld a, ITEM_EXPN_CARD
+        ld de, ENGINE_EXPN_CARD
+        call CheckBadge
+
+        ld a, ITEM_UNOWN_DEX
+        ld de, ENGINE_UNOWN_DEX
+        call CheckBadge
+
+
+	ret
+
 CountStep:
 	callba SRAMStatsStepCount
 
@@ -920,6 +1013,8 @@ CountStep:
 	ld a, [wLinkMode]
 	and a
 	jr nz, .done
+
+	call ConvertBadges
 
 	; If there is a special phone call, don't count the step.
 	farcall CheckSpecialPhoneCall
