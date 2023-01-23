@@ -1,7 +1,7 @@
 INCLUDE "constants.asm"
 
-
 SECTION "Events", ROMX
+INCLUDE "engine/overworld/scripting.asm"
 
 OverworldLoop::
 	xor a ; MAPSTATUS_START
@@ -926,6 +926,10 @@ CheckBadge:
         ld [wCurItemQuantity], a
         ld hl, wNumItems
         call TossItem
+	ld a, BANK(CheckBadgeItems)
+        ld hl, CheckBadgeItems
+        call CallScript
+
 .NotHave
 	ret
 
@@ -933,51 +937,82 @@ ConvertBadges:
 	ld a, ITEM_ZEPHYRBADGE
 	ld de, ENGINE_ZEPHYRBADGE
 	call CheckBadge
+	ret c
+
 	ld a, ITEM_HIVEBADGE
 	ld de, ENGINE_HIVEBADGE
 	call CheckBadge
+	ret c
+
 	ld a, ITEM_PLAINBADGE
 	ld de, ENGINE_PLAINBADGE
 	call CheckBadge
+	ret c
+
 	ld a, ITEM_FOGBADGE
         ld de, ENGINE_FOGBADGE
         call CheckBadge
+	ret c
+
 	ld a, ITEM_STORMBADGE
         ld de, ENGINE_STORMBADGE
         call CheckBadge
+	ret c
+
         ld a, ITEM_MINERALBADGE
         ld de, ENGINE_MINERALBADGE
         call CheckBadge
+	ret c
+
         ld a, ITEM_GLACIERBADGE
         ld de, ENGINE_GLACIERBADGE
         call CheckBadge
+	ret c
+
         ld a, ITEM_RISINGBADGE
         ld de, ENGINE_RISINGBADGE
         call CheckBadge
+	ret c
+
         ld a, ITEM_BOULDERBADGE
         ld de, ENGINE_BOULDERBADGE
         call CheckBadge
+	ret c
+
         ld a, ITEM_CASCADEBADGE
         ld de, ENGINE_CASCADEBADGE
         call CheckBadge
+	ret c
+
         ld a, ITEM_THUNDERBADGE
         ld de, ENGINE_THUNDERBADGE
         call CheckBadge
+	ret c
+
         ld a, ITEM_RAINBOWBADGE
         ld de, ENGINE_RAINBOWBADGE
         call CheckBadge
+	ret c
+
 	ld a, ITEM_MARSHBADGE
         ld de, ENGINE_MARSHBADGE
         call CheckBadge
+	ret c
+
         ld a, ITEM_SOULBADGE
         ld de, ENGINE_SOULBADGE
         call CheckBadge
+	ret c
+
         ld a, ITEM_VOLCANOBADGE
         ld de, ENGINE_VOLCANOBADGE
 	call CheckBadge
+	ret c
+
         ld a, ITEM_EARTHBADGE
         ld de, ENGINE_EARTHBADGE
         call CheckBadge
+	ret c
 
         ld a, ITEM_POKEDEX
         ld de, ENGINE_POKEDEX
@@ -986,23 +1021,27 @@ ConvertBadges:
         ld a, ITEM_POKEGEAR
         ld de, ENGINE_POKEGEAR
         call CheckBadge
+	ret c
 
         ld a, ITEM_RADIO_CARD
         ld de, ENGINE_RADIO_CARD
         call CheckBadge
+	ret c
 
         ld a, ITEM_MAP_CARD
         ld de, ENGINE_MAP_CARD
         call CheckBadge
+	ret c
 
         ld a, ITEM_EXPN_CARD
         ld de, ENGINE_EXPN_CARD
         call CheckBadge
+	ret c
 
         ld a, ITEM_UNOWN_DEX
         ld de, ENGINE_UNOWN_DEX
         call CheckBadge
-
+	ret c
 
 	ret
 
@@ -1015,6 +1054,7 @@ CountStep:
 	jr nz, .done
 
 	call ConvertBadges
+	jr c, .doscript
 
 	; If there is a special phone call, don't count the step.
 	farcall CheckSpecialPhoneCall
@@ -1189,7 +1229,6 @@ ChangeDirectionScript: ; 9
 	callasm EnableWildEncounters
 	end
 
-INCLUDE "engine/overworld/scripting.asm"
 
 WarpToSpawnPoint::
 	ld hl, wStatusFlags2
