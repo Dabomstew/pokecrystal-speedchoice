@@ -3781,12 +3781,16 @@ TryToRunAwayFromBattle:
 	and BATTLERESULT_BITMASK
 	add b
 	ld [wBattleResult], a
+	;;todo
+        farcall _CheckBattleScene2
+        jp z, .Skip
 	call StopDangerSound
 	push de
 	ld de, SFX_RUN
 	call WaitPlaySFX
 	pop de
 	call WaitSFX
+.Skip
 	ld hl, BattleText_GotAwaySafely
 	call StdBattleTextbox
 	call WaitSFX
@@ -3803,7 +3807,7 @@ TryToRunAwayFromBattle:
 	call StdBattleTextbox
 
 .skip_link_error
-	call WaitSFX
+	;call WaitSFX
 	call LoadTilemapToTempTilemap
 	scf
 	ret

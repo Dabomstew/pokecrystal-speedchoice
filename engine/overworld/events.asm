@@ -913,7 +913,7 @@ SelectMenuCallback:
 	memcallasm wQueuedScriptBank
 	end
 
-CheckBadge:
+ConvertItem:
 	ld hl, wNumItems
         ld [wCurItem], a
         call CheckItem
@@ -926,12 +926,20 @@ CheckBadge:
         ld [wCurItemQuantity], a
         ld hl, wNumItems
         call TossItem
-	ld a, BANK(CheckBadgeItems)
-        ld hl, CheckBadgeItems
-        call CallScript
 
 .NotHave
 	ret
+
+CheckBadge:
+	call ConvertItem
+	jr c, .Have
+	ret
+.Have
+	ld a, BANK(CheckBadgeItems)
+        ld hl, CheckBadgeItems
+        call CallScript
+	ret
+
 
 ConvertBadges:
 	ld a, ITEM_ZEPHYRBADGE
@@ -1016,32 +1024,35 @@ ConvertBadges:
 
         ld a, ITEM_POKEDEX
         ld de, ENGINE_POKEDEX
-        call CheckBadge
+        call ConvertItem
+;	ret c
 
         ld a, ITEM_POKEGEAR
         ld de, ENGINE_POKEGEAR
-        call CheckBadge
-	ret c
+        call ConvertItem
+;	ret c
 
         ld a, ITEM_RADIO_CARD
         ld de, ENGINE_RADIO_CARD
-        call CheckBadge
-	ret c
+        call ConvertItem
+;	ret c
 
         ld a, ITEM_MAP_CARD
         ld de, ENGINE_MAP_CARD
-        call CheckBadge
-	ret c
+        call ConvertItem
+;	ret c
 
         ld a, ITEM_EXPN_CARD
         ld de, ENGINE_EXPN_CARD
-        call CheckBadge
-	ret c
+        call ConvertItem
+;	ret c
 
         ld a, ITEM_UNOWN_DEX
         ld de, ENGINE_UNOWN_DEX
-        call CheckBadge
-	ret c
+        call ConvertItem
+
+	; cleanup use case
+	call ConvertItem
 
 	ret
 

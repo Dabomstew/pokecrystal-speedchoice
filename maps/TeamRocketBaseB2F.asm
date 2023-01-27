@@ -13,6 +13,7 @@
 	const TEAMROCKETBASEB2F_ROCKET3
 	const TEAMROCKETBASEB2F_ROCKET4
 	const TEAMROCKETBASEB2F_POKE_BALL
+	const TEAMROCKETBASEB2F_WHIRLPOOL_BACKUP
 
 TeamRocketBaseB2F_MapScripts:
 	db 4 ; scene scripts
@@ -289,6 +290,9 @@ TeamRocketBaseB2FReloadMap:
 	reloadmapafterbattle
 	end
 
+GetWhirlpoolBackup:
+	itemball HM_WHIRLPOOL
+
 RocketBaseElectrodeScript:
 	moveobject TEAMROCKETBASEB2F_LANCE, 18, 6
 	appear TEAMROCKETBASEB2F_LANCE
@@ -298,7 +302,13 @@ RocketBaseElectrodeScript:
 	writetext RocketBaseLanceElectrodeDoneText
 	promptbutton
 	verbosegiveitem HM_WHIRLPOOL
+	iftrue .GotWhirlpool
+	clearevent EVENT_TEAM_ROCKET_BASE_WHIRLPOOL_BACKUP
+	appear TEAMROCKETBASEB2F_WHIRLPOOL_BACKUP
+	sjump .DidntGetWhirlpool
+.GotWhirlpool
 	setevent EVENT_GOT_HM06_WHIRLPOOL
+.DidntGetWhirlpool
 	writetext RocketBaseLanceWhirlpoolText
 	waitbutton
 	closetext
@@ -965,7 +975,7 @@ TeamRocketBaseB2F_MapEvents:
 	bg_event 17,  8, BGEVENT_READ, TeamRocketBaseB2FTransmitterScript
 	bg_event 26,  7, BGEVENT_ITEM, TeamRocketBaseB2FHiddenFullHeal
 
-	db 14 ; object events
+	db 15 ; object events
 	object_event 20, 16, SPRITE_ROCKET, SPRITEMOVEDATA_STANDING_UP, 0, 0, -1, -1, 0, OBJECTTYPE_SCRIPT, 0, ObjectEvent, EVENT_TEAM_ROCKET_BASE_B2F_GRUNT_WITH_EXECUTIVE
 	object_event 20, 16, SPRITE_ROCKET_GIRL, SPRITEMOVEDATA_STANDING_UP, 0, 0, -1, -1, PAL_NPC_RED, OBJECTTYPE_SCRIPT, 0, ObjectEvent, EVENT_TEAM_ROCKET_BASE_B2F_EXECUTIVE
 	object_event  5, 13, SPRITE_LANCE, SPRITEMOVEDATA_STANDING_DOWN, 0, 0, -1, -1, 0, OBJECTTYPE_SCRIPT, 0, ObjectEvent, EVENT_TEAM_ROCKET_BASE_B2F_LANCE
@@ -980,3 +990,4 @@ TeamRocketBaseB2F_MapEvents:
 	object_event  4,  1, SPRITE_ROCKET, SPRITEMOVEDATA_SPINRANDOM_FAST, 0, 0, -1, -1, 0, OBJECTTYPE_TRAINER, 1, TrainerGruntM18, EVENT_TEAM_ROCKET_BASE_POPULATION
 	object_event 21, 14, SPRITE_ROCKET, SPRITEMOVEDATA_STANDING_LEFT, 0, 0, -1, -1, 0, OBJECTTYPE_TRAINER, 4, TrainerGruntM19, EVENT_TEAM_ROCKET_BASE_POPULATION
 	object_event  3, 10, SPRITE_POKE_BALL, SPRITEMOVEDATA_STILL, 0, 0, -1, -1, 0, OBJECTTYPE_ITEMBALL, 0, TeamRocketBaseB2FTMThief, EVENT_TEAM_ROCKET_BASE_B2F_TM_THIEF
+	object_event  15, 11, SPRITE_POKE_BALL, SPRITEMOVEDATA_STILL, 0, 0, -1, -1, 0, OBJECTTYPE_ITEMBALL, 0, GetWhirlpoolBackup, EVENT_TEAM_ROCKET_BASE_WHIRLPOOL_BACKUP

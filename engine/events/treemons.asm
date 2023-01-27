@@ -38,18 +38,25 @@ RockMonEncounter:
 	jr nc, .no_battle
 
 	; 40% chance of an encounter
-	ld a, 10
-	call RandomRange
-	cp 4
-	jr nc, .no_battle
+	;ld a, 10
+	;call RandomRange
+	;cp 4
+	;jr nc, .no_battle
 
 	call SelectTreeMon
+	jr nc, .no_battle
+
+	farcall CheckRepelEffect
 	jr nc, .no_battle
 
 	ret
 
 .no_battle
-	xor a
+        xor a
+	; Species might still remain after repel effect, so clear
+        ld [wTempWildMonSpecies], a
+        ld [wCurPartyLevel], a
+
 	ret
 
 	db $05 ; ????

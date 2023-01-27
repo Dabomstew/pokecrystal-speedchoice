@@ -92,18 +92,22 @@ ProfElmScript:
 	checkevent EVENT_GOT_SS_TICKET_FROM_ELM
 	iftrue ElmCheckMasterBall
 	checkevent EVENT_ELM_HAS_SS_TICKET
-	iftrue ElmGiveTicketScript
+	iffalse ElmCheckMasterBall
+	sjump ElmGiveTicketScript
 ElmCheckMasterBall:
 	checkevent EVENT_GOT_MASTER_BALL_FROM_ELM
-	iftrue ElmCheckEverstone
+	iftrue ElmCheckMysteryEgg
 	checkflag ENGINE_RISINGBADGE
-	iftrue ElmGiveMasterBallScript
-ElmCheckEverstone:
+	iffalse ElmCheckMysteryEgg
+	sjump ElmGiveMasterBallScript
+ElmCheckMysteryEgg:
 	checkscene
 	ifequal SCENE_ELMSLAB_AIDE_GIVES_POTION, ElmDescribesMrPokemonScript
 	ifequal SCENE_ELMSLAB_CANT_LEAVE, DidntChooseStarterScript
 	checkitem MYSTERY_EGG
-	iftrue ElmAfterTheftScript
+	iffalse ElmCheckEverstone2
+	sjump ElmAfterTheftScript
+ElmCheckEverstone2:
 	checkevent EVENT_GOT_EVERSTONE_FROM_ELM
 	iftrue ElmScript_CallYou
 	checkevent EVENT_SHOWED_TOGEPI_TO_ELM
@@ -361,9 +365,9 @@ ElmAfterTheftScript:
 	setevent EVENT_ROUTE_30_BATTLE
 	writetext ElmAfterTheftText6
 	waitbutton
-	closetext
+;	closetext
 	setscene SCENE_ELMSLAB_AIDE_GIVES_POKE_BALLS
-	end
+	sjump ElmCheckEverstone2
 
 ElmStudyingEggScript:
 	writetext ElmStudyingEggText
@@ -433,18 +437,20 @@ ElmGiveMasterBallScript:
 	writetext ElmGiveMasterBallText2
 	waitbutton
 .notdone
-	closetext
-	end
+	;closetext
+	sjump ElmCheckMysteryEgg
 
 ElmGiveTicketScript:
 	writetext ElmGiveTicketText1
 	promptbutton
 	verbosegiveitem S_S_TICKET
+	iffalse .BagFull
 	setevent EVENT_GOT_SS_TICKET_FROM_ELM
 	writetext ElmGiveTicketText2
+.BagFull
 	waitbutton
-	closetext
-	end
+;	closetext
+	sjump ElmCheckMasterBall
 
 ElmJumpBackScript1:
 	closetext
