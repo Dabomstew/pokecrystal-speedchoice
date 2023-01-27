@@ -1,6 +1,7 @@
 	object_const_def ; object_event constants
 	const MRPOKEMONSHOUSE_GENTLEMAN
 	const MRPOKEMONSHOUSE_OAK
+	const MR_POKEMONS_HOUSE_POKEDEX_BACKUP
 
 MrPokemonsHouse_MapScripts:
 	db 2 ; scene scripts
@@ -29,6 +30,9 @@ MrPokemonsHouse_MapScripts:
 	promptbutton
 	waitsfx
 	verbosegiveitem MYSTERY_EGG
+	iffalse .SkipSettingEgg
+	setevent EVENT_GOT_MYSTERY_EGG
+.SkipSettingEgg
 	setevent EVENT_GOT_MYSTERY_EGG_FROM_MR_POKEMON
 	blackoutmod CHERRYGROVE_CITY
 	writetext MrPokemonIntroText3
@@ -43,29 +47,40 @@ MrPokemonsHouse_MapScripts:
 	closetext
 	sjump MrPokemonsHouse_OakScript
 
+RetryMysteryEgg:
+	verbosegiveitem MYSTERY_EGG
+	iffalse .End
+	setevent EVENT_GOT_MYSTERY_EGG
+.End
+	sjump PokemonText
+
 MrPokemonsHouse_MrPokemonScript:
 	faceplayer
 	opentext
 	checkitem RED_SCALE
-	iftrue .RedScale
+	iftrue RedScale
+TryMysteryEgg:
+	checkevent EVENT_GOT_MYSTERY_EGG
+	iffalse RetryMysteryEgg
+PokemonText:
 	checkevent EVENT_GAVE_MYSTERY_EGG_TO_ELM
-	iftrue .AlwaysNewDiscoveries
+	iftrue AlwaysNewDiscoveries
 	writetext MrPokemonText_ImDependingOnYou
 	waitbutton
 	closetext
 	end
 
-.AlwaysNewDiscoveries:
+AlwaysNewDiscoveries:
 	writetext MrPokemonText_AlwaysNewDiscoveries
 	waitbutton
 	closetext
 	end
 
-.RedScale:
+RedScale:
 	checkitemrando
 	iftrue .ItemScale1
 	checkmbpermaoptions EXP_SPLITTING, GEN8
-	iftrue .AlwaysNewDiscoveries
+	iftrue AlwaysNewDiscoveries
 .ItemScale1
 	writetext MrPokemonText_GimmeTheScale
 	yesorno
@@ -78,19 +93,19 @@ MrPokemonsHouse_MrPokemonScript:
 	verbosegiveitem EXP_SHARE
 	iffalse .full
 	takeitem RED_SCALE
-	sjump .AlwaysNewDiscoveries
+	sjump AlwaysNewDiscoveries
 .Gen67ExpShare
 	verbosegiveitem EXP_SHARE_GEN67
 	iffalse .full
 	takeitem RED_SCALE
-	sjump .AlwaysNewDiscoveries
+	sjump AlwaysNewDiscoveries
 
 .refused
 	writetext MrPokemonText_Disappointed
 	waitbutton
 .full
 	closetext
-	end
+	sjump TryMysteryEgg
 
 MrPokemonsHouse_OakScript:
 	playmusic MUSIC_PROF_OAK
@@ -101,6 +116,10 @@ MrPokemonsHouse_OakScript:
 	promptbutton
 	waitsfx
 	verbosesetflag ENGINE_POKEDEX
+	iftrue .GotDex
+	clearevent EVENT_MR_POKEMONS_HOUSE_POKEDEX_BACKUP
+	appear MR_POKEMONS_HOUSE_POKEDEX_BACKUP
+.GotDex
 	writetext MrPokemonsHouse_OakText2
 	waitbutton
 	closetext
@@ -379,6 +398,16 @@ MrPokemonsHouse_StrangeCoinsText:
 	line "another country…"
 	done
 
+MrPokemonsHousePokedexBackup:
+	opentext
+	verbosesetflag ENGINE_POKEDEX
+	iffalse .End
+	setevent EVENT_MR_POKEMONS_HOUSE_POKEDEX_BACKUP
+	disappear MR_POKEMONS_HOUSE_POKEDEX_BACKUP
+.End
+	closetext
+	end
+
 MrPokemonsHouse_MapEvents:
 	db 0, 0 ; filler
 
@@ -395,6 +424,7 @@ MrPokemonsHouse_MapEvents:
 	bg_event  7,  1, BGEVENT_READ, MrPokemonsHouse_BrokenComputer
 	bg_event  6,  4, BGEVENT_READ, MrPokemonsHouse_StrangeCoins
 
-	db 2 ; object events
+	db 3 ; object events
 	object_event  3,  5, SPRITE_GENTLEMAN, SPRITEMOVEDATA_STANDING_RIGHT, 0, 0, -1, -1, 0, OBJECTTYPE_SCRIPT, 0, MrPokemonsHouse_MrPokemonScript, -1
 	object_event  6,  5, SPRITE_OAK, SPRITEMOVEDATA_STANDING_UP, 0, 0, -1, -1, 0, OBJECTTYPE_SCRIPT, 0, ObjectEvent, EVENT_MR_POKEMONS_HOUSE_OAK
+	object_event  4,  6, SPRITE_POKE_BALL, SPRITEMOVEDATA_STILL, 0, 0, -1, -1, 0, OBJECTTYPE_SCRIPT, 0, MrPokemonsHousePokedexBackup, EVENT_MR_POKEMONS_HOUSE_POKEDEX_BACKUP
