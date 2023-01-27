@@ -437,7 +437,6 @@ ElmGiveMasterBallScript:
 	writetext ElmGiveMasterBallText2
 	waitbutton
 .notdone
-	;closetext
 	sjump ElmCheckMysteryEgg
 
 ElmGiveTicketScript:
@@ -449,7 +448,6 @@ ElmGiveTicketScript:
 	writetext ElmGiveTicketText2
 .BagFull
 	waitbutton
-;	closetext
 	sjump ElmCheckMasterBall
 
 ElmJumpBackScript1:
