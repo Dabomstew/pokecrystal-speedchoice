@@ -365,7 +365,6 @@ ElmAfterTheftScript:
 	setevent EVENT_ROUTE_30_BATTLE
 	writetext ElmAfterTheftText6
 	waitbutton
-;	closetext
 	setscene SCENE_ELMSLAB_AIDE_GIVES_POKE_BALLS
 	sjump ElmCheckEverstone2
 
