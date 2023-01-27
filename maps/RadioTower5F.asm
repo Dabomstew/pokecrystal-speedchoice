@@ -76,14 +76,6 @@ Director:
 	closetext
 	end
 
-.GiveBasementKey
-        verbosegiveitem BASEMENT_KEY
-        iffalse .GotBasementKey
-        setevent EVENT_GOT_BASEMENT_KEY
-.GotBasementKey
-	closetext
-	end
-
 .TrueDirector:
 	writetext RadioTower5FDirectorText
 	waitbutton

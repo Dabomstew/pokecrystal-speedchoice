@@ -209,7 +209,7 @@ OlderHaircutBrotherScript:
 	sjump GoldenrodUndergroundScript_ShopClosed
 
 .DoHaircut:
-       	checkitemrando
+	checkitemrando
 	iftrue .PerformHaircut
 	checkflag ENGINE_GOLDENROD_UNDERGROUND_GOT_HAIRCUT
 	iftrue .AlreadyGotHaircut

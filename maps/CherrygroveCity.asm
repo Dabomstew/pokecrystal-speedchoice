@@ -335,14 +335,14 @@ CherrygroveCity_RivalExitsStageLeft:
 	step_end
 
 CherrygroveCityMapCardBackup:
-        opentext
-        verbosesetflag ENGINE_MAP_CARD
-        iffalse .End
-        setevent EVENT_CHERRYGROVE_CITY_MAP_CARD_BACKUP
-        disappear CHERRYGROVE_CITY_MAP_CARD_BACKUP
+	opentext
+	verbosesetflag ENGINE_MAP_CARD
+	iffalse .End
+	setevent EVENT_CHERRYGROVE_CITY_MAP_CARD_BACKUP
+	disappear CHERRYGROVE_CITY_MAP_CARD_BACKUP
 .End
-        closetext
-        end
+	closetext
+	end
 
 GuideGentIntroText:
 	text "You're a rookie"
