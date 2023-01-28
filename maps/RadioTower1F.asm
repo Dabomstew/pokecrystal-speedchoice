@@ -116,6 +116,8 @@ RadioTower1FRadioCardWomanScript:
 	opentext
 	checkevent EVENT_RADIO_CARD_RECEIVED
 	iftrue .GotCard
+	checkevent EVENT_RADIO_QUIZ_COMPLETE
+	iftrue .GetRadioCard
 	writetext RadioTower1FRadioCardWomanOfferQuizText
 	yesorno
 	iffalse .NoQuiz
@@ -144,9 +146,12 @@ RadioTower1FRadioCardWomanScript:
 	iftrue .WrongAnswer
 	playsound SFX_ELEVATOR_END
 	waitsfx
+	setevent EVENT_RADIO_QUIZ_COMPLETE
+.GetRadioCard
 	writetext RadioTower1FRadioCardWomanYouWinText
 	promptbutton
 	verbosesetflag ENGINE_RADIO_CARD
+	iffalse .GotCard
 	setevent EVENT_RADIO_CARD_RECEIVED
 .GotCard:
 	writetext RadioTower1FRadioCardWomanTuneInText

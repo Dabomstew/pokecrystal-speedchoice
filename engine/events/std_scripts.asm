@@ -627,6 +627,7 @@ InitializeEventsScript:
 	setevent EVENT_LAKE_OF_RAGE_RED_SCALE_BACKUP
 	setevent EVENT_RADIO_TOWER_5F_CLEAR_BELL_BACKUP
 	setevent EVENT_CHERRYGROVE_CITY_MAP_CARD_BACKUP
+	setevent EVENT_ILEX_FOREST_HM_CUT_BACKUP
 	checkitemrando
 	iftrue .SkipDirector
 	setevent EVENT_BASEMENT_DIRECTOR

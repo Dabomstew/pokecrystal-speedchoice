@@ -22,10 +22,12 @@ Route32Pokecenter1FFishingGuruScript:
 	writetext Route32Pokecenter1FFishingGuruText_Yes
 	promptbutton
 	verbosegiveitem OLD_ROD
+	iffalse .SkipOldRod
+	setevent EVENT_GOT_OLD_ROD
+.SkipOldRod
 	writetext Route32Pokecenter1FFishingGuruText_GiveOldRod
 	waitbutton
 	closetext
-	setevent EVENT_GOT_OLD_ROD
 	end
 
 .Refused:

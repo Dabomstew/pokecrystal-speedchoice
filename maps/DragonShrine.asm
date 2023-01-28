@@ -163,6 +163,9 @@ DragonShrine_MapScripts:
 	writetext DragonShrineHereRisingBadgeText
 	waitbutton
 	verbosesetflag ENGINE_RISINGBADGE
+	iffalse .SkipRisingBadge
+	setevent EVENT_GOT_RISING_BADGE
+.SkipRisingBadge
 	special RestartMapMusic
 	specialphonecall SPECIALCALL_MASTERBALL
 	setmapscene DRAGONS_DEN_B1F, SCENE_DRAGONSDENB1F_CLAIR_GIVES_TM

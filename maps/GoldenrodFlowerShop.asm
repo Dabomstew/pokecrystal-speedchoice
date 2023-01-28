@@ -25,7 +25,9 @@ FlowerShopTeacherScript:
 	writetext GoldenrodFlowerShopTeacherHeresTheSquirtbottleText
 	promptbutton
 	verbosegiveitem SQUIRTBOTTLE
+	iffalse .SkipSquirtbottle
 	setevent EVENT_GOT_SQUIRTBOTTLE
+.SkipSquirtbottle
 	closetext
 	setevent EVENT_FLORIA_AT_SUDOWOODO
 	clearevent EVENT_FLORIA_AT_FLOWER_SHOP

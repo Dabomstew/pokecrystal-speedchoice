@@ -17,10 +17,12 @@ GoodRodGuru:
 	writetext GiveGoodRodText
 	promptbutton
 	verbosegiveitem GOOD_ROD
+	iffalse .SkipGoodRod
+	setevent EVENT_GOT_GOOD_ROD
+.SkipGoodRod
 	writetext GaveGoodRodText
 	waitbutton
 	closetext
-	setevent EVENT_GOT_GOOD_ROD
 	end
 
 .DontWantIt:

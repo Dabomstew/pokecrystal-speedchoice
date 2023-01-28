@@ -20,10 +20,13 @@ CianwoodPharmacist:
 	writetext PharmacistGiveSecretpotionText
 	promptbutton
 	verbosegiveitem SECRETPOTION
+	iffalse .SkipSecretPotion
 	setevent EVENT_GOT_SECRETPOTION_FROM_PHARMACY
+.SkipSecretPotion
 	writetext PharmacistDescribeSecretpotionText
 	waitbutton
 	closetext
+	sjump .Mart
 	end
 
 .Mart:

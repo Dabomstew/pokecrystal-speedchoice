@@ -243,8 +243,10 @@ TinTower1FSage5Script:
 	writetext TinTower1FSage5Text1
 	promptbutton
 	verbosegiveitem RAINBOW_WING
-	closetext
+	iffalse .SkipRainbowWing
 	setevent EVENT_GOT_RAINBOW_WING
+.SkipRainbowWing
+	closetext
 	checkitem RAINBOW_WING
 	iffalse .GotRainbowWing
 	refreshscreen
