@@ -1,5 +1,5 @@
 VersionNumberText::
-        db "v7.4.8@"
+        db "v7.4.9@"
 
 SpeedchoiceVersion:
 ; Speedchoice Major Version
@@ -9,7 +9,7 @@ db 7
 db 4
 
 ; Speedchoice Revision
-db 8
+db 9
 
 
 
