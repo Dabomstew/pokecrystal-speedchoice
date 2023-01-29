@@ -39,8 +39,8 @@ GoldenrodPokecenter1F_GSBallSceneLeft:
 
 GoldenrodPokecenter1F_GSBallSceneRight:
 	checkevent EVENT_BEAT_ELITE_FOUR
-        iftrue .gsball
-        end
+	iftrue .gsball
+	end
 
 .gsball
 	checkevent EVENT_GOT_GS_BALL_FROM_POKECOM_CENTER
@@ -62,18 +62,18 @@ GoldenrodPokecenter1F_GSBallSceneRight:
 
 GiveGSBall:
 	opentext
-        writetext GoldenrodPokeCenter1FLinkReceptionistPleaseAcceptGSBallText
-        waitbutton
-        verbosegiveitem GS_BALL
+	writetext GoldenrodPokeCenter1FLinkReceptionistPleaseAcceptGSBallText
+	waitbutton
+	verbosegiveitem GS_BALL
 	iffalse .GotGSBall
 	clearevent EVENT_GS_BALL_BACKUP
 	appear GOLDENRODPOKECENTER1F_GSBALLBACKUP
 .GotGSBall
-        setevent EVENT_GOT_GS_BALL_FROM_POKECOM_CENTER
-        setevent EVENT_CAN_GIVE_GS_BALL_TO_KURT
-        writetext GoldenrodPokeCenter1FLinkReceptionistPleaseDoComeAgainText
-        waitbutton
-        closetext
+	setevent EVENT_GOT_GS_BALL_FROM_POKECOM_CENTER
+	setevent EVENT_CAN_GIVE_GS_BALL_TO_KURT
+	writetext GoldenrodPokeCenter1FLinkReceptionistPleaseDoComeAgainText
+	waitbutton
+	closetext
 	end
 
 GSBallBackup:
