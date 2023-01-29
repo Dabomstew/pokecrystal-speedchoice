@@ -90,6 +90,8 @@ Kurt1:
 	iftrue .GiveLoveBall
 	checkitem GS_BALL
 	iftrue .CanGiveGSBallToKurt
+	checkevent EVENT_GAVE_GS_BALL_TO_KURT
+	iftrue .CanGiveGSBallToKurt
 .NoGSBall:
 	checkevent EVENT_TEMPORARY_UNTIL_MAP_RELOAD_2
 	iftrue .CheckApricorns
