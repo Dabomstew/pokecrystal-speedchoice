@@ -30,7 +30,7 @@ BlackthornGymClairScript:
 	faceplayer
 	opentext
 	checkevent EVENT_BEAT_CLAIR
-	iftrue .FightDone1
+	iftrue .FightDone
 	writetext ClairIntroText
 	waitbutton
 	closetext
@@ -48,17 +48,9 @@ BlackthornGymClairScript:
 	clearevent EVENT_MAHOGANY_MART_OWNERS
 	setevent EVENT_BLACKTHORN_CITY_GRAMPS_BLOCKS_DRAGONS_DEN
 	clearevent EVENT_BLACKTHORN_CITY_GRAMPS_NOT_BLOCKING_DRAGONS_DEN
-.FightDone1
 	checkpermaoptions EASY_CLAIR_BADGE
 	iffalse .DoDDen
 	writetext ClairText_Lazy
-	waitsfx
-	checkevent EVENT_GOT_RISING_BADGE
-	iftrue .FightDone
-	verbosesetflag ENGINE_RISINGBADGE
-	iffalse .SkipBadge
-	setevent EVENT_GOT_RISING_BADGE
-.SkipBadge
 	specialphonecall SPECIALCALL_MASTERBALL
 	writetext BlackthornGymClairText_DescribeBadge
 	jump .GiveTM
@@ -75,8 +67,7 @@ BlackthornGymClairScript:
 	checkevent EVENT_DRAGON_SHRINE_PASSED_TEST
 	iffalse .TooMuchToExpect
 .EasyClair
-	checkevent EVENT_GOT_TM24_DRAGONBREATH
-	iffalse .AlreadyGotBadge
+	jump .GiveTM
 .TooMuchToExpect
 	writetext ClairText_TooMuchToExpect
 	waitbutton
@@ -95,9 +86,11 @@ BlackthornGymClairScript:
 	iffalse .TM
 	setevent EVENT_GOT_RISING_BADGE
 .TM
-	promptbutton
+	checkevent EVENT_GOT_TM24_DRAGONBREATH
+	iftrue .SkipGiveDragonbreath
 	verbosegiveitem TM_DRAGONBREATH
 	iffalse .BagFull
+.SkipGiveDragonbreath
 	setevent EVENT_GOT_TM24_DRAGONBREATH
 	writetext BlackthornGymClairText_DescribeTM24
 	promptbutton

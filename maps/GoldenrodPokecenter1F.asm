@@ -65,7 +65,7 @@ GiveGSBall:
 	writetext GoldenrodPokeCenter1FLinkReceptionistPleaseAcceptGSBallText
 	waitbutton
 	verbosegiveitem GS_BALL
-	iffalse .GotGSBall
+	iftrue .GotGSBall
 	clearevent EVENT_GS_BALL_BACKUP
 	appear GOLDENRODPOKECENTER1F_GSBALLBACKUP
 .GotGSBall
