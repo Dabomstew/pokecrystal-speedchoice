@@ -351,10 +351,10 @@ IlexForestCharcoalMasterScript:
 	writetext Text_CharcoalMasterIntro
 	promptbutton
 	verbosegiveitem HM_CUT
-	iffalse .SkipCut
+	iftrue .GotCut
 	clearevent EVENT_ILEX_FOREST_HM_CUT_BACKUP
 	appear ILEXFOREST_HM_CUT_BACKUP
-.SkipCut
+.GotCut
 	setevent EVENT_GOT_HM01_CUT
 	writetext Text_CharcoalMasterOutro
 	waitbutton

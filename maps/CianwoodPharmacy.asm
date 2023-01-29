@@ -25,7 +25,6 @@ CianwoodPharmacist:
 .SkipSecretPotion
 	writetext PharmacistDescribeSecretpotionText
 	waitbutton
-	closetext
 	sjump .Mart
 	end
 

@@ -503,9 +503,13 @@ AideScript_WalkPotion2:
 
 AideScript_GivePotion:
 	opentext
+	setevent EVENT_TRIED_AIDE_POTION
 	writetext AideText_GiveYouPotion
 	promptbutton
 	verbosegiveitem POTION
+	iffalse .SkipPotion
+	setevent EVENT_GOT_AIDE_POTION
+.SkipPotion
 	writetext AideText_AlwaysBusy
 	waitbutton
 	closetext
@@ -528,9 +532,13 @@ AideScript_WalkBalls2:
 
 AideScript_GiveYouBalls:
 	opentext
+	setevent EVENT_TRIED_AIDE_POKE_BALLS
 	writetext AideText_GiveYouBalls
 	promptbutton
 	verbosegiveitem POKE_BALL, 5
+	iffalse .SkipBalls
+	setevent EVENT_GOT_AIDE_POKE_BALLS
+.SkipBalls
 	writetext AideText_ExplainBalls
 	promptbutton
 	closetext
@@ -544,6 +552,18 @@ AideScript_ReceiveTheBalls:
 ElmsAideScript:
 	faceplayer
 	opentext
+	checkevent EVENT_TRIED_AIDE_POTION
+	iffalse .SkipPotion
+	checkevent EVENT_GOT_AIDE_POTION
+	iftrue .SkipPotion
+	scall AideScript_GivePotion
+.SkipPotion
+	checkevent EVENT_TRIED_AIDE_POKE_BALLS
+	iffalse .SkipBalls
+	checkevent EVENT_GOT_AIDE_POKE_BALLS
+	iftrue .SkipBalls
+	scall AideScript_GiveYouBalls
+.SkipBalls
 	checkevent EVENT_GOT_TOGEPI_EGG_FROM_ELMS_AIDE
 	iftrue AideScript_AfterTheft
 	checkevent EVENT_GAVE_MYSTERY_EGG_TO_ELM
