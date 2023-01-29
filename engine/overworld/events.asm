@@ -1051,9 +1051,9 @@ ConvertBadges:
         ld de, ENGINE_UNOWN_DEX
         call ConvertItem
 
-	; cleanup use case
-	call ConvertItem
-
+	; cleanup c register if Unown Dex is owned, do not trigger a script
+	ld a, 0
+	and 0
 	ret
 
 CountStep:
