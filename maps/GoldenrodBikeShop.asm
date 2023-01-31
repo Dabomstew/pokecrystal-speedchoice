@@ -20,9 +20,8 @@ GoldenrodBikeShopClerkScript:
 	writetext GoldenrodBikeShopClerkAgreedText
 	promptbutton
 	waitsfx
-	giveitem BICYCLE
-	writetext BorrowedABicycleText
-	playsound SFX_KEY_ITEM
+	verbosegiveitem BICYCLE
+	iffalse .GotBicycle
 	waitsfx
 	itemnotify
 	setflag ENGINE_BIKE_SHOP_CALL_ENABLED

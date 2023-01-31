@@ -104,7 +104,6 @@ RedScale:
 	writetext MrPokemonText_Disappointed
 	waitbutton
 .full
-	closetext
 	sjump TryMysteryEgg
 
 MrPokemonsHouse_OakScript:
