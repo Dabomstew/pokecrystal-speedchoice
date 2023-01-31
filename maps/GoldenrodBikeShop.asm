@@ -22,8 +22,6 @@ GoldenrodBikeShopClerkScript:
 	waitsfx
 	verbosegiveitem BICYCLE
 	iffalse .GotBicycle
-	waitsfx
-	itemnotify
 	setflag ENGINE_BIKE_SHOP_CALL_ENABLED
 	setevent EVENT_GOT_BICYCLE
 .GotBicycle:
