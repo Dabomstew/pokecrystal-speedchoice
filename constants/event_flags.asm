@@ -353,7 +353,7 @@
 	const EVENT_GS_BALL_BACKUP
 	const EVENT_GOT_TM27
 	const EVENT_GOT_TM21
-	const EVENT_155
+	const EVENT_GOT_BLUE_CARD
 	const EVENT_156
 	const EVENT_157
 	const EVENT_158

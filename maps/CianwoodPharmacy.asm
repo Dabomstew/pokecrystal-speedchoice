@@ -10,6 +10,7 @@ CianwoodPharmacy_MapScripts:
 .DummyScene:
 	end
 
+
 CianwoodPharmacist:
 	faceplayer
 	opentext
@@ -25,8 +26,12 @@ CianwoodPharmacist:
 .SkipSecretPotion
 	writetext PharmacistDescribeSecretpotionText
 	waitbutton
-	sjump .Mart
+	sjump .CheckShopsanity
 	end
+
+.CheckShopsanity
+	checkevent EVENT_JASMINE_EXPLAINED_AMPHYS_SICKNESS
+	iffalse .Mart
 
 .Mart:
 	pokemart MARTTYPE_PHARMACY, MART_CIANWOOD
