@@ -188,7 +188,7 @@ DragonShrine_MapScripts:
 	playsound SFX_ENTER_DOOR
 	disappear DRAGONSHRINE_CLAIR
 	waitsfx
-	setevent EVENT_TEMPORARY_UNTIL_MAP_RELOAD_1
+	;setevent EVENT_TEMPORARY_UNTIL_MAP_RELOAD_1
 	end
 
 DragonShrineElder1Script:

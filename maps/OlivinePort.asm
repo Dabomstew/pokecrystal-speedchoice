@@ -25,7 +25,7 @@ OlivinePort_MapScripts:
 	applymovement PLAYER, MovementData_0x74a32
 	appear OLIVINEPORT_SAILOR1
 	setscene SCENE_DEFAULT
-	setevent EVENT_TEMPORARY_UNTIL_MAP_RELOAD_1
+	;setevent EVENT_TEMPORARY_UNTIL_MAP_RELOAD_1
 	setevent EVENT_FAST_SHIP_FIRST_TIME
 	blackoutmod OLIVINE_CITY
 	end
