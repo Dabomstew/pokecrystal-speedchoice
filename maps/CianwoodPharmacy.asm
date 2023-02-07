@@ -32,6 +32,8 @@ CianwoodPharmacist:
 .CheckShopsanity
 	checkevent EVENT_JASMINE_EXPLAINED_AMPHYS_SICKNESS
 	iffalse .Mart
+	closetext
+	end
 
 .Mart:
 	pokemart MARTTYPE_PHARMACY, MART_CIANWOOD

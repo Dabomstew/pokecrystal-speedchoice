@@ -1,5 +1,5 @@
 VersionNumberText::
-        db "v7.4.9@"
+        db "v7.4.10@"
 
 SpeedchoiceVersion:
 ; Speedchoice Major Version
@@ -9,7 +9,7 @@ db 7
 db 4
 
 ; Speedchoice Revision
-db 9
+db 10
 
 
 
@@ -58,7 +58,7 @@ endr
 	ret
 
 PrintPermaOptionsToScreen::
-	coord hl, 14, 0
+	coord hl, 13, 0
 	ld de, VersionNumberText
 	call PlaceString
 	ld a, [ROCKETLESS_ADDRESS] ; spinners, max range, nerf hms, better enc slots
