@@ -89,6 +89,7 @@ ElmsLab_MapScripts:
 CheckMonChecks:
 	checkevent EVENT_GOT_A_POKEMON_FROM_ELM
 	iffalse ElmCheckEverstone2
+	closetext
 	end
 
 ProfElmScript:
