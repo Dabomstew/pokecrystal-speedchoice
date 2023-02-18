@@ -31,15 +31,15 @@ VermilionPort_MapScripts:
 	setevent EVENT_FAST_SHIP_PASSENGERS_FIRST_TRIP
 	clearevent EVENT_OLIVINE_PORT_PASSAGE_POKEFAN_M
 	setevent EVENT_FAST_SHIP_FIRST_TIME
-	;setevent EVENT_TEMPORARY_UNTIL_MAP_RELOAD_1
+	setevent EVENT_TEMPORARY_UNTIL_MAP_RELOAD_1
 	blackoutmod VERMILION_CITY
 	end
 
 VermilionPortSailorAtGangwayScript:
 	faceplayer
 	opentext
-	checkevent EVENT_TEMPORARY_UNTIL_MAP_RELOAD_1
-	iftrue VermilionPortAlreadyRodeScript
+	;checkevent EVENT_TEMPORARY_UNTIL_MAP_RELOAD_1
+	;iftrue VermilionPortAlreadyRodeScript
 	writetext VermilionPortDepartingText
 	waitbutton
 	closetext
