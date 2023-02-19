@@ -142,10 +142,10 @@ GetTreeMon:
 
 .bad
 	; 10% chance of an encounter
-	ld a, 10
-	call RandomRange
-	and a
-	jr nz, NoTreeMon
+;	ld a, 10
+;	call RandomRange
+;	and a
+;	jr nz, NoTreeMon
 	jr SelectTreeMon
 
 .good
