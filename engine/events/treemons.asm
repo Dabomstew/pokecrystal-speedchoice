@@ -150,18 +150,18 @@ GetTreeMon:
 
 .good
 	; 50% chance of an encounter
-	ld a, 10
-	call RandomRange
-	cp 5
-	jr nc, NoTreeMon
+	;ld a, 10
+	;call RandomRange
+	;cp 5
+	;jr nc, NoTreeMon
 	jr SelectTreeMon
 
 .rare
 	; 80% chance of an encounter
-	ld a, 10
-	call RandomRange
-	cp 8
-	jr nc, NoTreeMon
+	;ld a, 10
+	;call RandomRange
+	;cp 8
+	;jr nc, NoTreeMon
 	jr .skip
 .skip
 	ld a, [hli]
