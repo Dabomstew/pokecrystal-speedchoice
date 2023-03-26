@@ -24,7 +24,7 @@ GoldenrodDeptStore5F_MapScripts:
 
 GoldenrodDeptStore5FClerkScript:
 	readvar VAR_WEEKDAY
-        ifequal 10, .GoldenrodDeptStore5FClerkFullShopScript
+        ifequal 10, GoldenrodDeptStore5FClerkFullShopScript
 	faceplayer
 	opentext
 	goldenrodmart5f
