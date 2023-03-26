@@ -1,6 +1,6 @@
 BuenaPrizeItems:
 ; there are NUM_BUENA_PRIZES items (see engine/events/buena.asm)
-	db ULTRA_BALL,   2, 1
+	db ULTRA_BALL,   0, 1
 	db FULL_RESTORE, 2, 1
 	db NUGGET,       3, 1
 	db RARE_CANDY,   3, 1

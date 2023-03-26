@@ -1,3 +1,4 @@
+
 BuenasPassword:
 	xor a
 	ld [wWhichIndexSet], a
@@ -94,26 +95,41 @@ BuenaPrize:
 	call YesNoBox
 	jr c, .loop
 
-	ld a, [wMenuSelectionQuantity]
-	call Buena_getprize
-	inc hl
-	ld a, [hld]
+;	ld a, [wMenuSelectionQuantity]
+	call Buena_getprizepoints
+	ld b, c ; store points in b
+	ld a, [wNamedObjectIndexBuffer]
 	ld c, a
+	push bc
+	;ld a, [wMenuSelectionQuantity]
+	;call Buena_getprize
+	;pop bc
+	;inc hl
+	;ld a, [hl]
+	;ld a, [hli]
+	;ld c, a ;store item in c
+	;push bc
+	;push af
+	ld c, b
 	ld a, [wBlueCardBalance]
 	cp c
 	jr c, .InsufficientBalance
 
-	ld a, [hli]
-	push hl
+	;ld a, [hli]
+	;pop af
+	;push hl
+	pop bc
+	ld a, c ; should be c
 	ld [wCurItem], a
 	ld a, $1
 	ld [wItemQuantityChangeBuffer], a
 	ld hl, wNumItems
+	push bc
 	call ReceiveItem
-	pop hl
+	pop bc
 	jr nc, .BagFull
-	ld a, [hl]
-	ld c, a
+	;ld a, [hl]
+	ld c, b
 	ld a, [wBlueCardBalance]
 	sub c
 	ld [wBlueCardBalance], a
@@ -121,6 +137,7 @@ BuenaPrize:
 	jr .Purchase
 
 .InsufficientBalance:
+	pop bc
 	ld hl, .BuenaNotEnoughPointsText
 	jr .print
 
@@ -131,6 +148,7 @@ BuenaPrize:
 .Purchase:
 	ld de, SFX_TRANSACTION
 	call PlaySFX
+	call Buena_setflag
 	ld hl, .BuenaHereYouGoText
 
 .print
@@ -285,14 +303,86 @@ endr
 	ret
 
 .prizepoints
+	call Buena_getprizepoints
+	ld a, c
+	;ld a, [wMenuSelection]
+	;call Buena_getprize
+	;inc hl
+	;ld a, [hl]
+	ld c, "0"
+	add c
+	;push af
+
+	;push de
+	;ld de, EVENT_BUENA_ITEM_1
+	;ld a, [wMenuSelection]
+	;add a, d
+	;adc a, e
+
+	;ld b, CHECK_FLAG
+	;farcall EventFlagAction
+	;pop de
+	;ld a, c
+	;and a
+	;jr z, .false
+	;pop af
+	;inc a 	; add one
+	;jp .return
+
+;.false
+;	pop af
+;.return
+	ld [de], a
+	ret
+
+Buena_setflag:
+	ld de, EVENT_BUENA_ITEM_1-1
+        ld a, [wMenuSelection]
+;        add a, d
+;        adc a, e
+	add a, d
+	ld d, a
+	ld a, 0
+	adc a, e
+	ld e, a
+	
+
+	ld b, SET_FLAG
+        farcall EventFlagAction
+
+Buena_getprizepoints:
 	ld a, [wMenuSelection]
 	call Buena_getprize
 	inc hl
 	ld a, [hl]
-	ld c, "0"
-	add c
-	ld [de], a
-	ret
+	push af
+
+	push de
+        ld de, EVENT_BUENA_ITEM_1-1
+        ld a, [wMenuSelection]
+	; not sure how to add properly here
+	add a, d
+	ld d, a
+	ld a, 0
+	adc a, e
+	ld e, a
+
+        ld b, CHECK_FLAG
+        farcall EventFlagAction
+        pop de
+        ld a, c
+        and a
+        jr z, .pop
+	pop af
+        inc a   ; add one
+        jp .return
+
+.pop
+	pop af
+.return
+	;ld a, [wMenuSelection]
+        ld c, a
+        ret
 
 Buena_getprize:
 	dec a
