@@ -42,8 +42,8 @@ CeladonDeptStore6FVendingMachine:
 	giveitem FRESH_WATER
 	iffalse .NotEnoughSpace
 	takemoney YOUR_MONEY, CELADONDEPTSTORE6F_FRESH_WATER_PRICE
-        checkitemrando
-        iftrue .Bought
+	checkitemrando
+	iftrue .Bought
 	getitemname STRING_BUFFER_3, FRESH_WATER
 	sjump .VendItem
 
@@ -53,8 +53,8 @@ CeladonDeptStore6FVendingMachine:
 	giveitem SODA_POP
 	iffalse .NotEnoughSpace
 	takemoney YOUR_MONEY, CELADONDEPTSTORE6F_SODA_POP_PRICE
-        checkitemrando
-        iftrue .Bought
+	checkitemrando
+	iftrue .Bought
 	getitemname STRING_BUFFER_3, SODA_POP
 	sjump .VendItem
 
@@ -64,8 +64,8 @@ CeladonDeptStore6FVendingMachine:
 	giveitem LEMONADE
 	iffalse .NotEnoughSpace
 	takemoney YOUR_MONEY, CELADONDEPTSTORE6F_LEMONADE_PRICE
-        checkitemrando
-        iftrue .Bought
+	checkitemrando
+	iftrue .Bought
 	getitemname STRING_BUFFER_3, LEMONADE
 	sjump .VendItem
 

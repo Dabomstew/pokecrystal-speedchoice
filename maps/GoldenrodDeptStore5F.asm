@@ -31,10 +31,10 @@ GoldenrodDeptStore5FClerkScript:
 
 GoldenrodDeptStore5FClerkFullShopScript:
 	faceplayer
-        opentext
-        pokemart MARTTYPE_STANDARD, MART_GOLDENROD_5F_TM02_08_12
-        closetext
-        end
+	opentext
+	pokemart MARTTYPE_STANDARD, MART_GOLDENROD_5F_TM02_08_12
+	closetext
+	end
 
 GoldenrodDeptStore5FReceptionistScript:
 	faceplayer

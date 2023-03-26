@@ -31,8 +31,8 @@ GoldenrodVendingMachine:
 	giveitem FRESH_WATER
 	iffalse .NotEnoughSpace
 	takemoney YOUR_MONEY, GOLDENRODDEPTSTORE6F_FRESH_WATER_PRICE
-        checkitemrando
-        iftrue .Bought
+	checkitemrando
+	iftrue .Bought
 	getitemname STRING_BUFFER_3, FRESH_WATER
 	sjump .VendItem
 
@@ -42,8 +42,8 @@ GoldenrodVendingMachine:
 	giveitem SODA_POP
 	iffalse .NotEnoughSpace
 	takemoney YOUR_MONEY, GOLDENRODDEPTSTORE6F_SODA_POP_PRICE
-        checkitemrando
-        iftrue .Bought
+	checkitemrando
+	iftrue .Bought
 	getitemname STRING_BUFFER_3, SODA_POP
 	sjump .VendItem
 
@@ -65,7 +65,7 @@ GoldenrodVendingMachine:
 	promptbutton
 	itemnotify
 .Bought:
-        increment2bytestat sStatsItemsBought
+	increment2bytestat sStatsItemsBought
 	sjump .Start
 
 .NotEnoughMoney:
