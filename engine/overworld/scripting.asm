@@ -2355,6 +2355,7 @@ Script_setevent:
 	ld d, a
 	ld b, SET_FLAG
 	call EventFlagAction
+	ret
 
 Script_clearevent:
 ; script command 0x32
