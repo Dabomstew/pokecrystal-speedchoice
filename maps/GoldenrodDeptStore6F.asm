@@ -27,7 +27,7 @@ GoldenrodVendingMachine:
 
 .FreshWater:
 	checkevent EVENT_G_VM_FW
-	iffalse .AlreadyBought
+	iftrue .AlreadyBought
 	checkmoney YOUR_MONEY, GOLDENRODDEPTSTORE6F_FRESH_WATER_PRICE
 	ifequal HAVE_LESS, .NotEnoughMoney
 	giveitem FRESH_WATER
@@ -41,7 +41,7 @@ GoldenrodVendingMachine:
 
 .SodaPop:
 	checkevent EVENT_G_VM_SP
-	iffalse .AlreadyBought
+	iftrue .AlreadyBought
 	checkmoney YOUR_MONEY, GOLDENRODDEPTSTORE6F_SODA_POP_PRICE
 	ifequal HAVE_LESS, .NotEnoughMoney
 	giveitem SODA_POP
@@ -55,7 +55,7 @@ GoldenrodVendingMachine:
 
 .Lemonade:
 	checkevent EVENT_G_VM_L
-	iffalse .AlreadyBought
+	iftrue .AlreadyBought
 	checkmoney YOUR_MONEY, GOLDENRODDEPTSTORE6F_LEMONADE_PRICE
 	ifequal HAVE_LESS, .NotEnoughMoney
 	giveitem LEMONADE
