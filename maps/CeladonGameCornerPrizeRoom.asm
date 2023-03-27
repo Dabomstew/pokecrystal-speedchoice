@@ -41,9 +41,14 @@ CeladonPrizeRoom_tmcounterloop:
 .DoubleTeam:
 	checkcoins CELADONGAMECORNERPRIZEROOM_TM32_COINS
 	ifequal HAVE_LESS, CeladonPrizeRoom_notenoughcoins
+	checkevent EVENT_CGC_TM32
+	iftrue CeladonPrizeRoom_AlreadyBought
+	checkitemrando
+	iftrue .GiveDoubleTeam
 	getitemname STRING_BUFFER_3, TM_DOUBLE_TEAM
 	scall CeladonPrizeRoom_askbuy
 	iffalse CeladonPrizeRoom_CancelPurchaseScript
+.GiveDoubleTeam
 	giveitem TM_DOUBLE_TEAM
 	iffalse CeladonPrizeRoom_notenoughroom
 	takecoins CELADONGAMECORNERPRIZEROOM_TM32_COINS
@@ -52,9 +57,14 @@ CeladonPrizeRoom_tmcounterloop:
 .Psychic:
 	checkcoins CELADONGAMECORNERPRIZEROOM_TM29_COINS
 	ifequal HAVE_LESS, CeladonPrizeRoom_notenoughcoins
+	checkevent EVENT_CGC_TM29
+	iftrue CeladonPrizeRoom_AlreadyBought
+	checkitemrando
+	iftrue .GivePsychic
 	getitemname STRING_BUFFER_3, TM_PSYCHIC_M
 	scall CeladonPrizeRoom_askbuy
 	iffalse CeladonPrizeRoom_CancelPurchaseScript
+.GivePsychic
 	giveitem TM_PSYCHIC_M
 	iffalse CeladonPrizeRoom_notenoughroom
 	takecoins CELADONGAMECORNERPRIZEROOM_TM29_COINS
@@ -63,9 +73,14 @@ CeladonPrizeRoom_tmcounterloop:
 .HyperBeam:
 	checkcoins CELADONGAMECORNERPRIZEROOM_TM15_COINS
 	ifequal HAVE_LESS, CeladonPrizeRoom_notenoughcoins
+	checkevent EVENT_CGC_TM15
+	iftrue CeladonPrizeRoom_AlreadyBought
+	checkitemrando
+	iftrue .GiveHyperBeam
 	getitemname STRING_BUFFER_3, TM_HYPER_BEAM
 	scall CeladonPrizeRoom_askbuy
 	iffalse CeladonPrizeRoom_CancelPurchaseScript
+.GiveHyperBeam
 	giveitem TM_HYPER_BEAM
 	iffalse CeladonPrizeRoom_notenoughroom
 	takecoins CELADONGAMECORNERPRIZEROOM_TM15_COINS
@@ -91,6 +106,12 @@ CeladonPrizeRoom_notenoughcoins:
 
 CeladonPrizeRoom_notenoughroom:
 	writetext CeladonPrizeRoom_NotEnoughRoomText
+	waitbutton
+	closetext
+	end
+
+CeladonPrizeRoom_AlreadyBought:
+	writetext CeladonPrizeRoom_AlreadyBoughtText
 	waitbutton
 	closetext
 	end
@@ -269,6 +290,11 @@ CeladonPrizeRoom_HereYouGoText:
 CeladonPrizeRoom_NotEnoughCoinsText:
 	text "You don't have"
 	line "enough coins."
+	done
+
+CeladonPrizeRoom_AlreadyBoughtText:
+	text "You already bought"
+	line "this item."
 	done
 
 CeladonPrizeRoom_NotEnoughRoomText:

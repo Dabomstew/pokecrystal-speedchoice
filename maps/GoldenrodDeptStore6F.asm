@@ -26,33 +26,42 @@ GoldenrodVendingMachine:
 	end
 
 .FreshWater:
+	checkevent EVENT_G_VM_FW
+	iffalse .AlreadyBought
 	checkmoney YOUR_MONEY, GOLDENRODDEPTSTORE6F_FRESH_WATER_PRICE
 	ifequal HAVE_LESS, .NotEnoughMoney
 	giveitem FRESH_WATER
 	iffalse .NotEnoughSpace
 	takemoney YOUR_MONEY, GOLDENRODDEPTSTORE6F_FRESH_WATER_PRICE
+	setevent EVENT_G_VM_FW
 	checkitemrando
 	iftrue .Bought
 	getitemname STRING_BUFFER_3, FRESH_WATER
 	sjump .VendItem
 
 .SodaPop:
+	checkevent EVENT_G_VM_SP
+	iffalse .AlreadyBought
 	checkmoney YOUR_MONEY, GOLDENRODDEPTSTORE6F_SODA_POP_PRICE
 	ifequal HAVE_LESS, .NotEnoughMoney
 	giveitem SODA_POP
 	iffalse .NotEnoughSpace
 	takemoney YOUR_MONEY, GOLDENRODDEPTSTORE6F_SODA_POP_PRICE
+	setevent EVENT_G_VM_SP
 	checkitemrando
 	iftrue .Bought
 	getitemname STRING_BUFFER_3, SODA_POP
 	sjump .VendItem
 
 .Lemonade:
+	checkevent EVENT_G_VM_L
+	iffalse .AlreadyBought
 	checkmoney YOUR_MONEY, GOLDENRODDEPTSTORE6F_LEMONADE_PRICE
 	ifequal HAVE_LESS, .NotEnoughMoney
 	giveitem LEMONADE
 	iffalse .NotEnoughSpace
 	takemoney YOUR_MONEY, GOLDENRODDEPTSTORE6F_LEMONADE_PRICE
+	setevent EVENT_G_VM_L
 	checkitemrando
 	iftrue .Bought
 	getitemname STRING_BUFFER_3, LEMONADE
@@ -75,6 +84,11 @@ GoldenrodVendingMachine:
 
 .NotEnoughSpace:
 	writetext GoldenrodVendingNoSpaceText
+	waitbutton
+	sjump .Start
+
+.AlreadyBought:
+	writetext GoldenrodVendingAlreadyBoughtText
 	waitbutton
 	sjump .Start
 
@@ -125,6 +139,11 @@ GoldenrodVendingNoMoneyText:
 GoldenrodVendingNoSpaceText:
 	text "There's no more"
 	line "room for stuff."
+	done
+
+GoldenrodVendingAlreadyBoughtText:
+	text "You already bought"
+	line "this item."
 	done
 
 GoldenrodDeptStore6FLassText:
