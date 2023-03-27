@@ -52,6 +52,7 @@ CeladonPrizeRoom_tmcounterloop:
 	giveitem TM_DOUBLE_TEAM
 	iffalse CeladonPrizeRoom_notenoughroom
 	takecoins CELADONGAMECORNERPRIZEROOM_TM32_COINS
+	setevent EVENT_CGC_TM32
 	sjump CeladonPrizeRoom_purchased
 
 .Psychic:
@@ -68,6 +69,7 @@ CeladonPrizeRoom_tmcounterloop:
 	giveitem TM_PSYCHIC_M
 	iffalse CeladonPrizeRoom_notenoughroom
 	takecoins CELADONGAMECORNERPRIZEROOM_TM29_COINS
+	setevent EVENT_CGC_TM29
 	sjump CeladonPrizeRoom_purchased
 
 .HyperBeam:
@@ -84,6 +86,7 @@ CeladonPrizeRoom_tmcounterloop:
 	giveitem TM_HYPER_BEAM
 	iffalse CeladonPrizeRoom_notenoughroom
 	takecoins CELADONGAMECORNERPRIZEROOM_TM15_COINS
+	setevent EVENT_CGC_TM15
 	sjump CeladonPrizeRoom_purchased
 
 CeladonPrizeRoom_askbuy:

@@ -88,6 +88,7 @@ GoldenrodGameCornerTMVendor_LoopScript:
 	giveitem TM_THUNDER
 	iffalse GoldenrodGameCornerPrizeMonVendor_NoRoomForPrizeScript
 	takecoins GOLDENRODGAMECORNER_TM25_COINS
+	setevent EVENT_GGC_TM25
 	sjump GoldenrodGameCornerTMVendor_FinishScript
 
 .Blizzard:
@@ -104,6 +105,7 @@ GoldenrodGameCornerTMVendor_LoopScript:
 	giveitem TM_BLIZZARD
 	iffalse GoldenrodGameCornerPrizeMonVendor_NoRoomForPrizeScript
 	takecoins GOLDENRODGAMECORNER_TM14_COINS
+	setevent EVENT_GGC_TM14
 	sjump GoldenrodGameCornerTMVendor_FinishScript
 
 .FireBlast:
@@ -120,6 +122,7 @@ GoldenrodGameCornerTMVendor_LoopScript:
 	giveitem TM_FIRE_BLAST
 	iffalse GoldenrodGameCornerPrizeMonVendor_NoRoomForPrizeScript
 	takecoins GOLDENRODGAMECORNER_TM38_COINS
+	setevent EVENT_GGC_TM38
 	sjump GoldenrodGameCornerTMVendor_FinishScript
 
 GoldenrodGameCornerPrizeVendor_ConfirmPurchaseScript:
