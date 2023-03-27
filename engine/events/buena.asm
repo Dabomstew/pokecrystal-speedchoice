@@ -93,8 +93,13 @@ BuenaPrize:
 	ld hl, .BuenaIsThatRightText
 	call BuenaPrintText
 	call YesNoBox
-	jr c, .loop
+	jr c, .loopTo
+	jr .pastLoop
 
+.loopTo
+	jr .loop
+
+.pastLoop
 	ld a, [wMenuSelectionQuantity]
 	push de
 	call Buena_getprizepoints
@@ -103,23 +108,11 @@ BuenaPrize:
 	ld a, [wNamedObjectIndexBuffer]
 	ld c, a
 	push bc
-	;ld a, [wMenuSelectionQuantity]
-	;call Buena_getprize
-	;pop bc
-	;inc hl
-	;ld a, [hl]
-	;ld a, [hli]
-	;ld c, a ;store item in c
-	;push bc
-	;push af
 	ld c, b
 	ld a, [wBlueCardBalance]
 	cp c
 	jr c, .InsufficientBalance
 
-	;ld a, [hli]
-	;pop af
-	;push hl
 	pop bc
 	ld a, c ; should be c
 	ld [wCurItem], a
@@ -150,12 +143,13 @@ BuenaPrize:
 .Purchase:
 	ld de, SFX_TRANSACTION
 	call PlaySFX
+	ld a, [wMenuSelectionQuantity]
 	call Buena_setflag
 	ld hl, .BuenaHereYouGoText
 
 .print
 	call BuenaPrintText
-	jr .loop
+	jr .loopTo
 
 .done
 	call CloseWindow
@@ -306,42 +300,19 @@ endr
 
 .prizepoints
 	push de
+	ld a, [wMenuSelection]
 	call Buena_getprizepoints
 	pop de
 	ld a, c
-	;ld a, [wMenuSelection]
-	;call Buena_getprize
-	;inc hl
-	;ld a, [hl]
 	ld c, "0"
 	add c
-	;push af
-
-	;push de
-	;ld de, EVENT_BUENA_ITEM_1
-	;ld a, [wMenuSelection]
-	;add a, d
-	;adc a, e
-
-	;ld b, CHECK_FLAG
-	;farcall EventFlagAction
-	;pop de
-	;ld a, c
-	;and a
-	;jr z, .false
-	;pop af
-	;inc a 	; add one
-	;jp .return
-
-;.false
-;	pop af
-;.return
 	ld [de], a
 	ret
 
 Buena_setflag:
+	; a must be set
 	ld de, EVENT_BUENA_ITEM_1-1
-        ld a, [wMenuSelection]
+        ;ld a, [wMenuSelection]
 	add a, e
 	ld e, a
 	ld a, 0
@@ -352,16 +323,23 @@ Buena_setflag:
         farcall EventFlagAction
 
 Buena_getprizepoints:
-	ld a, [wMenuSelection]
+	; a must be correct on call
+	;ld a, [wMenuSelection]
+	push af
 	call Buena_getprize
 	inc hl
+	; a - at this stage contains points
 	ld a, [hl]
+
+	ld c, a ;points
+	pop af
+	ld b, a ; b contains selection
+	ld a, c ; points
 	push af
 
-	;push de
-	ld de, 1999
         ld de, EVENT_BUENA_ITEM_1-1
-        ld a, [wMenuSelection]
+        ld a, b ; selection
+
 	; not sure how to add properly here
 	add a, e
 	ld e, a
@@ -371,10 +349,8 @@ Buena_getprizepoints:
 
         ld b, CHECK_FLAG
         farcall EventFlagAction
-        ;pop de
         ld a, c
         and a
-	;ld a, [wMenuSelection]
         jr z, .pop
 	pop af
         inc a   ; add one
