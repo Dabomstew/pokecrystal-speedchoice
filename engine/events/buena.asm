@@ -95,8 +95,10 @@ BuenaPrize:
 	call YesNoBox
 	jr c, .loop
 
-;	ld a, [wMenuSelectionQuantity]
+	ld a, [wMenuSelectionQuantity]
+	push de
 	call Buena_getprizepoints
+	pop de
 	ld b, c ; store points in b
 	ld a, [wNamedObjectIndexBuffer]
 	ld c, a
@@ -303,7 +305,9 @@ endr
 	ret
 
 .prizepoints
+	push de
 	call Buena_getprizepoints
+	pop de
 	ld a, c
 	;ld a, [wMenuSelection]
 	;call Buena_getprize
@@ -338,14 +342,11 @@ endr
 Buena_setflag:
 	ld de, EVENT_BUENA_ITEM_1-1
         ld a, [wMenuSelection]
-;        add a, d
-;        adc a, e
-	add a, d
-	ld d, a
-	ld a, 0
-	adc a, e
+	add a, e
 	ld e, a
-	
+	ld a, 0
+	adc a, d
+	ld d, a
 
 	ld b, SET_FLAG
         farcall EventFlagAction
@@ -357,21 +358,23 @@ Buena_getprizepoints:
 	ld a, [hl]
 	push af
 
-	push de
+	;push de
+	ld de, 1999
         ld de, EVENT_BUENA_ITEM_1-1
         ld a, [wMenuSelection]
 	; not sure how to add properly here
-	add a, d
-	ld d, a
-	ld a, 0
-	adc a, e
+	add a, e
 	ld e, a
+	ld a, 0
+	adc a, d
+	ld d, a
 
         ld b, CHECK_FLAG
         farcall EventFlagAction
-        pop de
+        ;pop de
         ld a, c
         and a
+	;ld a, [wMenuSelection]
         jr z, .pop
 	pop af
         inc a   ; add one
@@ -380,7 +383,6 @@ Buena_getprizepoints:
 .pop
 	pop af
 .return
-	;ld a, [wMenuSelection]
         ld c, a
         ret
 
