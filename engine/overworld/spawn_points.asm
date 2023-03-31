@@ -56,3 +56,50 @@ IsSpawnPoint:
 .yes
 	scf
 	ret
+
+
+IsDangerousSpawnPoint:
+; Checks if the map loaded in de is a spawn point, and warp number in B is dangerous.
+	push bc ; push warp ID
+	ld hl, DangerousWarps
+	ld c, 0
+.loop
+	ld a, [hl]
+	cp SPAWN_N_A
+	jr z, .nope
+	cp d
+	jr nz, .next
+	inc hl
+	ld a, [hld]
+	cp e
+	jr nz, .next
+	push bc
+	ld bc, 2 ; skip past map ID bytes
+	add hl, bc
+	pop bc
+	ld a, [hl] ; warp ID
+	pop bc ; get warp ID
+	cp b
+	jr z, .yes
+	push bc ; store map ID again
+	inc hl ; only one more byte to pass
+	inc c
+	jr .loop
+
+.next
+	push bc
+	ld bc, 3 ; size of obj
+	add hl, bc
+	pop bc
+	inc c
+	jr .loop
+
+.nope
+	pop bc
+	and a
+	ret
+
+.yes
+	scf
+	ret
+

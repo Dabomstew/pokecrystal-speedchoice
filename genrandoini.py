@@ -2,6 +2,8 @@
 
 import argparse
 import os
+import hashlib
+
 
 STARTERS = ['Cyndaquil', 'Totodile', 'Chikorita']
 TUTORS = ['Flamethrower', 'Thunderbolt', 'IceBeam']
@@ -80,6 +82,8 @@ def main():
         setconfig('TMText[]',
                   '[{:d},0x{:X},{}]'.format(num, syms[key] + 1, txt))
 
+    args.rom.seek(0)
+    romMD5 = str(hashlib.md5(args.rom.read()).hexdigest())
     # Print version
     args.rom.seek(0x14c)
     ver = int.from_bytes(args.rom.read(1), 'little')
@@ -314,6 +318,9 @@ def main():
                 'It\'s scary…\\p'
                 'I don\'t want to\\n'
                 'have bad dreams.\\e')
+
+    setconfig('MD5', romMD5)
+
 
 
 if __name__ == '__main__':
