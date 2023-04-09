@@ -14,6 +14,7 @@ CianwoodPhotoStudioFishingGuruScript:
 	iffalse .Refused
 	writetext CianwoodPhotoStudioFishingGuruText_Yes
 	waitbutton
+	sjump .Broken
 	special PhotoStudio
 	waitbutton
 	closetext
@@ -24,6 +25,17 @@ CianwoodPhotoStudioFishingGuruScript:
 	waitbutton
 	closetext
 	end
+
+.Broken
+	writetext CianwoodPhotoStudioBroken
+	waitbutton
+	closetext
+	end
+
+CianwoodPhotoStudioBroken:
+	text "Oh, my camera's"
+	line "broken. Sorry."
+	done
 
 CianwoodPhotoStudioFishingGuruText_Question:
 	text "You have magnifi-"
