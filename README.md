@@ -1,4 +1,4 @@
-# Pokémon Crystal [![Build Status][travis-badge]][travis]
+# Pokémon Crystal
 
 This is a disassembly of Pokémon Crystal.
 
@@ -28,6 +28,9 @@ Other disassembly projects:
 - [**Pokémon Ruby**][pokeruby]
 - [**Pokémon Fire Red**][pokefirered]
 - [**Pokémon Emerald**][pokeemerald]
+- [**Pokémon Diamond**][pokediamond]
+- [**Pokémon Platinum**][pokeplatinum]
+- [**Pokémon HeartGold**][pokeheartgold]
 
 [pokered]: https://github.com/pret/pokered
 [pokeyellow]: https://github.com/pret/pokeyellow
@@ -37,10 +40,11 @@ Other disassembly projects:
 [pokeruby]: https://github.com/pret/pokeruby
 [pokefirered]: https://github.com/pret/pokefirered
 [pokeemerald]: https://github.com/pret/pokeemerald
+[pokediamond]: https://github.com/pret/pokediamond
+[pokeplat]: https://github.com/pret/pokeplatinum
+[pokeheartgold]: https://github.com/pret/pokeheartgold
 [docs]: https://pret.github.io/pokecrystal/
 [wiki]: https://github.com/pret/pokecrystal/wiki
 [tutorials]: https://github.com/pret/pokecrystal/wiki/Tutorials
 [discord]: https://discord.gg/d5dubZ3
 [irc]: https://kiwiirc.com/client/irc.freenode.net/?#pret
-[travis]: https://travis-ci.org/pret/pokecrystal
-[travis-badge]: https://travis-ci.org/pret/pokecrystal.svg?branch=master
