@@ -41,7 +41,7 @@ jobs:
       - name: Make
         if: ${{ github.repository_owner != 'pret' }}
         run: |
-          make -j$(nproc)
+          make -j$(nproc) config
           if ! git diff-index --quiet HEAD --; then
             echo 'Uncommitted changes detected:'
             git diff-index HEAD --
