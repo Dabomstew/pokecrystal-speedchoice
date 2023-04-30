@@ -2197,9 +2197,6 @@ wNewHPBarPixels::   db ; d1f2
 wCurHPAnimDeltaHP:: dw ; d1f3
 wCurHPAnimLowHP::   db ; d1f5
 wCurHPAnimHighHP::  db ; d1f6
-wCurHPAnimHPPerPixel:: db ; d1f7
-wCurHPAnimSubHPPerPixel:: db ; d1f8
-wCurHPAnimCurSubpixel:: db ; d1f9
 
 NEXTU ; d1ea
 ; evolution data
