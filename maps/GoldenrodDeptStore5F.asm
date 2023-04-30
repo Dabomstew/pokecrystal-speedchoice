@@ -23,9 +23,18 @@ GoldenrodDeptStore5F_MapScripts:
 	return
 
 GoldenrodDeptStore5FClerkScript:
+	readvar VAR_WEEKDAY
+	ifequal 10, GoldenrodDeptStore5FClerkFullShopScript
 	faceplayer
 	opentext
 	goldenrodmart5f
+	closetext
+	end
+
+GoldenrodDeptStore5FClerkFullShopScript:
+	faceplayer
+	opentext
+	pokemart MARTTYPE_STANDARD, MART_GOLDENROD_5F_TM02_08_12
 	closetext
 	end
 

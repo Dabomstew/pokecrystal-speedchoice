@@ -3029,7 +3029,7 @@ Script_engineflagsound:
 	ld de, ActivateRocketsScript
 	jp ScriptCall
 .notBadge
-	ld de, SFX_RB_GET_ITEM
+	ld de, SFX_KEY_ITEM
 	call PlaySFX
 	jp WaitSFX
 

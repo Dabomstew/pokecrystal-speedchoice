@@ -340,6 +340,9 @@ BugContestResultsScript:
 	farwritetext ContestResults_ConsolationPrizeText
 	promptbutton
 	waitsfx
+	checkevent EVENT_BGC_LAST
+	iftrue BugContestResults_DidNotWin
+	setevent EVENT_BGC_LAST
 	verbosegiveitem BERRY
 	iffalse BugContestResults_NoRoomForBerry
 
@@ -394,6 +397,9 @@ BugContestResults_CleanUp:
 	end
 
 BugContestResults_FirstPlace:
+	checkevent EVENT_BGC_FIRST
+	iftrue BugContestResults_ReturnAfterWinnersPrize
+	setevent EVENT_BGC_FIRST
 	setevent EVENT_TEMPORARY_UNTIL_MAP_RELOAD_1
 	getitemname STRING_BUFFER_4, SUN_STONE
 	farwritetext ContestResults_PlayerWonAPrizeText
@@ -403,6 +409,9 @@ BugContestResults_FirstPlace:
 	sjump BugContestResults_ReturnAfterWinnersPrize
 
 BugContestResults_SecondPlace:
+	checkevent EVENT_BGC_SECOND
+	iftrue BugContestResults_ReturnAfterWinnersPrize
+	setevent EVENT_BGC_SECOND
 	getitemname STRING_BUFFER_4, EVERSTONE
 	farwritetext ContestResults_PlayerWonAPrizeText
 	waitbutton
@@ -411,6 +420,9 @@ BugContestResults_SecondPlace:
 	sjump BugContestResults_ReturnAfterWinnersPrize
 
 BugContestResults_ThirdPlace:
+	checkevent EVENT_BGC_THIRD
+	iftrue BugContestResults_ReturnAfterWinnersPrize
+	setevent EVENT_BGC_THIRD
 	getitemname STRING_BUFFER_4, GOLD_BERRY
 	farwritetext ContestResults_PlayerWonAPrizeText
 	waitbutton

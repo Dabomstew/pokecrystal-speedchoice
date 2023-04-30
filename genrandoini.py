@@ -87,6 +87,8 @@ class CLI(argparse.Namespace):
 def main():
     args = CLI.parse_args()
 
+    args.rom.seek(0)
+    romMD5 = str(hashlib.md5(args.rom.read()).hexdigest())
     # Print version
     args.rom.seek(0x14c)
     ver = int.from_bytes(args.rom.read(1), 'little')
@@ -322,9 +324,7 @@ def main():
                 'I don\'t want to\\n'
                 'have bad dreams.\\e')
 
-    args.rom.seek(0)
-    hasher = hashlib.md5(args.rom.read())
-    print('MD5Hash={}'.format(hasher.hexdigest()), file=args.out)
+    args.setconfig('MD5', romMD5)
 
 
 if __name__ == '__main__':
