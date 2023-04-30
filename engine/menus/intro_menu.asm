@@ -221,14 +221,26 @@ endc
 
 GiveStartItems:
 	sboptioncheck START_WITH_BIKE
-	ret z
-	
+	jr z, .SkipBike
+
 	ld a, BICYCLE
 	ld [wCurItem], a
 	ld a, 1
 	ld [wItemQuantityChangeBuffer], a
 	ld hl, wNumItems
-	jp ReceiveItem
+	call ReceiveItem
+
+.SkipBike
+	ld a, 0
+	cp 1
+	ret c
+        ld a, REPEL
+        ld [wCurItem], a
+        ld a, 1
+        ld [wItemQuantityChangeBuffer], a
+        ld hl, wNumItems
+        call ReceiveItem
+
 
 SetDefaultBoxNames:
 	ld hl, wBoxNames

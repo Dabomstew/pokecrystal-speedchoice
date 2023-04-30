@@ -73,16 +73,23 @@ GoldenrodUndergroundWarehouseDirectorScript:
 	iftrue .GotCardKey
 	checkcode VAR_BADGES
 	ifless 7, .GotCardKey
+	setevent EVENT_MET_UNDERGROUND_DIRECTOR
 	writetext DirectorIntroText
 	promptbutton
 	verbosegiveitem CARD_KEY
+	iffalse .SkipCardKey
 	setevent EVENT_RECEIVED_CARD_KEY
+.SkipCardKey
 	setevent EVENT_GOLDENROD_DEPT_STORE_B1F_LAYOUT_1
 	clearevent EVENT_GOLDENROD_DEPT_STORE_B1F_LAYOUT_2
 	clearevent EVENT_GOLDENROD_DEPT_STORE_B1F_LAYOUT_3
 	writetext DirectorCardKeyText
 	promptbutton
 .GotCardKey:
+	checkevent EVENT_MET_UNDERGROUND_DIRECTOR
+	iffalse .DirectorText
+	setevent EVENT_MET_UNDERGROUND_DIRECTOR
+.DirectorText
 	writetext DirectorAfterText
 	waitbutton
 	closetext

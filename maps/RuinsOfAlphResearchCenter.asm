@@ -49,6 +49,9 @@ RuinsOfAlphResearchCenter_MapScripts:
 	playsound SFX_ITEM
 	waitsfx
 	verbosesetflag ENGINE_UNOWN_DEX
+	iffalse .SkipDex
+	verbosesetflag EVENT_GOT_UNOWN_DEX
+.SkipDex
 	setevent EVENT_TALKED_TO_RUINS_COWARD
 	writetext RuinsOfAlphResearchCenterScientist3Text
 	waitbutton
@@ -61,10 +64,20 @@ RuinsOfAlphResearchCenter_MapScripts:
 RuinsOfAlphResearchCenterScientist3Script:
 	faceplayer
 	opentext
+	checkevent EVENT_GOT_UNOWN_DEX
+	iffalse .GiveUnownDex
 	readvar VAR_UNOWNCOUNT
 	ifequal NUM_UNOWN, .PrinterAvailable
 	writetext RuinsOfAlphResearchCenterScientist3Text
 	waitbutton
+	closetext
+	end
+
+.GiveUnownDex:
+	verbosesetflag ENGINE_UNOWN_DEX
+	iffalse .End
+	setevent EVENT_GOT_UNOWN_DEX
+.End
 	closetext
 	end
 
@@ -90,7 +103,20 @@ RuinsOfAlphResearchCenterScientist1Script:
 
 .UnownAppeared:
 	writetext RuinsOfAlphResearchCenterScientist1Text_UnownAppeared
+	checkitemrando
+	iftrue .SeeUnown
 	waitbutton
+	closetext
+	end
+
+.SeeUnown:
+	refreshscreen
+	pokepic UNOWN
+	setval UNOWN
+	special UnusedSetSeenMon
+	cry UNOWN
+	waitbutton
+	closepokepic
 	closetext
 	end
 

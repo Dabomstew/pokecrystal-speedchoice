@@ -29,13 +29,18 @@ SaffronGymSabrinaScript:
 	setevent EVENT_BEAT_PSYCHIC_FRANKLIN
 	setevent EVENT_BEAT_PSYCHIC_JARED
 	opentext
+.FightDone:
+	checkevent EVENT_GOT_MARSH_BADGE
+	iftrue .GotMarshBadge
 	verbosesetflag ENGINE_MARSHBADGE
+	iffalse .EndSabrina
+	setevent EVENT_GOT_MARSH_BADGE
+.EndSabrina
 	writetext SabrinaMarshBadgeText
 	waitbutton
 	closetext
 	end
-
-.FightDone:
+.GotMarshBadge
 	writetext SabrinaFightDoneText
 	waitbutton
 	closetext

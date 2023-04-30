@@ -1,5 +1,17 @@
 VersionNumberText::
-	db "v7.3@"
+        db "v7.4.11@"
+
+SpeedchoiceVersion:
+; Speedchoice Major Version
+db 7
+
+; Speedchoice Minor Version
+db 4
+
+; Speedchoice Revision
+db 11
+
+
 
 IntroPermaOptions::
 	xor a
@@ -46,13 +58,13 @@ endr
 	ret
 
 PrintPermaOptionsToScreen::
-	coord hl, 16, 0
+	coord hl, 13, 0
 	ld de, VersionNumberText
 	call PlaceString
 	ld a, [ROCKETLESS_ADDRESS] ; spinners, max range, nerf hms, better enc slots
 	ld b, a
 ; rocketless
-	coord hl, 1, 0
+	coord hl, 1, 1
 	bit ROCKETLESS, b
 	ld de, NormalRocketsText
 	jr z, .placeRocketSetting

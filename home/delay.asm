@@ -13,6 +13,12 @@ DelayFrame::
 
 DelayFrames::
 ; Wait c frames
+;	ldh a, [hJoypadDown]
+;	and A_BUTTON | B_BUTTON
+ ;       cp  A_BUTTON | B_BUTTON
+
+;;        and B_BUTTON
+;        ret z
 	call DelayFrame
 	dec c
 	jr nz, DelayFrames

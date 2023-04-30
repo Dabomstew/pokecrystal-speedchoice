@@ -107,6 +107,10 @@ Buena:
 .NoRocketsCheck:
 	checkevent EVENT_MET_BUENA
 	iffalse .Introduction
+	checkevent EVENT_GOT_BLUE_CARD
+	iftrue .SkipRetryBlueCard
+	scall .Introduction
+.SkipRetryBlueCard
 	checkflag ENGINE_BUENAS_PASSWORD_2
 	iftrue .PlayedAlready
 	readvar VAR_HOUR
@@ -167,6 +171,8 @@ Buena:
 	promptbutton
 	setevent EVENT_MET_BUENA
 	verbosegiveitem BLUE_CARD
+	iffalse .TuneIn
+	setevent EVENT_GOT_BLUE_CARD
 .TuneIn:
 	writetext RadioTower2FBuenaTuneInToMyShowText
 	waitbutton

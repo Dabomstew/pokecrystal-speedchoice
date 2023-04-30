@@ -27,18 +27,23 @@ VermilionGymSurgeScript:
 	setevent EVENT_BEAT_GUITARIST_VINCENT
 	setevent EVENT_BEAT_JUGGLER_HORTON
 	opentext
+.FightDone:
+	checkevent EVENT_GOT_THUNDER_BADGE
+	iftrue .GotThunderBadge
 	verbosesetflag ENGINE_THUNDERBADGE
+	iffalse .EndSurge
+	setevent EVENT_GOT_THUNDER_BADGE
+.EndSurge
 	writetext LtSurgeThunderBadgeText
 	waitbutton
 	closetext
 	end
-
-.FightDone:
+.GotThunderBadge
 	writetext LtSurgeFightDoneText
 	waitbutton
 	closetext
 	end
-	
+
 VermilionGymActivateRockets:
 	if_equal 7, .RadioTowerRockets
 	if_equal 6, .GoldenrodRockets

@@ -32,7 +32,12 @@ DoBattleTransition:
 	jr nz, .done
 	call BattleTransitionJumptable
 	call DelayFrame
+
+	;ld a, [wRepelEffect]
+        ;and a
+        ;jr z, .loop
 	jr .loop
+
 
 .done
 	ldh a, [rSVBK]

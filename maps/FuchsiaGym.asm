@@ -35,12 +35,17 @@ FuchsiaGymJanineScript:
 	variablesprite SPRITE_FUCHSIA_GYM_4, SPRITE_YOUNGSTER
 	special LoadUsedSpritesGFX
 	opentext
-	verbosesetflag ENGINE_SOULBADGE
 	sjump .AfterBattle
 .FightDone:
 	faceplayer
 	opentext
 .AfterBattle:
+	checkevent EVENT_GOT_SOUL_BADGE
+	iftrue .GotSoulBadge
+	verbosesetflag ENGINE_SOULBADGE
+	iffalse .GotSoulBadge
+	setevent EVENT_GOT_SOUL_BADGE
+.GotSoulBadge:
 	checkevent EVENT_GOT_TM06_TOXIC
 	iftrue .AfterTM
 	writetext JanineText_ToxicSpeech

@@ -236,6 +236,10 @@ PokeBallEffect:
 	ld a, [wCurItem]
 	cp MASTER_BALL
 	jp z, .catch_without_fail
+	
+	sboptioncheck GUARANTEED_CATCH
+	jp nz, .catch_without_fail
+	
 	ld a, [wCurItem]
 	ld c, a
 	ld hl, BallMultiplierFunctionTable
@@ -2155,6 +2159,8 @@ UseRepel:
 
 	ld a, b
 	ld [wRepelEffect], a
+	ld a, [wCurItem]
+	ld [wRepelType], a
 	jp UseItemText
 
 RepelUsedEarlierIsStillInEffectText:

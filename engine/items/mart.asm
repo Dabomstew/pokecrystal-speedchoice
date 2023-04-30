@@ -226,15 +226,25 @@ FarReadMart:
 	ld [de], a
 	inc hl
 	inc de
+
+	; note, currently required double -1 due to loop changes
+	; each mart has to one more -1 with this, to optimise
+	; all base marts now use this model of shopitem
+	; TODO implement check for other type in other byte and show/handle flags
+
+	inc hl ; increment over item type (for now)
 	cp -1
 	jr nz, .CopyMart
 	ld hl, wMartItem1BCD
 	ld de, wCurMart + 1
+
 .ReadMartItem:
 	ld a, [de]
 	inc de
 	cp -1
 	jr z, .done
+	;ld a, [de]
+	;inc de
 	push de
 	call GetMartItemPrice
 	pop de
@@ -320,9 +330,10 @@ ReadMart:
 	call GetMartPrice
 	ld b, h
 	ld c, l
+	inc hl
 	pop hl
-
 	pop de
+	
 	jr .loop
 
 .done

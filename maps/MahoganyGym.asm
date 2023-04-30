@@ -25,16 +25,22 @@ MahoganyGymPryceScript:
 	startbattle
 	reloadmapafterbattle
 	setevent EVENT_BEAT_PRYCE
-	opentext
-	verbosesetflag ENGINE_GLACIERBADGE
-.FightDone:
-	checkevent EVENT_GOT_TM16_ICY_WIND
-	iftrue PryceScript_Defeat
 	setevent EVENT_BEAT_SKIER_ROXANNE
 	setevent EVENT_BEAT_SKIER_CLARISSA
 	setevent EVENT_BEAT_BOARDER_RONALD
 	setevent EVENT_BEAT_BOARDER_BRAD
 	setevent EVENT_BEAT_BOARDER_DOUGLAS
+	opentext
+.FightDone:
+	checkevent EVENT_GOT_GLACIER_BADGE
+	iftrue .GotGlacierBadge
+	verbosesetflag ENGINE_GLACIERBADGE
+	promptbutton
+	iffalse .GotGlacierBadge
+	setevent EVENT_GOT_GLACIER_BADGE
+.GotGlacierBadge:
+	checkevent EVENT_GOT_TM16_ICY_WIND
+	iftrue PryceScript_Defeat
 	writetext PryceText_GlacierBadgeSpeech
 	promptbutton
 	verbosegiveitem TM_ICY_WIND

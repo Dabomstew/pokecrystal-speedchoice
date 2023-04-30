@@ -50,6 +50,8 @@ GoldenrodUnderground_MapScripts:
 	return
 
 .CheckDayOfWeek:
+	checkitemrando
+	iftrue .AnyDay
 	readvar VAR_WEEKDAY
 	ifequal MONDAY, .Monday
 	ifequal TUESDAY, .Tuesday
@@ -57,6 +59,14 @@ GoldenrodUnderground_MapScripts:
 	ifequal THURSDAY, .Thursday
 	ifequal FRIDAY, .Friday
 	ifequal SATURDAY, .Saturday
+	ifequal SUNDAY, .Sunday
+
+.AnyDay:
+	appear GOLDENRODUNDERGROUND_GRANNY
+	appear GOLDENRODUNDERGROUND_GRAMPS
+	appear GOLDENRODUNDERGROUND_OLDER_HAIRCUT_BROTHER
+	appear GOLDENRODUNDERGROUND_YOUNGER_HAIRCUT_BROTHER
+	return
 
 .Sunday:
 	disappear GOLDENRODUNDERGROUND_GRAMPS
@@ -157,6 +167,8 @@ TrainerPokemaniacDonald:
 
 BitterMerchantScript:
 	opentext
+	checkitemrando
+	iftrue .Open
 	readvar VAR_WEEKDAY
 	ifequal SUNDAY, .Open
 	ifequal SATURDAY, .Open
@@ -169,21 +181,27 @@ BitterMerchantScript:
 
 BargainMerchantScript:
 	opentext
+	checkitemrando
+	iftrue .OpenBargain
 	checkflag ENGINE_GOLDENROD_UNDERGROUND_MERCHANT_CLOSED
 	iftrue GoldenrodUndergroundScript_ShopClosed
 	readvar VAR_WEEKDAY
-	ifequal MONDAY, .CheckMorn
+	ifnotequal 8, .CheckMorn
 	sjump GoldenrodUndergroundScript_ShopClosed
 
 .CheckMorn:
-	checktime MORN
+	checktime ANYTIME
 	iffalse GoldenrodUndergroundScript_ShopClosed
+
+.OpenBargain:
 	pokemart MARTTYPE_BARGAIN, 0
 	closetext
 	end
 
 OlderHaircutBrotherScript:
 	opentext
+	checkitemrando
+	iftrue .DoHaircut
 	readvar VAR_WEEKDAY
 	ifequal TUESDAY, .DoHaircut
 	ifequal THURSDAY, .DoHaircut
@@ -191,8 +209,11 @@ OlderHaircutBrotherScript:
 	sjump GoldenrodUndergroundScript_ShopClosed
 
 .DoHaircut:
+	checkitemrando
+	iftrue .PerformHaircut
 	checkflag ENGINE_GOLDENROD_UNDERGROUND_GOT_HAIRCUT
 	iftrue .AlreadyGotHaircut
+.PerformHaircut:
 	special PlaceMoneyTopRight
 	writetext GoldenrodUndergroundOlderHaircutBrotherOfferHaircutText
 	yesorno
@@ -267,6 +288,8 @@ OlderHaircutBrotherScript:
 
 YoungerHaircutBrotherScript:
 	opentext
+	checkitemrando
+	iftrue .DoHaircut
 	readvar VAR_WEEKDAY
 	ifequal SUNDAY, .DoHaircut
 	ifequal WEDNESDAY, .DoHaircut
@@ -274,8 +297,11 @@ YoungerHaircutBrotherScript:
 	sjump GoldenrodUndergroundScript_ShopClosed
 
 .DoHaircut:
+	checkitemrando
+	iftrue .PerformHaircut
 	checkflag ENGINE_GOLDENROD_UNDERGROUND_GOT_HAIRCUT
 	iftrue .AlreadyGotHaircut
+.PerformHaircut:
 	special PlaceMoneyTopRight
 	writetext GoldenrodUndergroundYoungerHaircutBrotherOfferHaircutText
 	yesorno

@@ -44,461 +44,468 @@ Marts:
 	dw MartGoldenrod5FTM020812
 .End
 
+
+shopitem: MACRO
+; type, name
+        db \1, \2
+ENDM
+
 MartCherrygrove:
 	db 4 ; # items
-	db WATER_STONE
-	db BICYCLE
-	db PASS
-	db AWAKENING
-	db -1 ; end
+	shopitem,	1, POTION
+	shopitem,	1, ANTIDOTE
+	shopitem,	1, PARLYZ_HEAL
+	shopitem,	1, AWAKENING
+	db -1, -1 ; end
 
 MartCherrygroveDex:
 	db 5 ; # items
-	db POKE_BALL
-	db POTION
-	db ANTIDOTE
-	db PARLYZ_HEAL
-	db AWAKENING
-	db -1 ; end
+	shopitem,	1, POKE_BALL
+	shopitem,	1, POTION
+	shopitem,	1, ANTIDOTE
+	shopitem,	1, PARLYZ_HEAL
+	shopitem,	1, AWAKENING
+	db -1, -1 ; end
 
 MartViolet:
 	db 10 ; # items
-	db POKE_BALL
-	db POTION
-	db ESCAPE_ROPE
-	db ANTIDOTE
-	db PARLYZ_HEAL
-	db AWAKENING
-	db X_DEFEND
-	db X_ATTACK
-	db X_SPEED
-	db FLOWER_MAIL
-	db -1 ; end
+	shopitem,	1, POKE_BALL
+	shopitem,	1, POTION
+	shopitem,	1, ESCAPE_ROPE
+	shopitem,	1, ANTIDOTE
+	shopitem,	1, PARLYZ_HEAL
+	shopitem,	1, AWAKENING
+	shopitem,	1, X_DEFEND
+	shopitem,	1, X_ATTACK
+	shopitem,	1, X_SPEED
+	shopitem,	1, FLOWER_MAIL
+	db -1, -1 ; end
 
 MartAzalea:
 	db 9 ; # items
-	db CHARCOAL
-	db POKE_BALL
-	db POTION
-	db SUPER_POTION
-	db ESCAPE_ROPE
-	db REPEL
-	db ANTIDOTE
-	db PARLYZ_HEAL
-	db FLOWER_MAIL
-	db -1 ; end
+	shopitem,	1, CHARCOAL
+	shopitem,	1, POKE_BALL
+	shopitem,	1, POTION
+	shopitem,	1, SUPER_POTION
+	shopitem,	1, ESCAPE_ROPE
+	shopitem,	1, REPEL
+	shopitem,	1, ANTIDOTE
+	shopitem,	1, PARLYZ_HEAL
+	shopitem,	1, FLOWER_MAIL
+	db -1, -1 ; end
 
 MartCianwood:
 	db 5 ; # items
-	db POTION
-	db SUPER_POTION
-	db HYPER_POTION
-	db FULL_HEAL
-	db REVIVE
-	db -1 ; end
+	shopitem,	1, POTION
+	shopitem,	1, SUPER_POTION
+	shopitem,	1, HYPER_POTION
+	shopitem,	1, FULL_HEAL
+	shopitem,	1, REVIVE
+	db -1, -1 ; end
 
 MartGoldenrod2F1:
 	db 7 ; # items
-	db POTION
-	db SUPER_POTION
-	db ANTIDOTE
-	db PARLYZ_HEAL
-	db AWAKENING
-	db BURN_HEAL
-	db ICE_HEAL
-	db -1 ; end
+	shopitem,	1, POTION
+	shopitem,	1, SUPER_POTION
+	shopitem,	1, ANTIDOTE
+	shopitem,	1, PARLYZ_HEAL
+	shopitem,	1, AWAKENING
+	shopitem,	1, BURN_HEAL
+	shopitem,	1, ICE_HEAL
+	db -1, -1 ; end
 
 MartGoldenrod2F2:
 	db 8 ; # items
-	db POKE_BALL
-	db GREAT_BALL
-	db ESCAPE_ROPE
-	db REPEL
-	db REVIVE
-	db FULL_HEAL
-	db POKE_DOLL
-	db FLOWER_MAIL
-	db -1 ; end
+	shopitem,	1, POKE_BALL
+	shopitem,	1, GREAT_BALL
+	shopitem,	1, ESCAPE_ROPE
+	shopitem,	1, REPEL
+	shopitem,	1, REVIVE
+	shopitem,	1, FULL_HEAL
+	shopitem,	1, POKE_DOLL
+	shopitem,	1, FLOWER_MAIL
+	db -1, -1 ; end
 
 MartGoldenrod3F:
 	db 7 ; # items
-	db X_SPEED
-	db X_SPECIAL
-	db X_DEFEND
-	db X_ATTACK
-	db DIRE_HIT
-	db GUARD_SPEC
-	db X_ACCURACY
-	db -1 ; end
+	shopitem,	1, X_SPEED
+	shopitem,	1, X_SPECIAL
+	shopitem,	1, X_DEFEND
+	shopitem,	1, X_ATTACK
+	shopitem,	1, DIRE_HIT
+	shopitem,	1, GUARD_SPEC
+	shopitem,	1, X_ACCURACY
+	db -1, -1 ; end
 
 MartGoldenrod4F:
 	db 5 ; # items
-	db PROTEIN
-	db IRON
-	db CARBOS
-	db CALCIUM
-	db HP_UP
-	db -1 ; end
+	shopitem,	1, PROTEIN
+	shopitem,	1, IRON
+	shopitem,	1, CARBOS
+	shopitem,	1, CALCIUM
+	shopitem,	1, HP_UP
+	db -1, -1 ; end
 
 MartOlivine:
 	db 9 ; # items
-	db GREAT_BALL
-	db SUPER_POTION
-	db HYPER_POTION
-	db ANTIDOTE
-	db PARLYZ_HEAL
-	db AWAKENING
-	db ICE_HEAL
-	db SUPER_REPEL
-	db SURF_MAIL
-	db -1 ; end
+	shopitem,	1, GREAT_BALL
+	shopitem,	1, SUPER_POTION
+	shopitem,	1, HYPER_POTION
+	shopitem,	1, ANTIDOTE
+	shopitem,	1, PARLYZ_HEAL
+	shopitem,	1, AWAKENING
+	shopitem,	1, ICE_HEAL
+	shopitem,	1, SUPER_REPEL
+	shopitem,	1, SURF_MAIL
+	db -1, -1 ; end
 
 MartEcruteak:
 	db 10 ; # items
-	db POKE_BALL
-	db GREAT_BALL
-	db POTION
-	db SUPER_POTION
-	db ANTIDOTE
-	db PARLYZ_HEAL
-	db AWAKENING
-	db BURN_HEAL
-	db ICE_HEAL
-	db REVIVE
-	db -1 ; end
+	shopitem,	1, POKE_BALL
+	shopitem,	1, GREAT_BALL
+	shopitem,	1, POTION
+	shopitem,	1, SUPER_POTION
+	shopitem,	1, ANTIDOTE
+	shopitem,	1, PARLYZ_HEAL
+	shopitem,	1, AWAKENING
+	shopitem,	1, BURN_HEAL
+	shopitem,	1, ICE_HEAL
+	shopitem,	1, REVIVE
+	db -1, -1 ; end
 
 MartMahogany1:
 	db 4 ; # items
-	db TINYMUSHROOM
-	db SLOWPOKETAIL
-	db POKE_BALL
-	db POTION
-	db -1 ; end
+	shopitem,	1, TINYMUSHROOM
+	shopitem,	1, SLOWPOKETAIL
+	shopitem,	1, POKE_BALL
+	shopitem,	1, POTION
+	db -1, -1 ; end
 
 MartMahogany2:
 	db 9 ; # items
-	db RAGECANDYBAR
-	db GREAT_BALL
-	db SUPER_POTION
-	db HYPER_POTION
-	db ANTIDOTE
-	db PARLYZ_HEAL
-	db SUPER_REPEL
-	db REVIVE
-	db FLOWER_MAIL
-	db -1 ; end
+	shopitem,	1, RAGECANDYBAR
+	shopitem,	1, GREAT_BALL
+	shopitem,	1, SUPER_POTION
+	shopitem,	1, HYPER_POTION
+	shopitem,	1, ANTIDOTE
+	shopitem,	1, PARLYZ_HEAL
+	shopitem,	1, SUPER_REPEL
+	shopitem,	1, REVIVE
+	shopitem,	1, FLOWER_MAIL
+	db -1, -1 ; end
 
 MartBlackthorn:
 	db 9 ; # items
-	db GREAT_BALL
-	db ULTRA_BALL
-	db HYPER_POTION
-	db MAX_POTION
-	db FULL_HEAL
-	db REVIVE
-	db MAX_REPEL
-	db X_DEFEND
-	db X_ATTACK
-	db -1 ; end
+	shopitem,	1, GREAT_BALL
+	shopitem,	1, ULTRA_BALL
+	shopitem,	1, HYPER_POTION
+	shopitem,	1, MAX_POTION
+	shopitem,	1, FULL_HEAL
+	shopitem,	1, REVIVE
+	shopitem,	1, MAX_REPEL
+	shopitem,	1, X_DEFEND
+	shopitem,	1, X_ATTACK
+	db -1, -1 ; end
 
 MartViridian:
 	db 9 ; # items
-	db ULTRA_BALL
-	db HYPER_POTION
-	db FULL_HEAL
-	db REVIVE
-	db ANTIDOTE
-	db PARLYZ_HEAL
-	db AWAKENING
-	db BURN_HEAL
-	db FLOWER_MAIL
-	db -1 ; end
+	shopitem,	1, ULTRA_BALL
+	shopitem,	1, HYPER_POTION
+	shopitem,	1, FULL_HEAL
+	shopitem,	1, REVIVE
+	shopitem,	1, ANTIDOTE
+	shopitem,	1, PARLYZ_HEAL
+	shopitem,	1, AWAKENING
+	shopitem,	1, BURN_HEAL
+	shopitem,	1, FLOWER_MAIL
+	db -1, -1 ; end
 
 MartPewter:
 	db 7 ; # items
-	db GREAT_BALL
-	db SUPER_POTION
-	db SUPER_REPEL
-	db ANTIDOTE
-	db PARLYZ_HEAL
-	db AWAKENING
-	db BURN_HEAL
-	db -1 ; end
+	shopitem,	1, GREAT_BALL
+	shopitem,	1, SUPER_POTION
+	shopitem,	1, SUPER_REPEL
+	shopitem,	1, ANTIDOTE
+	shopitem,	1, PARLYZ_HEAL
+	shopitem,	1, AWAKENING
+	shopitem,	1, BURN_HEAL
+	db -1, -1 ; end
 
 MartCerulean:
 	db 9 ; # items
-	db GREAT_BALL
-	db ULTRA_BALL
-	db SUPER_POTION
-	db SUPER_REPEL
-	db FULL_HEAL
-	db X_DEFEND
-	db X_ATTACK
-	db DIRE_HIT
-	db SURF_MAIL
-	db -1 ; end
+	shopitem,	1, GREAT_BALL
+	shopitem,	1, ULTRA_BALL
+	shopitem,	1, SUPER_POTION
+	shopitem,	1, SUPER_REPEL
+	shopitem,	1, FULL_HEAL
+	shopitem,	1, X_DEFEND
+	shopitem,	1, X_ATTACK
+	shopitem,	1, DIRE_HIT
+	shopitem,	1, SURF_MAIL
+	db -1, -1 ; end
 
 MartLavender:
 	db 8 ; # items
-	db GREAT_BALL
-	db POTION
-	db SUPER_POTION
-	db MAX_REPEL
-	db ANTIDOTE
-	db PARLYZ_HEAL
-	db AWAKENING
-	db BURN_HEAL
-	db -1 ; end
+	shopitem,	1, GREAT_BALL
+	shopitem,	1, POTION
+	shopitem,	1, SUPER_POTION
+	shopitem,	1, MAX_REPEL
+	shopitem,	1, ANTIDOTE
+	shopitem,	1, PARLYZ_HEAL
+	shopitem,	1, AWAKENING
+	shopitem,	1, BURN_HEAL
+	db -1, -1 ; end
 
 MartVermilion:
 	db 8 ; # items
-	db ULTRA_BALL
-	db SUPER_POTION
-	db HYPER_POTION
-	db REVIVE
-	db PARLYZ_HEAL
-	db AWAKENING
-	db BURN_HEAL
-	db LITEBLUEMAIL
-	db -1 ; end
+	shopitem,	1, ULTRA_BALL
+	shopitem,	1, SUPER_POTION
+	shopitem,	1, HYPER_POTION
+	shopitem,	1, REVIVE
+	shopitem,	1, PARLYZ_HEAL
+	shopitem,	1, AWAKENING
+	shopitem,	1, BURN_HEAL
+	shopitem,	1, LITEBLUEMAIL
+	db -1, -1 ; end
 
 MartCeladon2F1:
 	db 7 ; # items
-	db POTION
-	db SUPER_POTION
-	db HYPER_POTION
-	db MAX_POTION
-	db REVIVE
-	db SUPER_REPEL
-	db MAX_REPEL
-	db -1 ; end
+	shopitem,	1, POTION
+	shopitem,	1, SUPER_POTION
+	shopitem,	1, HYPER_POTION
+	shopitem,	1, MAX_POTION
+	shopitem,	1, REVIVE
+	shopitem,	1, SUPER_REPEL
+	shopitem,	1, MAX_REPEL
+	db -1, -1 ; end
 
 MartCeladon2F2:
 	db 10 ; # items
-	db POKE_BALL
-	db GREAT_BALL
-	db ULTRA_BALL
-	db ESCAPE_ROPE
-	db FULL_HEAL
-	db ANTIDOTE
-	db BURN_HEAL
-	db ICE_HEAL
-	db AWAKENING
-	db PARLYZ_HEAL
-	db -1 ; end
+	shopitem,	1, POKE_BALL
+	shopitem,	1, GREAT_BALL
+	shopitem,	1, ULTRA_BALL
+	shopitem,	1, ESCAPE_ROPE
+	shopitem,	1, FULL_HEAL
+	shopitem,	1, ANTIDOTE
+	shopitem,	1, BURN_HEAL
+	shopitem,	1, ICE_HEAL
+	shopitem,	1, AWAKENING
+	shopitem,	1, PARLYZ_HEAL
+	db -1, -1 ; end
 
 MartCeladon3F:
 	db 5 ; # items
-	db TM_HIDDEN_POWER
-	db TM_SUNNY_DAY
-	db TM_PROTECT
-	db TM_RAIN_DANCE
-	db TM_SANDSTORM
-	db -1 ; end
+	shopitem,	1, TM_HIDDEN_POWER
+	shopitem,	1, TM_SUNNY_DAY
+	shopitem,	1, TM_PROTECT
+	shopitem,	1, TM_RAIN_DANCE
+	shopitem,	1, TM_SANDSTORM
+	db -1, -1 ; end
 
 MartCeladon4F:
 	db 3 ; # items
-	db POKE_DOLL
-	db LOVELY_MAIL
-	db SURF_MAIL
-	db -1 ; end
+	shopitem,	1, POKE_DOLL
+	shopitem,	1, LOVELY_MAIL
+	shopitem,	1, SURF_MAIL
+	db -1, -1 ; end
 
 MartCeladon5F1:
 	db 5 ; # items
-	db HP_UP
-	db PROTEIN
-	db IRON
-	db CARBOS
-	db CALCIUM
-	db -1 ; end
+	shopitem,	1, HP_UP
+	shopitem,	1, PROTEIN
+	shopitem,	1, IRON
+	shopitem,	1, CARBOS
+	shopitem,	1, CALCIUM
+	db -1, -1 ; end
 
 MartCeladon5F2:
 	db 7 ; # items
-	db X_ACCURACY
-	db GUARD_SPEC
-	db DIRE_HIT
-	db X_ATTACK
-	db X_DEFEND
-	db X_SPEED
-	db X_SPECIAL
-	db -1 ; end
+	shopitem,	1, X_ACCURACY
+	shopitem,	1, GUARD_SPEC
+	shopitem,	1, DIRE_HIT
+	shopitem,	1, X_ATTACK
+	shopitem,	1, X_DEFEND
+	shopitem,	1, X_SPEED
+	shopitem,	1, X_SPECIAL
+	db -1, -1 ; end
 
 MartFuchsia:
 	db 7 ; # items
-	db GREAT_BALL
-	db ULTRA_BALL
-	db SUPER_POTION
-	db HYPER_POTION
-	db FULL_HEAL
-	db MAX_REPEL
-	db FLOWER_MAIL
-	db -1 ; end
+	shopitem,	1, GREAT_BALL
+	shopitem,	1, ULTRA_BALL
+	shopitem,	1, SUPER_POTION
+	shopitem,	1, HYPER_POTION
+	shopitem,	1, FULL_HEAL
+	shopitem,	1, MAX_REPEL
+	shopitem,	1, FLOWER_MAIL
+	db -1, -1 ; end
 
 MartSaffron:
 	db 8 ; # items
-	db GREAT_BALL
-	db ULTRA_BALL
-	db HYPER_POTION
-	db MAX_POTION
-	db FULL_HEAL
-	db X_ATTACK
-	db X_DEFEND
-	db FLOWER_MAIL
-	db -1 ; end
+	shopitem,	1, GREAT_BALL
+	shopitem,	1, ULTRA_BALL
+	shopitem,	1, HYPER_POTION
+	shopitem,	1, MAX_POTION
+	shopitem,	1, FULL_HEAL
+	shopitem,	1, X_ATTACK
+	shopitem,	1, X_DEFEND
+	shopitem,	1, FLOWER_MAIL
+	db -1, -1 ; end
 
 MartMtMoon:
 	db 6 ; # items
-	db POKE_DOLL
-	db FRESH_WATER
-	db SODA_POP
-	db LEMONADE
-	db REPEL
-	db PORTRAITMAIL
-	db -1 ; end
+	shopitem,	1, POKE_DOLL
+	shopitem,	1, FRESH_WATER
+	shopitem,	1, SODA_POP
+	shopitem,	1, LEMONADE
+	shopitem,	1, REPEL
+	shopitem,	1, PORTRAITMAIL
+	db -1, -1 ; end
 
 MartIndigoPlateau:
 	db 7 ; # items
-	db ULTRA_BALL
-	db MAX_REPEL
-	db HYPER_POTION
-	db MAX_POTION
-	db FULL_RESTORE
-	db REVIVE
-	db FULL_HEAL
-	db -1 ; end
+	shopitem,	1, ULTRA_BALL
+	shopitem,	1, MAX_REPEL
+	shopitem,	1, HYPER_POTION
+	shopitem,	1, MAX_POTION
+	shopitem,	1, FULL_RESTORE
+	shopitem,	1, REVIVE
+	shopitem,	1, FULL_HEAL
+	db -1, -1 ; end
 
 MartUnderground:
 	db 4 ; # items
-	db ENERGYPOWDER
-	db ENERGY_ROOT
-	db HEAL_POWDER
-	db REVIVAL_HERB
-	db -1 ; end
+	shopitem,	1, ENERGYPOWDER
+	shopitem,	1, ENERGY_ROOT
+	shopitem,	1, HEAL_POWDER
+	shopitem,	1, REVIVAL_HERB
+	db -1, -1 ; end
 
 MartCherrygroveBetter:
 	db 7 ; # items
-	db POKE_BALL
-	db POTION
-	db REPEL
-	db ANTIDOTE
-	db PARLYZ_HEAL
-	db AWAKENING
-	db ICE_HEAL
-	db -1 ; end
+	shopitem,	1, POKE_BALL
+	shopitem,	1, POTION
+	shopitem,	1, REPEL
+	shopitem,	1, ANTIDOTE
+	shopitem,	1, PARLYZ_HEAL
+	shopitem,	1, AWAKENING
+	shopitem,	1, ICE_HEAL
+	db -1, -1 ; end
 	
 MartVioletBetter:
 	db 11 ; # items
-	db POKE_BALL
-	db POTION
-	db ESCAPE_ROPE
-	db REPEL
-	db ANTIDOTE
-	db PARLYZ_HEAL
-	db AWAKENING
-	db ICE_HEAL
-	db X_DEFEND
-	db X_ATTACK
-	db X_SPEED
-	db -1 ; end
+	shopitem,	1, POKE_BALL
+	shopitem,	1, POTION
+	shopitem,	1, ESCAPE_ROPE
+	shopitem,	1, REPEL
+	shopitem,	1, ANTIDOTE
+	shopitem,	1, PARLYZ_HEAL
+	shopitem,	1, AWAKENING
+	shopitem,	1, ICE_HEAL
+	shopitem,	1, X_DEFEND
+	shopitem,	1, X_ATTACK
+	shopitem,	1, X_SPEED
+	db -1, -1 ; end
 
 MartAzaleaBetter:
 	db 9 ; # items
-	db CHARCOAL
-	db POKE_BALL
-	db POTION
-	db SUPER_POTION
-	db ESCAPE_ROPE
-	db REPEL
-	db ANTIDOTE
-	db PARLYZ_HEAL
-	db ICE_HEAL
-	db -1 ; end
+	shopitem,	1, CHARCOAL
+	shopitem,	1, POKE_BALL
+	shopitem,	1, POTION
+	shopitem,	1, SUPER_POTION
+	shopitem,	1, ESCAPE_ROPE
+	shopitem,	1, REPEL
+	shopitem,	1, ANTIDOTE
+	shopitem,	1, PARLYZ_HEAL
+	shopitem,	1, ICE_HEAL
+	db -1, -1 ; end
 
 MartGoldenrod4FBetter:
 	db 11 ; # items
-	db FIRE_STONE
-	db WATER_STONE
-	db LEAF_STONE
-	db THUNDERSTONE
-	db SUN_STONE
-	db MOON_STONE
-	db PROTEIN
-	db IRON
-	db CARBOS
-	db CALCIUM
-	db HP_UP
-	db -1 ; end
+	shopitem,	1, FIRE_STONE
+	shopitem,	1, WATER_STONE
+	shopitem,	1, LEAF_STONE
+	shopitem,	1, THUNDERSTONE
+	shopitem,	1, SUN_STONE
+	shopitem,	1, MOON_STONE
+	shopitem,	1, PROTEIN
+	shopitem,	1, IRON
+	shopitem,	1, CARBOS
+	shopitem,	1, CALCIUM
+	shopitem,	1, HP_UP
+	db -1, -1 ; end
 
 MartGoldenrod5FNoTMs:
 	db 3 ; # items
-	db TM_THUNDERPUNCH
-	db TM_FIRE_PUNCH
-	db TM_ICE_PUNCH
-	db -1 ; end
+	shopitem,	1, TM_THUNDERPUNCH
+	shopitem,	1, TM_FIRE_PUNCH
+	shopitem,	1, TM_ICE_PUNCH
+	db -1, -1 ; end
 
 MartGoldenrod5FTM02:
 	db 4 ; # items
-	db TM_THUNDERPUNCH
-	db TM_FIRE_PUNCH
-	db TM_ICE_PUNCH
-	db TM_HEADBUTT
-	db -1 ; end
+	shopitem,	1, TM_THUNDERPUNCH
+	shopitem,	1, TM_FIRE_PUNCH
+	shopitem,	1, TM_ICE_PUNCH
+	shopitem,	1, TM_HEADBUTT
+	db -1, -1 ; end
 
 MartGoldenrod5FTM08:
 	db 4 ; # items
-	db TM_THUNDERPUNCH
-	db TM_FIRE_PUNCH
-	db TM_ICE_PUNCH
-	db TM_ROCK_SMASH
-	db -1 ; end
+	shopitem,	1, TM_THUNDERPUNCH
+	shopitem,	1, TM_FIRE_PUNCH
+	shopitem,	1, TM_ICE_PUNCH
+	shopitem,	1, TM_ROCK_SMASH
+	db -1, -1 ; end
 
 MartGoldenrod5FTM0208:
 	db 5 ; # items
-	db TM_THUNDERPUNCH
-	db TM_FIRE_PUNCH
-	db TM_ICE_PUNCH
-	db TM_HEADBUTT
-	db TM_ROCK_SMASH
-	db -1 ; end
+	shopitem,	1, TM_THUNDERPUNCH
+	shopitem,	1, TM_FIRE_PUNCH
+	shopitem,	1, TM_ICE_PUNCH
+	shopitem,	1, TM_HEADBUTT
+	shopitem,	1, TM_ROCK_SMASH
+	db -1, -1 ; end
 
 MartGoldenrod5FTM12:
 	db 4 ; # items
-	db TM_THUNDERPUNCH
-	db TM_FIRE_PUNCH
-	db TM_ICE_PUNCH
-	db TM_SWEET_SCENT
-	db -1 ; end
+	shopitem,	1, TM_THUNDERPUNCH
+	shopitem,	1, TM_FIRE_PUNCH
+	shopitem,	1, TM_ICE_PUNCH
+	shopitem,	1, TM_SWEET_SCENT
+	db -1, -1 ; end
 
 MartGoldenrod5FTM0212:
 	db 5 ; # items
-	db TM_THUNDERPUNCH
-	db TM_FIRE_PUNCH
-	db TM_ICE_PUNCH
-	db TM_HEADBUTT
-	db TM_SWEET_SCENT
-	db -1 ; end
+	shopitem,	1, TM_THUNDERPUNCH
+	shopitem,	1, TM_FIRE_PUNCH
+	shopitem,	1, TM_ICE_PUNCH
+	shopitem,	1, TM_HEADBUTT
+	shopitem,	1, TM_SWEET_SCENT
+	db -1, -1 ; end
 
 MartGoldenrod5FTM0812:
 	db 5 ; # items
-	db TM_THUNDERPUNCH
-	db TM_FIRE_PUNCH
-	db TM_ICE_PUNCH
-	db TM_ROCK_SMASH
-	db TM_SWEET_SCENT
-	db -1 ; end
+	shopitem,	1, TM_THUNDERPUNCH
+	shopitem,	1, TM_FIRE_PUNCH
+	shopitem,	1, TM_ICE_PUNCH
+	shopitem,	1, TM_ROCK_SMASH
+	shopitem,	1, TM_SWEET_SCENT
+	db -1, -1 ; end
 
 MartGoldenrod5FTM020812:
 	db 6 ; # items
-	db TM_THUNDERPUNCH
-	db TM_FIRE_PUNCH
-	db TM_ICE_PUNCH
-	db TM_HEADBUTT
-	db TM_ROCK_SMASH
-	db TM_SWEET_SCENT
-	db -1 ; end
+	shopitem,	1, TM_THUNDERPUNCH
+	shopitem,	1, TM_FIRE_PUNCH
+	shopitem,	1, TM_ICE_PUNCH
+	shopitem,	1, TM_HEADBUTT
+	shopitem,	1, TM_ROCK_SMASH
+	shopitem,	1, TM_SWEET_SCENT
+	db -1, -1 ; end
 
 DefaultMart:
 	db 2 ; # items
-	db POKE_BALL
-	db POTION
-	db -1 ; end
+	shopitem,	1, POKE_BALL
+	shopitem,	1, POTION
+	db -1, -1 ; end
+

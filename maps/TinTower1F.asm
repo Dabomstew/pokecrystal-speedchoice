@@ -87,20 +87,30 @@ TinTower1F_FoughtSuicune:
 	return
 
 TinTower1F_StairsCallback:
+	checkevent TIN_TOWER_STAIRS_AVAILABLE
+	iftrue TinTower1F_DontHideStairs
 	checkitem RAINBOW_WING
 	iftrue TinTower1F_DontHideStairs
+	getX 2, 1
+	iftrue TinTower1F_DontHideStairs
 	changeblock 10, 2, $09 ; floor
+	return
 TinTower1F_DontHideStairs:
+	setevent TIN_TOWER_STAIRS_AVAILABLE
 	return
 
 TinTower1F_SuicuneBattle:
+	getX 2, 1
+	iftrue .skipMove1
 	applymovement PLAYER, TinTowerPlayerMovement1
+.skipMove1
 	pause 15
 	setval RAIKOU
 	special MonCheck
 	iftrue TinTower1F_Next1 ; if player caught Raikou, he doesn't appear in Tin Tower
 	applymovement TINTOWER1F_RAIKOU, TinTowerRaikouMovement1
 	turnobject PLAYER, LEFT
+
 Randomizer_RaikouCryTT::
 	cry RAIKOU
 	pause 10
@@ -126,8 +136,13 @@ Randomizer_EnteiCryTT::
 TinTower1F_Next2:
 	turnobject PLAYER, UP
 	pause 10
+	getX 2, 1
+	iftrue .skip_move2
 	applymovement PLAYER, TinTowerPlayerMovement2
+.skip_move2
 	applymovement TINTOWER1F_SUICUNE, TinTowerSuicuneMovement
+
+
 Randomizer_SuicuneCry::
 	cry SUICUNE
 	pause 20
@@ -153,19 +168,31 @@ Randomizer_SuicuneSpecies::
 	playsound SFX_ENTER_DOOR
 	moveobject TINTOWER1F_EUSINE, 10, 15
 	appear TINTOWER1F_EUSINE
+	getX 2, 1
+	iftrue .skipAfterMovement1
 	applymovement TINTOWER1F_EUSINE, MovementData_0x1851ec
+.skipAfterMovement1
 	playsound SFX_ENTER_DOOR
 	moveobject TINTOWER1F_SAGE1, 9, 15
 	appear TINTOWER1F_SAGE1
+	getX 2, 1
+	iftrue .skipAfterMovement2
 	applymovement TINTOWER1F_SAGE1, MovementData_0x1851f5
+.skipAfterMovement2
 	playsound SFX_ENTER_DOOR
 	moveobject TINTOWER1F_SAGE2, 9, 15
 	appear TINTOWER1F_SAGE2
+	getX 2, 1
+	iftrue .skipAfterMovement3
 	applymovement TINTOWER1F_SAGE2, MovementData_0x1851fb
+.skipAfterMovement3
 	playsound SFX_ENTER_DOOR
 	moveobject TINTOWER1F_SAGE3, 9, 15
 	appear TINTOWER1F_SAGE3
+	getX 2, 1
+	iftrue .skipAfterMovement4
 	applymovement TINTOWER1F_SAGE3, MovementData_0x1851fe
+.skipAfterMovement4
 	moveobject TINTOWER1F_SAGE1, 7, 13
 	moveobject TINTOWER1F_SAGE2, 9, 13
 	moveobject TINTOWER1F_SAGE3, 11, 13
@@ -174,7 +201,10 @@ Randomizer_SuicuneSpecies::
 	writetext TinTowerEusineSuicuneText
 	waitbutton
 	closetext
+	getX 2, 1
+	iftrue .skipAfterMovement5
 	applymovement TINTOWER1F_EUSINE, MovementData_0x1851f1
+.skipAfterMovement5
 	playsound SFX_EXIT_BUILDING
 	disappear TINTOWER1F_EUSINE
 	waitsfx
@@ -213,8 +243,10 @@ TinTower1FSage5Script:
 	writetext TinTower1FSage5Text1
 	promptbutton
 	verbosegiveitem RAINBOW_WING
-	closetext
+	iffalse .SkipRainbowWing
 	setevent EVENT_GOT_RAINBOW_WING
+.SkipRainbowWing
+	closetext
 	checkitem RAINBOW_WING
 	iffalse .GotRainbowWing
 	refreshscreen

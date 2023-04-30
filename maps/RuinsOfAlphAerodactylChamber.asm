@@ -9,9 +9,12 @@ RuinsOfAlphAerodactylChamber_MapScripts:
 .CheckWall:
 	checkevent EVENT_WALL_OPENED_IN_AERODACTYL_CHAMBER
 	iftrue .OpenWall
+	getX 0, 1
+	iftrue .OpenWall
 	end
 
 .OpenWall:
+	setevent EVENT_WALL_OPENED_IN_AERODACTYL_CHAMBER
 	prioritysjump .WallOpenScript
 	end
 

@@ -185,6 +185,9 @@ CheckReplaceKrisSprite:
 	jr z, .no_biking
 	jr .nope
 .no_biking
+	sboptioncheck BIKE_INDOORS
+	jr nz, .nope
+	
 	ld a, [wPlayerState]
 	cp PLAYER_BIKE
 	jr nz, .nope

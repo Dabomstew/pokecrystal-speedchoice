@@ -51,8 +51,6 @@ BlackthornGymClairScript:
 	checkpermaoptions EASY_CLAIR_BADGE
 	iffalse .DoDDen
 	writetext ClairText_Lazy
-	waitsfx
-	verbosesetflag ENGINE_RISINGBADGE
 	specialphonecall SPECIALCALL_MASTERBALL
 	writetext BlackthornGymClairText_DescribeBadge
 	jump .GiveTM
@@ -69,8 +67,7 @@ BlackthornGymClairScript:
 	checkevent EVENT_DRAGON_SHRINE_PASSED_TEST
 	iffalse .TooMuchToExpect
 .EasyClair
-	checkevent EVENT_GOT_TM24_DRAGONBREATH
-	iffalse .AlreadyGotBadge
+	jump .GiveTM
 .TooMuchToExpect
 	writetext ClairText_TooMuchToExpect
 	waitbutton
@@ -83,9 +80,17 @@ BlackthornGymClairScript:
 	writetext BlackthornGymClairText_YouKeptMeWaiting
 
 .GiveTM:
-	promptbutton
+	checkevent EVENT_GOT_RISING_BADGE
+	iftrue .TM
+	verbosesetflag ENGINE_RISINGBADGE
+	iffalse .TM
+	setevent EVENT_GOT_RISING_BADGE
+.TM
+	checkevent EVENT_GOT_TM24_DRAGONBREATH
+	iftrue .SkipGiveDragonbreath
 	verbosegiveitem TM_DRAGONBREATH
 	iffalse .BagFull
+.SkipGiveDragonbreath
 	setevent EVENT_GOT_TM24_DRAGONBREATH
 	writetext BlackthornGymClairText_DescribeTM24
 	promptbutton

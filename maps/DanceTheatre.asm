@@ -106,7 +106,9 @@ DanceTheaterSurfGuy:
 	writetext SurfGuyLikeADanceText
 	promptbutton
 	verbosegiveitem HM_SURF
+	iffalse .SkipSurf
 	setevent EVENT_GOT_HM03_SURF
+.SkipSurf
 	writetext SurfGuySurfExplanationText
 	waitbutton
 	closetext

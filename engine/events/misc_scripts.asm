@@ -13,7 +13,7 @@ FindItemInBallScript::
 	disappear LAST_TALKED
 	opentext
 	writetext .FoundItemText
-	playsound SFX_RB_GET_ITEM
+	callasm .DecideSound
 	waitsfx
 	itemnotify
 	closetext
@@ -27,6 +27,20 @@ FindItemInBallScript::
 	waitbutton
 	closetext
 	end
+
+.DecideSound
+	farcall CheckItemPocket
+        ld a, [wItemAttributeParamBuffer]
+        cp TM_HM
+        ld de, SFX_GET_TM
+        jr z, .play
+	cp KEY_ITEM
+	ld de, SFX_KEY_ITEM
+	jr z, .play
+        ld de, SFX_RB_GET_ITEM
+.play
+        call PlaySFX
+	ret
 
 .FoundItemText:
 	text_far _FoundItemText
@@ -44,6 +58,8 @@ FindItemInBallScript::
 	call GetItemName
 	ld hl, wStringBuffer3
 	call CopyName2
+	ld de, wStringBuffer3 + STRLEN("TM##")
+	farcall AppendTMHMMoveName
 	ld a, [wItemBallItemID]
 	ld [wCurItem], a
 	ld a, [wItemBallQuantity]

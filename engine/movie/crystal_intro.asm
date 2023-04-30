@@ -1398,49 +1398,49 @@ IntroScene26:
 	call ClearBGPalettes
 	call ClearSprites
 	call ClearTilemap
-	xor a
-	ldh [hBGMapMode], a
-	ld a, $1
-	ldh [rVBK], a
-	ld hl, IntroCrystalUnownsAttrmap
-	debgcoord 0, 0
-	call Intro_DecompressRequest2bpp_64Tiles
-	ld a, $0
-	ldh [rVBK], a
-	ld hl, IntroCrystalUnownsGFX
-	ld de, vTiles2 tile $00
-	call Intro_DecompressRequest2bpp_128Tiles
-	ld hl, IntroCrystalUnownsTilemap
-	debgcoord 0, 0
-	call Intro_DecompressRequest2bpp_64Tiles
-	ldh a, [rSVBK]
-	push af
-	ld a, BANK(wBGPals1)
-	ldh [rSVBK], a
-	ld hl, IntroCrystalUnownsPalette
-	ld de, wBGPals1
-	ld bc, 16 palettes
-	call CopyBytes
-	ld hl, IntroCrystalUnownsPalette
-	ld de, wBGPals2
-	ld bc, 16 palettes
-	call CopyBytes
-	pop af
-	ldh [rSVBK], a
-	xor a
-	ldh [hSCX], a
-	ldh [hSCY], a
-	ld a, $7
-	ldh [hWX], a
-	ld a, $90
-	ldh [hWY], a
-	farcall ClearSpriteAnims
+;	xor a
+;	ldh [hBGMapMode], a
+;	ld a, $1
+;	ldh [rVBK], a
+;	ld hl, IntroCrystalUnownsAttrmap
+;	debgcoord 0, 0
+;	call Intro_DecompressRequest2bpp_64Tiles
+;	ld a, $0
+;	ldh [rVBK], a
+;	ld hl, IntroCrystalUnownsGFX
+;	ld de, vTiles2 tile $00
+;	call Intro_DecompressRequest2bpp_128Tiles
+;	ld hl, IntroCrystalUnownsTilemap
+;	debgcoord 0, 0
+;	call Intro_DecompressRequest2bpp_64Tiles
+;	ldh a, [rSVBK]
+;	push af
+;	ld a, BANK(wBGPals1)
+;	ldh [rSVBK], a
+;	ld hl, IntroCrystalUnownsPalette
+;	ld de, wBGPals1
+;	ld bc, 16 palettes
+;	call CopyBytes
+;	ld hl, IntroCrystalUnownsPalette
+;	ld de, wBGPals2
+;	ld bc, 16 palettes
+;	call CopyBytes
+;	pop af
+;	ldh [rSVBK], a
+;	xor a
+;	ldh [hSCX], a
+;	ldh [hSCY], a
+;	ld a, $7
+;	ldh [hWX], a
+;	ld a, $90
+;	ldh [hWY], a
+;	farcall ClearSpriteAnims
 	call Intro_SetCGBPalUpdate
-	xor a
-	ld [wIntroSceneFrameCounter], a
-	ld [wIntroSceneTimer], a
+;	xor a
+;	ld [wIntroSceneFrameCounter], a
+;	ld [wIntroSceneTimer], a
 	call NextIntroScene
-	ret
+;	ret
 
 IntroScene27:
 ; Spell out C R Y S T A L with Unown.

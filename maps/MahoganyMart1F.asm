@@ -23,9 +23,12 @@ MahoganyMart1F_MapScripts:
 .MahoganyMart1FStaircase:
 	checkevent EVENT_UNCOVERED_STAIRCASE_IN_MAHOGANY_MART
 	iftrue .ShowStairs
+	getX 3, 1
+	iftrue .ShowStairs
 	return
 
 .ShowStairs:
+	setevent EVENT_UNCOVERED_STAIRCASE_IN_MAHOGANY_MART
 	changeblock 6, 2, $1e ; stairs
 	return
 
@@ -77,11 +80,16 @@ MahoganyMart1FLanceUncoversStaircaseScript:
 	writetext MahoganyMart1FLanceRadioText
 	waitbutton
 	closetext
+
+	getX 3, 1
+	iftrue .skip_follow
 	follow MAHOGANYMART1F_LANCE, PLAYER
+.skip_follow
 	applymovement MAHOGANYMART1F_LANCE, MahoganyMart1FLanceApproachPharmacistMovement
 	applymovement MAHOGANYMART1F_PHARMACIST, MahoganyMart1FPharmacistShovedAsideMovement
 	applymovement MAHOGANYMART1F_LANCE, MahoganyMart1FLanceApproachHiddenStairsMovement
 	stopfollow
+
 	opentext
 	writetext MahoganyMart1FLanceStairsText
 	waitbutton
@@ -102,6 +110,7 @@ MahoganyMart1FLanceUncoversStaircaseScript:
 	setscene SCENE_MAHOGANYMART1F_NOTHING
 	waitsfx
 	end
+
 
 MahoganyMart1FGrannyScript:
 	faceplayer

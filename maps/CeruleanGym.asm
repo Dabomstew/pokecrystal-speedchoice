@@ -74,8 +74,17 @@ CeruleanGymMistyScript:
 	setevent EVENT_BEAT_SWIMMERF_BRIANA
 	setevent EVENT_BEAT_SWIMMERM_PARKER
 	opentext
-	verbosesetflag ENGINE_CASCADEBADGE
 .FightDone:
+	checkevent EVENT_GOT_CASCADE_BADGE
+	iftrue .GotCascadeBadge
+	verbosesetflag ENGINE_CASCADEBADGE
+	iffalse .EndMisty
+	setevent EVENT_GOT_CASCADE_BADGE
+.EndMisty
+	writetext ReceivedCascadeBadgeText
+	closetext
+	end
+.GotCascadeBadge:
 	writetext MistyFightDoneText
 	waitbutton
 	closetext

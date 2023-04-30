@@ -29,8 +29,13 @@ CeladonGymErikaScript:
 	setevent EVENT_BEAT_BEAUTY_JULIA
 	setevent EVENT_BEAT_TWINS_JO_AND_ZOE
 	opentext
-	verbosesetflag ENGINE_RAINBOWBADGE
 .FightDone:
+	checkevent EVENT_GOT_RAINBOW_BADGE
+	iftrue .GotRainbowBadge
+	verbosesetflag ENGINE_RAINBOWBADGE
+	iffalse .GotRainbowBadge
+	setevent EVENT_GOT_RAINBOW_BADGE
+.GotRainbowBadge:
 	checkevent EVENT_GOT_TM19_GIGA_DRAIN
 	iftrue .GotGigaDrain
 	writetext ErikaExplainTMText

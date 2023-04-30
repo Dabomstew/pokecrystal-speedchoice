@@ -10,6 +10,7 @@ CianwoodPharmacy_MapScripts:
 .DummyScene:
 	end
 
+
 CianwoodPharmacist:
 	faceplayer
 	opentext
@@ -20,9 +21,17 @@ CianwoodPharmacist:
 	writetext PharmacistGiveSecretpotionText
 	promptbutton
 	verbosegiveitem SECRETPOTION
+	iffalse .SkipSecretPotion
 	setevent EVENT_GOT_SECRETPOTION_FROM_PHARMACY
+.SkipSecretPotion
 	writetext PharmacistDescribeSecretpotionText
 	waitbutton
+	sjump .CheckShopsanity
+	end
+
+.CheckShopsanity
+	checkevent EVENT_JASMINE_EXPLAINED_AMPHYS_SICKNESS
+	iffalse .Mart
 	closetext
 	end
 

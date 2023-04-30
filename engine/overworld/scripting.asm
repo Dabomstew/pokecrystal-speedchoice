@@ -244,6 +244,7 @@ ScriptCommandTable:
 	dw Script_engineflagsound            ; b2
 	dw Script_checkhoohchambernerfed     ; b3
 	dw Script_checkclassicrainbowwing    ; b4
+	dw Script_getX			     ; b5
 StartScript:
 	ld hl, wScriptFlags
 	set SCRIPT_RUNNING, [hl]
@@ -519,6 +520,8 @@ Script_verbosegiveitem_aftergive:
 	ld de, wStringBuffer1
 	ld a, STRING_BUFFER_4
 	call CopyConvertedText
+	ld de, wStringBuffer4 + STRLEN("TM##")
+	call AppendTMHMMoveName
 	ld b, BANK(GiveItemScript)
 	ld de, GiveItemScript
 	jp ScriptCall
@@ -566,6 +569,8 @@ Script_verbosegiveitemvar:
 	ld de, wStringBuffer1
 	ld a, STRING_BUFFER_4
 	call CopyConvertedText
+	ld de, wStringBuffer4 + STRLEN("TM##")
+	call AppendTMHMMoveName
 	ld b, BANK(GiveItemScript)
 	ld de, GiveItemScript
 	jp ScriptCall
@@ -597,6 +602,9 @@ Script_specialsound:
 	ld a, [wItemAttributeParamBuffer]
 	cp TM_HM
 	ld de, SFX_GET_TM
+	jr z, .play
+	cp KEY_ITEM
+        ld de, SFX_KEY_ITEM
 	jr z, .play
 	ld de, SFX_RB_GET_ITEM
 .play
@@ -2900,7 +2908,7 @@ Script_goldenrodmart5f:
 	ld hl, wBuffer1
 	ld [hl], 0
 
-	ld de, EVENT_GOT_TM02_HEADBUTT
+	ld de, EVENT_SPOKE_TO_TM02_NPC ;; EVENT_GOT_TM02_HEADBUTT
 	ld b, CHECK_FLAG
 	push hl
 	call EventFlagAction
@@ -2910,7 +2918,7 @@ Script_goldenrodmart5f:
 	jr z, .noHeadbutt
 	set 0, [hl]
 .noHeadbutt
-	ld de, EVENT_GOT_TM08_ROCK_SMASH
+	ld de, EVENT_SPOKE_TO_TM08_NPC ;;EVENT_GOT_TM08_ROCK_SMASH
 	ld b, CHECK_FLAG
 	push hl
 	call EventFlagAction
@@ -2922,7 +2930,7 @@ Script_goldenrodmart5f:
 .noRockSmash
 	sboptioncheck BETTER_MARTS
 	jr z, .noSweetScent
-	ld de, EVENT_GOT_TM12_SWEET_SCENT
+	ld de, EVENT_SPOKE_TO_TM12_NPC ;;EVENT_GOT_TM12_SWEET_SCENT
 	ld b, CHECK_FLAG
 	push hl
 	call EventFlagAction
@@ -3044,7 +3052,6 @@ Script_checkhoohchambernerfed:
 	call GetFarByte
 	ld [wScriptVar], a
 	ret
-	
 Script_checkclassicrainbowwing:
 ; script command 0xb4
 	ld a, BANK(ClassicRainbowWing)
@@ -3052,3 +3059,61 @@ Script_checkclassicrainbowwing:
 	call GetFarByte
 	ld [wScriptVar], a
 	ret
+
+Script_getX:
+; script command 0xb5
+; parameters: x, y
+	call GetScriptByte
+	ld l, a
+	call GetScriptByte
+	cp 0
+	ld a, FALSE
+	ld [wScriptVar], a
+	jr z, .compareX
+	call .compareY
+	ret
+
+.compareX:
+	ld a, [wXCoord]
+	call .test
+	ret
+
+.compareY:
+	ld a, [wYCoord]
+	call .test
+	ret
+
+.true:
+	ld a, TRUE
+	ld [wScriptVar], a
+	ret
+
+.test:
+	cp l
+	jr z, .true
+
+AppendTMHMMoveName::
+; a = item ID
+	ld a, [wNamedObjectIndexBuffer]
+	cp TM01
+	ret c
+; save item name buffer
+	push de
+; a = TM/HM number
+	ld c, a
+	farcall GetTMHMNumber
+	ld a, c
+; a = move ID
+	ld [wTempTMHM], a
+	predef GetTMHMMove
+	ld a, [wTempTMHM]
+; wStringBuffer1 = move name
+	ld [wNamedObjectIndexBuffer], a
+	call GetMoveName
+; hl = item name buffer
+	pop hl
+; append wStringBuffer1 to item name buffer
+	ld [hl], " "
+	inc hl
+	ld de, wStringBuffer1
+	jp CopyName2

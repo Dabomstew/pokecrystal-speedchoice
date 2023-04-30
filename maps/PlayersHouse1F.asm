@@ -37,6 +37,9 @@ MeetMomScript:
 	writetext ElmsLookingForYouText
 	promptbutton
 	verbosesetflag ENGINE_POKEGEAR
+	iffalse .SkipPokegear
+	setevent EVENT_GOT_POKEGEAR
+.SkipPokegear
 	setflag ENGINE_PHONE_CARD
 	addcellnum PHONE_MOM
 	setscene SCENE_FINISHED
@@ -114,6 +117,8 @@ MomScript:
 	checkscene
 	iffalse MeetMomTalkedScript ; SCENE_DEFAULT
 	opentext
+	checkevent EVENT_GOT_POKEGEAR
+	iffalse .GetPokegear
 	checkevent EVENT_FIRST_TIME_BANKING_WITH_MOM
 	iftrue .FirstTimeBanking
 	checkevent EVENT_TALKED_TO_MOM_AFTER_MYSTERY_EGG_QUEST
@@ -126,6 +131,13 @@ MomScript:
 	waitbutton
 	closetext
 	end
+
+.GetPokegear
+	verbosesetflag ENGINE_POKEGEAR
+	waitbutton
+	closetext
+	end
+
 
 .GotAPokemon:
 	writetext SoWhatWasProfElmsErrandText

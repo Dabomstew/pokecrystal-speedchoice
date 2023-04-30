@@ -93,7 +93,8 @@ TEXT_SPEED_SLOW    EQU %11
 	mboption TEXT_FRAME, 4
 	sboption PARKBALL_EFFECT ; 4
 	sboption DISABLE_BIKE_MUSIC ; 5
-	sboption SKIP_NICKNAMING ; 6
+	sboption DISABLE_SURF_MUSIC ; 6
+	sboption SKIP_NICKNAMING ; 7
 
 NUM_TEXTBOX_FRAMES EQU 10
 
@@ -156,6 +157,12 @@ EXP_SPLITTING_GEN8    EQU %10
 	
 	optionbytestart
 	sboption EARLY_KANTO_DEX ; 0
+	sboption EVOLVE_EVERY_LEVEL ; 1
+	sboption NO_HAPPY_EVO ; 2
+	sboption GUARANTEED_CATCH ; 3
+	sboption REMOVE_ANIMATIONS ; 4
+	sboption BIKE_INDOORS ;5
+	sboption FAST_REPEL ; 6
 
 NUM_PERMAOPTIONS_BYTES EQU optionbyte
 

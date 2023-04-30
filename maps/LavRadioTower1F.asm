@@ -35,6 +35,7 @@ LavRadioTower1FGentlemanScript:
 	writetext LavRadioTower1FGentlemanText_ReturnedMachinePart
 	promptbutton
 	verbosesetflag ENGINE_EXPN_CARD
+	iffalse .GotExpnCard
 	setevent EVENT_EXPN_CARD_RECEIVED
 .GotExpnCard:
 	writetext LavRadioTower1FGentlemanText_GotExpnCard

@@ -21,17 +21,23 @@ VioletGymFalknerScript:
 	loadtrainer FALKNER, FALKNER1
 	startbattle
 	reloadmapafterbattle
-	setevent EVENT_BEAT_FALKNER
-	opentext
-	verbosesetflag ENGINE_ZEPHYRBADGE
-.FightDone:
-	checkevent EVENT_GOT_TM31_MUD_SLAP
-	iftrue .SpeechAfterTM
 	setevent EVENT_BEAT_BIRD_KEEPER_ROD
 	setevent EVENT_BEAT_BIRD_KEEPER_ABE
 	specialphonecall SPECIALCALL_ASSISTANT
-	writetext FalknerZephyrBadgeText
+	clearevent EVENT_ELMS_AIDE_IN_VIOLET_POKEMON_CENTER
+	setevent EVENT_BEAT_FALKNER
+	opentext
+.FightDone:
+	checkevent EVENT_GOT_ZEPHYR_BADGE
+	iftrue .GotZephyrBadge
+	verbosesetflag ENGINE_ZEPHYRBADGE
 	promptbutton
+	iffalse .GotZephyrBadge
+	setevent EVENT_GOT_ZEPHYR_BADGE
+.GotZephyrBadge:
+	checkevent EVENT_GOT_TM31_MUD_SLAP
+	iftrue .SpeechAfterTM
+	writetext FalknerZephyrBadgeText
 	verbosegiveitem TM_MUD_SLAP
 	iffalse .NoRoomForMudSlap
 	setevent EVENT_GOT_TM31_MUD_SLAP

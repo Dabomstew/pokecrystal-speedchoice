@@ -4,6 +4,7 @@
 	const RADIOTOWER5F_ROCKET_GIRL
 	const RADIOTOWER5F_ROCKER
 	const RADIOTOWER5F_POKE_BALL
+	const RADIOTOWER5F_CLEAR_BELL_BACKUP
 
 RadioTower5F_MapScripts:
 	db 4 ; scene scripts
@@ -22,7 +23,7 @@ RadioTower5F_MapScripts:
 
 .DummyScene2:
 	end
-	
+
 .DummyScene3:
 	end
 
@@ -44,23 +45,29 @@ FakeDirectorScript:
 	loadtrainer EXECUTIVEM, EXECUTIVEM_3
 	startbattle
 	reloadmapafterbattle
+PostBattle:
 	opentext
 	writetext FakeDirectorTextAfter
 	promptbutton
 	verbosegiveitem BASEMENT_KEY
+	iffalse .SkipBasementKey
+	setevent EVENT_GOT_BASEMENT_KEY
+.SkipBasementKey
 	closetext
 	setevent EVENT_BEAT_ROCKET_EXECUTIVEM_3
 	checkevent EVENT_BEAT_ROCKET_EXECUTIVEM_1
 	iftrue RadioTower5FDoneScript
 	setscene SCENE_RADIOTOWER5F_BEAT_FAKE_DIRECTOR
 	end
-	
+
 RadioTower5FDoneScript:
 	setscene SCENE_RADIOTOWER5F_NOTHING
 	end
 
 Director:
 	faceplayer
+	checkevent EVENT_GOT_BASEMENT_KEY
+	iffalse PostBattle
 	opentext
 	checkevent EVENT_CLEARED_RADIO_TOWER
 	iftrue .TrueDirector
@@ -87,6 +94,8 @@ TrainerExecutivef1:
 	end
 
 RadioTower5FRocketBossScene:
+	checkevent EVENT_RADIO_TOWER_ROCKET_TAKEOVER
+	iftrue .not_yet
 	applymovement PLAYER, RadioTower5FPlayerTwoStepsLeftMovement
 	playmusic MUSIC_ROCKET_ENCOUNTER
 	turnobject RADIOTOWER5F_ROCKET, RIGHT
@@ -119,6 +128,10 @@ RadioTower5FRocketBossScene:
 	checkitemrando
 	iftrue .SkipHidingDirector
 	setevent EVENT_BASEMENT_DIRECTOR
+	ret
+
+.not_yet
+	end
 
 .SkipHidingDirector:
 	clearevent EVENT_MAHOGANY_MART_OWNERS
@@ -138,6 +151,10 @@ RadioTower5FRocketBossScene:
 	writetext RadioTower5FDirectorThankYouText
 	promptbutton
 	verbosegiveitem CLEAR_BELL
+	iftrue .SkipBackupClearBell
+	clearevent EVENT_RADIO_TOWER_5F_CLEAR_BELL_BACKUP
+	appear RADIOTOWER5F_CLEAR_BELL_BACKUP
+.SkipBackupClearBell
 	writetext RadioTower5FDirectorDescribeClearBellText
 	waitbutton
 	closetext
@@ -443,6 +460,9 @@ RadioTower5FStudio1SignText:
 	text "5F STUDIO 1"
 	done
 
+RadioTower5FClearBellBackup:
+	itemball CLEAR_BELL
+
 RadioTower5F_MapEvents:
 	db 0, 0 ; filler
 
@@ -463,9 +483,11 @@ RadioTower5F_MapEvents:
 	bg_event 16,  1, BGEVENT_READ, RadioTower5FBookshelf
 	bg_event 17,  1, BGEVENT_READ, RadioTower5FBookshelf
 
-	db 5 ; object events
+	db 6 ; object events
 	object_event  3,  6, SPRITE_GENTLEMAN, SPRITEMOVEDATA_SPINRANDOM_SLOW, 0, 0, -1, -1, 0, OBJECTTYPE_SCRIPT, 0, Director, -1
 	object_event 13,  5, SPRITE_ROCKET, SPRITEMOVEDATA_STANDING_LEFT, 0, 0, -1, -1, 0, OBJECTTYPE_SCRIPT, 0, ObjectEvent, EVENT_RADIO_TOWER_ROCKET_TAKEOVER
 	object_event 17,  2, SPRITE_ROCKET_GIRL, SPRITEMOVEDATA_STANDING_LEFT, 0, 0, -1, -1, PAL_NPC_RED, OBJECTTYPE_TRAINER, 1, TrainerExecutivef1, EVENT_RADIO_TOWER_ROCKET_TAKEOVER
 	object_event 13,  5, SPRITE_ROCKER, SPRITEMOVEDATA_STANDING_LEFT, 0, 0, -1, -1, PAL_NPC_RED, OBJECTTYPE_SCRIPT, 0, Ben, EVENT_RADIO_TOWER_CIVILIANS_AFTER
 	object_event  8,  5, SPRITE_POKE_BALL, SPRITEMOVEDATA_STILL, 0, 0, -1, -1, 0, OBJECTTYPE_ITEMBALL, 0, RadioTower5FUltraBall, EVENT_RADIO_TOWER_5F_ULTRA_BALL
+	object_event 15, 5, SPRITE_POKE_BALL, SPRITEMOVEDATA_STILL, 0, 0, -1, -1, 0, OBJECTTYPE_ITEMBALL, 0, RadioTower5FClearBellBackup, EVENT_RADIO_TOWER_5F_CLEAR_BELL_BACKUP
+
