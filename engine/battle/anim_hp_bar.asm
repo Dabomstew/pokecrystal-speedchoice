@@ -400,6 +400,10 @@ ShortHPBar_CalcPixelFrame:
 	ret
 
 LongHPBar_CalcPixelFrame:
+	bit 7, b
+	jr z, .positive_1
+	inc a
+.positive_1
 	ldh [hMultiplier], a
 	ld hl, wCurHPAnimMaxHP
 	ld a, [hli]
@@ -417,12 +421,22 @@ LongHPBar_CalcPixelFrame:
 	pop bc
 	ld hl, wCurHPAnimOldHP
 	ldh a, [hRemainder]
-	add a ; test bit 7, result in carry
+	and a
+	jr z, .no_add
+	scf
+.no_add
 	ldh a, [hQuotient + 3]
 	adc $0
-	ld [hli], a
+	ld e, a
 	ldh a, [hQuotient + 2]
 	adc $0
-	ld [hl], a
+	ld d, a
+	bit 7, b
+	jr z, .positive_2
+	dec de
+.positive_2
+	ld a, e
+	ld [hli], a
+	ld [hl], d
 	and a
 	ret
