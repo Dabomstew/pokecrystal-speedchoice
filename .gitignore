@@ -58,3 +58,5 @@ crystal-speedchoice.ini
 
 *.bak
 *.ips
+
+.vscode
