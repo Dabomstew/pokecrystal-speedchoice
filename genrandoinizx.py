@@ -79,7 +79,8 @@ def main():
         setconfig(key, '0x{:X}'.format(syms[sym] + extra))
 
     def set_static(poke, string=""):
-        offs = [value + 1 for key, value in syms.items()
+        offs = [value if "Name" in key else value + 1
+         for key, value in syms.items()
          if (key.startswith('Randomizer_{}{}'.format(string,poke)) and '.' not in key) and
           "Level" not in key ]
 
