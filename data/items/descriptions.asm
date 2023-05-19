@@ -479,8 +479,8 @@ ItemfinderDesc:
 	next "items in the area.@"
 
 ItemPlainBadgeDesc:
-        db   "A replica of the"
-        next "Goldenrod Gym Badge.@"
+        db   "A badge replica of"
+        next "Goldenrod Gym.@"
 
 ExpShareDesc:
 	db   "Shares battle EXP."
@@ -617,8 +617,8 @@ BluApricornDesc:
 	db   "A blue APRICORN.@"
 
 ItemFogBadgeDesc:
-        db   "A replica of the"
-        next "Ecruteak Gym Badge.@"
+        db   "A badge replica of"
+        next "Ecruteak Gym.@"
 
 AmuletCoinDesc:
 	db   "Doubles monetary"
@@ -654,7 +654,7 @@ BlkApricornDesc:
 	next "@"
 
 ItemStormBadgeDesc:
-        db   "A replica of the"
+        db   "A badge replica of"
         next "Cianwood Gym Badge.@"
 
 PnkApricornDesc:
@@ -734,8 +734,8 @@ FocusBandDesc:
 	next "ing. (HOLD)@"
 
 ItemMineralBadgeDesc:
-        db   "A replica of the"
-        next "Olivine Gym Badge.@"
+        db   "A badge replica of"
+        next "Olivine Gym.@"
 
 EnergyPowderDesc:
 	db   "Restores #MON"
@@ -793,12 +793,12 @@ PassDesc:
 	next "MAGNET TRAIN.@"
 
 ItemGlacierBadgeDesc:
-        db   "A replica of the"
-        next "Mahogany Gym Badge.@"
+        db   "A badge replica of"
+        next "Mahogany Gym.@"
 
 ItemRisingBadgeDesc:
-        db   "A replica of the"
-        next "Blackthorn Gym Badge.@"
+        db   "A badge replica of"
+        next "Blackthron Gym.@"
 
 ItemBoulderBadgeDesc:
         db   "A replica of the"
@@ -817,8 +817,8 @@ ScopeLensDesc:
 	next "hit ratio. (HOLD)@"
 
 ItemCascadeBadgeDesc:
-        db   "A replica of the"
-        next "Cerulean Gym Badge.@"
+        db   "A badge replica of"
+        next "Cerulean Gym.@"
 
 ItemPokedexDesc:
         db   "The #DEX as "
@@ -833,8 +833,8 @@ DragonFangDesc:
 	next "type moves. (HOLD)@"
 
 ItemThunderBadgeDesc:
-        db   "A replica of the"
-        next "Vermilion Gym Badge.@"
+        db   "A badge replica of"
+        next "Vermilion Gym.@"
 
 LeftoversDesc:
 	db   "Restores HP during"
@@ -865,16 +865,16 @@ BerserkGeneDesc:
 	next "causes confusion.@"
 
 ItemVolcanoBadgeDesc:
-        db   "A replica of the"
-        next "Cinnabar Gym Badge.@"
+        db   "A badge replica of"
+        next "Cinnabar Gym.@"
 
 ItemEarthBadgeDesc:
-        db   "A replica of the"
-        next "Viridian Gym Badge.@"
+        db   "A badge replica of the"
+        next "Viridian Gym.@"
 
 ItemPokegearDesc:
         db   "The #MON Gear,"
-        next "#GEAR for short.@"
+        next "#GEAR.@"
 
 SacredAshDesc:
 	db   "Fully revives all"
@@ -901,8 +901,8 @@ FastBallDesc:
 	next "ing fast #MON.@"
 
 ItemRadioCardDesc:
-        db   "A slot-in #GEAR card"
-        next "picking up radio signals.@"
+        db   "A #GEAR card"
+        next "picking up radio.@"
 
 LightBallDesc:
 	db   "An odd, electrical"
@@ -969,8 +969,8 @@ RainbowWingDesc:
 	next "of rainbow colors.@"
 
 ItemExpnCardDesc:
-        db   "Upgrade allowing signals"
-        next "from Kanto stations.@"
+        db   "#GEAR Card "
+        next "for Kanto radio@"
 
 BrickPieceDesc:
 	db   "A rare chunk of"
@@ -1014,7 +1014,7 @@ MirageMailDesc:
 
 ItemUnownDexDesc:
         db   "A mysterious app"
-        next "listing the caught Unown.@"
+        next "listing Unown.@"
 
 TeruSama26Desc:
 	db   "?@"
