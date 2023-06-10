@@ -798,7 +798,7 @@ ItemGlacierBadgeDesc:
 
 ItemRisingBadgeDesc:
         db   "A badge replica of"
-        next "Blackthron Gym.@"
+        next "Blackthorn Gym.@"
 
 ItemBoulderBadgeDesc:
         db   "A replica of the"
