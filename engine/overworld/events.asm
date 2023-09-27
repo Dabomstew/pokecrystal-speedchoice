@@ -1,7 +1,7 @@
 INCLUDE "constants.asm"
 
-
 SECTION "Events", ROMX
+INCLUDE "engine/overworld/scripting.asm"
 
 OverworldLoop::
 	xor a ; MAPSTATUS_START
@@ -913,6 +913,149 @@ SelectMenuCallback:
 	memcallasm wQueuedScriptBank
 	end
 
+ConvertItem:
+	ld hl, wNumItems
+        ld [wCurItem], a
+        call CheckItem
+	jr c, .Have
+        jp .NotHave
+.Have
+	ld b, SET_FLAG
+        call _EngineFlagAction
+        ld a, -1
+        ld [wCurItemQuantity], a
+        ld hl, wNumItems
+        call TossItem
+
+.NotHave
+	ret
+
+CheckBadge:
+	call ConvertItem
+	jr c, .Have
+	ret
+.Have
+	ld a, BANK(CheckBadgeItems)
+        ld hl, CheckBadgeItems
+        call CallScript
+	ret
+
+
+ConvertBadges:
+	ld a, ITEM_ZEPHYRBADGE
+	ld de, ENGINE_ZEPHYRBADGE
+	call CheckBadge
+	ret c
+
+	ld a, ITEM_HIVEBADGE
+	ld de, ENGINE_HIVEBADGE
+	call CheckBadge
+	ret c
+
+	ld a, ITEM_PLAINBADGE
+	ld de, ENGINE_PLAINBADGE
+	call CheckBadge
+	ret c
+
+	ld a, ITEM_FOGBADGE
+        ld de, ENGINE_FOGBADGE
+        call CheckBadge
+	ret c
+
+	ld a, ITEM_STORMBADGE
+        ld de, ENGINE_STORMBADGE
+        call CheckBadge
+	ret c
+
+        ld a, ITEM_MINERALBADGE
+        ld de, ENGINE_MINERALBADGE
+        call CheckBadge
+	ret c
+
+        ld a, ITEM_GLACIERBADGE
+        ld de, ENGINE_GLACIERBADGE
+        call CheckBadge
+	ret c
+
+        ld a, ITEM_RISINGBADGE
+        ld de, ENGINE_RISINGBADGE
+        call CheckBadge
+	ret c
+
+        ld a, ITEM_BOULDERBADGE
+        ld de, ENGINE_BOULDERBADGE
+        call CheckBadge
+	ret c
+
+        ld a, ITEM_CASCADEBADGE
+        ld de, ENGINE_CASCADEBADGE
+        call CheckBadge
+	ret c
+
+        ld a, ITEM_THUNDERBADGE
+        ld de, ENGINE_THUNDERBADGE
+        call CheckBadge
+	ret c
+
+        ld a, ITEM_RAINBOWBADGE
+        ld de, ENGINE_RAINBOWBADGE
+        call CheckBadge
+	ret c
+
+	ld a, ITEM_MARSHBADGE
+        ld de, ENGINE_MARSHBADGE
+        call CheckBadge
+	ret c
+
+        ld a, ITEM_SOULBADGE
+        ld de, ENGINE_SOULBADGE
+        call CheckBadge
+	ret c
+
+        ld a, ITEM_VOLCANOBADGE
+        ld de, ENGINE_VOLCANOBADGE
+	call CheckBadge
+	ret c
+
+        ld a, ITEM_EARTHBADGE
+        ld de, ENGINE_EARTHBADGE
+        call CheckBadge
+	ret c
+
+        ld a, ITEM_POKEDEX
+        ld de, ENGINE_POKEDEX
+        call ConvertItem
+;	ret c
+
+        ld a, ITEM_POKEGEAR
+        ld de, ENGINE_POKEGEAR
+        call ConvertItem
+;	ret c
+
+        ld a, ITEM_RADIO_CARD
+        ld de, ENGINE_RADIO_CARD
+        call ConvertItem
+;	ret c
+
+        ld a, ITEM_MAP_CARD
+        ld de, ENGINE_MAP_CARD
+        call ConvertItem
+;	ret c
+
+        ld a, ITEM_EXPN_CARD
+        ld de, ENGINE_EXPN_CARD
+        call ConvertItem
+;	ret c
+
+        ld a, ITEM_UNOWN_DEX
+        ld de, ENGINE_UNOWN_DEX
+        call ConvertItem
+
+	; cleanup c register if Unown Dex is owned, do not trigger a script
+	ld a, 0
+	and 0
+	ret
+
 CountStep:
 	callba SRAMStatsStepCount
 
@@ -920,6 +1063,9 @@ CountStep:
 	ld a, [wLinkMode]
 	and a
 	jr nz, .done
+
+	call ConvertBadges
+	jr c, .doscript
 
 	; If there is a special phone call, don't count the step.
 	farcall CheckSpecialPhoneCall
@@ -996,8 +1142,20 @@ DoRepelStep:
 	ld [wRepelEffect], a
 	ret nz
 
+	ld a, [wRepelType]
+	ld [wCurItem], a
+	ld hl, wNumItems
+	call CheckItem
+
+	sboptioncheck FAST_REPEL
+
 	ld a, BANK(RepelWoreOffScript)
 	ld hl, RepelWoreOffScript
+	jr z, .got_script
+	jr nc, .got_script
+	ld a, BANK(UseAnotherRepelScript)
+	ld hl, UseAnotherRepelScript
+.got_script
 	call CallScript
 	scf
 	ret
@@ -1082,7 +1240,6 @@ ChangeDirectionScript: ; 9
 	callasm EnableWildEncounters
 	end
 
-INCLUDE "engine/overworld/scripting.asm"
 
 WarpToSpawnPoint::
 	ld hl, wStatusFlags2

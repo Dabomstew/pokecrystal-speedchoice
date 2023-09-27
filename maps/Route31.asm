@@ -185,6 +185,8 @@ Route31MailRecipientScript:
 	opentext
 	checkevent EVENT_GOT_TM50_NIGHTMARE
 	iftrue .DescribeNightmare
+	checkevent EVENT_GAVE_KENYA
+	iftrue .GiveNightmare
 	checkevent EVENT_GOT_KENYA
 	iftrue .TryGiveKenya
 	writetext Text_Route31SleepyMan
@@ -206,6 +208,7 @@ Route31MailRecipientScript:
 	writetext Text_Route31ReadingMail
 	promptbutton
 	setevent EVENT_GAVE_KENYA
+.GiveNightmare:
 	verbosegiveitem TM_NIGHTMARE
 	iffalse .NoRoomForItems
 	setevent EVENT_GOT_TM50_NIGHTMARE

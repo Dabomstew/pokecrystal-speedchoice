@@ -25,15 +25,20 @@ AzaleaGymBugsyScript:
 	startbattle
 	reloadmapafterbattle
 	setevent EVENT_BEAT_BUGSY
-	opentext
-	verbosesetflag ENGINE_HIVEBADGE
-.FightDone:
-	checkevent EVENT_GOT_TM49_FURY_CUTTER
-	iftrue .GotFuryCutter
 	setevent EVENT_BEAT_TWINS_AMY_AND_MAY
 	setevent EVENT_BEAT_BUG_CATCHER_BENNY
 	setevent EVENT_BEAT_BUG_CATCHER_AL
 	setevent EVENT_BEAT_BUG_CATCHER_JOSH
+	opentext
+.FightDone:
+	checkevent EVENT_GOT_HIVE_BADGE
+	iftrue .GotHiveBadge
+	verbosesetflag ENGINE_HIVEBADGE
+	iffalse .GotHiveBadge
+	setevent EVENT_GOT_HIVE_BADGE
+.GotHiveBadge:
+	checkevent EVENT_GOT_TM49_FURY_CUTTER
+	iftrue .GotFuryCutter
 	writetext BugsyText_HiveBadgeSpeech
 	promptbutton
 	verbosegiveitem TM_FURY_CUTTER

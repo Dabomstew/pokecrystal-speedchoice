@@ -268,6 +268,19 @@ TrainerPicnickerTiffany:
 .NoClefairy:
 	writetext PicnickerTiffanyClefairyText
 	waitbutton
+	checkitemrando
+	iftrue .SeeClefairy
+	closetext
+	end
+
+.SeeClefairy:
+	refreshscreen
+	pokepic CLEFAIRY
+	setval CLEFAIRY
+	special UnusedSetSeenMon
+	cry CLEFAIRY
+	waitbutton
+	closepokepic
 	closetext
 	end
 

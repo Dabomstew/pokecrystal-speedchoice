@@ -61,12 +61,14 @@ EvolveAfterBattle_MasterLoop:
 .loop
 	ld a, [hli]
 	and a
-	jr z, EvolveAfterBattle_MasterLoop
+	; checks Evolve Every Level last (when we reach the 0 at the end of the evo table)
+	; the Evolve Every Level script will loop back to EvolveAfterBattle_MasterLoop
+	jp z, .every_level
 
 	ld b, a
 
 	cp EVOLVE_TRADE
-	jr z, .trade
+	jp z, .trade
 
 	ld a, [wLinkMode]
 	and a
@@ -79,15 +81,19 @@ EvolveAfterBattle_MasterLoop:
 	ld a, [wForceEvolution]
 	and a
 	jp nz, .dont_evolve_2
-
+	
 	ld a, b
 	cp EVOLVE_LEVEL
 	jp z, .level
 
+	ld a, b
 	cp EVOLVE_HAPPINESS
 	jr z, .happiness
+	
+	; EVOLVE_STAT
+	sboptioncheck EVOLVE_EVERY_LEVEL
+	jp nz, .dont_evolve_1
 
-; EVOLVE_STAT
 	ld a, [wTempMonLevel]
 	cp [hl]
 	jp c, .dont_evolve_1
@@ -113,19 +119,26 @@ EvolveAfterBattle_MasterLoop:
 	jp nz, .dont_evolve_2
 
 	inc hl
-	jr .proceed
+	jp .proceed
 
 .happiness
+	sboptioncheck EVOLVE_EVERY_LEVEL
+	jp nz, .dont_evolve_2
+
+	sboptioncheck NO_HAPPY_EVO
+	jp nz, .skip_happiness	
+
 	ld a, [wTempMonHappiness]
 	cp HAPPINESS_TO_EVOLVE
 	jp c, .dont_evolve_2
 
+.skip_happiness
 	call IsMonHoldingEverstone
 	jp z, .dont_evolve_2
 
 	ld a, [hli]
 	cp TR_ANYTIME
-	jr z, .proceed
+	jp z, .proceed
 	cp TR_MORNDAY
 	jr z, .happiness_daylight
 
@@ -133,13 +146,13 @@ EvolveAfterBattle_MasterLoop:
 	ld a, [wTimeOfDay]
 	cp NITE_F
 	jp nz, .dont_evolve_3
-	jr .proceed
+	jp .proceed
 
 .happiness_daylight
 	ld a, [wTimeOfDay]
 	cp NITE_F
 	jp z, .dont_evolve_3
-	jr .proceed
+	jp .proceed
 
 .trade
 	ld a, [wLinkMode]
@@ -152,7 +165,7 @@ EvolveAfterBattle_MasterLoop:
 	ld a, [hli]
 	ld b, a
 	inc a
-	jr z, .proceed
+	jp z, .proceed
 
 	ld a, [wLinkMode]
 	cp LINK_TIMECAPSULE
@@ -164,9 +177,12 @@ EvolveAfterBattle_MasterLoop:
 
 	xor a
 	ld [wTempMonItem], a
-	jr .proceed
+	jp .proceed
 
 .item
+	sboptioncheck EVOLVE_EVERY_LEVEL
+	jp nz, .dont_evolve_2
+	
 	ld a, [hli]
 	ld b, a
 	ld a, [wCurItem]
@@ -179,9 +195,12 @@ EvolveAfterBattle_MasterLoop:
 	ld a, [wLinkMode]
 	and a
 	jp nz, .dont_evolve_3
-	jr .proceed
+	jp .proceed
 
 .level
+	sboptioncheck EVOLVE_EVERY_LEVEL
+	jp nz, .dont_evolve_2
+
 	ld a, [hli]
 	ld b, a
 	ld a, [wTempMonLevel]
@@ -189,6 +208,14 @@ EvolveAfterBattle_MasterLoop:
 	jp c, .dont_evolve_3
 	call IsMonHoldingEverstone
 	jp z, .dont_evolve_3
+	
+	jp .proceed
+
+.every_level	
+	sboptioncheck EVOLVE_EVERY_LEVEL
+	jp z, EvolveAfterBattle_MasterLoop
+	
+	jp .proceed_every_level
 
 .proceed
 	ld a, [wTempMonLevel]
@@ -267,26 +294,59 @@ EvolveAfterBattle_MasterLoop:
 	call AddNTimes
 	ld e, l
 	ld d, h
-	ld bc, MON_MAXHP
-	add hl, bc
-	ld a, [hli]
-	ld b, a
-	ld c, [hl]
-	ld hl, wTempMonMaxHP + 1
-	ld a, [hld]
-	sub c
-	ld c, a
-	ld a, [hl]
-	sbc b
-	ld b, a
-	ld hl, wTempMonHP + 1
-	ld a, [hl]
-	add c
-	ld [hld], a
-	ld a, [hl]
-	adc b
-	ld [hl], a
+	; this section is responsible for calculating the new current HP after evolution
+	; it does this by calculating the difference between Max and Current HP before evolution
+	; and applying that same difference after evolution
+	; this can lead to HP underflow if evolving from High Max HP to Low Max HP when enough HP is missing
+	ld bc, MON_MAXHP			; MON_MAXHP is an offset into the pokemon party structure for the current Pokemon's Max HP
+	add hl, bc					; hl = address for the evolving Pokemon's Max HP in the party structure
+	ld a, [hli]					; a = high byte of the Max HP (pre-evo), and hl is incremented
+	ld b, a						; b = high byte of the Max HP (pre-evo)
+	ld c, [hl]					; c = low byte of the Max HP (pre-evo)
+	ld hl, wTempMonMaxHP + 1	; hl = address for the low byte of the Max HP (post-evo)
+	ld a, [hld]					; a = low byte of the Max HP (post-evo) and hl is decremented
+	sub c						; a = diff between the low bytes of the Max HP (post-evo - pre-evo)
+	ld c, a						; c = diff between the low bytes of the Max HP (post-evo - pre-evo)
+	ld a, [hl]					; a = high byte of the Max HP (post-evo)
+	sbc b						; a = diff between the high bytes of the Max HP (post-evo - pre-evo, with carry)
+	ld b, a						; b = diff between the high bytes of the Max HP (post-evo - pre-evo, with carry) 
+	ld hl, wTempMonHP + 1		; hl = address for the low byte of the Curr HP (post-evo)
+	ld a, [hl]					; a = low byte of the Curr HP (post-evo)
+	add c						; a = low byte of the Curr HP (post-evo) plus the difference
+	ld [hld], a					; adjusted low byte of the Curr HP is stored back to the post-evo struct, and hl is decremented
+	ld a, [hl]					; a = high byte of the Curr HP (post-evo)
+	adc b						; a = high byte of the Curr HP (post-evo) plus the difference, with carry
+	ld [hl], a					; adjusted high byte of the Curr HP is stored back to the post-evo struct
+	
+	; this section checks for potential HP underflow and fixes to 1 HP (if applicable)
+	; first check the high bytes
+	ld hl, wTempMonHP			; hl = address for the high byte of the Curr HP (post-evo)
+	ld a, [hl]					; a = high byte of the Curr HP (post-evo)
+	ld b, a						; b = high byte of the Curr HP (post-evo)
+	ld hl, wTempMonMaxHP		; hl = address for the high byte of the Max HP (post-evo)
+	ld a, [hl]					; a = high byte of the Max HP (post-evo)
+	sub b						; a = diff between high bytes (Max HP - Curr HP), flags set based on result
+	jr c, .fixhp				; if carry flag was set, then high byte of Curr HP > Max HP, and HP has underflowed
+	jr nz, .hpok				; if the result was not zero, then high byte of Max HP > Curr HP, and no fix is needed
+	
+	; should only reach here if the high bytes were equal, so we need to check the low byte
+	ld hl, wTempMonHP + 1		; hl = address for the low byte of the Curr HP (post-evo)
+	ld a, [hl]					; a = low byteof the Curr HP (post-evo)
+	ld b, a						; b = low byte of the Curr HP (post-evo)
+	ld hl, wTempMonMaxHP + 1	; hl = address for the low byte of the Max HP (post-evo)
+	ld a, [hl]					; a = low byte of the Max HP (post-evo)
+	sub b						; a = diff between low bytes (Max HP - Curr HP), flags set based on result
+	jr c, .fixhp				; if carry flag was set, then low byte of Curr HP > Max HP, and HP has underflowed
+	jr .hpok					; otherwise, the low byte of Max HP >= Curr HP, and no fix is needed
+	
+.fixhp
+	ld hl, wTempMonHP			; hl = address for the high byte of the Curr HP (post-evo)
+	ld a, 0
+	ld [hli], a					; sets high byte of Curr HP to 0, and hl is incremented
+	ld a, 1
+	ld [hl], a					; sets low byte of Curr HP to 1
 
+.hpok
 	ld hl, wTempMonSpecies
 	ld bc, PARTYMON_STRUCT_LENGTH
 	call CopyBytes
@@ -317,6 +377,235 @@ EvolveAfterBattle_MasterLoop:
 	ld l, e
 	ld h, d
 	jp EvolveAfterBattle_MasterLoop
+	
+.proceed_every_level:
+	ld a, 255
+	ld [wForceEvolution], a
+
+	ld a, [wTempMonLevel]
+	ld [wCurPartyLevel], a
+	ld a, $1
+	ld [wMonTriedToEvolve], a
+
+	push hl
+
+	; generates pseudo-random evolution
+	push de
+
+	ld a, [wTempMonLevel]	; current level
+	swap a					; swap bits
+	
+	ld d, a					; save current value
+	ld a, [wTempMonSpecies]	; current species ID
+	add d					; add saved value
+	swap a					; swap bits
+	
+	ld d, a					; save current value
+	ld a, [wPlayerID]		; Trainer ID high byte
+	add d					; add saved value
+	swap a					; swap bits
+	
+	ld d, a					; save current value
+	ld a, [wPlayerID + 1]	; Trainer ID low byte
+	add d					; add saved value
+	swap a					; swap bits
+	
+	ld d, a					; save current value
+	ld a, [wTempMonDVs]		; ATK/DEF DVs
+	add d					; add saved value
+	swap a					; swap bits
+	
+	ld d, a					; save current value
+	ld a, [wTempMonDVs + 1]	; SPD/SPC DVs
+	add d					; add saved value
+	swap a					; swap bits
+	
+	ld d, a					; save current value
+	ld a, [wTempMonSpecies]	; current species ID
+	cp d					; compare new species with old species
+	jr nz, .not_same		; if species changed, jump to .not_same
+	
+	ld a, d					; restore generated species ID
+	swap a					; if species didn't change, swap bits
+	ld d, a					; save current value
+	
+.not_same
+	ld a, d					; restore generated species ID
+	; check for invalid new species IDs (0 and 252-255 are invalid)
+	; subtract 1 first, so 251-255 are invalid (fixing if necessary), then add 1 at the end
+	sub 1
+	ld d, a					; save current value
+	cp 252					; c flag will be set if a < 252 (valid number)
+	jp c, .valid_id
+	
+	ld a, d
+	add 6					; fixes 251-255 so they wrap around to 1-5 (includes previous offset)
+	jp .done_fixing_id
+	
+.valid_id:
+	ld a, d
+	add 1					; undo previous offset
+
+.done_fixing_id:
+	; a should now have a pseudo-random value 1-251 for selecting a new species for the evo.
+	
+	ld [wBuffer8], a	; saves new species to wram
+	ld [wEvolutionNewSpecies], a
+	
+	pop de
+	
+	ld a, [wCurPartyMon]
+	ld hl, wPartyMonNicknames
+	call GetNick
+	call CopyName1
+	ld hl, EvolvingTextEL
+	call PrintText
+
+	ld c, 50
+	call DelayFrames
+
+	xor a
+	ldh [hBGMapMode], a
+	hlcoord 0, 0
+	lb bc, 12, 20
+	call ClearBox
+
+	ld a, $1
+	ldh [hBGMapMode], a
+	call ClearSprites
+
+	farcall EvolutionAnimation
+
+	push af
+	call ClearSprites
+	pop af
+	jp c, CancelEvolution
+
+	ld hl, CongratulationsYourPokemonText
+	call PrintText
+
+	pop hl
+
+	ld a, [wBuffer8] ; load the previously calculated new pokemon species
+	;ld a, [hl]
+	ld [wCurSpecies], a
+	ld [wTempMonSpecies], a
+	ld [wEvolutionNewSpecies], a
+	ld [wNamedObjectIndexBuffer], a
+	call GetPokemonName
+
+	push hl
+	ld hl, EvolvedIntoText
+	call PrintTextboxText
+
+	ld de, MUSIC_NONE
+	call PlayMusic
+	ld de, SFX_CAUGHT_MON
+	call PlaySFX
+	call WaitSFX
+
+	ld c, 40
+	call DelayFrames
+
+	call ClearTilemap
+	call UpdateSpeciesNameIfNotNicknamed
+	call GetBaseData
+
+	ld hl, wTempMonExp + 2
+	ld de, wTempMonMaxHP
+	ld b, TRUE
+	predef CalcMonStats
+
+	ld a, [wCurPartyMon]
+	ld hl, wPartyMons
+	ld bc, PARTYMON_STRUCT_LENGTH
+	call AddNTimes
+	ld e, l
+	ld d, h
+
+; this section is responsible for calculating the new current HP after evolution
+	; it does this by calculating the difference between Max and Current HP before evolution
+	; and applying that same difference after evolution
+	; this can lead to HP underflow if evolving from High Max HP to Low Max HP when enough HP is missing
+	ld bc, MON_MAXHP			; MON_MAXHP is an offset into the pokemon party structure for the current Pokemon's Max HP
+	add hl, bc					; hl = address for the evolving Pokemon's Max HP in the party structure
+	ld a, [hli]					; a = high byte of the Max HP (pre-evo), and hl is incremented
+	ld b, a						; b = high byte of the Max HP (pre-evo)
+	ld c, [hl]					; c = low byte of the Max HP (pre-evo)
+	ld hl, wTempMonMaxHP + 1	; hl = address for the low byte of the Max HP (post-evo)
+	ld a, [hld]					; a = low byte of the Max HP (post-evo) and hl is decremented
+	sub c						; a = diff between the low bytes of the Max HP (post-evo - pre-evo)
+	ld c, a						; c = diff between the low bytes of the Max HP (post-evo - pre-evo)
+	ld a, [hl]					; a = high byte of the Max HP (post-evo)
+	sbc b						; a = diff between the high bytes of the Max HP (post-evo - pre-evo, with carry)
+	ld b, a						; b = diff between the high bytes of the Max HP (post-evo - pre-evo, with carry) 
+	ld hl, wTempMonHP + 1		; hl = address for the low byte of the Curr HP (post-evo)
+	ld a, [hl]					; a = low byte of the Curr HP (post-evo)
+	add c						; a = low byte of the Curr HP (post-evo) plus the difference
+	ld [hld], a					; adjusted low byte of the Curr HP is stored back to the post-evo struct, and hl is decremented
+	ld a, [hl]					; a = high byte of the Curr HP (post-evo)
+	adc b						; a = high byte of the Curr HP (post-evo) plus the difference, with carry
+	ld [hl], a					; adjusted high byte of the Curr HP is stored back to the post-evo struct
+	
+	; this section checks for potential HP underflow and fixes to 1 HP (if applicable)
+	; first check the high bytes
+	ld hl, wTempMonHP			; hl = address for the high byte of the Curr HP (post-evo)
+	ld a, [hl]					; a = high byte of the Curr HP (post-evo)
+	ld b, a						; b = high byte of the Curr HP (post-evo)
+	ld hl, wTempMonMaxHP		; hl = address for the high byte of the Max HP (post-evo)
+	ld a, [hl]					; a = high byte of the Max HP (post-evo)
+	sub b						; a = diff between high bytes (Max HP - Curr HP), flags set based on result
+	jr c, .fixhp_everylevel		; if carry flag was set, then high byte of Curr HP > Max HP, and HP has underflowed
+	jr nz, .hpok_everylevel		; if the result was not zero, then high byte of Max HP > Curr HP, and no fix is needed
+	
+	; should only reach here if the high bytes were equal, so we need to check the low byte
+	ld hl, wTempMonHP + 1		; hl = address for the low byte of the Curr HP (post-evo)
+	ld a, [hl]					; a = low byteof the Curr HP (post-evo)
+	ld b, a						; b = low byte of the Curr HP (post-evo)
+	ld hl, wTempMonMaxHP + 1	; hl = address for the low byte of the Max HP (post-evo)
+	ld a, [hl]					; a = low byte of the Max HP (post-evo)
+	sub b						; a = diff between low bytes (Max HP - Curr HP), flags set based on result
+	jr c, .fixhp_everylevel		; if carry flag was set, then low byte of Curr HP > Max HP, and HP has underflowed
+	jr .hpok_everylevel			; otherwise, the low byte of Max HP >= Curr HP, and no fix is needed
+	
+.fixhp_everylevel
+	ld hl, wTempMonHP			; hl = address for the high byte of the Curr HP (post-evo)
+	ld a, 0
+	ld [hli], a					; sets high byte of Curr HP to 0, and hl is incremented
+	ld a, 1
+	ld [hl], a					; sets low byte of Curr HP to 1
+
+.hpok_everylevel
+	ld hl, wTempMonSpecies
+	ld bc, PARTYMON_STRUCT_LENGTH
+	call CopyBytes
+
+	ld a, [wCurSpecies]
+	ld [wTempSpecies], a
+	xor a
+	ld [wMonType], a
+	call LearnLevelMoves
+	ld a, [wTempSpecies]
+	dec a
+	call SetSeenAndCaughtMon
+
+	ld a, [wTempSpecies]
+	cp UNOWN
+	jr nz, .skip_unown_every_level
+
+	ld hl, wTempMonDVs
+	predef GetUnownLetter
+	callfar UpdateUnownDex
+
+.skip_unown_every_level:
+	pop de
+	pop hl
+	ld a, [wTempMonSpecies]
+	ld [hl], a
+	push hl
+	ld l, e
+	ld h, d
+	jp EvolveAfterBattle_MasterLoop
 
 .dont_evolve_1
 	inc hl
@@ -324,6 +613,7 @@ EvolveAfterBattle_MasterLoop:
 	inc hl
 .dont_evolve_3
 	inc hl
+.dont_evolve_4	
 	jp .loop
 
 ; unused
@@ -407,6 +697,10 @@ StoppedEvolvingText:
 
 EvolvingText:
 	text_far _EvolvingText
+	text_end
+	
+EvolvingTextEL:
+	text_far _EvolvingTextEL
 	text_end
 
 LearnLevelMoves:

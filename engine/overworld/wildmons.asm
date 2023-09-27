@@ -549,6 +549,8 @@ Randomizer_EnteiSpecies::
 	ld [wRoamMon2Species], a
 
 ; level
+Randomizer_RaikouLevel::
+Randomizer_EnteiLevel::
 	ld a, 40
 	ld [wRoamMon1Level], a
 	ld [wRoamMon2Level], a

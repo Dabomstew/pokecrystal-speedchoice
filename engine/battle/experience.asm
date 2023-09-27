@@ -709,7 +709,8 @@ AnimateExpBar:
 	push de
 	call .PlayExpBarSound
 	ld c, $40
-	call .LoopBarAnimation
+	farcall _CheckBattleScene2
+	call nz, .LoopBarAnimation
 	call PrintPlayerHUD
 	ld hl, wBattleMonNick
 	ld de, wStringBuffer1
@@ -736,7 +737,8 @@ AnimateExpBar:
 	pop bc
 	ld c, a
 	call .PlayExpBarSound
-	call .LoopBarAnimation
+	farcall _CheckBattleScene2
+	call nz, .LoopBarAnimation
 	call TerminateExpBarSound
 	pop af
 	ldh [hProduct + 1], a

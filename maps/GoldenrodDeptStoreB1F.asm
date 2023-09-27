@@ -16,7 +16,7 @@ GoldenrodDeptStoreB1F_MapScripts:
 	callback MAPCALLBACK_NEWMAP, .Unblock
 
 .ClearBoxes:
-	checkevent EVENT_RECEIVED_CARD_KEY
+	checkevent EVENT_MET_UNDERGROUND_DIRECTOR
 	iftrue .GotCardKey
 	sjump .Continue
 

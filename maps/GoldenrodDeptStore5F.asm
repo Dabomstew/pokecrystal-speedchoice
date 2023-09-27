@@ -23,9 +23,18 @@ GoldenrodDeptStore5F_MapScripts:
 	return
 
 GoldenrodDeptStore5FClerkScript:
+	readvar VAR_WEEKDAY
+	ifequal 10, GoldenrodDeptStore5FClerkFullShopScript
 	faceplayer
 	opentext
 	goldenrodmart5f
+	closetext
+	end
+
+GoldenrodDeptStore5FClerkFullShopScript:
+	faceplayer
+	opentext
+	pokemart MARTTYPE_STANDARD, MART_GOLDENROD_5F_TM02_08_12
 	closetext
 	end
 
@@ -46,11 +55,15 @@ GoldenrodDeptStore5FReceptionistScript:
 .VeryHappy:
 	writetext GoldenrodDeptStore5FReceptionistThisMoveShouldBePerfectText
 	promptbutton
+	checkevent EVENT_GOT_TM27
+	iftrue .Onwards27
 	verbosegiveitem TM_RETURN
-	iffalse .Done
-	setflag ENGINE_GOLDENROD_DEPT_STORE_TM27_RETURN
-	closetext
-	end
+	iffalse .Onwards27
+	setevent EVENT_GOT_TM27
+.Onwards27
+	checkitemrando
+	iftrue .NotVeryHappy
+	jump .Complete
 
 .SomewhatHappy:
 	writetext GoldenrodDeptStore5FReceptionistItsAdorableText
@@ -61,13 +74,24 @@ GoldenrodDeptStore5FReceptionistScript:
 .NotVeryHappy:
 	writetext GoldenrodDeptStore5FReceptionistItLooksEvilHowAboutThisTMText
 	promptbutton
+	checkevent EVENT_GOT_TM21
+	iftrue .Onwards21
 	verbosegiveitem TM_FRUSTRATION
-	iffalse .Done
+	iffalse .Onwards21
+	setevent EVENT_GOT_TM21
+.Onwards21
+	checkitemrando
+	iffalse .Complete
+	checkevent EVENT_GOT_TM27
+	iffalse .EventIsOver
+	checkevent EVENT_GOT_TM21
+	iffalse .EventIsOver
+.Complete
 	setflag ENGINE_GOLDENROD_DEPT_STORE_TM27_RETURN
-	closetext
-	end
+	clearevent EVENT_GOT_TM27
+	clearevent EVENT_GOT_TM21
 
-.EventIsOver:
+.EventIsOver
 	writetext GoldenrodDeptStore5FReceptionistThereAreTMsPerfectForMonText
 	waitbutton
 .Done:

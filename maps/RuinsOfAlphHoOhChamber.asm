@@ -18,9 +18,12 @@ RuinsOfAlphHoOhChamber_MapScripts:
 .CheckOpen:
 	checkevent EVENT_WALL_OPENED_IN_HO_OH_CHAMBER
 	iftrue .OpenWall
+	getX 0, 1
+	iftrue .OpenWall
 	end
 
 .OpenWall:
+	setevent EVENT_WALL_OPENED_IN_HO_OH_CHAMBER
 	prioritysjump .WallOpenScript
 	end
 

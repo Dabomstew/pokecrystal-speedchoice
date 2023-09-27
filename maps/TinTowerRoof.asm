@@ -10,6 +10,8 @@ TinTowerRoof_MapScripts:
 .HoOh:
 	checkitemrando
 	iffalse .NoE4Check
+	checkhoohchambernerfed
+	iftrue .NoE4Check
 	checkevent EVENT_BEAT_ELITE_FOUR
 	iffalse .NoAppear
 

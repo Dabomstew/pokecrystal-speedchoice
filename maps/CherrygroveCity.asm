@@ -4,6 +4,7 @@
 	const CHERRYGROVECITY_TEACHER
 	const CHERRYGROVECITY_YOUNGSTER
 	const CHERRYGROVECITY_FISHER
+	const CHERRYGROVE_CITY_MAP_CARD_BACKUP
 
 CherrygroveCity_MapScripts:
 	db 2 ; scene scripts
@@ -68,6 +69,10 @@ CherrygroveCityGuideGent:
 	writetext GuideGentGiftText
 	promptbutton
 	verbosesetflag ENGINE_MAP_CARD
+	iftrue .GotMapCard
+	clearevent EVENT_CHERRYGROVE_CITY_MAP_CARD_BACKUP
+	appear CHERRYGROVE_CITY_MAP_CARD_BACKUP
+.GotMapCard
 	writetext GuideGentPokegearText
 	waitbutton
 	closetext
@@ -329,6 +334,16 @@ CherrygroveCity_RivalExitsStageLeft:
 	big_step LEFT
 	step_end
 
+CherrygroveCityMapCardBackup:
+	opentext
+	verbosesetflag ENGINE_MAP_CARD
+	iffalse .End
+	setevent EVENT_CHERRYGROVE_CITY_MAP_CARD_BACKUP
+	disappear CHERRYGROVE_CITY_MAP_CARD_BACKUP
+.End
+	closetext
+	end
+
 GuideGentIntroText:
 	text "You're a rookie"
 	line "trainer, aren't"
@@ -560,9 +575,10 @@ CherrygroveCity_MapEvents:
 	bg_event 24,  3, BGEVENT_READ, CherrygroveCityMartSign
 	bg_event 30,  3, BGEVENT_READ, CherrygroveCityPokecenterSign
 
-	db 5 ; object events
+	db 6 ; object events
 	object_event 32,  6, SPRITE_GRAMPS, SPRITEMOVEDATA_STANDING_DOWN, 0, 0, -1, -1, 0, OBJECTTYPE_SCRIPT, 0, CherrygroveCityGuideGent, EVENT_GUIDE_GENT_IN_HIS_HOUSE
 	object_event 39,  6, SPRITE_SILVER, SPRITEMOVEDATA_SPINRANDOM_SLOW, 0, 0, -1, -1, 0, OBJECTTYPE_SCRIPT, 0, ObjectEvent, EVENT_RIVAL_CHERRYGROVE_CITY
 	object_event 27, 12, SPRITE_TEACHER, SPRITEMOVEDATA_WALK_LEFT_RIGHT, 1, 0, -1, -1, PAL_NPC_BLUE, OBJECTTYPE_SCRIPT, 0, CherrygroveTeacherScript, -1
 	object_event 23,  7, SPRITE_YOUNGSTER, SPRITEMOVEDATA_WALK_LEFT_RIGHT, 1, 0, -1, -1, PAL_NPC_RED, OBJECTTYPE_SCRIPT, 0, CherrygroveYoungsterScript, -1
-	object_event  7, 12, SPRITE_FISHER, SPRITEMOVEDATA_STANDING_RIGHT, 0, 0, -1, -1, PAL_NPC_GREEN, OBJECTTYPE_SCRIPT, 0, MysticWaterGuy, -1
+	object_event 7, 12, SPRITE_FISHER, SPRITEMOVEDATA_STANDING_RIGHT, 0, 0, -1, -1, PAL_NPC_GREEN, OBJECTTYPE_SCRIPT, 0, MysticWaterGuy, -1
+	object_event 25, 11, SPRITE_POKE_BALL, SPRITEMOVEDATA_STILL, 0, 0, -1, -1, 0, OBJECTTYPE_SCRIPT, 0, CherrygroveCityMapCardBackup, EVENT_CHERRYGROVE_CITY_MAP_CARD_BACKUP

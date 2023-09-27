@@ -10,9 +10,12 @@ RuinsOfAlphOmanyteChamber_MapScripts:
 	special OmanyteChamber
 	checkevent EVENT_WALL_OPENED_IN_OMANYTE_CHAMBER
 	iftrue .OpenWall
+	getX 0, 1
+	iftrue .OpenWall
 	end
 
 .OpenWall:
+	setevent EVENT_WALL_OPENED_IN_OMANYTE_CHAMBER
 	prioritysjump .WallOpenScript
 	end
 

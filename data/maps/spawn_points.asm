@@ -4,6 +4,12 @@ spawn: MACRO
 	db \2, \3
 ENDM
 
+dangerouswarp: MACRO
+; map, warp_id
+	map_id \1
+	db \2
+ENDM
+
 SpawnPoints:
 ; entries correspond to SPAWN_* constants
 
@@ -39,3 +45,23 @@ SpawnPoints:
 	spawn FAST_SHIP_CABINS_SW_SSW_NW,  6,  2
 
 	spawn N_A,                        -1, -1
+
+DangerousWarps:
+	dangerouswarp CELADON_CITY,	8
+	dangerouswarp ROUTE_10_NORTH,	2
+	dangerouswarp BLACKTHORN_CITY,	8
+	dangerouswarp BLACKTHORN_CITY,	1
+	dangerouswarp GOLDENROD_CITY,	4
+	dangerouswarp GOLDENROD_CITY,	7
+	dangerouswarp GOLDENROD_CITY,	10
+	dangerouswarp GOLDENROD_CITY,	14
+	dangerouswarp AZALEA_TOWN,	5
+	dangerouswarp AZALEA_TOWN,	6
+	dangerouswarp MAHOGANY_TOWN,	3
+	dangerouswarp VERMILION_CITY,	7
+	dangerouswarp FUCHSIA_CITY,	1
+	dangerouswarp ECRUTEAK_CITY,	12
+	dangerouswarp VERMILION_CITY,	10
+
+
+	dangerouswarp N_A, 		-1

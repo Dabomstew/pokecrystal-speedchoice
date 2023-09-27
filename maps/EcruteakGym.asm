@@ -35,17 +35,22 @@ EcruteakGymMortyScript:
 	reloadmapafterbattle
 	setevent EVENT_BEAT_MORTY
 	opentext
-	verbosesetflag ENGINE_FOGBADGE
 	setmapscene ECRUTEAK_TIN_TOWER_ENTRANCE, SCENE_FINISHED
 	setevent EVENT_RANG_CLEAR_BELL_1
 	setevent EVENT_RANG_CLEAR_BELL_2
-.FightDone:
-	checkevent EVENT_GOT_TM30_SHADOW_BALL
-	iftrue .GotShadowBall
 	setevent EVENT_BEAT_SAGE_JEFFREY
 	setevent EVENT_BEAT_SAGE_PING
 	setevent EVENT_BEAT_MEDIUM_MARTHA
 	setevent EVENT_BEAT_MEDIUM_GRACE
+.FightDone:
+	checkevent EVENT_GOT_FOG_BADGE
+	iftrue .GotFogBadge
+	verbosesetflag ENGINE_FOGBADGE
+	iffalse .GotFogBadge
+	setevent EVENT_GOT_FOG_BADGE
+.GotFogBadge:
+	checkevent EVENT_GOT_TM30_SHADOW_BALL
+	iftrue .GotShadowBall
 	writetext MortyText_FogBadgeSpeech
 	promptbutton
 	verbosegiveitem TM_SHADOW_BALL

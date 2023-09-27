@@ -77,34 +77,52 @@ GoldenrodGameCornerTMVendor_LoopScript:
 .Thunder:
 	checkcoins GOLDENRODGAMECORNER_TM25_COINS
 	ifequal HAVE_LESS, GoldenrodGameCornerPrizeVendor_NotEnoughCoinsScript
+	checkevent EVENT_GGC_TM25
+	iftrue GoldenrodGameCornerPrizeVendor_AlreadyBought
+	checkitemrando
+	iftrue .GiveThunder
 	getitemname STRING_BUFFER_3, TM_THUNDER
 	scall GoldenrodGameCornerPrizeVendor_ConfirmPurchaseScript
 	iffalse GoldenrodGameCornerPrizeVendor_CancelPurchaseScript
+.GiveThunder
 	giveitem TM_THUNDER
 	iffalse GoldenrodGameCornerPrizeMonVendor_NoRoomForPrizeScript
 	takecoins GOLDENRODGAMECORNER_TM25_COINS
+	setevent EVENT_GGC_TM25
 	sjump GoldenrodGameCornerTMVendor_FinishScript
 
 .Blizzard:
 	checkcoins GOLDENRODGAMECORNER_TM14_COINS
 	ifequal HAVE_LESS, GoldenrodGameCornerPrizeVendor_NotEnoughCoinsScript
+	checkevent EVENT_GGC_TM14
+	iftrue GoldenrodGameCornerPrizeVendor_AlreadyBought
+	checkitemrando
+	iftrue .GiveBlizzard
 	getitemname STRING_BUFFER_3, TM_BLIZZARD
 	scall GoldenrodGameCornerPrizeVendor_ConfirmPurchaseScript
 	iffalse GoldenrodGameCornerPrizeVendor_CancelPurchaseScript
+.GiveBlizzard
 	giveitem TM_BLIZZARD
 	iffalse GoldenrodGameCornerPrizeMonVendor_NoRoomForPrizeScript
 	takecoins GOLDENRODGAMECORNER_TM14_COINS
+	setevent EVENT_GGC_TM14
 	sjump GoldenrodGameCornerTMVendor_FinishScript
 
 .FireBlast:
 	checkcoins GOLDENRODGAMECORNER_TM38_COINS
 	ifequal HAVE_LESS, GoldenrodGameCornerPrizeVendor_NotEnoughCoinsScript
+	checkevent EVENT_GGC_TM38
+	iftrue GoldenrodGameCornerPrizeVendor_AlreadyBought
+	checkitemrando
+	iftrue .GiveFireBlast
 	getitemname STRING_BUFFER_3, TM_FIRE_BLAST
 	scall GoldenrodGameCornerPrizeVendor_ConfirmPurchaseScript
 	iffalse GoldenrodGameCornerPrizeVendor_CancelPurchaseScript
+.GiveFireBlast
 	giveitem TM_FIRE_BLAST
 	iffalse GoldenrodGameCornerPrizeMonVendor_NoRoomForPrizeScript
 	takecoins GOLDENRODGAMECORNER_TM38_COINS
+	setevent EVENT_GGC_TM38
 	sjump GoldenrodGameCornerTMVendor_FinishScript
 
 GoldenrodGameCornerPrizeVendor_ConfirmPurchaseScript:
@@ -118,6 +136,12 @@ GoldenrodGameCornerTMVendor_FinishScript:
 	writetext GoldenrodGameCornerPrizeVendorHereYouGoText
 	waitbutton
 	sjump GoldenrodGameCornerTMVendor_LoopScript
+
+GoldenrodGameCornerPrizeVendor_AlreadyBought:
+	writetext GoldenrodGameCornerPrizeVendorAlreadyBought
+	waitbutton
+	closetext
+	end
 
 GoldenrodGameCornerPrizeVendor_NotEnoughCoinsScript:
 	writetext GoldenrodGameCornerPrizeVendorNeedMoreCoinsText
@@ -145,16 +169,16 @@ GoldenrodGameCornerPrizeVendor_NoCoinCaseScript:
 
 GoldenrodGameCornerTMVendorMenuHeader:
 	db MENU_BACKUP_TILES ; flags
-	menu_coords 0, 2, 15, TEXTBOX_Y - 1
+	menu_coords 0, 2, SCREEN_WIDTH - 1, TEXTBOX_Y - 1
 	dw .MenuData
 	db 1 ; default option
 
 .MenuData:
 	db STATICMENU_CURSOR ; flags
 	db 4 ; items
-	db "TM25    5500@"
-	db "TM14    5500@"
-	db "TM38    5500@"
+	db "TM25         5500@"
+	db "TM14         5500@"
+	db "TM38         5500@"
 	db "CANCEL@"
 
 GoldenrodGameCornerPrizeMonVendorScript:
@@ -357,6 +381,11 @@ GoldenrodGameCornerPrizeVendorHereYouGoText:
 GoldenrodGameCornerPrizeVendorNeedMoreCoinsText:
 	text "Sorry! You need"
 	line "more coins."
+	done
+
+GoldenrodGameCornerPrizeVendorAlreadyBought:
+	text "You already bought"
+	line "this item."
 	done
 
 GoldenrodGameCornerPrizeVendorNoMoreRoomText:

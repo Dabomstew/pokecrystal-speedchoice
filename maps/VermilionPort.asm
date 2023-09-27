@@ -38,8 +38,8 @@ VermilionPort_MapScripts:
 VermilionPortSailorAtGangwayScript:
 	faceplayer
 	opentext
-	checkevent EVENT_TEMPORARY_UNTIL_MAP_RELOAD_1
-	iftrue VermilionPortAlreadyRodeScript
+	;checkevent EVENT_TEMPORARY_UNTIL_MAP_RELOAD_1
+	;iftrue VermilionPortAlreadyRodeScript
 	writetext VermilionPortDepartingText
 	waitbutton
 	closetext

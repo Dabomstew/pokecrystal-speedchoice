@@ -66,6 +66,8 @@ SageLiScript:
 	opentext
 	checkevent EVENT_GOT_HM05_FLASH
 	iftrue .GotFlash
+	checkevent EVENT_BEAT_SAGE_LI
+	iftrue .Flash
 	writetext SageLiSeenText
 	waitbutton
 	closetext
@@ -73,11 +75,14 @@ SageLiScript:
 	loadtrainer SAGE, LI
 	startbattle
 	reloadmapafterbattle
+.Flash
 	opentext
 	writetext SageLiTakeThisFlashText
 	promptbutton
 	verbosegiveitem HM_FLASH
+	iffalse .SkipFlash
 	setevent EVENT_GOT_HM05_FLASH
+.SkipFlash
 	setevent EVENT_BEAT_SAGE_LI
 	writetext SageLiFlashExplanationText
 	waitbutton

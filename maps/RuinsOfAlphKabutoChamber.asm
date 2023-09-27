@@ -13,9 +13,12 @@ RuinsOfAlphKabutoChamber_MapScripts:
 .CheckWall:
 	checkevent EVENT_WALL_OPENED_IN_KABUTO_CHAMBER
 	iftrue .OpenWall
+	getX 0, 1
+	iftrue .OpenWall
 	end
 
 .OpenWall:
+	setevent EVENT_WALL_OPENED_IN_KABUTO_CHAMBER
 	prioritysjump .WallOpenScript
 	end
 

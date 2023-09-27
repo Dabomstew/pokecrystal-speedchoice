@@ -2885,7 +2885,7 @@ wPhoneList:: ds CONTACT_LIST_SIZE + 1 ; dc7c
 wLuckyNumberShowFlag:: db ; dc9d
 	ds 1
 wLuckyIDNumber:: dw ; dc9f
-
+wRepelType:: db
 wRepelEffect:: db ; If a Repel is in use, it contains the nr of steps it's still active
 wBikeStep:: dw
 wKurtApricornQuantity:: db

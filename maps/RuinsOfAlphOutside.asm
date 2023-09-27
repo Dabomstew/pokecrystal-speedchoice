@@ -20,7 +20,7 @@ RuinsOfAlphOutside_MapScripts:
 	end
 
 .ScientistCallback:
-	checkflag ENGINE_UNOWN_DEX
+	checkevent EVENT_TALKED_TO_RUINS_COWARD
 	iftrue .NoScientist
 	checkevent EVENT_MADE_UNOWN_APPEAR_IN_RUINS
 	iftrue .MaybeScientist
@@ -73,7 +73,6 @@ RuinsOfAlphOutsideFisherScript:
 	opentext
 	checkevent EVENT_TALKED_TO_RUINS_COWARD
 	iftrue .Next
-	setevent EVENT_TALKED_TO_RUINS_COWARD
 	writetext RuinsOfAlphOutsideFisherText1
 	promptbutton
 .Next:

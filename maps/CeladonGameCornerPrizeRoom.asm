@@ -41,34 +41,52 @@ CeladonPrizeRoom_tmcounterloop:
 .DoubleTeam:
 	checkcoins CELADONGAMECORNERPRIZEROOM_TM32_COINS
 	ifequal HAVE_LESS, CeladonPrizeRoom_notenoughcoins
+	checkevent EVENT_CGC_TM32
+	iftrue CeladonPrizeRoom_AlreadyBought
+	checkitemrando
+	iftrue .GiveDoubleTeam
 	getitemname STRING_BUFFER_3, TM_DOUBLE_TEAM
 	scall CeladonPrizeRoom_askbuy
 	iffalse CeladonPrizeRoom_CancelPurchaseScript
+.GiveDoubleTeam
 	giveitem TM_DOUBLE_TEAM
 	iffalse CeladonPrizeRoom_notenoughroom
 	takecoins CELADONGAMECORNERPRIZEROOM_TM32_COINS
+	setevent EVENT_CGC_TM32
 	sjump CeladonPrizeRoom_purchased
 
 .Psychic:
 	checkcoins CELADONGAMECORNERPRIZEROOM_TM29_COINS
 	ifequal HAVE_LESS, CeladonPrizeRoom_notenoughcoins
+	checkevent EVENT_CGC_TM29
+	iftrue CeladonPrizeRoom_AlreadyBought
+	checkitemrando
+	iftrue .GivePsychic
 	getitemname STRING_BUFFER_3, TM_PSYCHIC_M
 	scall CeladonPrizeRoom_askbuy
 	iffalse CeladonPrizeRoom_CancelPurchaseScript
+.GivePsychic
 	giveitem TM_PSYCHIC_M
 	iffalse CeladonPrizeRoom_notenoughroom
 	takecoins CELADONGAMECORNERPRIZEROOM_TM29_COINS
+	setevent EVENT_CGC_TM29
 	sjump CeladonPrizeRoom_purchased
 
 .HyperBeam:
 	checkcoins CELADONGAMECORNERPRIZEROOM_TM15_COINS
 	ifequal HAVE_LESS, CeladonPrizeRoom_notenoughcoins
+	checkevent EVENT_CGC_TM15
+	iftrue CeladonPrizeRoom_AlreadyBought
+	checkitemrando
+	iftrue .GiveHyperBeam
 	getitemname STRING_BUFFER_3, TM_HYPER_BEAM
 	scall CeladonPrizeRoom_askbuy
 	iffalse CeladonPrizeRoom_CancelPurchaseScript
+.GiveHyperBeam
 	giveitem TM_HYPER_BEAM
 	iffalse CeladonPrizeRoom_notenoughroom
 	takecoins CELADONGAMECORNERPRIZEROOM_TM15_COINS
+	setevent EVENT_CGC_TM15
 	sjump CeladonPrizeRoom_purchased
 
 CeladonPrizeRoom_askbuy:
@@ -95,6 +113,12 @@ CeladonPrizeRoom_notenoughroom:
 	closetext
 	end
 
+CeladonPrizeRoom_AlreadyBought:
+	writetext CeladonPrizeRoom_AlreadyBoughtText
+	waitbutton
+	closetext
+	end
+
 CeladonPrizeRoom_CancelPurchaseScript:
 	writetext CeladonPrizeRoom_ComeAgainText
 	waitbutton
@@ -109,16 +133,16 @@ CeladonPrizeRoom_NoCoinCase:
 
 CeladonPrizeRoom_TMMenuHeader:
 	db MENU_BACKUP_TILES ; flags
-	menu_coords 0, 2, 15, TEXTBOX_Y - 1
+	menu_coords 0, 2, SCREEN_WIDTH - 1, TEXTBOX_Y - 1
 	dw .MenuData
 	db 1 ; default option
 
 .MenuData:
 	db STATICMENU_CURSOR ; flags
 	db 4 ; items
-	db "TM32    1500@"
-	db "TM29    3500@"
-	db "TM15    7500@"
+	db "TM32         1500@"
+	db "TM29         3500@"
+	db "TM15         7500@"
 	db "CANCEL@"
 
 CeladonGameCornerPrizeRoomPokemonVendor:
@@ -269,6 +293,11 @@ CeladonPrizeRoom_HereYouGoText:
 CeladonPrizeRoom_NotEnoughCoinsText:
 	text "You don't have"
 	line "enough coins."
+	done
+
+CeladonPrizeRoom_AlreadyBoughtText:
+	text "You already bought"
+	line "this item."
 	done
 
 CeladonPrizeRoom_NotEnoughRoomText:

@@ -64,6 +64,7 @@ TrainerGruntM1:
 	setevent EVENT_SLOWPOKE_WELL_KURT
 	clearevent EVENT_AZALEA_TOWN_SLOWPOKES
 	clearevent EVENT_KURTS_HOUSE_SLOWPOKE
+	setevent EVENT_AZALEA_TOWN_SLOWPOKETAIL_ROCKET
 	clearevent EVENT_KURTS_HOUSE_KURT_1
 	special FadeOutPalettes
 	special HealParty

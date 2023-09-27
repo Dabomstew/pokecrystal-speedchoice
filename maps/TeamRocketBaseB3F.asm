@@ -176,9 +176,9 @@ TeamRocketBaseB3FLockedDoor:
 
 .Script:
 	opentext
-	checkevent EVENT_LEARNED_SLOWPOKETAIL
+	checkevent EVENT_BEAT_ROCKET_GRUNTF_5
 	iffalse .NeedsPassword
-	checkevent EVENT_LEARNED_RATICATE_TAIL
+	checkevent EVENT_BEAT_ROCKET_GRUNTM_28
 	iffalse .NeedsPassword
 	sjump .OpenSesame
 

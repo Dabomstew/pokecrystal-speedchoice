@@ -11,26 +11,37 @@ BillsGrandpa:
 	opentext
 	checkevent EVENT_TEMPORARY_UNTIL_MAP_RELOAD_1
 	iftrue .JustShowedSomething
-	checkevent EVENT_GOT_THUNDERSTONE_FROM_BILLS_GRANDPA
-	iftrue .GotThunderstone
+	checkevent EVENT_GOT_EVERYTHING_FROM_BILLS_GRANDPA
+	iftrue .GotEverything
 	checkevent EVENT_MET_BILLS_GRANDPA
 	iftrue .MetGrandpa
 	writetext BillsGrandpaIntroText
 	promptbutton
 	setevent EVENT_MET_BILLS_GRANDPA
 .MetGrandpa:
-	checkevent EVENT_SHOWED_PICHU_TO_BILLS_GRANDPA
-	iftrue .ShowedPichu
-	checkevent EVENT_SHOWED_GROWLITHE_VULPIX_TO_BILLS_GRANDPA
-	iftrue .ShowedGrowlitheVulpix
-	checkevent EVENT_SHOWED_STARYU_TO_BILLS_GRANDPA
-	iftrue .ShowedStaryu
-	checkevent EVENT_SHOWED_ODDISH_TO_BILLS_GRANDPA
-	iftrue .ShowedOddish
 	checkevent EVENT_SHOWED_LICKITUNG_TO_BILLS_GRANDPA
 	iftrue .ShowedLickitung
+	checkevent EVENT_SHOWED_ODDISH_TO_BILLS_GRANDPA
+	iftrue .ShowedOddish
+	checkevent EVENT_SHOWED_STARYU_TO_BILLS_GRANDPA
+	iftrue .ShowedStaryu
+	checkevent EVENT_SHOWED_GROWLITHE_VULPIX_TO_BILLS_GRANDPA
+	iftrue .ShowedGrowlitheVulpix
+	checkevent EVENT_SHOWED_PICHU_TO_BILLS_GRANDPA
+	iftrue .ShowedPichu
 	writetext BillsGrandpaLickitungText
 	promptbutton
+	checkitemrando
+	iffalse .askLickitung
+	refreshscreen
+	pokepic LICKITUNG
+	setval LICKITUNG
+	special UnusedSetSeenMon
+	cry LICKITUNG
+	waitbutton
+	closepokepic
+
+.askLickitung
 	writetext BillsGrandpaAskToSeeMonText
 	yesorno
 	iffalse .SaidNo
@@ -43,8 +54,22 @@ BillsGrandpa:
 	sjump .ShowedLickitung
 
 .GotEverstone:
+	checkevent EVENT_SHOWED_ODDISH_TO_BILLS_GRANDPA
+	iftrue .ShowedOddish
 	writetext BillsGrandpaOddishText
 	promptbutton
+	checkitemrando
+	iffalse .askOddish
+	refreshscreen
+	pokepic ODDISH
+	setval ODDISH
+	special UnusedSetSeenMon
+	cry ODDISH
+	waitbutton
+	closepokepic
+	;closetext
+
+.askOddish
 	writetext BillsGrandpaAskToSeeMonText
 	yesorno
 	iffalse .SaidNo
@@ -57,8 +82,23 @@ BillsGrandpa:
 	sjump .ShowedOddish
 
 .GotLeafStone:
+	checkevent EVENT_SHOWED_STARYU_TO_BILLS_GRANDPA
+	iftrue .ShowedStaryu
 	writetext BillsGrandpaStaryuText
 	promptbutton
+
+	checkitemrando
+	iffalse .askStaryu
+	refreshscreen
+	pokepic STARYU
+	setval STARYU
+	special UnusedSetSeenMon
+	cry STARYU
+	waitbutton
+	closepokepic
+	;closetext
+
+.askStaryu
 	writetext BillsGrandpaAskToSeeMonText
 	yesorno
 	iffalse .SaidNo
@@ -71,10 +111,24 @@ BillsGrandpa:
 	sjump .ShowedStaryu
 
 .GotWaterStone:
+	checkevent EVENT_SHOWED_GROWLITHE_VULPIX_TO_BILLS_GRANDPA
+	iftrue .ShowedGrowlitheVulpix
 	checkver
 	iftrue .AskVulpix
 	writetext BillsGrandpaGrowlitheText
 	promptbutton
+	checkitemrando
+	iffalse .askGrowlithe
+	refreshscreen
+	pokepic GROWLITHE
+	setval GROWLITHE
+	special UnusedSetSeenMon
+	cry GROWLITHE
+	waitbutton
+	closepokepic
+	;closetext
+
+.askGrowlithe
 	writetext BillsGrandpaAskToSeeMonText
 	yesorno
 	iffalse .SaidNo
@@ -101,8 +155,22 @@ BillsGrandpa:
 	sjump .ShowedGrowlitheVulpix
 
 .GotFireStone:
+	checkevent EVENT_SHOWED_PICHU_TO_BILLS_GRANDPA
+	iftrue .ShowedPichu
 	writetext BillsGrandpaPichuText
 	promptbutton
+	checkitemrando
+	iffalse .askPichu
+	refreshscreen
+	pokepic PICHU
+	setval PICHU
+	special UnusedSetSeenMon
+	cry PICHU
+	waitbutton
+	closepokepic
+	;closetext
+
+.askPichu
 	writetext BillsGrandpaAskToSeeMonText
 	yesorno
 	iffalse .SaidNo
@@ -119,10 +187,9 @@ BillsGrandpa:
 	iftrue .GotEverstone
 	scall .ReceiveItem
 	verbosegiveitem EVERSTONE
-	iffalse .BagFull
+	iffalse .GotEverstone
 	setevent EVENT_GOT_EVERSTONE_FROM_BILLS_GRANDPA
-	setevent EVENT_TEMPORARY_UNTIL_MAP_RELOAD_1
-	closetext
+	sjump .GotEverstone
 	end
 
 .ShowedOddish:
@@ -130,10 +197,9 @@ BillsGrandpa:
 	iftrue .GotLeafStone
 	scall .ReceiveItem
 	verbosegiveitem LEAF_STONE
-	iffalse .BagFull
+	iffalse .GotLeafStone
 	setevent EVENT_GOT_LEAF_STONE_FROM_BILLS_GRANDPA
-	setevent EVENT_TEMPORARY_UNTIL_MAP_RELOAD_1
-	closetext
+	sjump .GotLeafStone
 	end
 
 .ShowedStaryu:
@@ -141,10 +207,9 @@ BillsGrandpa:
 	iftrue .GotWaterStone
 	scall .ReceiveItem
 	verbosegiveitem WATER_STONE
-	iffalse .BagFull
+	iffalse .GotWaterStone
 	setevent EVENT_GOT_WATER_STONE_FROM_BILLS_GRANDPA
-	setevent EVENT_TEMPORARY_UNTIL_MAP_RELOAD_1
-	closetext
+	sjump .GotWaterStone
 	end
 
 .ShowedGrowlitheVulpix:
@@ -152,17 +217,29 @@ BillsGrandpa:
 	iftrue .GotFireStone
 	scall .ReceiveItem
 	verbosegiveitem FIRE_STONE
-	iffalse .BagFull
+	iffalse .GotFireStone
 	setevent EVENT_GOT_FIRE_STONE_FROM_BILLS_GRANDPA
-	setevent EVENT_TEMPORARY_UNTIL_MAP_RELOAD_1
-	closetext
+	sjump .GotFireStone
 	end
 
 .ShowedPichu:
+	checkevent EVENT_GOT_THUNDERSTONE_FROM_BILLS_GRANDPA
+	iftrue .CheckForAll
 	scall .ReceiveItem
 	verbosegiveitem THUNDERSTONE
-	iffalse .BagFull
+	iffalse .PichuEnd
 	setevent EVENT_GOT_THUNDERSTONE_FROM_BILLS_GRANDPA
+.CheckForAll
+	checkevent EVENT_GOT_FIRE_STONE_FROM_BILLS_GRANDPA
+	iffalse .PichuEnd
+	checkevent EVENT_GOT_WATER_STONE_FROM_BILLS_GRANDPA
+	iffalse .PichuEnd
+	checkevent EVENT_GOT_LEAF_STONE_FROM_BILLS_GRANDPA
+	iffalse .PichuEnd
+	checkevent EVENT_GOT_EVERSTONE_FROM_BILLS_GRANDPA
+	iffalse .PichuEnd
+	setevent EVENT_GOT_EVERYTHING_FROM_BILLS_GRANDPA
+.PichuEnd
 	closetext
 	end
 
@@ -193,7 +270,7 @@ BillsGrandpa:
 	closetext
 	end
 
-.GotThunderstone:
+.GotEverything:
 	writetext BillsGrandpaShownAllThePokemonText
 	waitbutton
 	closetext

@@ -61,6 +61,7 @@ INCLUDE "engine/pokemon/mon_menu.asm"
 INCLUDE "engine/overworld/select_menu.asm"
 INCLUDE "engine/events/elevator.asm"
 INCLUDE "engine/events/bug_contest/contest.asm"
+INCLUDE "engine/events/badges.asm"
 INCLUDE "engine/events/repel.asm"
 INCLUDE "engine/events/hidden_item.asm"
 INCLUDE "engine/events/std_collision.asm"
@@ -165,8 +166,9 @@ INCLUDE "engine/battle/read_trainer_party.asm"
 
 
 SECTION "Battle Core", ROMX
-
 INCLUDE "engine/battle/core.asm"
+
+;SECTION "Core+1", ROMX
 INCLUDE "data/battle/effect_command_pointers.asm"
 
 
@@ -256,9 +258,11 @@ INCLUDE "engine/pokemon/experience.asm"
 INCLUDE "engine/pokemon/switchpartymons.asm"
 INCLUDE "engine/gfx/load_pics.asm"
 INCLUDE "engine/pokemon/move_mon_wo_mail.asm"
+
 INCLUDE "data/pokemon/base_stats.asm"
 INCLUDE "data/pokemon/names.asm"
 INCLUDE "data/pokemon/unused_pic_banks.asm"
+
 
 UnusedEggFrontpic::
 ; Another egg pic. This is shifted up a few pixels.
@@ -487,13 +491,13 @@ INCLUDE "engine/pokemon/bills_pc.asm"
 
 
 SECTION "bank39", ROMX
-
 INCLUDE "engine/menus/options_menu.asm"
+
+SECTION "bank3A", ROMX
 INCLUDE "engine/movie/crystal_intro.asm"
 
 
 SECTION "bank3E", ROMX
-
 INCLUDE "engine/gfx/load_font.asm"
 INCLUDE "engine/link/time_capsule.asm"
 INCLUDE "engine/events/name_rater.asm"
@@ -756,6 +760,9 @@ INCBIN "gfx/splash/copyright.2bpp"
 
 SECTION "Item Rando Config", ROMX
 INCLUDE "engine/item_rando.asm"
+
+SECTION "Warp Rando Config", ROMX
+INCLUDE "engine/warp_rando.asm"
 
 SECTION "Engine Flag Scripts", ROMX
 INCLUDE "engine/events/get_engine_flag.asm"

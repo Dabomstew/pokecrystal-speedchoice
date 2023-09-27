@@ -28,13 +28,18 @@ SeafoamGymBlaineScript:
 	reloadmapafterbattle
 	setevent EVENT_BEAT_BLAINE
 	opentext
+.FightDone:
+	checkevent EVENT_GOT_VOLCANO_BADGE
+	iftrue .GotVolcanoBadge
 	verbosesetflag ENGINE_VOLCANOBADGE
+	iffalse .BlaineEnd
+	setevent EVENT_GOT_VOLCANO_BADGE
+.BlaineEnd
 	writetext BlaineAfterBattleText
 	waitbutton
 	closetext
 	end
-
-.FightDone:
+.GotVolcanoBadge:
 	writetext BlaineFightDoneText
 	waitbutton
 	closetext

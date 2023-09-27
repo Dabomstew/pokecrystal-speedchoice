@@ -208,7 +208,12 @@ EnterMapWarp:
 	ld a, [wNextMapNumber]
 	ld c, a
 
+; TODO: Add a check here that previous maps are valid
+;	checkwarprando
+;        iftrue .pokecenter_pokecom
+
 ; Respawn in Pokémon Centers.
+.check_center
 	call GetAnyMapTileset
 	ld a, c
 	cp TILESET_POKECENTER
@@ -219,9 +224,31 @@ EnterMapWarp:
 .pokecenter_pokecom
 
 	ld a, [wPrevMapGroup]
+	ld d, a
+        ld a, [wPrevMapNumber]
+        ld e, a
+	farcall IsSpawnPoint
+        ld a, c
+        jr c, .yes
+	ret
+.yes
+	ld a, [wPrevMapGroup]
+	ld d, a
+	ld a, [wPrevMapNumber]
+	ld e, a
+	ld a, [wPrevWarp]
+	ld b, a
+	farcall IsDangerousSpawnPoint
+	ld a, c
+	jr c, .no
+
+	ld a, [wPrevMapGroup]
 	ld [wLastSpawnMapGroup], a
 	ld a, [wPrevMapNumber]
 	ld [wLastSpawnMapNumber], a
+	ret
+
+.no
 	ret
 
 LoadMapTimeOfDay:

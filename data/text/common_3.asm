@@ -483,6 +483,13 @@ _EvolvingText::
 	text_start
 	line "is evolving!"
 	done
+	
+_EvolvingTextEL::
+	text "What? @"
+	text_ram wStringBuffer2
+	text_start
+	line "is rand evolving!"
+	done
 
 _MartHowManyText::
 	text "How many?"
@@ -667,6 +674,11 @@ _MartPackFullText::
 	text "You can't carry"
 	line "any more items."
 	done
+
+_MartCantSellText::
+        text "Sorry, you already"
+        line "have this."
+        prompt
 
 _MartCantBuyText::
 	text "Sorry, I can't buy"

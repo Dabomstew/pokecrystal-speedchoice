@@ -23,13 +23,18 @@ PewterGymBrockScript:
 	setevent EVENT_BEAT_BROCK
 	setevent EVENT_BEAT_CAMPER_JERRY
 	opentext
+.FightDone:
+	checkevent EVENT_GOT_BOULDER_BADGE
+	iftrue .GotBoulderBadge
 	verbosesetflag ENGINE_BOULDERBADGE
+	iffalse .EndBrock
+	setevent EVENT_GOT_BOULDER_BADGE
+.EndBrock
 	writetext BrockBoulderBadgeText
 	waitbutton
 	closetext
 	end
-
-.FightDone:
+.GotBoulderBadge
 	writetext BrockFightDoneText
 	waitbutton
 	closetext

@@ -5,7 +5,7 @@ ItemDescriptions:
 	dw BrightpowderDesc
 	dw GreatBallDesc
 	dw PokeBallDesc
-	dw TeruSama1Desc
+	dw ItemZephyrBadgeDesc
 	dw BicycleDesc
 	dw MoonStoneDesc
 	dw AntidoteDesc
@@ -49,13 +49,13 @@ ItemDescriptions:
 	dw SodaPopDesc
 	dw LemonadeDesc
 	dw XAttackDesc
-	dw TeruSama4Desc
+	dw ItemHiveBadgeDesc
 	dw XDefendDesc
 	dw XSpeedDesc
 	dw XSpecialDesc
 	dw CoinCaseDesc
 	dw ItemfinderDesc
-	dw TeruSama5Desc
+	dw ItemPlainBadgeDesc
 	dw ExpShareDesc
 	dw OldRodDesc
 	dw GoodRodDesc
@@ -89,7 +89,7 @@ ItemDescriptions:
 	dw BigMushroomDesc
 	dw SilverPowderDesc
 	dw BluApricornDesc
-	dw TeruSama6Desc
+	dw ItemFogBadgeDesc
 	dw AmuletCoinDesc
 	dw YlwApricornDesc
 	dw GrnApricornDesc
@@ -99,7 +99,7 @@ ItemDescriptions:
 	dw WhtApricornDesc
 	dw BlackbeltDesc
 	dw BlkApricornDesc
-	dw TeruSama7Desc
+	dw ItemStormBadgeDesc
 	dw PnkApricornDesc
 	dw BlackGlassesDesc
 	dw SlowpokeTailDesc
@@ -119,7 +119,7 @@ ItemDescriptions:
 	dw MiracleSeedDesc
 	dw ThickClubDesc
 	dw FocusBandDesc
-	dw TeruSama8Desc
+	dw ItemMineralBadgeDesc
 	dw EnergyPowderDesc
 	dw EnergyRootDesc
 	dw HealPowderDesc
@@ -134,34 +134,34 @@ ItemDescriptions:
 	dw StarPieceDesc
 	dw BasementKeyDesc
 	dw PassDesc
-	dw TeruSama9Desc
-	dw TeruSama10Desc
-	dw TeruSama11Desc
+	dw ItemGlacierBadgeDesc
+	dw ItemRisingBadgeDesc
+	dw ItemBoulderBadgeDesc
 	dw CharcoalDesc
 	dw BerryJuiceDesc
 	dw ScopeLensDesc
-	dw TeruSama12Desc
-	dw TeruSama13Desc
+	dw ItemCascadeBadgeDesc
+	dw ItemPokedexDesc
 	dw MetalCoatDesc
 	dw DragonFangDesc
-	dw TeruSama14Desc
+	dw ItemThunderBadgeDesc
 	dw LeftoversDesc
-	dw TeruSama15Desc
-	dw TeruSama16Desc
-	dw TeruSama17Desc
+	dw ItemRainbowBadgeDesc
+	dw ItemMarshBadgeDesc
+	dw ItemSoulBadgeDesc
 	dw MysteryBerryDesc
 	dw DragonScaleDesc
 	dw BerserkGeneDesc
-	dw TeruSama18Desc
-	dw TeruSama19Desc
-	dw TeruSama20Desc
+	dw ItemVolcanoBadgeDesc
+	dw ItemEarthBadgeDesc
+	dw ItemPokegearDesc
 	dw SacredAshDesc
 	dw HeavyBallDesc
 	dw FlowerMailDesc
 	dw LevelBallDesc
 	dw LureBallDesc
 	dw FastBallDesc
-	dw TeruSama21Desc
+	dw ItemRadioCardDesc
 	dw LightBallDesc
 	dw FriendBallDesc
 	dw MoonBallDesc
@@ -170,15 +170,15 @@ ItemDescriptions:
 	dw GorgeousBoxDesc
 	dw SunStoneDesc
 	dw PolkadotBowDesc
-	dw TeruSama22Desc
+	dw ItemABDesc
 	dw UpGradeDesc
 	dw BerryDesc
 	dw GoldBerryDesc
 	dw SquirtBottleDesc
-	dw TeruSama23Desc
+	dw ItemMapCardDesc
 	dw ParkBallDesc
 	dw RainbowWingDesc
-	dw TeruSama24Desc
+	dw ItemExpnCardDesc
 	dw BrickPieceDesc
 	dw SurfMailDesc
 	dw LiteBlueMailDesc
@@ -189,7 +189,7 @@ ItemDescriptions:
 	dw BlueSkyMailDesc
 	dw MusicMailDesc
 	dw MirageMailDesc
-	dw TeruSama25Desc
+	dw ItemUnownDexDesc
 	dw TeruSama26Desc
 	dw TeruSama26Desc
 	dw TeruSama26Desc
@@ -276,8 +276,9 @@ PokeBallDesc:
 	db   "An item for catch-"
 	next "ing #MON.@"
 
-TeruSama1Desc:
-	db   "?@"
+ItemZephyrBadgeDesc:
+	db   "A replica of the"
+	next "Violet Gym Badge.@"
 
 BicycleDesc:
 	db   "A collapsible bike"
@@ -453,8 +454,9 @@ XAttackDesc:
 	db   "Raises ATTACK."
 	next "(1 BTL)@"
 
-TeruSama4Desc:
-	db   "?@"
+ItemHiveBadgeDesc:
+        db   "A replica of the"
+        next "Azalea Gym Badge.@"
 
 XDefendDesc:
 	db   "Raises DEFENSE."
@@ -476,8 +478,9 @@ ItemfinderDesc:
 	db   "Checks for unseen"
 	next "items in the area.@"
 
-TeruSama5Desc:
-	db   "?@"
+ItemPlainBadgeDesc:
+        db   "A badge replica of"
+        next "Goldenrod Gym.@"
 
 ExpShareDesc:
 	db   "Shares battle EXP."
@@ -613,8 +616,9 @@ SilverPowderDesc:
 BluApricornDesc:
 	db   "A blue APRICORN.@"
 
-TeruSama6Desc:
-	db   "?@"
+ItemFogBadgeDesc:
+        db   "A badge replica of"
+        next "Ecruteak Gym.@"
 
 AmuletCoinDesc:
 	db   "Doubles monetary"
@@ -649,8 +653,9 @@ BlkApricornDesc:
 	db   "A black APRICORN."
 	next "@"
 
-TeruSama7Desc:
-	db   "?@"
+ItemStormBadgeDesc:
+        db   "A badge replica of"
+        next "Cianwood Gym Badge.@"
 
 PnkApricornDesc:
 	db   "A pink APRICORN."
@@ -728,8 +733,9 @@ FocusBandDesc:
 	db   "May prevent faint-"
 	next "ing. (HOLD)@"
 
-TeruSama8Desc:
-	db   "?@"
+ItemMineralBadgeDesc:
+        db   "A badge replica of"
+        next "Olivine Gym.@"
 
 EnergyPowderDesc:
 	db   "Restores #MON"
@@ -786,14 +792,17 @@ PassDesc:
 	db   "A ticket for the"
 	next "MAGNET TRAIN.@"
 
-TeruSama9Desc:
-	db   "?@"
+ItemGlacierBadgeDesc:
+        db   "A badge replica of"
+        next "Mahogany Gym.@"
 
-TeruSama10Desc:
-	db   "?@"
+ItemRisingBadgeDesc:
+        db   "A badge replica of"
+        next "Blackthorn Gym.@"
 
-TeruSama11Desc:
-	db   "?@"
+ItemBoulderBadgeDesc:
+        db   "A replica of the"
+        next "Pewter Gym Badge.@"
 
 CharcoalDesc:
 	db   "Powers up fire-"
@@ -807,11 +816,13 @@ ScopeLensDesc:
 	db   "Raises critical"
 	next "hit ratio. (HOLD)@"
 
-TeruSama12Desc:
-	db   "?@"
+ItemCascadeBadgeDesc:
+        db   "A badge replica of"
+        next "Cerulean Gym.@"
 
-TeruSama13Desc:
-	db   "?@"
+ItemPokedexDesc:
+        db   "The #DEX as "
+        next "created by Oak.@"
 
 MetalCoatDesc:
 	db   "Powers up steel-"
@@ -821,21 +832,25 @@ DragonFangDesc:
 	db   "Powers up dragon-"
 	next "type moves. (HOLD)@"
 
-TeruSama14Desc:
-	db   "?@"
+ItemThunderBadgeDesc:
+        db   "A badge replica of"
+        next "Vermilion Gym.@"
 
 LeftoversDesc:
 	db   "Restores HP during"
 	next "battle. (HOLD)@"
 
-TeruSama15Desc:
-	db   "?@"
+ItemRainbowBadgeDesc:
+        db   "A replica of the"
+        next "Celadon Gym Badge.@"
 
-TeruSama16Desc:
-	db   "?@"
+ItemMarshBadgeDesc:
+        db   "A replica of the"
+        next "Saffron Gym Badge.@"
 
-TeruSama17Desc:
-	db   "?@"
+ItemSoulBadgeDesc:
+        db   "A replica of the"
+        next "Fuchsia Gym Badge.@"
 
 MysteryBerryDesc:
 	db   "A self-restore"
@@ -849,14 +864,17 @@ BerserkGeneDesc:
 	db   "Boosts ATTACK but"
 	next "causes confusion.@"
 
-TeruSama18Desc:
-	db   "?@"
+ItemVolcanoBadgeDesc:
+        db   "A badge replica of"
+        next "Cinnabar Gym.@"
 
-TeruSama19Desc:
-	db   "?@"
+ItemEarthBadgeDesc:
+        db   "A badge replica of the"
+        next "Viridian Gym.@"
 
-TeruSama20Desc:
-	db   "?@"
+ItemPokegearDesc:
+        db   "The #MON Gear,"
+        next "#GEAR.@"
 
 SacredAshDesc:
 	db   "Fully revives all"
@@ -882,8 +900,9 @@ FastBallDesc:
 	db   "A BALL for catch-"
 	next "ing fast #MON.@"
 
-TeruSama21Desc:
-	db   "?@"
+ItemRadioCardDesc:
+        db   "A #GEAR card"
+        next "picking up radio.@"
 
 LightBallDesc:
 	db   "An odd, electrical"
@@ -917,8 +936,9 @@ PolkadotBowDesc:
 	db   "Powers up normal-"
 	next "type moves. (HOLD)@"
 
-TeruSama22Desc:
-	db   "?@"
+ItemABDesc:
+        db   "A mysterious item"
+        next "which serves no purpose.@"
 
 UpGradeDesc:
 	db   "A mysterious box"
@@ -936,8 +956,9 @@ SquirtBottleDesc:
 	db   "A bottle used for"
 	next "watering plants.@"
 
-TeruSama23Desc:
-	db   "?@"
+ItemMapCardDesc:
+        db   "A replacement for"
+        next "the Town Map.@"
 
 ParkBallDesc:
 	db   "The Bug-Catching"
@@ -947,8 +968,9 @@ RainbowWingDesc:
 	db   "A mystical feather"
 	next "of rainbow colors.@"
 
-TeruSama24Desc:
-	db   "?@"
+ItemExpnCardDesc:
+        db   "#GEAR Card "
+        next "for Kanto radio@"
 
 BrickPieceDesc:
 	db   "A rare chunk of"
@@ -990,8 +1012,9 @@ MirageMailDesc:
 	db   "MEW-print MAIL."
 	next "(HOLD)@"
 
-TeruSama25Desc:
-	db   "?@"
+ItemUnownDexDesc:
+        db   "A mysterious app"
+        next "listing Unown.@"
 
 TeruSama26Desc:
 	db   "?@"
